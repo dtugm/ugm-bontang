@@ -15,7 +15,7 @@
         variant="outlined"
         type="password"
       ></v-text-field>
-      <v-btn type="submit" form="login-form">Login</v-btn>
+      <v-btn class="bg-blue" type="submit" form="login-form">Login</v-btn>
     </v-form>
   </v-container>
 </template>
