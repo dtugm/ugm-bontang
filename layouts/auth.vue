@@ -2,30 +2,13 @@
   <div id="app" class="theme-default">
     <main>
       <div class="flex h-dvh">
-        <div
-          class="auth-illustrations w-1/2 flex items-center justify-center flex-col bg-blue"
-        >
-          <!-- <img
-            src="/images/illustrations/auth.png"
-            width="412"
-            class="mr-[65px]"
-          /> -->
-          <div class="flex flex-col gap-5 text-white w-[402px]">
-            <h2 class="m-0 text-lg font-bold">
-              <span>PMT SMART AI</span>
-            </h2>
-            <p>
-              Project Management tools for internet access and service
-              monitoring analytic
-            </p>
-            <p class="text-sm">© 2024 Bakti. All rights reserved.</p>
-          </div>
+        <div class="md:w-1/2 md:p-10 flex items-center justify-end pr-0">
+          <v-img src="/illustration/home_illustration.svg"></v-img>
         </div>
-        <div class="w-1/2 py-[105px] px-[108px]">
+        <div
+          class="md:w-1/2 w-full items-center justify-center flex p-5 lg:px-20"
+        >
           <slot />
-          <div class="text-center text-grey">
-            <!-- <AppVersion /> -->
-          </div>
         </div>
       </div>
     </main>
