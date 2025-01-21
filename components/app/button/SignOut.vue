@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="handleSignOut"> Sign Out </v-btn>
+  <v-btn class="text-none" @click="handleSignOut"> Sign Out </v-btn>
 </template>
 <script setup>
 import { getAuth, signOut } from "firebase/auth";
