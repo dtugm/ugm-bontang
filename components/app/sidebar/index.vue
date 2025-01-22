@@ -29,7 +29,7 @@
     </v-list>
     <v-divider />
     <v-spacer></v-spacer>
-    <AppButtonSignOut append-icon="mdi-logout" />
+    <AppButtonSignOut prepend-icon="mdi-exit-run" />
   </v-col>
 </template>
 <script lang="ts" setup>
