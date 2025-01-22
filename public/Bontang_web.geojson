@@ -19,7 +19,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -49,7 +49,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79,7 +79,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -111,7 +111,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -142,7 +142,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -172,7 +172,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -545,7 +545,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -639,7 +639,7 @@
         "ALAMAT_WP": null,
         "LUAS_BUMI": null,
         "LUAS_BGN": null,
-        "REMARK": true
+        "REMARK": false
       },
       "geometry": {
         "type": "MultiPolygon",

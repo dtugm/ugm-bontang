@@ -16,11 +16,18 @@
         value="/persil-monitoring"
       ></v-list-item>
       <v-list-item
-        prepend-icon="mdi-account-multiple"
-        title="Kroco Management"
-        value="/worker-dashboard"
+        prepend-icon="mdi-map"
+        title="Update Survey Area"
+        value="/update-survey"
       ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-account-multiple"
+        title="Worker Management"
+        value="/worker-management"
+      ></v-list-item>
+      <v-divider inset></v-divider>
     </v-list>
+    <v-divider />
     <v-spacer></v-spacer>
     <AppButtonSignOut append-icon="mdi-logout" />
   </v-col>

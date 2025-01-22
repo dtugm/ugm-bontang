@@ -1,0 +1,1 @@
+<template>Worker Management</template>
