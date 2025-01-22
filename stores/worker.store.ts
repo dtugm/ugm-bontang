@@ -13,13 +13,6 @@ export const useWorkerStore = defineStore("worker", () => {
   };
   const authStore: any = useAuthStore();
   const db = useFirestore();
-  // const workerStatus = ref({});
-  const workerStatus: any = useDocument(
-    doc(collection(db, "attendance"), authStore.user?.uid)
-  );
-  // const test = () => {
-  //   console.log(workerStatus.value.check_in_time);
-  // };
   const updateAttendance = async (
     check_type: string,
     userId: any,
@@ -37,10 +30,7 @@ export const useWorkerStore = defineStore("worker", () => {
         },
         { merge: true }
       ).then(() => {
-        toast.success("Berhasil Melakukan Presensi!");
-        // workerStatus.value = useDocument(
-        //   doc(collection(db, "attendance"), authStore.user?.uid)
-        // );
+        toast.success("Berhasil Memperbarui Status Presensi");
       });
     } catch (e) {
       toast.error("Gagal Melakukan Presensi :(");
@@ -48,8 +38,6 @@ export const useWorkerStore = defineStore("worker", () => {
   };
   return {
     updateAttendance,
-    workerStatus,
-    // test,
   };
 });
 

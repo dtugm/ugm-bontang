@@ -12,9 +12,11 @@
                   : authStore.user?.email
               }}
             </span>
-            <v-chip class="ml-1" :color="presensiColor()">{{
-              presensiText()
-            }}</v-chip>
+            <v-chip
+              class="ml-1"
+              :color="workerStatus?.status ? 'success' : 'error'"
+              >{{ workerStatus?.status ? "Checked In" : "Checked Out" }}</v-chip
+            >
           </template>
           <template #subtitle>
             <p>Hari ini, {{ appStore.currentDate }}</p>
@@ -97,16 +99,21 @@
   </AppDialog>
 </template>
 <script lang="ts" setup>
+import { collection, doc, setDoc } from "firebase/firestore";
+const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
 const workerStore = useWorkerStore();
 const work_type = ref();
 const checkInDialog = ref(false);
+const workerStatus: any = useDocument(
+  doc(collection(db, "attendance"), authStore.user?.uid)
+);
 const presensiText = () => {
-  return workerStore.workerStatus?.status ? "Checked In" : "Checked Out";
+  return workerStatus?.status ? "Checked In" : "Checked Out";
 };
 const presensiColor = () => {
-  return workerStore.workerStatus?.status ? "success" : "error";
+  return workerStatus?.status ? "success" : "error";
 };
 const handleSubmitCheckIn = async () => {
   const payload = {
