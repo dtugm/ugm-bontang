@@ -8,12 +8,23 @@
   >
     <v-card :loading="loading" class="rounded-lg">
       <div>
-        <div class="flex justify-between px-2 py-1">
-          <v-toolbar-title>{{ title }}</v-toolbar-title>
-          <v-btn icon @click="input(false)" density="comfortable" color="error">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </div>
+        <v-card variant="flat">
+          <v-card-text class="pb-1">
+            <div class="flex justify-between items-center pb-0">
+              <AppTextH5>
+                {{ title }}
+              </AppTextH5>
+              <v-btn
+                icon
+                @click="input(false)"
+                density="comfortable"
+                color="error"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </div>
+          </v-card-text>
+        </v-card>
 
         <slot></slot>
       </div>

@@ -11,6 +11,11 @@
       layer-type="base"
       name="OpenStreetMap"
     />
+    <LTileLayer
+      url="https://api.maptiler.com/tiles/de87de13-5b83-4e8c-92fd-448138e0799f/{z}/{x}/{y}.jpg?key=A8uDlPTkzTGVjXPyMalD"
+      layer-type="base"
+      name="OpenStreetMap"
+    />
     <LGeoJson
       v-if="surveyStore.refreshPersil"
       :geojson="geojson"
@@ -22,9 +27,11 @@
 
 <script setup>
 import { ref } from "vue";
+import { collection, getFirestore } from "firebase/firestore";
 const geojson = ref(undefined);
 const batas = ref(undefined);
 const zoom = ref(14);
+const db = getFirestore();
 const surveyStore = useSurveyStore();
 const geoStyler = (feature) => ({
   fillColor: checkFeature(feature) ? "green" : "rgba(0, 0, 0, 0)",
@@ -37,9 +44,9 @@ onMounted(async () => {
   geojson.value = await response.json();
   batas.value = await batasBontang.json();
 });
-
+const surveyProgress = useCollection(collection(db, "surveyProgress"));
 function checkFeature(feature) {
-  return surveyStore.persilStatus.some(
+  return surveyProgress.value.some(
     (item) => item.D_NOP === feature.properties.D_NOP && item.status === true
   );
 }
