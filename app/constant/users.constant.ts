@@ -6,5 +6,5 @@ export default {
     "prasetyarini.ea@gmail.com",
     "dhiasdmn@gmail.com",
   ],
-  employee_user: ["test@gmail.com"],
+  employee_user: ["test1@gmail.com"],
 };

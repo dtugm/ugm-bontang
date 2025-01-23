@@ -6,24 +6,11 @@
       </v-list>
       <v-divider></v-divider>
       <v-list-item
-        prepend-icon="mdi-monitor-dashboard"
-        title="Dashboard"
-        value="/"
-      ></v-list-item>
-      <v-list-item
-        prepend-icon="mdi-map"
-        title="Persil Monitoring"
-        value="/persil-monitoring"
-      ></v-list-item>
-      <v-list-item
-        prepend-icon="mdi-map"
-        title="Update Survey Area"
-        value="/update-survey"
-      ></v-list-item>
-      <v-list-item
-        prepend-icon="mdi-account-multiple"
-        title="Employee Management"
-        value="/employee-management"
+        v-for="(menu, index) in menus"
+        :key="index"
+        :prepend-icon="menu.prepend_icon"
+        :title="menu.title"
+        :value="menu.path"
       ></v-list-item>
       <v-divider inset></v-divider>
     </v-list>
@@ -33,8 +20,15 @@
   </v-col>
 </template>
 <script lang="ts" setup>
+import appConstant from "~/app/constant/app.constant";
+import usersConstant from "~/app/constant/users.constant";
+const authStore: any = useAuthStore();
+const menus: any = computed(() => {
+  return usersConstant.pj_user.includes(authStore.user?.email)
+    ? appConstant.menus
+    : appConstant.employee_menus;
+});
 const changePage = (item: any) => {
   navigateTo(item[0]);
-  //   console.log(item[0]);
 };
 </script>
