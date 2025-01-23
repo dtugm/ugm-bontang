@@ -59,10 +59,5 @@ import appMock from "~/app/mock/app.mock";
 const items = appMock.items;
 const header = appMock.header;
 const db = useFirestore();
-// import { getAuth, updateProfile } from "firebase/auth";
-// import { collection, doc } from "firebase/firestore";
-// const db = useFirestore();
 const employees = useCollection(collection(db, "attendance"));
-// const auth = getAuth();
-// const user = ref(auth.currentUser);
 </script>
