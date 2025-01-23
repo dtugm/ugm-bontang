@@ -1,8 +1,14 @@
 <template>
   <v-layout>
-    <v-navigation-drawer>
+    <v-navigation-drawer v-model="drawer">
       <AppSidebar />
     </v-navigation-drawer>
+    <v-app-bar>
+      <v-app-bar-nav-icon
+        variant="text"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+    </v-app-bar>
     <v-main>
       <slot />
     </v-main>
@@ -18,6 +24,7 @@
 </template>
 <script lang="ts" setup>
 const route = useRoute();
+const drawer = ref(false);
 const isPersil = () => {
   return route.path == "/persil-monitoring";
 };

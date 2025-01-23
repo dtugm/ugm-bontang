@@ -22,8 +22,8 @@
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-account-multiple"
-        title="Worker Management"
-        value="/worker-management"
+        title="Employee Management"
+        value="/employee-management"
       ></v-list-item>
       <v-divider inset></v-divider>
     </v-list>

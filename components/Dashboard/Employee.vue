@@ -14,8 +14,10 @@
             </span>
             <v-chip
               class="ml-1"
-              :color="workerStatus?.status ? 'success' : 'error'"
-              >{{ workerStatus?.status ? "Checked In" : "Checked Out" }}</v-chip
+              :color="employeeStatus?.status ? 'success' : 'error'"
+              >{{
+                employeeStatus?.status ? "Checked In" : "Checked Out"
+              }}</v-chip
             >
           </template>
           <template #subtitle>
@@ -103,24 +105,24 @@ import { collection, doc, setDoc } from "firebase/firestore";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
-const workerStore = useWorkerStore();
+const employeeStore = useEmployeeStore();
 const work_type = ref();
 const checkInDialog = ref(false);
-const workerStatus: any = useDocument(
+const employeeStatus: any = useDocument(
   doc(collection(db, "attendance"), authStore.user?.uid)
 );
 const presensiText = () => {
-  return workerStatus?.status ? "Checked In" : "Checked Out";
+  return employeeStatus?.status ? "Checked In" : "Checked Out";
 };
 const presensiColor = () => {
-  return workerStatus?.status ? "success" : "error";
+  return employeeStatus?.status ? "success" : "error";
 };
 const handleSubmitCheckIn = async () => {
   const payload = {
     work_type: work_type.value,
     status: true,
   };
-  await workerStore
+  await employeeStore
     .updateAttendance("check_in_time", authStore.user?.uid, payload)
     .then(() => {
       checkInDialog.value = false;
@@ -134,7 +136,7 @@ const handleSubmitCheckOut = async () => {
   const payload = {
     status: false,
   };
-  await workerStore
+  await employeeStore
     .updateAttendance("check_out_time", authStore.user?.uid, payload)
     .then(() => {
       checkOutDialog.value = false;

@@ -1,7 +1,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { useToast } from "vue-toastification";
 const toast = useToast();
-export const useWorkerStore = defineStore("worker", () => {
+export const useEmployeeStore = defineStore("employee", () => {
   const options: any = {
     year: "numeric",
     month: "long",
@@ -42,5 +42,5 @@ export const useWorkerStore = defineStore("worker", () => {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useWorkerStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useEmployeeStore, import.meta.hot));
 }
