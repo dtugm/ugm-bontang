@@ -10,6 +10,11 @@ export default defineNuxtConfig({
     "@nuxtjs/leaflet",
     "@pinia/nuxt",
   ],
+  runtimeConfig: {
+    public: {
+      mapTilesKey: process.env.MAPTILES_API_KEY,
+    },
+  },
   build: {
     transpile: ["vuetify"],
   },

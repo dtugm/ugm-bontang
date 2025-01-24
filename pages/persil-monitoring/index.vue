@@ -12,7 +12,7 @@
       name="OpenStreetMap"
     />
     <LTileLayer
-      url="https://api.maptiler.com/tiles/de87de13-5b83-4e8c-92fd-448138e0799f/{z}/{x}/{y}.jpg?key=A8uDlPTkzTGVjXPyMalD"
+      :url="`https://api.maptiler.com/tiles/de87de13-5b83-4e8c-92fd-448138e0799f/{z}/{x}/{y}.jpg?key=${API_KEY}`"
       layer-type="base"
       name="OpenStreetMap"
     />
@@ -38,6 +38,7 @@ const geoStyler = (feature) => ({
   fillOpacity: 1,
 });
 const geojsonKey = ref(0);
+const API_KEY = useRuntimeConfig().public.mapTilesKey;
 onMounted(async () => {
   const response = await fetch("/Bontang_web.geojson");
   const batasBontang = await fetch("/new_bontang.geojson");
