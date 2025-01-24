@@ -3,9 +3,6 @@
 </template>
 
 <script>
-import L from "leaflet";
-import "leaflet-mbtiles"; // Pustaka MBTiles
-
 export default {
   mounted() {},
 };
