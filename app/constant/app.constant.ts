@@ -12,6 +12,11 @@ export default {
     },
     {
       prepend_icon: "mdi-map",
+      title: "Monitor Peta Garis",
+      path: "/peta-garis-monitoring",
+    },
+    {
+      prepend_icon: "mdi-map",
       title: "Update Survey Area",
       path: "/update-survey",
     },
