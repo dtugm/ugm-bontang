@@ -5,15 +5,33 @@
         <AppTextH5>Bontang</AppTextH5>
       </v-list>
       <v-divider></v-divider>
-      <v-list-item
-        v-for="(menu, index) in menus"
-        :key="index"
-        :prepend-icon="menu.prepend_icon"
-        :title="menu.title"
-        :value="menu.path"
-      ></v-list-item>
+      <template v-for="(menu, index) in menus" :key="index">
+        <v-list-group v-if="menu.sub_menu">
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :prepend-icon="menu.prepend_icon"
+              :title="menu.title"
+            ></v-list-item>
+          </template>
+          <v-list-item
+            v-for="(subMenu, index) in menu.sub_menu"
+            :key="index"
+            :prepend-icon="subMenu.prepend_icon"
+            :title="subMenu.title"
+            :value="subMenu.path"
+          ></v-list-item>
+        </v-list-group>
+        <v-list-item
+          v-else
+          :prepend-icon="menu.prepend_icon"
+          :title="menu.title"
+          :value="menu.path"
+        ></v-list-item>
+      </template>
       <v-divider inset></v-divider>
     </v-list>
+
     <v-divider />
     <v-spacer></v-spacer>
     <AppButtonSignOut prepend-icon="mdi-exit-run" />

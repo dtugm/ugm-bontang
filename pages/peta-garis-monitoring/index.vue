@@ -1,1 +1,3 @@
-<template><PetaGarisPetaProgress /></template>
+<template>
+  <PetaGarisPetaProgress />
+</template>

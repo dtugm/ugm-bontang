@@ -26,6 +26,6 @@
 const route = useRoute();
 const drawer = ref(false);
 const isPersil = () => {
-  return route.path == "/persil-monitoring";
+  return route.path == "/survey-monitoring";
 };
 </script>

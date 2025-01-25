@@ -6,19 +6,25 @@ export default {
       path: "/",
     },
     {
-      prepend_icon: "mdi-map",
-      title: "Persil Monitoring",
-      path: "/persil-monitoring",
-    },
-    {
-      prepend_icon: "mdi-map",
-      title: "Monitor Peta Garis",
-      path: "/peta-garis-monitoring",
-    },
-    {
-      prepend_icon: "mdi-map",
-      title: "Update Survey Area",
-      path: "/update-survey",
+      prepend_icon: "mdi-monitor-multiple",
+      title: "Monitoring",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-receipt-text-edit-outline",
+          title: "Suvey PBB",
+          path: "/survey-monitoring",
+        },
+        {
+          prepend_icon: "mdi-map",
+          title: "Peta Garis",
+          path: "/peta-garis-monitoring",
+        },
+        {
+          prepend_icon: "mdi-cube-outline",
+          title: "3D Model",
+          path: "/3d-model-monitoring",
+        },
+      ],
     },
     {
       prepend_icon: "mdi-account-multiple",
@@ -40,14 +46,25 @@ export default {
       path: "/",
     },
     {
-      prepend_icon: "mdi-map",
-      title: "Persil Monitoring",
-      path: "/persil-monitoring",
-    },
-    {
-      prepend_icon: "mdi-map",
-      title: "Update Survey Area",
-      path: "/update-survey",
+      prepend_icon: "mdi-monitor-multiple",
+      title: "Monitoring",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-receipt-text-edit-outline",
+          title: "Suvey PBB",
+          path: "/survey-monitoring",
+        },
+        {
+          prepend_icon: "mdi-map",
+          title: "Peta Garis",
+          path: "/peta-garis-monitoring",
+        },
+        {
+          prepend_icon: "mdi-cube-outline",
+          title: "3D Model",
+          path: "/3d-model-monitoring",
+        },
+      ],
     },
     {
       prepend_icon: "mdi-account-multiple",

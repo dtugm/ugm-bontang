@@ -7,12 +7,7 @@
     :use-global-leaflet="false"
   >
     <LTileLayer
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      layer-type="base"
-      name="OpenStreetMap"
-    />
-    <LTileLayer
-      :url="`https://api.maptiler.com/tiles/de87de13-5b83-4e8c-92fd-448138e0799f/{z}/{x}/{y}.jpg?key=${API_KEY}`"
+      url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
       layer-type="base"
       name="OpenStreetMap"
     />
@@ -30,12 +25,14 @@ import { ref } from "vue";
 import { collection, getFirestore } from "firebase/firestore";
 const geojson = ref(undefined);
 const batas = ref(undefined);
-const zoom = ref(14);
+const zoom = ref(15);
 const db = getFirestore();
 const surveyStore = useSurveyStore();
 const geoStyler = (feature) => ({
-  fillColor: checkFeature(feature) ? "green" : "rgba(0, 0, 0, 0)",
+  fillColor: checkFeature(feature) ? "rgb(39,214,0,1)" : "rgba(0, 0, 0, 0)",
   fillOpacity: 1,
+  color: "yellow",
+  weight: 4,
 });
 const geojsonKey = ref(0);
 const API_KEY = useRuntimeConfig().public.mapTilesKey;
