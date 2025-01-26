@@ -127,4 +127,44 @@ export default {
       color: "rgba(0, 64, 128, 1)",
     },
   ],
+  progressDocument: [
+    {
+      bagi_18: 1,
+      GRID: 1,
+      status: "",
+      progress: "String",
+      pj: "email",
+      asignee: "email",
+      digitasi: [
+        {
+          title: "Bangunan",
+          status: "string",
+        },
+        {
+          title: "Transportasi",
+          status: "string",
+        },
+        {
+          title: "Badan Air",
+          status: "string",
+        },
+        {
+          title: "Penutupan Lahan",
+          status: "string",
+        },
+        {
+          title: "Relief",
+          status: "string",
+        },
+        {
+          title: "Batas Administrasi",
+          status: "string",
+        },
+        {
+          title: "Toponimi",
+          status: "string",
+        },
+      ],
+    },
+  ],
 };
