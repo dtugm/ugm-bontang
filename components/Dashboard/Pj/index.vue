@@ -39,24 +39,32 @@
         </v-card>
       </v-col>
       <v-col cols="12" sm="4" align-self="end">
-        <AppCardProgress />
+        <AppCardProgress title="Peta Garis" :total-value="128" :progress="2" />
       </v-col>
       <v-col cols="12" sm="4" align-self="end">
-        <AppCardProgress />
+        <AppCardProgress title="3D Model" :total-value="128" :progress="2" />
       </v-col>
     </v-row>
     <v-row class="">
       <v-col cols="12" sm="9" class="h-full">
-        <v-card class="h-full"> </v-card>
-      </v-col>
-      <v-col cols="12" sm="3" class="h-full">
-        <v-sheet class="h-full" color="grey"></v-sheet>
+        <v-card class="h-full">
+          <v-data-table :headers="headerProgressDoc" :items="progressDocument">
+            <template #item.action> </template>
+            <template #item.status="{ item }">
+              <v-chip>{{ statusGrid[item.status] }}</v-chip>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script lang="ts" setup>
 import petaGarisMock from "~/app/mock/petaGaris.mock";
+import petaGarisConstant from "~/app/constant/petaGaris.constant";
+const statusGrid: any = petaGarisConstant.statusGrid;
 const pembagian = petaGarisMock.pembagianArea;
+const headerProgressDoc: any = petaGarisConstant.progressHeader;
+const progressDocument = petaGarisMock.progressDocument;
 const appStore = useAppStore();
 </script>

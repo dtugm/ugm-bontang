@@ -1,4 +1,24 @@
 export default {
+  progressHeader: [
+    { title: "Area ID", value: "bagi_18", align: "center" },
+    { title: "Grid ID", value: "GRID", align: "center" },
+    { title: "Task Status", value: "status", align: "center" },
+    { title: "Asignee", value: "asignee", align: "center" },
+    // {
+    //   title: "Digitasi",
+    //   align: "center",
+    //   children: [
+    //     { title: "Bangunan", value: "digitasi_bangunan" },
+    //     { title: "Transportasi", value: "digitasi_transportasi" },
+    //     { title: "Badan Air", value: "digitasi_badan_air" },
+    //     { title: "Penutupan Lahan", value: "digitasi_penutupan_lahan" },
+    //     { title: "Digitasi Relief", value: "digitasi_relief" },
+    //     { title: "Batas Administrasi", value: "digitasi_batas_administrasi" },
+    //     { title: "Toponomi", value: "digitasi_toponomi" },
+    //   ],
+    // },
+    { title: "Action", value: "action" },
+  ],
   areaColors: {
     1: "rgba(255, 99, 132, 1)",
     2: "rgba(204, 65, 67, 1)",
@@ -18,5 +38,16 @@ export default {
     16: "rgba(255, 128, 0, 1)",
     17: "rgba(64, 0, 128, 1)",
     18: "rgba(0, 64, 128, 1)",
+  },
+  statusGrid: {
+    0: "To Do",
+    1: "On Progress",
+    2: "To Do Review",
+    3: "Done",
+  },
+  digitasiStatus: {
+    0: "To Do",
+    1: "Rejected",
+    2: "Approved",
   },
 };

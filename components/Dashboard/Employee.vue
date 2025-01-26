@@ -1,10 +1,15 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <v-card>
+    <v-row align="stretch" class="">
+      <v-col cols="12" sm="4">
+        <v-card class="h-full">
+          <template v-slot:append>
+            <v-chip :color="employeeStatus.status ? 'success' : 'error'">{{
+              employeeStatus.status ? "Checked In" : "Checked Out"
+            }}</v-chip>
+          </template>
           <template #title>
-            Selamat Datang kembali,
+            Hi,
             <span class="text-primary font-bold">
               {{
                 authStore.user?.displayName
@@ -12,13 +17,6 @@
                   : authStore.user?.email
               }}
             </span>
-            <v-chip
-              class="ml-1"
-              :color="employeeStatus?.status ? 'success' : 'error'"
-              >{{
-                employeeStatus?.status ? "Checked In" : "Checked Out"
-              }}</v-chip
-            >
           </template>
           <template #subtitle>
             <p>Hari ini, {{ appStore.currentDate }}</p>
@@ -36,7 +34,7 @@
                 color="error"
                 append-icon="mdi-logout"
                 label="Check Out"
-                @click="handleCheckOut"
+                @click="checkOutDialog = true"
               />
             </div>
             <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
@@ -44,7 +42,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row> </v-row>
   </v-container>
   <AppDialog v-model="checkInDialog" width="500">
     <v-form
@@ -102,6 +99,7 @@
 </template>
 <script lang="ts" setup>
 import { collection, doc, setDoc } from "firebase/firestore";
+import { useDocument, useFirestore } from "vuefire";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
