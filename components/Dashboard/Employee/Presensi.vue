@@ -1,48 +1,42 @@
 <template>
-  <v-container>
-    <v-row align="stretch" class="">
-      <v-col cols="12" sm="4">
-        <v-card class="h-full">
-          <template v-slot:append>
-            <v-chip :color="employeeStatus.status ? 'success' : 'error'">{{
-              employeeStatus.status ? "Checked In" : "Checked Out"
-            }}</v-chip>
-          </template>
-          <template #title>
-            Hi,
-            <span class="text-primary font-bold">
-              {{
-                authStore.user?.displayName
-                  ? authStore.user?.displayName
-                  : authStore.user?.email
-              }}
-            </span>
-          </template>
-          <template #subtitle>
-            <p>Hari ini, {{ appStore.currentDate }}</p>
-          </template>
-          <template #text>
-            <div class="flex gap-2">
-              <AppButton
-                color="success"
-                append-icon="mdi-login"
-                label="Check In"
-                @click="checkInDialog = true"
-              />
-              <AppButton
-                variant="outlined"
-                color="error"
-                append-icon="mdi-logout"
-                label="Check Out"
-                @click="checkOutDialog = true"
-              />
-            </div>
-            <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
-          </template>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card class="h-full">
+    <template v-slot:append>
+      <v-chip :color="employeeStatus?.status ? 'success' : 'error'">{{
+        employeeStatus?.status ? "Checked In" : "Checked Out"
+      }}</v-chip>
+    </template>
+    <template #title>
+      Hi,
+      <span class="text-primary font-bold">
+        {{
+          authStore.user?.displayName
+            ? authStore.user?.displayName
+            : authStore.user?.email
+        }}
+      </span>
+    </template>
+    <template #subtitle>
+      <p>Hari ini, {{ appStore.currentDate }}</p>
+    </template>
+    <template #text>
+      <div class="flex gap-2">
+        <AppButton
+          color="success"
+          append-icon="mdi-login"
+          label="Check In"
+          @click="checkInDialog = true"
+        />
+        <AppButton
+          variant="outlined"
+          color="error"
+          append-icon="mdi-logout"
+          label="Check Out"
+          @click="checkOutDialog = true"
+        />
+      </div>
+      <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
+    </template>
+  </v-card>
   <AppDialog v-model="checkInDialog" width="500">
     <v-form
       id="presensiForm"
@@ -100,12 +94,16 @@
 <script lang="ts" setup>
 import { collection, doc, setDoc } from "firebase/firestore";
 import { useDocument, useFirestore } from "vuefire";
+import petaGarisConstant from "~/app/constant/petaGaris.constant";
+import petaGarisMock from "~/app/mock/petaGaris.mock";
+import progressMock from "~/app/mock/progress.mock";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
 const employeeStore = useEmployeeStore();
 const work_type = ref();
 const checkInDialog = ref(false);
+const headerProgressDoc: any = petaGarisConstant.progressHeader;
 const employeeStatus: any = useDocument(
   doc(collection(db, "attendance"), authStore.user?.uid)
 );
@@ -140,4 +138,7 @@ const handleSubmitCheckOut = async () => {
       checkOutDialog.value = false;
     });
 };
+const capaianTarget = petaGarisMock.pembagianArea.find((item) => {
+  return item.employee_email == authStore.user?.email;
+});
 </script>

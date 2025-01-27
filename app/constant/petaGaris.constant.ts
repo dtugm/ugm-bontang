@@ -41,13 +41,31 @@ export default {
   },
   statusGrid: {
     0: "To Do",
-    1: "On Progress",
-    2: "To Do Review",
+    1: "To Do Review",
+    2: "Revision",
     3: "Done",
   },
+  statusGridColor: {
+    1: "info",
+    2: "error",
+    3: "success",
+  },
   digitasiStatus: {
-    0: "To Do",
+    0: "Tidak Ada",
     1: "Rejected",
     2: "Approved",
+  },
+  digitasiStatusColor: {
+    1: "error",
+    2: "success",
+  },
+  digitasiItem: {
+    digitasi_badan_air: "Badan Air",
+    digitasi_bangunan: "Bangunan",
+    digitasi_batas_administrasi: "Batas Administrasi",
+    digitasi_penutupan_lahan: "Penutupan Lahan",
+    digitasi_relief: "Relief",
+    digitasi_toponomi: "Toponomi",
+    digitasi_transportasi: "Transportasi",
   },
 };

@@ -6,9 +6,9 @@
           Total
           <span class="text-primary font-bold"> {{ title }} </span>
           <div class="flex items-end gap-1">
-            <AppTextH2>{{ totalValue }}</AppTextH2>
-            <p>{{ unit }}</p>
+            <AppTextH2>{{ progress }}</AppTextH2>
           </div>
+          <p class="text-sm">Target: {{ totalValue }} {{ unit }}</p>
         </v-col>
         <v-col class="flex justify-end">
           <v-progress-circular
