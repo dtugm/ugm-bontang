@@ -1,5 +1,4 @@
 <template>
-  <label v-if="label" :for="label" :class="classLabel">{{ label }}</label>
   <v-textarea
     v-bind="$attrs"
     :id="label || undefined"

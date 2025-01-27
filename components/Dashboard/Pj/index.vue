@@ -38,33 +38,47 @@
         </v-card>
       </v-col>
       <v-col cols="12" sm="4" align-self="end">
-        <AppCardProgress title="Peta Garis" :total-value="128" :progress="2" />
+        <AppCardProgress
+          title="Peta Garis"
+          :total-value="514"
+          unit="GRID"
+          :progress="totalGrid"
+        />
       </v-col>
       <v-col cols="12" sm="4" align-self="end">
-        <AppCardProgress title="3D Model" :total-value="128" :progress="2" />
+        <!-- <AppCardProgress title="3D Model" :total-value="128" :progress="2" /> -->
       </v-col>
     </v-row>
     <v-row class="">
       <v-col cols="12" sm="9" class="h-full">
         <v-card class="h-full">
-          <v-data-table :headers="headerProgressDoc" :items="progressDocument">
-            <template #item.action> </template>
-            <template #item.status="{ item }">
-              <v-chip>{{ statusGrid[item.status] }}</v-chip>
-            </template>
-          </v-data-table>
+          <v-container>
+            <DashboardPjTabs />
+          </v-container>
+        </v-card>
+      </v-col>
+      <v-col cols="12" sm="3" class="h-full">
+        <v-card class="h-full">
+          <DashboardPjPresensiEmployee />
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script lang="ts" setup>
-import petaGarisMock from "~/app/mock/petaGaris.mock";
-import petaGarisConstant from "~/app/constant/petaGaris.constant";
+import { collectionGroup, getDocs, query, where } from "firebase/firestore";
+
 const authStore = useAuthStore();
-const statusGrid: any = petaGarisConstant.statusGrid;
-const pembagian = petaGarisMock.pembagianArea;
-const headerProgressDoc: any = petaGarisConstant.progressHeader;
-const progressDocument = petaGarisMock.progressDocument;
 const appStore = useAppStore();
+const db = useFirestore();
+const totalGrid: any = ref(0);
+const queryAll = async () => {
+  const tasksQuery = query(
+    collectionGroup(db, "peta_garis_task"),
+    where("status", "==", 3)
+  );
+  const tasksSnapshot = await getDocs(tasksQuery);
+  totalGrid.value = tasksSnapshot.docs.length;
+};
+queryAll();
 </script>

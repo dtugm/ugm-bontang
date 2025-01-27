@@ -55,6 +55,20 @@ export default {
     1: "Rejected",
     2: "Approved",
   },
+  digitasiStatusList: [
+    {
+      title: "Tidak Ada",
+      value: 0,
+    },
+    {
+      title: "Rejected",
+      value: 1,
+    },
+    {
+      title: "Approved",
+      value: 2,
+    },
+  ],
   digitasiStatusColor: {
     1: "error",
     2: "success",

@@ -1,9 +1,7 @@
 <template>
   <v-card class="h-full">
     <template v-slot:append>
-      <v-chip :color="employeeStatus?.status ? 'success' : 'error'">{{
-        employeeStatus?.status ? "Checked In" : "Checked Out"
-      }}</v-chip>
+      <v-chip :color="presensiColor()">{{ presensiText() }}</v-chip>
     </template>
     <template #title>
       Hi,
@@ -103,7 +101,6 @@ const appStore = useAppStore();
 const employeeStore = useEmployeeStore();
 const work_type = ref();
 const checkInDialog = ref(false);
-const headerProgressDoc: any = petaGarisConstant.progressHeader;
 const employeeStatus: any = useDocument(
   doc(collection(db, "attendance"), authStore.user?.uid)
 );
@@ -125,9 +122,6 @@ const handleSubmitCheckIn = async () => {
     });
 };
 const checkOutDialog = ref(false);
-const handleCheckOut = () => {
-  checkOutDialog.value = true;
-};
 const handleSubmitCheckOut = async () => {
   const payload = {
     status: false,
@@ -138,7 +132,4 @@ const handleSubmitCheckOut = async () => {
       checkOutDialog.value = false;
     });
 };
-const capaianTarget = petaGarisMock.pembagianArea.find((item) => {
-  return item.employee_email == authStore.user?.email;
-});
 </script>

@@ -13,6 +13,8 @@ export const useEmployeeStore = defineStore("employee", () => {
   };
   const authStore: any = useAuthStore();
   const db = useFirestore();
+  const lat = ref();
+  const lng = ref();
   const updateAttendance = async (
     check_type: string,
     userId: any,
@@ -26,6 +28,8 @@ export const useEmployeeStore = defineStore("employee", () => {
           user_id: authStore.user?.uid,
           user_name: authStore.user?.displayName,
           user_email: authStore.user?.email,
+          lat: lat.value ?? 0,
+          lng: lng.value ?? 0,
           [check_type]: new Date().toLocaleTimeString("id-ID", options),
         },
         { merge: true }
@@ -36,6 +40,23 @@ export const useEmployeeStore = defineStore("employee", () => {
       toast.error("Gagal Melakukan Presensi :(");
     }
   };
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          lat.value = position.coords.latitude;
+          lng.value = position.coords.longitude;
+        },
+        (err) => {
+          console.log(`Gagal mendapatkan lokasi: ${err.message}`);
+        }
+      );
+    } else {
+      console.log("Geolocation tidak didukung oleh browser ini.");
+    }
+  };
+  getLocation();
+
   return {
     updateAttendance,
   };

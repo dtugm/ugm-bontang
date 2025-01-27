@@ -10,6 +10,11 @@ export default {
     {
       id: "pj1",
       name: "Kinanthi Puteri Nastiti",
+      email: "dhiasdmn@gmail.com",
+    },
+    {
+      id: "pj1",
+      name: "Kinanthi Puteri Nastiti",
       email: "kinanthinastiti@gmail.com",
     },
     {
@@ -29,12 +34,12 @@ export default {
     },
   ],
   employee: [
-    {
-      id: "e1",
-      name: "Cintia Lirifa Asmarani",
-      email: "test1@gmail.com",
-      responsibleId: "pj1",
-    },
+    // {
+    //   id: "e1",
+    //   name: "Cintia Lirifa Asmarani",
+    //   email: "test1@gmail.com",
+    //   responsibleId: "pj1",
+    // },
     {
       id: "e1",
       name: "Cintia Lirifa Asmarani",

@@ -114,10 +114,10 @@
             ></v-icon>
           </div>
           <div v-if="selectedTask[index] == 1">
-            <p class="text-text">notes:</p>
+            <p class="text-text">Revisi notes:</p>
             {{ selectedTask[`${index}_notes`] }}
           </div>
-          <div v-if="selectedTask[index] == 0">tidak tersedia</div>
+          <div v-if="selectedTask[index] == 0">tidak ada</div>
         </v-col>
       </v-row>
     </v-card-text>
