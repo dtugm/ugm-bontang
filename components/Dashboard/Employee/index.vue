@@ -12,14 +12,15 @@
           :progress="pencapaianEmployee"
         />
       </v-col>
-      <v-col cols="12" sm="4" align-self="end">
-        <AppCardProgress />
-      </v-col>
     </v-row>
     <v-row class="">
       <v-col cols="12" sm="12" class="h-full">
         <v-card class="h-full" variant="flat">
-          <v-data-table :headers="header" :items="taskList">
+          <v-data-table
+            :loading="isTableLoading"
+            :headers="header"
+            :items="taskList"
+          >
             <template #item.status="{ item }: any">
               <v-chip :color="statusGridColor[item.status]">
                 {{ statusGrid[item.status] }}
@@ -27,6 +28,12 @@
             </template>
             <template #item.date_created="{ item }: any">
               {{ formatDateFirebase(item.date_created) }}
+            </template>
+            <template #item.date_submitted="{ item }: any">
+              <p v-if="item.date_submitted">
+                {{ formatDateFirebase(item.date_submitted) }}
+              </p>
+              <p v-else>Not submmited yet</p>
             </template>
             <template #item.action="{ item }: any">
               <div class="flex gap-1 justify-end">
@@ -54,7 +61,45 @@
   </v-container>
   <AppDialog v-model="submitDialog">
     <v-card-text>
-      <AppInputText label="Google Drive URL" />
+      <v-form
+        id="submitForm"
+        ref="formSubmitRef"
+        @submit.prevent="handleSubmitTask()"
+      >
+        <AppInputTextarea
+          v-model="googleDriveUrl"
+          label="Google Drive URL"
+          :rules="[() => !!googleDriveUrl || 'This field is required']"
+          hide-details
+          required
+        />
+        <div>
+          <v-checkbox v-model="yakin" color="primary" hide-details>
+            <template v-slot:label>
+              <p class="text-text">
+                Saya yakin akan mengirimkan
+                <span class="text-primary"> File </span>Ini
+              </p>
+            </template>
+          </v-checkbox>
+        </div>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <AppButton
+            label="Cancel"
+            color="info"
+            variant="outlined"
+            @click="submitDialog = false"
+          />
+          <AppButton
+            :disabled="!yakin"
+            form="submitForm"
+            label="Submit"
+            color="success"
+            type="submit"
+          />
+        </v-card-actions>
+      </v-form>
     </v-card-text>
   </AppDialog>
   <AppDialog :title="selectedTask?.id" v-model="detailDialog">
@@ -79,13 +124,22 @@
   </AppDialog>
 </template>
 <script lang="ts" setup>
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import petaGarisMock from "~/app/mock/petaGaris.mock";
 import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import employeeConstant from "~/app/constant/employee.constant";
+const isTableLoading = ref(false);
 const digitasiStatus: any = petaGarisConstant.digitasiStatus;
 const digitasiStatusColor: any = petaGarisConstant.digitasiStatusColor;
 const digitasiStatusIcon: any = petaGarisConstant.digitasiStatusIcon;
+const appStore = useAppStore();
 const selectedTask: any = ref({});
 const submitDialog = ref(false);
 const detailDialog = ref(false);
@@ -109,10 +163,11 @@ const capaianTarget = petaGarisMock.pembagianArea.find((item) => {
   return item.employee_email == authStore.user?.email;
 });
 const taskList: any = ref([]);
+const employee = employeeList.find(
+  (employee) => employee.email == authStore.user?.email
+);
 async function fetchFilteredOrders() {
-  const employee = employeeList.find(
-    (employee) => employee.email == authStore.user?.email
-  );
+  isTableLoading.value = true;
   const collectionPath = `/responsibles/${employee?.responsibleId}/employees/${employee?.id}/peta_garis_task`;
   try {
     const ordersQuery = query(
@@ -124,12 +179,40 @@ async function fetchFilteredOrders() {
       id: doc.id,
       ...doc.data(),
     }));
+    isTableLoading.value = false;
   } catch (error) {
     console.error("Error fetching filtered orders:", error);
+    isTableLoading.value = false;
   }
 }
 const pencapaianEmployee = computed(() => {
   return taskList.value.filter((item: any) => item.status === 3).length;
 });
 fetchFilteredOrders();
+const formSubmitRef = ref();
+const googleDriveUrl = ref("");
+const yakin = ref(false);
+const handleSubmitTask = async () => {
+  const { valid } = await formSubmitRef.value.validate();
+  if (valid) {
+    const responsiblesRef = collection(db, "responsibles");
+    const responsibleDoc = doc(responsiblesRef, employee?.responsibleId);
+    const employeesRef = collection(responsibleDoc, "employees");
+    const employeeDoc = doc(employeesRef, employee?.id);
+    const tasksRef = collection(employeeDoc, "peta_garis_task");
+    const taskDoc = doc(tasksRef, selectedTask.value.id);
+    const payload = {
+      file_url: googleDriveUrl.value,
+      status: 1, // set ke to do
+      date_submitted: new Date(),
+    };
+    await setDoc(taskDoc, payload, { merge: true }).then(() => {
+      submitDialog.value = false;
+      appStore.toastSuccess("Data berhasil disubmit!");
+      googleDriveUrl.value = "";
+      yakin.value = false;
+      fetchFilteredOrders();
+    });
+  }
+};
 </script>
