@@ -59,6 +59,10 @@ export default {
     1: "error",
     2: "success",
   },
+  digitasiStatusIcon: {
+    1: "mdi-close-circle",
+    2: "mdi-checkbox-marked-circle",
+  },
   digitasiItem: {
     digitasi_badan_air: "Badan Air",
     digitasi_bangunan: "Bangunan",

@@ -9,12 +9,11 @@
           <template #title>
             Hello,
             <span class="text-primary font-bold">
-              { NAMA USER}
-              <!-- {{
+              {{
                 authStore.user?.displayName
                   ? authStore.user?.displayName
                   : authStore.user?.email
-              }} -->
+              }}
             </span>
           </template>
           <template #subtitle>
@@ -62,6 +61,7 @@
 <script lang="ts" setup>
 import petaGarisMock from "~/app/mock/petaGaris.mock";
 import petaGarisConstant from "~/app/constant/petaGaris.constant";
+const authStore = useAuthStore();
 const statusGrid: any = petaGarisConstant.statusGrid;
 const pembagian = petaGarisMock.pembagianArea;
 const headerProgressDoc: any = petaGarisConstant.progressHeader;

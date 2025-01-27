@@ -28,13 +28,14 @@
             <template #item.date_created="{ item }: any">
               {{ formatDateFirebase(item.date_created) }}
             </template>
-            <template #item.action="{ item }">
-              <div class="flex gap-1">
+            <template #item.action="{ item }: any">
+              <div class="flex gap-1 justify-end">
                 <v-btn
+                  v-if="item.status == 2"
                   class="text-none"
                   color="primary"
                   @click="openDetail(item)"
-                  >Detail</v-btn
+                  >Notes</v-btn
                 >
                 <v-btn
                   class="text-none"
@@ -60,19 +61,18 @@
     <v-card-text>
       <v-row>
         <v-col cols="6" v-for="(item, index) in petaGarisConstant.digitasiItem">
-          <div class="flex">
-            <v-icon icon="mdi-checkbox-marked-circle"></v-icon>
-            <AppTextH5 class="text-sm">
-              {{ item }}
-            </AppTextH5>
+          <div class="flex gap-1">
+            <AppTextH5 class="text-sm" color="primary"> {{ item }} </AppTextH5>
+            <v-icon
+              :icon="digitasiStatusIcon[selectedTask[index]]"
+              :color="digitasiStatusColor[selectedTask[index]]"
+            ></v-icon>
           </div>
-          <!-- <v-chip :color="digitasiStatusColor[selectedTask[index]]">
-            {{ digitasiStatus[selectedTask[index]] }}
-          </v-chip> -->
           <div v-if="selectedTask[index] == 1">
-            <p>notes:</p>
+            <p class="text-text">notes:</p>
             {{ selectedTask[`${index}_notes`] }}
           </div>
+          <div v-if="selectedTask[index] == 0">tidak tersedia</div>
         </v-col>
       </v-row>
     </v-card-text>
@@ -85,6 +85,7 @@ import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import employeeConstant from "~/app/constant/employee.constant";
 const digitasiStatus: any = petaGarisConstant.digitasiStatus;
 const digitasiStatusColor: any = petaGarisConstant.digitasiStatusColor;
+const digitasiStatusIcon: any = petaGarisConstant.digitasiStatusIcon;
 const selectedTask: any = ref({});
 const submitDialog = ref(false);
 const detailDialog = ref(false);
