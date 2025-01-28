@@ -1,5 +1,6 @@
 <template>
-  <LMap
+  <LeafletTestOrtho />
+  <!-- <LMap
     ref="map"
     style="height: 100vh"
     :zoom="zoom"
@@ -17,7 +18,7 @@
       :options-style="geoStylerGrid"
       :key="geojsonKey"
     />
-  </LMap>
+  </LMap> -->
 </template>
 
 <script setup>
@@ -25,6 +26,7 @@ import { ref } from "vue";
 import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import { collection, getFirestore } from "firebase/firestore";
 const areaColors = petaGarisConstant.areaColors;
+const petaGarisStore = usePetaGarisStore();
 const area = ref(undefined);
 const grid = ref(undefined);
 const zoom = ref(14);
@@ -33,19 +35,32 @@ const geoStyler = (feature) => ({
   fillOpacity: 0.7,
   opacity: 1,
 });
-const geoStylerGrid = (feature) => ({
-  fillColor: "rgba(0, 0, 0, 0)",
-  color: "yellow",
-  opacity: 0.2,
-});
-const geojsonKey = ref(0);
-const API_KEY = useRuntimeConfig().public.mapTilesKey;
 onMounted(async () => {
+  await petaGarisStore?.queryAll();
   const response = await fetch("/AREA_PETA_GARIS.geojson");
   area.value = await response.json();
   const responseGrid = await fetch("/GRID_PETA_GARIS.geojson");
   grid.value = await responseGrid.json();
+  isGeojsonView.value = true;
 });
+const geoStylerGrid = (feature) => ({
+  fillColor:
+    Array.isArray(petaGarisStore?.totalArray) &&
+    totalArray.some(
+      (item) =>
+        item.GRID === feature?.properties?.GRID && // Pastikan GRID ada
+        Number(item.bagi_18) === feature?.properties?.bagi_18 // Pastikan bagi_18 ada
+    )
+      ? "green"
+      : "rgba(0, 0, 0, 0)",
+  fillOpacity: 1,
+  color: "yellow",
+  opacity: 1,
+});
+const geojsonKey = ref(0);
+// const API_KEY = useRuntimeConfig().public.mapTilesKey
+const isGeojsonView = ref(false);
+
 // const surveyProgress = useCollection(collection(db, "surveyProgress"));
 // function checkFeature(feature) {
 //   return surveyProgress.value.some(

@@ -37,29 +37,6 @@
           <v-col cols="12" sm="3">
             <AppInputSelect
               class-label="text-primary font-semibold"
-              label="Digitasi Badan Air"
-              ref="formSubmitRef"
-              v-model="selectedtask.digitasi_badan_air"
-              :items="digitasiStatusList"
-              hide-details
-              chips
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_badan_air_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
               label="Digitasi Bangunan"
               v-model="selectedtask.digitasi_bangunan"
               :items="digitasiStatusList"
@@ -82,8 +59,8 @@
           <v-col cols="12" sm="3">
             <AppInputSelect
               class-label="text-primary font-semibold"
-              label="Digitasi Batas Administrasi"
-              v-model="selectedtask.digitasi_batas_administrasi"
+              label="Digitasi Transportasi"
+              v-model="selectedtask.digitasi_transportasi"
               :items="digitasiStatusList"
               chips
               hide-details
@@ -98,7 +75,30 @@
             </AppInputSelect>
             <AppInputTextarea
               label="Error Notes"
-              v-model="selectedtask.digitasi_batas_administrasi_notes"
+              v-model="selectedtask.digitasi_notes"
+            />
+          </v-col>
+          <v-col cols="12" sm="3">
+            <AppInputSelect
+              class-label="text-primary font-semibold"
+              label="Digitasi Badan Air"
+              ref="formSubmitRef"
+              v-model="selectedtask.digitasi_badan_air"
+              :items="digitasiStatusList"
+              hide-details
+              chips
+            >
+              <template v-slot:chip="{ props, item }">
+                <v-chip
+                  v-bind="props"
+                  :text="item.title"
+                  :color="digitasiStatusColor[item.value]"
+                ></v-chip>
+              </template>
+            </AppInputSelect>
+            <AppInputTextarea
+              label="Error Notes"
+              v-model="selectedtask.digitasi_badan_air_notes"
             />
           </v-col>
           <v-col cols="12" sm="3">
@@ -148,6 +148,29 @@
           <v-col cols="12" sm="3">
             <AppInputSelect
               class-label="text-primary font-semibold"
+              label="Digitasi Batas Administrasi"
+              v-model="selectedtask.digitasi_batas_administrasi"
+              :items="digitasiStatusList"
+              chips
+              hide-details
+            >
+              <template v-slot:chip="{ props, item }">
+                <v-chip
+                  v-bind="props"
+                  :text="item.title"
+                  :color="digitasiStatusColor[item.value]"
+                ></v-chip>
+              </template>
+            </AppInputSelect>
+            <AppInputTextarea
+              label="Error Notes"
+              v-model="selectedtask.digitasi_batas_administrasi_notes"
+            />
+          </v-col>
+
+          <v-col cols="12" sm="3">
+            <AppInputSelect
+              class-label="text-primary font-semibold"
               label="Digitasi Toponimi"
               v-model="selectedtask.digitasi_toponomi"
               :items="digitasiStatusList"
@@ -164,28 +187,6 @@
             <AppInputTextarea
               label="Error Notes"
               v-model="selectedtask.digitasi_toponomi_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Transportasi"
-              v-model="selectedtask.digitasi_transportasi"
-              :items="digitasiStatusList"
-              chips
-              hide-details
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_notes"
             />
           </v-col>
         </v-row>

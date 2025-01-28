@@ -42,7 +42,7 @@
           title="Peta Garis"
           :total-value="514"
           unit="GRID"
-          :progress="totalGrid"
+          :progress="petaGarisStore.totalGrid"
         />
       </v-col>
       <v-col cols="12" sm="4" align-self="end">
@@ -66,19 +66,7 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import { collectionGroup, getDocs, query, where } from "firebase/firestore";
-
 const authStore = useAuthStore();
 const appStore = useAppStore();
-const db = useFirestore();
-const totalGrid: any = ref(0);
-const queryAll = async () => {
-  const tasksQuery = query(
-    collectionGroup(db, "peta_garis_task"),
-    where("status", "==", 3)
-  );
-  const tasksSnapshot = await getDocs(tasksQuery);
-  totalGrid.value = tasksSnapshot.docs.length;
-};
-queryAll();
+const petaGarisStore = usePetaGarisStore();
 </script>
