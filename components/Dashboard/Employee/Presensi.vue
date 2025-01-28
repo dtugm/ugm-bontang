@@ -105,10 +105,10 @@ const employeeStatus: any = useDocument(
   doc(collection(db, "attendance"), authStore.user?.uid)
 );
 const presensiText = () => {
-  return employeeStatus?.status ? "Checked In" : "Checked Out";
+  return employeeStatus.value?.status ? "Checked In" : "Checked Out";
 };
 const presensiColor = () => {
-  return employeeStatus?.status ? "success" : "error";
+  return employeeStatus.value?.status ? "success" : "error";
 };
 const handleSubmitCheckIn = async () => {
   const payload = {

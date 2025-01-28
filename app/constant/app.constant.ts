@@ -26,11 +26,11 @@ export default {
         },
       ],
     },
-    {
-      prepend_icon: "mdi-account-multiple",
-      title: "Employee Management",
-      path: "/employee-management",
-    },
+    // {
+    //   prepend_icon: "mdi-account-multiple",
+    //   title: "Employee Management",
+    //   path: "/employee-management",
+    // },
   ],
   employee_menus: [
     {

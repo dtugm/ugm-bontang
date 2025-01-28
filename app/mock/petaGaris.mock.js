@@ -4,20 +4,22 @@ export default {
       bagi_18: 1,
       employee: "Cintia Lirifa Asmarani",
       jumlah_grid: 29,
+      employee_email: "lirifaasmarani@gmail.com",
       pj: "kinanthinastiti@gmail.com",
       color: "rgba(255, 99, 132, 1)",
     },
-    {
-      bagi_18: 1,
-      employee: "Cintia Lirifa Asmarani",
-      employee_email: "test1@gmail.com",
-      jumlah_grid: 29,
-      pj: "test1@gmail.com",
-      color: "rgba(255, 99, 132, 1)",
-    },
+    // {
+    //   bagi_18: 1,
+    //   employee: "Cintia Lirifa Asmarani",
+    //   employee_email: "test1@gmail.com",
+    //   jumlah_grid: 29,
+    //   pj: "test1@gmail.com",
+    //   color: "rgba(255, 99, 132, 1)",
+    // },
     {
       bagi_18: 2,
       employee: "Anisa Putri Ambiani",
+      employee_email: "anisaputri1006@gmail.com",
       jumlah_grid: 28,
       pj: "kinanthinastiti@gmail.com",
       color: "rgba(204, 65, 67, 1)",
@@ -25,6 +27,7 @@ export default {
     {
       bagi_18: 3,
       employee: "Lutfy Angsoka Novita",
+      employee_email: "angsokanovita@gmail.com",
       jumlah_grid: 28,
       pj: "kinanthinastiti@gmail.com",
       color: "rgba(255, 206, 86, 1)",
@@ -32,6 +35,7 @@ export default {
     {
       bagi_18: 4,
       employee: "Safira Ardelia Oktaviani",
+      employee_email: "safiraardelia25@gmail.com",
       jumlah_grid: 28,
       pj: "kinanthinastiti@gmail.com",
       color: "rgba(75, 0, 130, 1)",
@@ -39,6 +43,7 @@ export default {
     {
       bagi_18: 5,
       employee: "Indah Fitriyany",
+      employee_email: "indahfitriyaa11@gmail.com",
       jumlah_grid: 28,
       pj: "kinanthinastiti@gmail.com",
       color: "rgba(153, 102, 255, 1)",
@@ -46,6 +51,7 @@ export default {
     {
       bagi_18: 6,
       employee: "Yeni Ikawati",
+      employee_email: "yeniikawati99@gmail.com",
       jumlah_grid: 29,
       pj: "prasetyarini.ea@gmail.com",
       color: "rgba(117, 57, 35, 1)",
@@ -53,6 +59,7 @@ export default {
     {
       bagi_18: 7,
       employee: "Annisa Rizky",
+      employee_email: "annisa.rizky.kusuma04@gmail.com",
       jumlah_grid: 28,
       pj: "prasetyarini.ea@gmail.com",
       color: "rgba(201, 203, 207, 1)",
@@ -60,6 +67,7 @@ export default {
     {
       bagi_18: 8,
       employee: "Shinta Puspa Megawanti",
+      employee_email: "shintapuspam43@gmail.com",
       jumlah_grid: 28,
       pj: "prasetyarini.ea@gmail.com",
       color: "rgba(0, 128, 192, 1)",
@@ -67,6 +75,7 @@ export default {
     {
       bagi_18: 9,
       employee: "Devi Zulfa Miftakuljannah",
+      employee_email: "devizulfa77@gmail.com",
       jumlah_grid: 29,
       pj: "prasetyarini.ea@gmail.com",
       color: "rgba(128, 0, 64, 1)",
@@ -74,6 +83,7 @@ export default {
     {
       bagi_18: 10,
       employee: "Nabilla Dwi Chandra Kumala",
+      employee_email: "99nabilla@gmail.com",
       jumlah_grid: 23,
       pj: "prasetyarini.ea@gmail.com",
       color: "rgba(255, 0, 0, 1)",
@@ -81,6 +91,7 @@ export default {
     {
       bagi_18: 11,
       employee: "Ainun Nisa Rezika",
+      employee_email: "ainun.nisa.rezika@mail.ugm.ac.id",
       jumlah_grid: 29,
       pj: "hyatma.a.a@mail.ugm.ac.id",
       color: "rgba(128, 128, 0, 1)",
@@ -88,6 +99,7 @@ export default {
     {
       bagi_18: 12,
       employee: "Endang Retno Nurhayati",
+      employee_email: "endangretnonurhayati@gmail.com",
       jumlah_grid: 32,
       pj: "hyatma.a.a@mail.ugm.ac.id",
       color: "rgba(0, 0, 255, 1)",
@@ -95,6 +107,7 @@ export default {
     {
       bagi_18: 13,
       employee: "Suzi Tessa",
+      employee_email: "suzitessa99@gmail.com",
       jumlah_grid: 27,
       pj: "hyatma.a.a@mail.ugm.ac.id",
       color: "rgba(146, 201, 255, 1)",
@@ -102,6 +115,7 @@ export default {
     {
       bagi_18: 14,
       employee: "Wegyzaldy",
+      employee_email: "zaldywegy@gmail.com",
       jumlah_grid: 28,
       pj: "hyatma.a.a@mail.ugm.ac.id",
       color: "rgba(0, 255, 255, 1)",
@@ -109,6 +123,7 @@ export default {
     {
       bagi_18: 15,
       employee: "David Emanuel Putra Ham Imbiri",
+      employee_email: "chrisyal9@gmail.com",
       jumlah_grid: 29,
       pj: "fikrikrz88@gmail.com",
       color: "rgba(255, 0, 255, 1)",
@@ -116,6 +131,7 @@ export default {
     {
       bagi_18: 16,
       employee: "Farry Handika Nuradhiba",
+      employee_email: "farryhandika.n79@gmail.com",
       jumlah_grid: 30,
       pj: "fikrikrz88@gmail.com",
       color: "rgba(255, 128, 0, 1)",
@@ -123,6 +139,7 @@ export default {
     {
       bagi_18: 17,
       employee: "Praba Sultan Arian Alhamdy Syukron",
+      employee_email: "prabarian09@gmail.com",
       jumlah_grid: 30,
       pj: "fikrikrz88@gmail.com",
       color: "rgba(64, 0, 128, 1)",
@@ -130,6 +147,7 @@ export default {
     {
       bagi_18: 18,
       employee: "Michael Krisna Revio Putra",
+      employee_email: "michaelkrisna1975@mail.ugm.ac.id",
       jumlah_grid: 31,
       pj: "fikrikrz88@gmail.com",
       color: "rgba(0, 64, 128, 1)",
