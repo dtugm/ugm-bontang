@@ -5,7 +5,11 @@ export default {
     screens: {
       md: "830px",
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Plus Jakarta Sans", "serif"],
+      },
+    },
   },
   plugins: [],
 };

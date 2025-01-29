@@ -1,10 +1,10 @@
 <template>
-  <v-col class="h-full flex flex-col">
+  <v-col class="h-full flex flex-col bg-bontangA">
     <v-list density="compact" nav @update:selected="changePage">
       <v-list density="compact" nav>
-        <AppTextH5>Bontang</AppTextH5>
+        <AppTextH5 color="white">Bontang</AppTextH5>
       </v-list>
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
       <template v-for="(menu, index) in menus" :key="index">
         <v-list-group v-if="menu.sub_menu">
           <template v-slot:activator="{ props }">
@@ -29,11 +29,29 @@
           :value="menu.path"
         ></v-list-item>
       </template>
-      <v-divider inset></v-divider>
+      <!-- <v-divider inset></v-divider> -->
     </v-list>
-    <v-divider />
     <v-spacer></v-spacer>
-    <AppButtonSignOut />
+
+    <v-list density="compact" nav>
+      <v-divider />
+      <v-menu min-width="200px" rounded location="right">
+        <template #activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            class="bg-white py-2"
+            prepend-avatar="/logo/HD-wallpaper-squid-game-worker-art.jpg"
+            title="Sandra Adams"
+          >
+          </v-list-item>
+        </template>
+        <v-card>
+          <v-card-text>
+            <AppButtonSignOut />
+          </v-card-text>
+        </v-card>
+      </v-menu>
+    </v-list>
   </v-col>
 </template>
 <script lang="ts" setup>

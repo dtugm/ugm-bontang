@@ -1,5 +1,5 @@
 <template>
-  <v-card class="h-full">
+  <v-card class="h-full" variant="outlined">
     <template v-slot:append>
       <v-chip :color="presensiColor()">{{ presensiText() }}</v-chip>
     </template>

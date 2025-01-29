@@ -3,11 +3,12 @@
     <v-navigation-drawer v-model="drawer">
       <AppSidebar />
     </v-navigation-drawer>
-    <v-app-bar>
+    <v-app-bar :elevation="0">
       <v-app-bar-nav-icon
         variant="text"
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
+      <v-app-bar-title>Dashboard</v-app-bar-title>
     </v-app-bar>
     <v-main>
       <slot />
