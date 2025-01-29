@@ -26,11 +26,27 @@ export default {
         },
       ],
     },
-    // {
-    //   prepend_icon: "mdi-account-multiple",
-    //   title: "Employee Management",
-    //   path: "/employee-management",
-    // },
+    {
+      prepend_icon: "mdi-earth",
+      title: "Production",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-receipt-text-edit-outline",
+          title: "Suvey PBB",
+          path: "/production-survey-pbb",
+        },
+        {
+          prepend_icon: "mdi-map",
+          title: "Peta Garis",
+          path: "/production-peta-garis",
+        },
+        {
+          prepend_icon: "mdi-cube-outline",
+          title: "3D Models",
+          path: "/production-3d-models",
+        },
+      ],
+    },
   ],
   employee_menus: [
     {

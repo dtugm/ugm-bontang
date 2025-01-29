@@ -1,7 +1,7 @@
 <template>
   <v-btn
+    block
     class="text-none"
-    variant="outlined"
     color="error"
     prepend-icon="mdi-exit-run"
     @click="signOutDialog = true"

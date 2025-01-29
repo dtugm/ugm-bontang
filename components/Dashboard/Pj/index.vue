@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-full">
+  <v-container fluid class="h-full">
     <v-row align="stretch" class="">
       <v-col cols="12" sm="4">
         <v-card class="h-full">
@@ -44,9 +44,6 @@
           unit="GRID"
           :progress="petaGarisStore.totalGrid"
         />
-      </v-col>
-      <v-col cols="12" sm="4" align-self="end">
-        <!-- <AppCardProgress title="3D Model" :total-value="128" :progress="2" /> -->
       </v-col>
     </v-row>
     <v-row class="">

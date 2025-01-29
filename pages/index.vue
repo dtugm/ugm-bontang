@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[calc(100vh-64px)]">
+  <div class="h-screen">
     <DashboardEmployee v-if="employee_user.includes(authStore.user.email)" />
     <DashboardPj v-if="pj_user.includes(authStore.user.email)" />
   </div>

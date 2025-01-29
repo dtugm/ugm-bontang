@@ -1,35 +1,18 @@
 <template>
-  <div class="relative h-screen w-full">
+  <div class="relative w-full">
     <!-- Map Container -->
     <div id="map" class="h-full w-full z-0 pointer-events-auto"></div>
 
     <!-- Card -->
-    <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
-      <v-card width="auto" variant="flat" class="shadow-lg">
+    <div class="absolute top-4 right-4 p-4 w-80 z-10 pointer-events-auto">
+      <v-card>
         <v-card-title>Progress Peta Garis</v-card-title>
-        <v-card-subtitle>{{}}</v-card-subtitle>
         <v-card-text>
           <v-progress-circular
-            :model-value="petaGarisStore?.totalArray.length / 514"
-            :size="200"
-            :width="25"
-            color="success"
-            class="mb-1"
-          >
-            <p class="text-2xl font-semibold text-text">
-              {{
-                ((petaGarisStore?.totalArray.length / 514) * 100).toFixed(2)
-              }}%
-            </p>
-          </v-progress-circular>
-          <div class="flex gap-1 items-center">
-            <v-sheet :height="15" :width="15" color="success"></v-sheet>
-            <p>Progress</p>
-          </div>
-          <div class="flex gap-1 items-center">
-            <v-sheet :height="15" :width="15" color="grey"></v-sheet>
-            <p>Coverage Area</p>
-          </div>
+            model-value="20"
+            :size="128"
+            :width="12"
+          ></v-progress-circular>
         </v-card-text>
       </v-card>
       <!-- <h2 class="text-lg font-semibold">Informasi Peta</h2>
@@ -64,8 +47,9 @@ onMounted(async () => {
     return;
   }
   const map = L.map("map").setView([latitude, longitude], zoomLevel);
-  L.tileLayer(osm, {
+  L.tileLayer(tileLayerURL, {
     maxZoom: 18,
+    attribution: "© Your Attribution",
   }).addTo(map);
   const response = await fetch("/AREA_PETA_GARIS.geojson");
   const area = await response.json();

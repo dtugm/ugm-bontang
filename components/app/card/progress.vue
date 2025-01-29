@@ -1,5 +1,5 @@
 <template>
-  <v-card class="h-full" variant="outlined">
+  <v-card class="h-full">
     <template #text>
       <v-row justify="end">
         <v-col class="text-lg">
