@@ -7,11 +7,11 @@ export default {
     { title: "Status", value: "status", sortable: true },
   ],
   penanggungJawab: [
-    {
-      id: "pj1",
-      name: "Kinanthi Puteri Nastiti",
-      email: "dhiasdmn@gmail.com",
-    },
+    // {
+    //   id: "pj1",
+    //   name: "Kinanthi Puteri Nastiti",
+    //   email: "dhiasdmn@gmail.com",
+    // },
     {
       id: "pj1",
       name: "Kinanthi Puteri Nastiti",
