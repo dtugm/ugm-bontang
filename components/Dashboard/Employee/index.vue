@@ -163,7 +163,7 @@ const capaianTarget = petaGarisMock.pembagianArea.find((item) => {
   return item.employee_email == authStore.user?.email;
 });
 const taskList: any = ref([]);
-const employee = employeeList.find(
+const employee: any = employeeList.find(
   (employee) => employee.email == authStore.user?.email
 );
 async function fetchFilteredOrders() {
@@ -203,7 +203,7 @@ const handleSubmitTask = async () => {
     const taskDoc = doc(tasksRef, selectedTask.value.id);
     const payload = {
       file_url: googleDriveUrl.value,
-      status: 1, // set ke to do
+      status: 1, // set ke to do review
       date_submitted: new Date(),
     };
     await setDoc(taskDoc, payload, { merge: true }).then(() => {
@@ -211,6 +211,13 @@ const handleSubmitTask = async () => {
       appStore.toastSuccess("Data berhasil disubmit!");
       googleDriveUrl.value = "";
       yakin.value = false;
+      employee?.email;
+      appStore.sendUpdateEmail(
+        employee.email,
+        employee.responsibleEmail,
+        "QC Dong Bang!, Naik Gaji lah..",
+        `Bang makan bang, Periksa id ini bang ${selectedTask.value.id}`
+      );
       fetchFilteredOrders();
     });
   }

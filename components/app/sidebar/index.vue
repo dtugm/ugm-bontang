@@ -46,11 +46,10 @@
           </v-list-item>
         </template>
         <v-card>
-          <v-card-text>
-            <AppButtonSignOut />
-          </v-card-text>
+          <v-card-text> </v-card-text>
         </v-card>
       </v-menu>
+      <AppButtonSignOut />
     </v-list>
   </v-col>
 </template>

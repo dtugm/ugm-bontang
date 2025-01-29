@@ -229,7 +229,6 @@ import {
   collection,
   doc,
   getDocs,
-  orderBy,
   query,
   setDoc,
   where,
@@ -299,12 +298,23 @@ const submitTask = async (status: number) => {
   const employeeDoc = doc(employeesRef, props.employee?.id);
   const tasksRef = collection(employeeDoc, "peta_garis_task");
   const taskDoc = doc(tasksRef, selectedtask.value.id);
+
   const payload = {
     ...selectedtask.value,
     status: status,
   };
   await setDoc(taskDoc, payload, { merge: true }).then(() => {
     rejectDialog.value = false;
+    yakin.value = false;
+    appStore.sendUpdateEmail;
+    if (status == 2) {
+      appStore.sendUpdateEmail(
+        props.employee?.responsibleEmail,
+        props.employee?.email,
+        "REVISI DIGITASI",
+        `Revisi pada grid: ${selectedtask.value.GRID} Area: ${selectedtask.value.bagi_18}. Buka Aplikasi untuk mencari lebih tahu mengenai Detailnya`
+      );
+    }
     appStore.toastSuccess("Data berhasil disubmit!");
     fetchFilteredOrders();
   });
