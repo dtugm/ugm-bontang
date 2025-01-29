@@ -31,10 +31,9 @@
       </template>
       <v-divider inset></v-divider>
     </v-list>
-
     <v-divider />
     <v-spacer></v-spacer>
-    <AppButtonSignOut prepend-icon="mdi-exit-run" />
+    <AppButtonSignOut />
   </v-col>
 </template>
 <script lang="ts" setup>

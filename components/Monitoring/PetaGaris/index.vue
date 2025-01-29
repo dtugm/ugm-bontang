@@ -26,13 +26,6 @@ onMounted(async () => {
   }).addTo(map);
   const response = await fetch("/AREA_PETA_GARIS.geojson");
   const area = await response.json();
-  // const areaGeoJson = L.geoJson(area, {
-  //   style: (feature) => ({
-  //     color: areaColors[feature.properties.bagi_18],
-  //     weight: 2,
-  //     fillOpacity: 0.7,
-  //   }),
-  // }).addTo(map);
   const responseGrid = await fetch("/GRID_PETA_GARIS.geojson");
   const grid = await responseGrid.json();
   petaGarisStore.queryAll().then(async () => {

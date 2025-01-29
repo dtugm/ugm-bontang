@@ -75,7 +75,7 @@
             </AppInputSelect>
             <AppInputTextarea
               label="Error Notes"
-              v-model="selectedtask.digitasi_notes"
+              v-model="selectedtask.digitasi_transportasi_notes"
             />
           </v-col>
           <v-col cols="12" sm="3">
