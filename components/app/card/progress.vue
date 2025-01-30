@@ -1,5 +1,5 @@
 <template>
-  <v-card class="h-full">
+  <v-card class="h-full" variant="flat">
     <template #text>
       <v-row justify="end">
         <v-col class="text-lg">
@@ -15,7 +15,7 @@
             :color="handleColor(valueProgress)"
             :model-value="valueProgress"
             :size="80"
-            :width="8"
+            :width="10"
           >
             <p class="text-text">{{ progress }} / {{ totalValue }}</p>
           </v-progress-circular>
