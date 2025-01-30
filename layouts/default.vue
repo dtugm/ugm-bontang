@@ -19,19 +19,10 @@
           ></v-btn>
         </div>
         <template v-slot:append>
-          <div class="p-2">
-            <AppButtonSignOut />
-          </div>
+          <AppButtonSignOut />
         </template>
       </v-navigation-drawer>
     </div>
-    <!-- <v-app-bar :elevation="0">
-      <v-app-bar-nav-icon
-        variant="text"
-        @click.stop="drawer = !drawer"
-      ></v-app-bar-nav-icon>
-      <v-app-bar-title>Dashboard</v-app-bar-title>
-    </v-app-bar> -->
     <v-main class="bg-gray">
       <slot />
     </v-main>

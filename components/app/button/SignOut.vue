@@ -1,16 +1,13 @@
 <template>
-  <v-btn
-    block
-    class="text-none"
-    color="error"
-    prepend-icon="mdi-exit-run"
-    @click="signOutDialog = true"
-  >
-    Sign Out
-  </v-btn>
+  <v-list nav density="compact">
+    <v-list-item
+      title="Sign Out"
+      prepend-icon="mdi-exit-run"
+      @click="signOutDialog = true"
+    ></v-list-item>
+  </v-list>
   <AppDialog v-model="signOutDialog" title="Sign out" width="400">
     <v-card>
-      <!-- <v-card-title class="text-h5 grey lighten-2"> Sign Out? </v-card-title> -->
       <v-card-text> Are you sure u want to exit the app? </v-card-text>
       <v-card-actions>
         <v-btn

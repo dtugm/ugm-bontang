@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row align="stretch" class="">
       <v-col cols="12" sm="4">
         <DashboardEmployeePresensi />
