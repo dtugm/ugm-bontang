@@ -7,5 +7,5 @@ export const bontangLight = {
   warning: "#FFC109",
   text: "#5C5F66",
   gray: "#F3F3F3",
-  secondary: "#101010",
+  secondary: "#1D1D1B",
 };

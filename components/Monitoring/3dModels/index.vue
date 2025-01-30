@@ -1,29 +1,39 @@
 <template>
-  <div class="relative w-full">
+  <div class="relative h-screen w-full">
     <!-- Map Container -->
     <div id="map" class="h-full w-full z-0 pointer-events-auto"></div>
 
     <!-- Card -->
-    <div class="absolute top-4 right-4 p-4 w-80 z-10 pointer-events-auto">
-      <v-card>
+    <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
+      <v-card width="auto" variant="flat" class="shadow-lg">
         <v-card-title>Progress Peta Garis</v-card-title>
+        <v-card-subtitle>
+          {{ petaGarisStore?.totalArray.length }} done from 514
+        </v-card-subtitle>
         <v-card-text>
           <v-progress-circular
-            model-value="20"
-            :size="128"
-            :width="12"
-          ></v-progress-circular>
+            :model-value="petaGarisStore?.totalArray.length / 514"
+            :size="200"
+            :width="25"
+            color="success"
+            class="mb-1"
+          >
+            <p class="text-2xl font-semibold text-text">
+              {{
+                ((petaGarisStore?.totalArray.length / 514) * 100).toFixed(2)
+              }}%
+            </p>
+          </v-progress-circular>
+          <div class="flex gap-1 items-center">
+            <v-sheet :height="15" :width="15" color="success"></v-sheet>
+            <p>Done</p>
+          </div>
+          <div class="flex gap-1 items-center">
+            <v-sheet :height="15" :width="15" color="grey"></v-sheet>
+            <p>On Progress</p>
+          </div>
         </v-card-text>
       </v-card>
-      <!-- <h2 class="text-lg font-semibold">Informasi Peta</h2>
-      <p class="text-sm text-gray-600">
-        Ini adalah deskripsi singkat tentang peta.
-      </p>
-      <button
-        class="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-      >
-        Klik Saya
-      </button> -->
     </div>
   </div>
 </template>
@@ -47,9 +57,8 @@ onMounted(async () => {
     return;
   }
   const map = L.map("map").setView([latitude, longitude], zoomLevel);
-  L.tileLayer(tileLayerURL, {
+  L.tileLayer(osm, {
     maxZoom: 18,
-    attribution: "© Your Attribution",
   }).addTo(map);
   const response = await fetch("/AREA_PETA_GARIS.geojson");
   const area = await response.json();

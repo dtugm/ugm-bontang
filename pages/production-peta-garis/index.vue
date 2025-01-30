@@ -1,1 +1,5 @@
-<template>survey pbb</template>
+<template>
+  <div class="h-screen">
+    <ProductionPetaGaris />
+  </div>
+</template>

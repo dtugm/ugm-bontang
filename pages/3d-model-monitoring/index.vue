@@ -1,1 +1,3 @@
-<template>3d Model</template>
+<template>
+  <Monitoring3dModels />
+</template>

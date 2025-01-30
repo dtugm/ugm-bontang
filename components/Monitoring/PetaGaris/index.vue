@@ -7,7 +7,9 @@
     <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
       <v-card width="auto" variant="flat" class="shadow-lg">
         <v-card-title>Progress Peta Garis</v-card-title>
-        <v-card-subtitle>{{}}</v-card-subtitle>
+        <v-card-subtitle>
+          {{ petaGarisStore?.totalArray.length }} done from 514
+        </v-card-subtitle>
         <v-card-text>
           <v-progress-circular
             :model-value="petaGarisStore?.totalArray.length / 514"
@@ -24,23 +26,14 @@
           </v-progress-circular>
           <div class="flex gap-1 items-center">
             <v-sheet :height="15" :width="15" color="success"></v-sheet>
-            <p>Progress</p>
+            <p>Done</p>
           </div>
           <div class="flex gap-1 items-center">
             <v-sheet :height="15" :width="15" color="grey"></v-sheet>
-            <p>Coverage Area</p>
+            <p>On Progress</p>
           </div>
         </v-card-text>
       </v-card>
-      <!-- <h2 class="text-lg font-semibold">Informasi Peta</h2>
-      <p class="text-sm text-gray-600">
-        Ini adalah deskripsi singkat tentang peta.
-      </p>
-      <button
-        class="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-      >
-        Klik Saya
-      </button> -->
     </div>
   </div>
 </template>

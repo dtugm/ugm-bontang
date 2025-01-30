@@ -1,28 +1,30 @@
 <template>
-  <v-tabs
-    v-model="tab"
-    color="primary"
-    density="compact"
-    selected-class="font-weight-bold"
-  >
-    <v-tab
-      v-for="(item, index) in employee"
-      :key="index"
-      :value="item.id"
-      class="text-none"
+  <v-container>
+    <v-tabs
+      v-model="tab"
+      color="primary"
+      density="compact"
+      selected-class="font-weight-bold"
     >
-      {{ item.name }}
-    </v-tab>
-  </v-tabs>
-  <v-window v-model="tab">
-    <v-window-item
-      v-for="(item, index) in employee"
-      :key="index"
-      :value="item.id"
-    >
-      <DashboardPjEmployeeTable :employee="item" />
-    </v-window-item>
-  </v-window>
+      <v-tab
+        v-for="(item, index) in employee"
+        :key="index"
+        :value="item.id"
+        class="text-none"
+      >
+        {{ item.name }}
+      </v-tab>
+    </v-tabs>
+    <v-window v-model="tab">
+      <v-window-item
+        v-for="(item, index) in employee"
+        :key="index"
+        :value="item.id"
+      >
+        <DashboardPjEmployeeTable :employee="item" />
+      </v-window-item>
+    </v-window>
+  </v-container>
 </template>
 <script lang="ts" setup>
 import appMock from "~/app/mock/app.mock";

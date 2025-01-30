@@ -1,47 +1,37 @@
 <template>
-  <v-col>
-    <v-card>
-      <template #title>
-        Selamat Datang kembali,
-        <span class="text-primary font-bold">
-          {{
-            authStore.user?.displayName
-              ? authStore.user?.displayName
-              : authStore.user?.email
-          }}
-        </span>
-        <v-chip
-          class="ml-1"
-          :color="employeeStatus?.status ? 'success' : 'error'"
-          >{{ employeeStatus?.status ? "Checked In" : "Checked Out" }}</v-chip
-        >
-      </template>
-      <template #subtitle>
-        <p>Hari ini, {{ appStore.currentDate }}</p>
-      </template>
-      <template #text>
-        <div class="flex gap-2">
-          <AppButton
-            color="success"
-            append-icon="mdi-login"
-            label="Check In"
-            @click="checkInDialog = true"
-          />
-          <AppButton
-            variant="outlined"
-            color="error"
-            append-icon="mdi-logout"
-            label="Check Out"
-            @click="handleCheckOut"
-          />
-        </div>
-        <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
-      </template>
-    </v-card>
-  </v-col>
+  <v-card class="h-full">
+    <template v-slot:append>
+      <v-chip>Checked In</v-chip>
+    </template>
+    <template #title>
+      Hello,
+      <span class="text-primary font-bold">
+        {{
+          authStore.user?.displayName
+            ? authStore.user?.displayName
+            : authStore.user?.email
+        }}
+      </span>
+    </template>
+    <template #subtitle>
+      <p>Hari ini, {{ appStore.currentDate }}</p>
+    </template>
+    <template #text>
+      <div class="flex gap-2">
+        <AppButton color="success" append-icon="mdi-login" label="Check In" />
+        <AppButton
+          variant="outlined"
+          color="error"
+          append-icon="mdi-logout"
+          label="Check Out"
+        />
+      </div>
+      <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
+    </template>
+  </v-card>
 </template>
 <script lang="ts" setup>
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc } from "firebase/firestore";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
