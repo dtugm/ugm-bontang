@@ -1,6 +1,9 @@
 <template>
   <div class="h-screen">
-    <ProductionPetaGaris v-if="pj_user.includes(authStore.user.email)" />
+    <ProductionPjPetaGaris v-if="pj_user.includes(authStore.user.email)" />
+    <ProductionEmployeePetaGaris
+      v-if="employee_user.includes(authStore.user.email)"
+    />
   </div>
 </template>
 <script setup>

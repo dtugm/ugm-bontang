@@ -1,6 +1,9 @@
 <template>
   <div class="h-screen">
-    <ProductionSurveyPbb v-if="pj_user.includes(authStore.user.email)" />
+    <ProductionPjSurveyPbb v-if="pj_user.includes(authStore.user.email)" />
+    <ProductionEmployeeSurveyPbb
+      v-if="employee_user.includes(authStore.user.email)"
+    />
   </div>
 </template>
 <script setup>
