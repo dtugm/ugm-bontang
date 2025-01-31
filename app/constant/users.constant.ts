@@ -27,4 +27,5 @@ export default {
     "michaelkrisna1975@mail.ugm.ac.id",
     "test1@gmail.com",
   ],
+  superadmin_user: ["superadmin@gmail.com"],
 };
