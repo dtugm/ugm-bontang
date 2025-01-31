@@ -12,6 +12,7 @@
         </v-card-subtitle>
         <v-card-text>
           <v-progress-circular
+            v-if="!isMobile"
             :model-value="petaGarisStore?.totalArray.length / 514"
             :size="200"
             :width="25"
@@ -24,6 +25,23 @@
               }}%
             </p>
           </v-progress-circular>
+          <v-progress-linear
+            v-if="isMobile"
+            :model-value="(petaGarisStore?.totalArray.length / 514) * 100"
+            :height="12"
+            :width="25"
+            color="success"
+            class="mb-1"
+          >
+            <template v-slot:default="{ value }">
+              <strong>{{ Math.ceil(value) }}%</strong>
+            </template>
+            <!-- <p class="text-2xl font-semibold text-text">
+              {{
+                ((petaGarisStore?.totalArray.length / 514) * 100).toFixed(2)
+              }}%
+            </p> -->
+          </v-progress-linear>
           <div class="flex gap-1 items-center">
             <v-sheet :height="15" :width="15" color="success"></v-sheet>
             <p>Done</p>
@@ -86,5 +104,18 @@ onMounted(async () => {
       }),
     }).addTo(map);
   });
+});
+const isMobile = ref(window.innerWidth < 768);
+
+const updateScreenSize = () => {
+  isMobile.value = window.innerWidth < 768;
+};
+
+onMounted(() => {
+  window.addEventListener("resize", updateScreenSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateScreenSize);
 });
 </script>
