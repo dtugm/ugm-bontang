@@ -46,7 +46,6 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import { DashboardPjProgressCardPetaGaris } from "#components";
 import pjConstant from "~/app/constant/pj.constant";
 const header: any = pjConstant.employeeStatusHeader;
 const mockDataStatus = [

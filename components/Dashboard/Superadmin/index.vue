@@ -2,26 +2,35 @@
   <v-container fluid class="h-full">
     <v-row>
       <v-col cols="12" sm="4">
-        <AppCardInformation />
+        <AppCardInformation title="Peta Garis" :target-value="514" icon="" />
       </v-col>
       <v-col cols="12" sm="4">
-        <AppCardInformation />
+        <AppCardInformation
+          title="3D Models"
+          :target-value="320"
+          icon="mdi-cube-outline"
+        />
       </v-col>
       <v-col cols="12" sm="4">
-        <AppCardInformation />
+        <AppCardInformation
+          title="Survey PBB"
+          :target-value="13000"
+          icon="mdi-cube-outline"
+          value-unit="persil"
+        />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" sm="9">
         <v-row>
           <v-col cols="12" sm="4">
-            <AppCardProgressCircular />
+            <DashboardPjProgressCardPetaGaris />
           </v-col>
           <v-col cols="12" sm="4">
-            <AppCardProgressCircular />
+            <DashboardPjProgressCard3dModels />
           </v-col>
           <v-col cols="12" sm="4">
-            <AppCardProgressCircular />
+            <DashboardPjProgressCardSurverPbb />
           </v-col>
           <v-col cols="12" sm="12">
             <v-card variant="flat" class="h-[calc(100vh-124px-347.88px-30px)]">

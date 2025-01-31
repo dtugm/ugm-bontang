@@ -46,6 +46,7 @@ export default {
       email: "lirifaasmarani@gmail.com",
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
+      hasil: 24,
     },
     {
       id: "e2",
@@ -53,6 +54,7 @@ export default {
       email: "anisaputri1006@gmail.com",
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
+      hasil: 16,
     },
     {
       id: "e3",
@@ -60,6 +62,7 @@ export default {
       email: "angsokanovita@gmail.com",
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
+      hasil: 36,
     },
     {
       id: "e4",
@@ -67,6 +70,7 @@ export default {
       email: "safiraardelia25@gmail.com",
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
+      hasil: 25,
     },
     {
       id: "e5",
@@ -74,6 +78,7 @@ export default {
       email: "indahfitriyaa11@gmail.com",
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
+      hasil: 21,
     },
     {
       id: "e6",
@@ -81,6 +86,7 @@ export default {
       email: "yeniikawati99@gmail.com",
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
+      hasil: 50,
     },
     {
       id: "e7",
@@ -88,6 +94,7 @@ export default {
       email: "annisa.rizky.kusuma04@gmail.com",
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
+      hasil: 27,
     },
     {
       id: "e8",
@@ -95,6 +102,7 @@ export default {
       email: "shintapuspam43@gmail.com",
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
+      hasil: 22,
     },
     {
       id: "e9",
@@ -102,6 +110,7 @@ export default {
       email: "devizulfa77@gmail.com",
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
+      hasil: 20,
     },
     {
       id: "e10",
@@ -109,6 +118,7 @@ export default {
       email: "99nabilla@gmail.com",
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
+      hasil: 20,
     },
     {
       id: "e11",
@@ -116,6 +126,7 @@ export default {
       email: "ainun.nisa.rezika@mail.ugm.ac.id",
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
+      hasil: 20,
     },
     {
       id: "e12",
@@ -123,6 +134,7 @@ export default {
       email: "endangretnonurhayati@gmail.com",
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
+      hasil: 78,
     },
     {
       id: "e13",
@@ -130,6 +142,7 @@ export default {
       email: "suzitessa99@gmail.com",
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
+      hasil: 12,
     },
     {
       id: "e14",
@@ -137,6 +150,7 @@ export default {
       email: "zaldywegy@gmail.com",
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
+      hasil: 54,
     },
     {
       id: "e15",
@@ -144,6 +158,7 @@ export default {
       email: "chrisyal9@gmail.com",
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
+      hasil: 13,
     },
     {
       id: "e16",
@@ -151,6 +166,7 @@ export default {
       email: "farryhandika.n79@gmail.com",
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
+      hasil: 30,
     },
     {
       id: "e17",
@@ -158,6 +174,7 @@ export default {
       email: "prabarian09@gmail.com",
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
+      hasil: 21,
     },
     {
       id: "e18",
@@ -165,6 +182,7 @@ export default {
       email: "michaelkrisna1975@mail.ugm.ac.id",
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
+      hasil: 25,
     },
   ],
 };
