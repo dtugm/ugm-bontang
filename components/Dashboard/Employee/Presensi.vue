@@ -90,11 +90,8 @@
   </AppDialog>
 </template>
 <script lang="ts" setup>
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc } from "firebase/firestore";
 import { useDocument, useFirestore } from "vuefire";
-import petaGarisConstant from "~/app/constant/petaGaris.constant";
-import petaGarisMock from "~/app/mock/petaGaris.mock";
-import progressMock from "~/app/mock/progress.mock";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();

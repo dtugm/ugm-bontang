@@ -1,7 +1,7 @@
 <template>
-  <v-card class="h-full">
+  <v-card variant="flat">
     <template v-slot:append>
-      <v-chip>Checked In</v-chip>
+      <v-chip label :color="presensiColor()">{{ presensiText() }}</v-chip>
     </template>
     <template #title>
       Hello,
@@ -18,15 +18,21 @@
     </template>
     <template #text>
       <div class="flex gap-2">
-        <AppButton color="success" append-icon="mdi-login" label="Check In" />
         <AppButton
+          density="comfortable"
+          color="success"
+          append-icon="mdi-login"
+          label="Check In"
+        />
+        <AppButton
+          density="comfortable"
           variant="outlined"
           color="error"
           append-icon="mdi-logout"
           label="Check Out"
         />
       </div>
-      <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
+      <!-- <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p> -->
     </template>
   </v-card>
 </template>

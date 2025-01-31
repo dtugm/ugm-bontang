@@ -1,20 +1,23 @@
 <template>
   <v-container fluid class="h-full">
     <v-row>
-      <v-col cols="12" sm="7">
-        <v-card title="Peta Garis" variant="flat" color="secondary">
+      <v-col cols="12" sm="5">
+        <DashboardPjPresensiCard />
+      </v-col>
+      <v-col cols="12" sm="3">
+        <v-card title="Jumlah Masuk" variant="flat" class="h-full">
           <v-card-text>
             <div class="d-flex flex-no-wrap justify-space-between items-center">
-              <AppTextH5 color="white">123</AppTextH5>
+              <AppTextH5>123</AppTextH5>
             </div>
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="5">
-        <v-card title="To Do Review" variant="flat" color="secondary">
+      <v-col cols="12" sm="4">
+        <v-card title="To Do Review" variant="flat" class="h-full">
           <v-card-text>
             <div class="d-flex flex-no-wrap justify-space-between items-center">
-              <AppTextH5 color="white">123</AppTextH5>
+              <AppTextH5>123</AppTextH5>
             </div>
           </v-card-text>
         </v-card>
@@ -23,18 +26,27 @@
     <v-row>
       <v-col cols="12" sm="9">
         <v-row>
-          <v-col cols="12" sm="3">
-            <v-card title="Active Personil"></v-card>
+          <!-- <v-col cols="12" sm="4">
+            <v-card title="To Do Review" variant="flat">
+              <v-card-text>
+                <AppTextH5>123</AppTextH5>
+              </v-card-text>
+            </v-card>
           </v-col>
-          <v-col cols="12" sm="3">
-            <v-card title="Active Personil"></v-card>
+          <v-col cols="12" sm="4">
+            <v-card title="To Do Review" variant="flat">
+              <v-card-text>
+                <AppTextH5>123</AppTextH5>
+              </v-card-text>
+            </v-card>
           </v-col>
-          <v-col cols="12" sm="3">
-            <v-card title="Active Personil"></v-card>
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-card title="Active Personil"></v-card>
-          </v-col>
+          <v-col cols="12" sm="4">
+            <v-card title="To Do Review" variant="flat">
+              <v-card-text>
+                <AppTextH5>123</AppTextH5>
+              </v-card-text>
+            </v-card>
+          </v-col> -->
 
           <v-col cols="12" sm="4">
             <AppCardProgressCircular />
@@ -44,6 +56,15 @@
           </v-col>
           <v-col cols="12" sm="4">
             <AppCardProgressCircular />
+          </v-col>
+          <v-col cols="12" sm="12">
+            <v-card
+              title="Aktivitas Tim"
+              variant="flat"
+              class="h-[calc(100vh-124px-347.88px-33px)]"
+            >
+              <v-data-table></v-data-table>
+            </v-card>
           </v-col>
         </v-row>
       </v-col>

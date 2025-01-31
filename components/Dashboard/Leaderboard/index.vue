@@ -18,13 +18,10 @@
       <v-tabs-window-item value="3d_models">
         <DashboardLeaderboard3dModels />
       </v-tabs-window-item>
-      <v-tabs-window-item value="survey_pbb"> </v-tabs-window-item>
     </v-tabs-window>
   </v-card>
 </template>
 <script>
-import { DashboardLeaderboard } from "#components";
-
 export default {
   data() {
     return {
