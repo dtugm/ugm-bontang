@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout class="font-default">
+  <NuxtLayout class="font-sans">
     <NuxtPage />
   </NuxtLayout>
 </template>

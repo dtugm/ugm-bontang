@@ -2,7 +2,11 @@
   <v-container fluid class="h-full">
     <v-row>
       <v-col cols="12" sm="4">
-        <AppCardInformation title="Peta Garis" :target-value="514" icon="" />
+        <AppCardInformation
+          title="Peta Garis"
+          :target-value="514"
+          icon="mdi-map"
+        />
       </v-col>
       <v-col cols="12" sm="4">
         <AppCardInformation
