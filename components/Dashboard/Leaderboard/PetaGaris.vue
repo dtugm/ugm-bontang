@@ -1,5 +1,5 @@
 <template>
-  <v-list nav class="h-[calc(100vh-124px-80px)]" lines="two">
+  <v-list nav class="h-[calc(100vh-124px-100px)]" lines="two">
     <v-list-item
       v-for="(item, index) in 18"
       :key="index"

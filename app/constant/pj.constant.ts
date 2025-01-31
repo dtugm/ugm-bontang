@@ -7,4 +7,15 @@ export default {
     { title: "Files", value: "file" },
     { title: "Action", value: "action", width: "200px", align: "center" },
   ],
+  employeeStatusHeader: [
+    { title: "Nama", value: "nama", width: "200px", align: "center" },
+    { title: "Email", value: "email", width: "200px", align: "center" },
+    { title: "Lokasi", value: "Lokasi", width: "200px", align: "center" },
+    {
+      title: "Status Kehadiran",
+      value: "Status",
+      width: "200px",
+      align: "center",
+    },
+  ],
 };

@@ -1,7 +1,11 @@
 <template>
   <v-list>
     <v-list-item
-      prepend-avatar="/logo/HD-wallpaper-squid-game-worker-art.jpg"
+      :prepend-avatar="
+        authStore.user.email
+          ? '/logo/frontman_2.jpg'
+          : '/logo/HD-wallpaper-squid-game-worker-art.jpg'
+      "
       :subtitle="authStore.user.email"
       :title="authStore.user.displayName"
     ></v-list-item>
@@ -26,7 +30,7 @@
           :prepend-icon="subMenu.prepend_icon"
           :title="subMenu.title"
           :value="subMenu.path"
-          active-class="bg-error"
+          active-class="bg-primary"
         ></v-list-item>
       </v-list-group>
       <v-list-item
@@ -35,7 +39,7 @@
         :title="menu.title"
         :value="menu.path"
         :active="menu.path === selectedTab"
-        active-class="bg-error"
+        active-class="bg-primary"
       ></v-list-item>
     </template>
   </v-list>
