@@ -49,10 +49,22 @@ import appConstant from "~/app/constant/app.constant";
 import usersConstant from "~/app/constant/users.constant";
 const authStore: any = useAuthStore();
 const selectedTab = ref("/");
+const arrays = [
+  usersConstant.employee_user,
+  usersConstant.pj_user,
+  usersConstant.superadmin_user,
+];
+const menuMap: any = {
+  0: appConstant.employee_menus,
+  1: appConstant.menus,
+  2: appConstant.menus,
+};
+const foundIndexes: any = arrays
+  .map((arr, index) => (arr.includes(authStore.user?.email) ? index : -1))
+  .filter((index) => index !== -1);
+
 const menus: any = computed(() => {
-  return usersConstant.pj_user.includes(authStore.user?.email)
-    ? appConstant.menus
-    : appConstant.employee_menus;
+  return menuMap[foundIndexes];
 });
 const changePage = (item: any) => {
   selectedTab.value = item[0];

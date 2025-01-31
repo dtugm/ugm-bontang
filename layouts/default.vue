@@ -10,7 +10,7 @@
         <div class="absolute w-full">
           <AppSidebar />
         </div>
-        <div class="absolute -right-3 z-50 top-14">
+        <div class="absolute md:-right-3 -right-5 z-50 top-12">
           <v-btn
             color="grey"
             :icon="rail ? 'mdi-chevron-right' : 'mdi-chevron-left'"
