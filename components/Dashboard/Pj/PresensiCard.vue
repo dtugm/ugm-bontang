@@ -14,7 +14,7 @@
       </span>
     </template>
     <template #subtitle>
-      <p>Hari ini, {{ appStore.currentDate }}</p>
+      <p>Hari ini, {{ appStore.currentDate() }}</p>
     </template>
     <template #text>
       <div class="flex gap-2">
@@ -33,7 +33,7 @@
         />
         <AppButton label="Izin" color="primary" @click="izinDialog = true" />
       </div>
-      <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
+      <!-- <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p> -->
     </template>
   </v-card>
   <AppDialog v-model="checkInDialog" width="500">
@@ -119,6 +119,7 @@ import { useDocument, useFirestore } from "vuefire";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
+
 const employeeStore = useEmployeeStore();
 const work_type = ref();
 const izin_type = ref();
