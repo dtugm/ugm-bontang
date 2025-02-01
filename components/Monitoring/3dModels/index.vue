@@ -1,90 +1,66 @@
 <template>
   <div class="relative h-screen w-full">
     <!-- Map Container -->
-    <div id="map" class="h-full w-full z-0 pointer-events-auto"></div>
+    <div id="3dMap" class="h-full w-full z-0 pointer-events-auto"></div>
 
     <!-- Card -->
     <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
-      <v-card width="auto" variant="flat" class="shadow-lg">
-        <v-card-title>Progress Peta Garis</v-card-title>
-        <v-card-subtitle>
-          {{ petaGarisStore?.totalArray.length }} done from 514
-        </v-card-subtitle>
-        <v-card-text>
-          <v-progress-circular
-            :model-value="petaGarisStore?.totalArray.length / 514"
-            :size="200"
-            :width="25"
-            color="success"
-            class="mb-1"
-          >
-            <p class="text-2xl font-semibold text-text">
-              {{
-                ((petaGarisStore?.totalArray.length / 514) * 100).toFixed(2)
-              }}%
-            </p>
-          </v-progress-circular>
-          <div class="flex gap-1 items-center">
-            <v-sheet :height="15" :width="15" color="success"></v-sheet>
-            <p>Done</p>
-          </div>
-          <div class="flex gap-1 items-center">
-            <v-sheet :height="15" :width="15" color="grey"></v-sheet>
-            <p>On Progress</p>
-          </div>
-        </v-card-text>
-      </v-card>
+      <DashboardPjProgressCard3dModels />
     </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted } from "vue";
-import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import L from "leaflet";
 const latitude = 0.12505772302512846;
 const longitude = 117.48004699561473;
 const zoomLevel = 13;
-const tileLayerURL =
+const osm =
   "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-const osm = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-const areaColors = petaGarisConstant.areaColors;
-const petaGarisStore = usePetaGarisStore();
+async function addGeoJson(url, map, style) {
+  await fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      L.geoJSON(data, style).addTo(map);
+    });
+}
+const geoJsonFiles = [
+  "Blok_A",
+  "Blok_B",
+  "Blok_C",
+  "Blok_D",
+  "Blok_F",
+  "Blok_G",
+  "Blok_H",
+  "Blok_I",
+  "Blok_J",
+  "Blok_K",
+  "Blok_L",
+  "Blok_M",
+];
 onMounted(async () => {
-  const mapElement = document.getElementById("map");
+  const mapElement = document.getElementById("3dMap");
   if (!mapElement) {
     console.error("Elemen map tidak ditemukan");
     return;
   }
-  const map = L.map("map").setView([latitude, longitude], zoomLevel);
+  const map = L.map("3dMap").setView([latitude, longitude], zoomLevel);
   L.tileLayer(osm, {
     maxZoom: 18,
   }).addTo(map);
-  const response = await fetch("/AREA_PETA_GARIS.geojson");
-  const area = await response.json();
-  const responseGrid = await fetch("/GRID_PETA_GARIS.geojson");
-  const grid = await responseGrid.json();
-  petaGarisStore.queryAll().then(async () => {
-    const gridGeoJson = L.geoJson(grid, {
+
+  addGeoJson("/new_bontang.geojson", map, {
+    style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
+  });
+  geoJsonFiles.forEach((blok) => {
+    addGeoJson(`/3d/${blok}.geojson`, map, {
       style: (feature) => ({
-        fillColor: petaGarisStore?.totalArray.some(
-          (item) =>
-            item.GRID === feature?.properties?.GRID && // Pastikan GRID ada
-            Number(item.bagi_18) === feature?.properties?.bagi_18 // Pastikan bagi_18 ada
-        )
-          ? "green"
-          : "rgba(139, 146, 152, 1)",
-        fillOpacity: petaGarisStore?.totalArray.some(
-          (item) =>
-            item.GRID === feature?.properties?.GRID && // Pastikan GRID ada
-            Number(item.bagi_18) === feature?.properties?.bagi_18 // Pastikan bagi_18 ada
-        )
-          ? 1
-          : 0.5,
+        fillColor: "rgba(139, 146, 152, 1)",
+        fillOpacity: 0.5,
         color: "white",
-        opacity: 1,
       }),
-    }).addTo(map);
+    });
   });
 });
 </script>

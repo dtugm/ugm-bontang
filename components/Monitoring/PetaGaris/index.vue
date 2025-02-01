@@ -3,7 +3,6 @@
     <!-- Map Container -->
     <div id="map" class="h-full w-full z-0 pointer-events-auto"></div>
 
-    <!-- Card -->
     <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
       <v-card width="auto" variant="flat" class="shadow-lg">
         <v-card-title>Progress Peta Garis</v-card-title>
@@ -36,11 +35,6 @@
             <template v-slot:default="{ value }">
               <strong>{{ Math.ceil(value) }}%</strong>
             </template>
-            <!-- <p class="text-2xl font-semibold text-text">
-              {{
-                ((petaGarisStore?.totalArray.length / 514) * 100).toFixed(2)
-              }}%
-            </p> -->
           </v-progress-linear>
           <div class="flex gap-1 items-center">
             <v-sheet :height="15" :width="15" color="success"></v-sheet>
@@ -66,7 +60,6 @@ const zoomLevel = 13;
 const tileLayerURL =
   "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 const osm = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-const areaColors = petaGarisConstant.areaColors;
 const petaGarisStore = usePetaGarisStore();
 onMounted(async () => {
   const mapElement = document.getElementById("map");
@@ -78,9 +71,9 @@ onMounted(async () => {
   L.tileLayer(osm, {
     maxZoom: 18,
   }).addTo(map);
-  const response = await fetch("/AREA_PETA_GARIS.geojson");
+  const response = await fetch("/petagaris/AREA_PETA_GARIS.geojson");
   const area = await response.json();
-  const responseGrid = await fetch("/GRID_PETA_GARIS.geojson");
+  const responseGrid = await fetch("/petagaris/GRID_PETA_GARIS.geojson");
   const grid = await responseGrid.json();
   petaGarisStore.queryAll().then(async () => {
     const gridGeoJson = L.geoJson(grid, {

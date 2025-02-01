@@ -29,9 +29,9 @@ const zoom = ref(15);
 const db = getFirestore();
 const surveyStore = useSurveyStore();
 const geoStyler = (feature) => ({
-  fillColor: checkFeature(feature) ? "rgb(39,214,0,1)" : "rgba(0, 0, 0, 0)",
-  fillOpacity: 1,
-  color: "yellow",
+  fillColor: checkFeature(feature) ? "green" : "rgba(139, 146, 152, 1)",
+  fillOpacity: checkFeature(feature) ? 1 : 0.5,
+  color: "white",
   weight: 4,
 });
 const geojsonKey = ref(0);

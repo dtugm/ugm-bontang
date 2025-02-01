@@ -115,4 +115,8 @@ export default {
       ],
     },
   ],
+  location: {
+    longitude: 0.12505772302512846,
+    latitude: 117.48004699561473,
+  },
 };
