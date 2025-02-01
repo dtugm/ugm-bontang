@@ -7,7 +7,7 @@ export default {
     },
     {
       prepend_icon: "mdi-monitor-multiple",
-      title: "Monitoring Studio",
+      title: "Studio",
       sub_menu: [
         {
           prepend_icon: "mdi-map",
@@ -23,16 +23,16 @@ export default {
     },
     {
       prepend_icon: "mdi-earth",
-      title: "Monitoring Lapangan",
+      title: "Survey PBB",
       sub_menu: [
         {
           prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Suvey PBB",
+          title: "Bumi",
           path: "/survey-monitoring",
         },
         {
           prepend_icon: "mdi-office-building",
-          title: "Building Outline",
+          title: "Bangunan",
           path: "/building-monitoring",
         },
       ],

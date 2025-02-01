@@ -5,7 +5,9 @@
 
     <!-- Card -->
     <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
-      <DashboardPjProgressCard3dModels />
+      <DashboardPjProgressCard3dModels
+        class="w-[calc(100vw-70px)] md:w-[300px]"
+      />
     </div>
   </div>
 </template>

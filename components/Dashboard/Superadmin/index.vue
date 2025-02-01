@@ -19,7 +19,7 @@
         <AppCardInformation
           title="Survey PBB"
           :target-value="13000"
-          icon="mdi-cube-outline"
+          icon="mdi-earth"
           value-unit="persil"
         />
       </v-col>

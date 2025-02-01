@@ -4,48 +4,9 @@
     <div id="map" class="h-full w-full z-0 pointer-events-auto"></div>
 
     <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
-      <v-card width="auto" variant="flat" class="shadow-lg">
-        <v-card-title>Progress Peta Garis</v-card-title>
-        <v-card-subtitle>
-          {{ petaGarisStore?.totalArray.length }} done from 514
-        </v-card-subtitle>
-        <v-card-text>
-          <v-progress-circular
-            v-if="!isMobile"
-            :model-value="(petaGarisStore?.totalArray.length / 514) * 100"
-            :size="200"
-            :width="25"
-            color="success"
-            class="mb-1"
-          >
-            <p class="text-2xl font-semibold text-text">
-              {{
-                ((petaGarisStore?.totalArray.length / 514) * 100).toFixed(2)
-              }}%
-            </p>
-          </v-progress-circular>
-          <v-progress-linear
-            v-if="isMobile"
-            :model-value="(petaGarisStore?.totalArray.length / 514) * 100"
-            :height="12"
-            :width="25"
-            color="success"
-            class="mb-1"
-          >
-            <template v-slot:default="{ value }">
-              <strong>{{ Math.ceil(value) }}%</strong>
-            </template>
-          </v-progress-linear>
-          <div class="flex gap-1 items-center">
-            <v-sheet :height="15" :width="15" color="success"></v-sheet>
-            <p>Done</p>
-          </div>
-          <div class="flex gap-1 items-center">
-            <v-sheet :height="15" :width="15" color="grey"></v-sheet>
-            <p>On Progress</p>
-          </div>
-        </v-card-text>
-      </v-card>
+      <DashboardPjProgressCardPetaGaris
+        class="w-[calc(100vw-70px)] md:w-[300px]"
+      />
     </div>
   </div>
 </template>

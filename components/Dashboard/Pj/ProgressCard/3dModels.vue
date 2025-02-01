@@ -1,7 +1,7 @@
 <template>
   <AppCardProgressCircular
     title="3d Models"
-    :value="petaGarisStore.totalGrid"
+    :value="0"
     done-color="info"
     :target-value="514"
   />

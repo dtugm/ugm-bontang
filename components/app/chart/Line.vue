@@ -2,7 +2,7 @@
   <Line class="h-full" :data="data" :options="options" />
 </template>
 
-<script lang="ts">
+<script>
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -45,7 +45,8 @@ export default {
         datasets: [
           {
             label: "Peta Garis",
-            backgroundColor: "#f87979",
+            backgroundColor: "#EB0E44",
+            borderColor: "#EB0E44",
             data: [10, 80, 40, 70, 46, 90, 50],
             fill: true,
             radius: 0,
@@ -54,7 +55,8 @@ export default {
           },
           {
             label: "3d Models",
-            backgroundColor: "#f87979",
+            backgroundColor: "#228BE6",
+            borderColor: "#228BE6",
             data: [10, 70, 30, 60, 33, 80, 40],
             fill: true,
             radius: 0,
@@ -63,7 +65,8 @@ export default {
           },
           {
             label: "Survey PBB",
-            backgroundColor: "#f87979",
+            backgroundColor: "#4CAF50",
+            borderColor: "#4CAF50",
             data: [10, 80, 50, 60, 30, 80, 40],
             fill: true,
             radius: 0,
