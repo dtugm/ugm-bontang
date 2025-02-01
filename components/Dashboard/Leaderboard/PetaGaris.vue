@@ -9,17 +9,21 @@
       <template #subtitle>
         <v-progress-linear
           color="primary"
-          :model-value="leaderBoard[item.id]"
-          :height="12"
+          :model-value="(leaderBoard[item.id] / item.hasil) * 100"
+          :height="10"
           rounded
-        ></v-progress-linear>
+        >
+          <template v-slot:default="{ value }">
+            <strong>{{ isNaN(value) ? 0 : Math.ceil(value) }}%</strong>
+          </template></v-progress-linear
+        >
       </template>
     </v-list-item>
   </v-list>
 </template>
 <script lang="ts" setup>
 import appMock from "~/app/mock/app.mock";
-const employee = appMock.employee;
+const employee: any = appMock.employee;
 const petaGarisStore = usePetaGarisStore();
 const leaderBoard: any = computed(() => {
   return petaGarisStore.leaderBoard;
