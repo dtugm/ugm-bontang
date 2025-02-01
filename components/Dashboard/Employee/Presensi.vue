@@ -1,5 +1,5 @@
 <template>
-  <v-card class="h-full" variant="outlined">
+  <v-card class="h-full" variant="flat">
     <template v-slot:append>
       <v-chip :color="presensiColor()">{{ presensiText() }}</v-chip>
     </template>
@@ -31,6 +31,7 @@
           label="Check Out"
           @click="checkOutDialog = true"
         />
+        <AppButton label="Izin" color="primary" @click="izinDialog = true" />
       </div>
       <p class="text-text text-md mt-1">Office Hour (08.30 - 17.00)</p>
     </template>
@@ -67,6 +68,29 @@
       </v-card-actions>
     </v-form>
   </AppDialog>
+  <AppDialog v-model="izinDialog" width="500">
+    <v-form id="izinForm" ref="formRef" @submit.prevent="handleIzin()">
+      <v-card-text>
+        <AppInputAutocomplete
+          v-model="izin_type"
+          is-filter
+          hide-details
+          label="Alasan Izin"
+          :items="['Sakit', 'Izin']"
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <AppButton
+          label="Cancel"
+          color="info"
+          variant="outlined"
+          @click="checkInDialog = false"
+        />
+        <AppButton form="izinForm" label="Izin" color="primary" type="submit" />
+      </v-card-actions>
+    </v-form>
+  </AppDialog>
   <AppDialog v-model="checkOutDialog" width="400">
     <v-card-text>
       <p class="text-text">
@@ -97,9 +121,11 @@ const authStore = useAuthStore();
 const appStore = useAppStore();
 const employeeStore = useEmployeeStore();
 const work_type = ref();
+const izin_type = ref();
 const checkInDialog = ref(false);
+const izinDialog = ref(false);
 const employeeStatus: any = useDocument(
-  doc(collection(db, "attendance"), authStore.user?.uid)
+  doc(collection(db, "employee"), authStore.user?.uid)
 );
 const presensiText = () => {
   return employeeStatus.value?.status ? "Checked In" : "Checked Out";
@@ -111,6 +137,7 @@ const handleSubmitCheckIn = async () => {
   const payload = {
     work_type: work_type.value,
     status: true,
+    statusKerja: true,
   };
   await employeeStore
     .updateAttendance("check_in_time", authStore.user?.uid, payload)
@@ -122,9 +149,22 @@ const checkOutDialog = ref(false);
 const handleSubmitCheckOut = async () => {
   const payload = {
     status: false,
+    statusKerja: true,
   };
   await employeeStore
     .updateAttendance("check_out_time", authStore.user?.uid, payload)
+    .then(() => {
+      checkOutDialog.value = false;
+    });
+};
+const handleIzin = async () => {
+  const payload = {
+    izin_type: izin_type.value,
+    status: false,
+    statusKerja: false,
+  };
+  await employeeStore
+    .updateAttendance("izin_time", authStore.user?.uid, payload)
     .then(() => {
       checkOutDialog.value = false;
     });

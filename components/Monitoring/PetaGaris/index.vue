@@ -52,7 +52,7 @@
 
 <script setup>
 import { onMounted } from "vue";
-import petaGarisConstant from "~/app/constant/petaGaris.constant";
+
 import L from "leaflet";
 const latitude = 0.12505772302512846;
 const longitude = 117.48004699561473;

@@ -20,9 +20,13 @@ export const useEmployeeStore = defineStore("employee", () => {
     userId: any,
     data: any
   ) => {
+    const employeeRef = collection(db, "employee");
+    const employeeDoc = doc(employeeRef, userId);
+    const logPresensiRef = collection(employeeDoc, "presensi_log");
+
     try {
       await setDoc(
-        doc(db, "attendance", userId),
+        employeeDoc,
         {
           ...data,
           user_id: authStore.user?.uid,
@@ -33,9 +37,34 @@ export const useEmployeeStore = defineStore("employee", () => {
           [check_type]: new Date().toLocaleTimeString("id-ID", options),
         },
         { merge: true }
-      ).then(() => {
+      ).then(async () => {
         toast.success("Berhasil Memperbarui Status Presensi");
       });
+      const now = new Date();
+      const waktuIndonesia = now.toLocaleDateString("id-ID", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: "Asia/Jakarta",
+      });
+      const jamIndo = now.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false, // Gunakan format 24 jam
+        timeZone: "Asia/Jakarta", // Sesuaikan dengan zona waktu yang diinginkan
+      });
+      const formattedDate = waktuIndonesia.split("/").reverse().join("-");
+      const formattedJam = jamIndo.split("/").reverse().join("-");
+
+      await setDoc(
+        doc(logPresensiRef, formattedDate),
+        {
+          ...data,
+          [check_type]: formattedJam,
+        },
+        { merge: true }
+      );
     } catch (e) {
       toast.error("Gagal Melakukan Presensi :(");
     }
