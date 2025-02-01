@@ -3,6 +3,7 @@ import { collectionGroup, getDocs, query, where } from "firebase/firestore";
 export const usePetaGarisStore = defineStore("petaGaris", () => {
   const totalGrid: any = ref(0);
   const totalArray: any = ref([]);
+  const leaderBoard = ref({});
   const queryAll = async () => {
     const db = useFirestore();
     const tasksQuery = query(
@@ -10,14 +11,30 @@ export const usePetaGarisStore = defineStore("petaGaris", () => {
       where("status", "==", 3)
     );
     const tasksSnapshot = await getDocs(tasksQuery);
-    totalArray.value = tasksSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    totalGrid.value = tasksSnapshot.docs.length;
+    const taskCount: any = {};
+    let results: any = [];
+    tasksSnapshot.forEach((doc) => {
+      const taskData = doc.data();
+      const taskId = doc.id;
+      const fullPath = doc.ref.path;
+      const employeeId = fullPath.split("/")[3];
+      if (!taskCount[employeeId]) {
+        taskCount[employeeId] = 0;
+      }
+      taskCount[employeeId]++;
+      results.push({
+        employeeId,
+        taskId,
+        ...taskData,
+      });
+    });
+    totalGrid.value = results.length;
+    totalArray.value = results;
+    leaderBoard.value = taskCount;
   };
   queryAll();
   return {
+    leaderBoard,
     totalGrid,
     totalArray,
     queryAll,

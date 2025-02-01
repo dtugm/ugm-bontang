@@ -7,13 +7,8 @@ export default {
     },
     {
       prepend_icon: "mdi-monitor-multiple",
-      title: "Monitoring",
+      title: "Monitoring Studio",
       sub_menu: [
-        {
-          prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Suvey PBB",
-          path: "/survey-monitoring",
-        },
         {
           prepend_icon: "mdi-map",
           title: "Peta Garis",
@@ -28,22 +23,17 @@ export default {
     },
     {
       prepend_icon: "mdi-earth",
-      title: "Progress",
+      title: "Monitoring Lapangan",
       sub_menu: [
         {
           prepend_icon: "mdi-receipt-text-edit-outline",
           title: "Suvey PBB",
-          path: "/production-survey-pbb",
+          path: "/survey-monitoring",
         },
         {
-          prepend_icon: "mdi-map",
-          title: "Peta Garis",
-          path: "/production-peta-garis",
-        },
-        {
-          prepend_icon: "mdi-cube-outline",
-          title: "3D Models",
-          path: "/production-3d-models",
+          prepend_icon: "mdi-office-building",
+          title: "Building Outline",
+          path: "/building-monitoring",
         },
       ],
     },
@@ -104,9 +94,25 @@ export default {
       ],
     },
     {
-      prepend_icon: "mdi-account-multiple",
-      title: "Employee Management",
-      path: "/employee-management",
+      prepend_icon: "mdi-database-edit",
+      title: "Progress",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-receipt-text-edit-outline",
+          title: "Suvey PBB",
+          path: "/production-survey-pbb",
+        },
+        {
+          prepend_icon: "mdi-map",
+          title: "Peta Garis",
+          path: "/production-peta-garis",
+        },
+        {
+          prepend_icon: "mdi-cube-outline",
+          title: "3D Models",
+          path: "/production-3d-models",
+        },
+      ],
     },
   ],
 };

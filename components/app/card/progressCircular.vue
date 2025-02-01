@@ -12,7 +12,7 @@
           class="mb-1"
         >
           <p class="text-2xl font-semibold text-text">
-            {{ ((value / targetValue) * 100).toFixed() }}%
+            {{ ((value / targetValue) * 100).toFixed(2) }}%
           </p>
         </v-progress-circular>
       </div>

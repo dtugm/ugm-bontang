@@ -1,13 +1,8 @@
 <template>
   <AppCardProgressCircular
     title="Survey PBB"
-    :value="petaGarisStore.totalGrid"
+    :value="0"
     :target-value="13000"
   />
 </template>
-<script lang="ts" setup>
-const petaGarisStore = usePetaGarisStore();
-onMounted(async () => {
-  petaGarisStore.queryAll();
-});
-</script>
+<script lang="ts" setup></script>

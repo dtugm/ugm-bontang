@@ -13,7 +13,7 @@
         <v-card-text>
           <v-progress-circular
             v-if="!isMobile"
-            :model-value="petaGarisStore?.totalArray.length / 514"
+            :model-value="(petaGarisStore?.totalArray.length / 514) * 100"
             :size="200"
             :width="25"
             color="success"

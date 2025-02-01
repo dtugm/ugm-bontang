@@ -9,7 +9,7 @@
       <template #subtitle>
         <v-progress-linear
           color="primary"
-          :model-value="item.hasil"
+          :model-value="leaderBoard[item.id]"
           :height="12"
           rounded
         ></v-progress-linear>
@@ -20,4 +20,8 @@
 <script lang="ts" setup>
 import appMock from "~/app/mock/app.mock";
 const employee = appMock.employee;
+const petaGarisStore = usePetaGarisStore();
+const leaderBoard: any = computed(() => {
+  return petaGarisStore.leaderBoard;
+});
 </script>

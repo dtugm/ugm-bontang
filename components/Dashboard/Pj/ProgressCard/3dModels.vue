@@ -8,7 +8,4 @@
 </template>
 <script lang="ts" setup>
 const petaGarisStore = usePetaGarisStore();
-onMounted(async () => {
-  petaGarisStore.queryAll();
-});
 </script>
