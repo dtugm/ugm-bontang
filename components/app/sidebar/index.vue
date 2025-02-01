@@ -56,7 +56,7 @@ const arrays = [
 ];
 const menuMap: any = {
   0: appConstant.employee_menus,
-  1: appConstant.menus,
+  1: appConstant.pj_menus,
   2: appConstant.menus,
 };
 const foundIndexes: any = arrays
