@@ -39,7 +39,7 @@
           <v-col cols="12" sm="12">
             <v-card variant="flat" class="h-[calc(100vh-124px-347.88px-30px)]">
               <v-container class="h-full">
-                <AppChartLine />
+                <AppChartV2 :data="mockData" />
               </v-container>
             </v-card>
           </v-col>
@@ -52,18 +52,66 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import pjConstant from "~/app/constant/pj.constant";
-const header: any = pjConstant.employeeStatusHeader;
-const mockDataStatus = [
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-];
-const authStore = useAuthStore();
-const appStore = useAppStore();
-const petaGarisStore = usePetaGarisStore();
+const mockData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  datasets: [
+    {
+      label: "Peta Garis",
+      pointBackgroundColor: "white",
+      backgroundColor: (ctx: any) => {
+        const canvas = ctx.chart.ctx;
+        const gradient = canvas.createLinearGradient(0, 0, 0, 200);
+
+        gradient.addColorStop(0, "#EB0E44");
+        gradient.addColorStop(1, "#ffffff00");
+
+        return gradient;
+      },
+      borderColor: "#EB0E44",
+      data: [10, 80, 40, 70, 46, 90, 50],
+      fill: true,
+      radius: 0,
+      borderWidth: 2,
+      tension: 0.25,
+    },
+    {
+      pointBackgroundColor: "white",
+      label: "3d Models",
+      backgroundColor: (ctx: any) => {
+        const canvas = ctx.chart.ctx;
+        const gradient = canvas.createLinearGradient(0, 0, 0, 200);
+
+        gradient.addColorStop(0, "#228BE6");
+        gradient.addColorStop(1, "#ffffff00");
+
+        return gradient;
+      },
+      borderColor: "#228BE6",
+      data: [10, 70, 30, 60, 33, 80, 40],
+      fill: true,
+      radius: 0,
+      borderWidth: 2,
+      tension: 0.25,
+    },
+    {
+      pointBackgroundColor: "white",
+      label: "Survey PBB",
+      backgroundColor: (ctx: any) => {
+        const canvas = ctx.chart.ctx;
+        const gradient = canvas.createLinearGradient(0, 0, 0, 200);
+
+        gradient.addColorStop(0, "#4CAF50");
+        gradient.addColorStop(1, "#ffffff00");
+
+        return gradient;
+      },
+      borderColor: "#4CAF50",
+      data: [10, 80, 50, 60, 30, 80, 40],
+      fill: true,
+      radius: 0,
+      borderWidth: 2,
+      tension: 0.25,
+    },
+  ],
+};
 </script>
