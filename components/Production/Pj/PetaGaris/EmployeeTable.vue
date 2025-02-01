@@ -1,6 +1,12 @@
-s
 <template>
-  <v-data-table :items="taskList" :headers="header">
+  <v-data-table
+    class="h-[calc(100vh-90px)]"
+    :items="taskList"
+    :headers="header"
+    items-per-page="20"
+    fixed-header
+    fixed-footer
+  >
     <template #item.status="{ item }: any">
       <v-chip :color="statusGridColor[item.status]">
         {{ statusGrid[item.status] }}

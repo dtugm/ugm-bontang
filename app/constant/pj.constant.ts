@@ -8,7 +8,7 @@ export default {
     { title: "Action", value: "action", width: "200px", align: "center" },
   ],
   employeeStatusHeader: [
-    { title: "Nama", value: "user_email", width: "200px", align: "center" },
+    { title: "Nama", value: "user_name", width: "200px" },
     {
       title: "Status Kehadiran",
       value: "statusKerja",
@@ -27,6 +27,11 @@ export default {
     {
       title: "Keluar",
       value: "check_out_time",
+      width: "200px",
+    },
+    {
+      title: "Actions",
+      value: "action",
       width: "200px",
     },
   ],

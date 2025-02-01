@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-container fluid>
+  <v-container fluid class="h-full">
+    <v-card class="h-full" variant="flat">
+      <v-container fluid class="h-full">
         <v-row no-gutters class="items-center gap-4">
           <slot name="prepend"></slot>
           <AppTextH5 color="primary"> Update persil Survey</AppTextH5>
@@ -32,6 +32,10 @@
           :search="search"
           :items="persilMock.persil_table_mock"
           :headers="persilConstant.header"
+          class="h-[calc(100vh-100px)]"
+          items-per-page="20"
+          fixed-header
+          fixed-footer
         >
           <template #item.status="{ item }">
             <v-chip :color="isPersilDone(item.persil_id) ? 'success' : 'error'">

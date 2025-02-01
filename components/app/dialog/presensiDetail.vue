@@ -1,28 +1,6 @@
 <template>
-  <v-card>
-    <v-card-text>
-      Presensi Harian
-      <v-list>
-        <v-list-item
-          lines="two"
-          v-for="employee in employees"
-          :key="employee.user_id"
-          :value="employee.user_id"
-          :subtitle="employee.work_type"
-          :title="employee.user_email"
-          @click="openDetail(employee)"
-        >
-          <template v-slot:append>
-            <v-chip :color="employee.status ? 'success' : 'error'">
-              {{ employee.status ? "ON" : "OFF" }}
-            </v-chip>
-          </template>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-  </v-card>
-  <AppDialog v-model="userDetail" title="User Detail">
-    <v-card-text>
+  <AppDialog title="User Detail">
+    <v-card-text v-if="selectedEmployee">
       <v-row class="mb-1">
         <v-col cols="6">
           <AppInputText
@@ -98,14 +76,13 @@
     </v-card-text>
   </AppDialog>
 </template>
-<script lang="ts" setup>
-import { collection } from "firebase/firestore";
-const db = useFirestore();
-const userDetail = ref(false);
-const employees = useCollection(collection(db, "attendance"));
-const selectedEmployee: any = ref({});
-const openDetail = (employee: any) => {
-  userDetail.value = true;
-  selectedEmployee.value = employee;
+<script>
+export default {
+  props: {
+    selectedEmployee: {
+      type: Object,
+      default: () => {},
+    },
+  },
 };
 </script>

@@ -119,14 +119,13 @@ import { useDocument, useFirestore } from "vuefire";
 const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
-
-const employeeStore = useEmployeeStore();
+const employeeStore = usePjStore();
 const work_type = ref();
 const izin_type = ref();
 const checkInDialog = ref(false);
 const izinDialog = ref(false);
 const employeeStatus: any = useDocument(
-  doc(collection(db, "employee"), authStore.user?.uid)
+  doc(collection(db, "pj"), authStore.user?.uid)
 );
 const presensiText = () => {
   return employeeStatus.value?.status ? "Checked In" : "Checked Out";
@@ -141,7 +140,7 @@ const handleSubmitCheckIn = async () => {
     statusKerja: true,
   };
   await employeeStore
-    .updateAttendance("check_in_time", authStore.user?.uid, payload)
+    .presensiPj("check_in_time", authStore.user?.uid, payload)
     .then(() => {
       checkInDialog.value = false;
     });
@@ -153,7 +152,7 @@ const handleSubmitCheckOut = async () => {
     statusKerja: true,
   };
   await employeeStore
-    .updateAttendance("check_out_time", authStore.user?.uid, payload)
+    .presensiPj("check_out_time", authStore.user?.uid, payload)
     .then(() => {
       checkOutDialog.value = false;
     });
@@ -165,7 +164,7 @@ const handleIzin = async () => {
     statusKerja: false,
   };
   await employeeStore
-    .updateAttendance("izin_time", authStore.user?.uid, payload)
+    .presensiPj("izin_time", authStore.user?.uid, payload)
     .then(() => {
       izinDialog.value = false;
     });
