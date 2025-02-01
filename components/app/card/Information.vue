@@ -3,7 +3,7 @@
     <v-card-text class="flex justify-between items-center h-full">
       <v-icon size="40" :icon="icon"></v-icon>
       <div class="flex flex-col items-end justify-center h-full text-end">
-        <p class="text-sm">{{ title }} Target</p>
+        <p class="text-sm">Target {{ title }}</p>
         <AppTextH2>{{ targetValue }} {{ valueUnit }}</AppTextH2>
       </div>
     </v-card-text>
