@@ -8,14 +8,26 @@ export default {
     { title: "Action", value: "action", width: "200px", align: "center" },
   ],
   employeeStatusHeader: [
-    { title: "Nama", value: "nama", width: "200px", align: "center" },
-    { title: "Email", value: "email", width: "200px", align: "center" },
-    { title: "Lokasi", value: "Lokasi", width: "200px", align: "center" },
+    { title: "Nama", value: "user_email", width: "200px", align: "center" },
     {
       title: "Status Kehadiran",
-      value: "Status",
+      value: "statusKerja",
       width: "200px",
-      align: "center",
+    },
+    {
+      title: "Keterangan",
+      value: "keterangan",
+      width: "200px",
+    },
+    {
+      title: "Masuk",
+      value: "check_in_time",
+      width: "200px",
+    },
+    {
+      title: "Keluar",
+      value: "check_out_time",
+      width: "200px",
     },
   ],
 };

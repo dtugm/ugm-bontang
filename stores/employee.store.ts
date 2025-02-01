@@ -15,6 +15,24 @@ export const useEmployeeStore = defineStore("employee", () => {
   const db = useFirestore();
   const lat = ref();
   const lng = ref();
+  const now = new Date();
+  const waktuIndonesia = now.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Jakarta",
+  });
+  const jamIndo = now.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false, // Gunakan format 24 jam
+    timeZone: "Asia/Jakarta", // Sesuaikan dengan zona waktu yang diinginkan
+  });
+
+  const formattedDate = waktuIndonesia.split("/").reverse().join("-");
+  const formattedJam = jamIndo.split("/").reverse().join("-");
+
   const updateAttendance = async (
     check_type: string,
     userId: any,
@@ -40,28 +58,16 @@ export const useEmployeeStore = defineStore("employee", () => {
       ).then(async () => {
         toast.success("Berhasil Memperbarui Status Presensi");
       });
-      const now = new Date();
-      const waktuIndonesia = now.toLocaleDateString("id-ID", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        timeZone: "Asia/Jakarta",
-      });
-      const jamIndo = now.toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false, // Gunakan format 24 jam
-        timeZone: "Asia/Jakarta", // Sesuaikan dengan zona waktu yang diinginkan
-      });
-      const formattedDate = waktuIndonesia.split("/").reverse().join("-");
-      const formattedJam = jamIndo.split("/").reverse().join("-");
 
       await setDoc(
         doc(logPresensiRef, formattedDate),
         {
           ...data,
           [check_type]: formattedJam,
+          tanggal: formattedDate,
+          user_id: authStore.user?.uid,
+          user_name: authStore.user?.displayName,
+          user_email: authStore.user?.email,
         },
         { merge: true }
       );
@@ -87,6 +93,7 @@ export const useEmployeeStore = defineStore("employee", () => {
   getLocation();
 
   return {
+    formattedDate,
     updateAttendance,
   };
 });

@@ -85,7 +85,7 @@
           label="Cancel"
           color="info"
           variant="outlined"
-          @click="checkInDialog = false"
+          @click="izinDialog = false"
         />
         <AppButton form="izinForm" label="Izin" color="primary" type="submit" />
       </v-card-actions>
@@ -166,7 +166,7 @@ const handleIzin = async () => {
   await employeeStore
     .updateAttendance("izin_time", authStore.user?.uid, payload)
     .then(() => {
-      checkOutDialog.value = false;
+      izinDialog.value = false;
     });
 };
 </script>

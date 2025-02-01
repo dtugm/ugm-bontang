@@ -29,10 +29,32 @@
                 <v-data-table
                   class="h-[calc(100vh-124px-347.88px-73px)]"
                   :headers="header"
-                  :items="mockDataStatus"
+                  :items="employeePresence"
                   fixed-header
                   fixed-footer
                 >
+                  <template #item.keterangan="{ item }: any">
+                    {{ item.statusKerja ? item.work_type : item.izin_type }}
+                  </template>
+                  <template #item.statusKerja="{ item }: any">
+                    <v-chip :color="item.statusKerja ? 'success' : 'error'">{{
+                      item.statusKerja ? "Masuk" : "Izin"
+                    }}</v-chip>
+                  </template>
+                  <template #item.check_in_time="{ item }: any">
+                    <v-chip
+                      v-if="item.check_in_time"
+                      color="info"
+                      label
+                      variant="outlined"
+                    >
+                      {{ item.check_in_time }}
+                    </v-chip>
+                    <p v-else>-</p>
+                  </template>
+                  <template #item.check_out_time="{ item }: any">
+                    {{ item.check_out_time ? item.check_out_time : "-" }}
+                  </template>
                 </v-data-table>
               </v-container>
             </v-card>
@@ -46,17 +68,26 @@
   </v-container>
 </template>
 <script lang="ts" setup>
+import { collectionGroup, getDocs, query, where } from "firebase/firestore";
 import pjConstant from "~/app/constant/pj.constant";
+const db = useFirestore();
+const employeeStore = useEmployeeStore();
+const employeePresence: any = ref([]);
+const employeeQuery = query(
+  collectionGroup(db, "presensi_log"),
+  where("tanggal", "==", employeeStore.formattedDate)
+);
+const getAllEmployee = async () => {
+  const employeeSnapshot = await getDocs(employeeQuery);
+  let employeeData: any = [];
+  employeeSnapshot.forEach((doc) => {
+    employeeData.push({ ...doc.data() });
+  });
+  employeePresence.value = employeeData;
+};
+getAllEmployee();
 const header: any = pjConstant.employeeStatusHeader;
-const mockDataStatus = [
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-  { nama: "Test", email: "email" },
-];
+
 const authStore = useAuthStore();
 const appStore = useAppStore();
 const petaGarisStore = usePetaGarisStore();
