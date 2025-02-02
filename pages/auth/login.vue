@@ -3,13 +3,8 @@
     width="500"
     class="shadow-md md:shadow-none rounded-md py-12 px-5 lg:px-15"
   >
-    <div class="pb-5 justify-center flex flex-col items-start">
-      <v-img
-        class="bg-white"
-        src="/logo/logo_bontang_2.png"
-        width="130"
-      ></v-img>
-      <AppTextH2 class="text-2xl mt-2" color="secondary"
+    <div class="pb-5 justify-center flex flex-col items-center">
+      <AppTextH2 class="text-2xl mb-5" color="secondary"
         >Welcome Back</AppTextH2
       >
       <!-- <p>Selamat! Anda adalah orang yang terpilih. hehe..</p> -->
@@ -41,6 +36,13 @@
         />
       </div>
     </v-form>
+    <diva class="flex mt-5">
+      <v-img
+        height="75"
+        class="bg-white"
+        src="/logo/logo_Typography_1.png"
+      ></v-img>
+    </diva>
   </v-container>
 </template>
 <script setup lang="ts">

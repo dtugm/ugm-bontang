@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-full">
+  <v-container class="h-full" fluid>
     <v-card class="h-full" variant="flat">
       <v-container>
         <v-tabs
