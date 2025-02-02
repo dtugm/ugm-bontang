@@ -42,3 +42,7 @@ export const formatDateFirebase = (timestamp) => {
   }).format(date);
   return formattedDate;
 };
+
+export const handleDataTable = (input) => {
+  return input ? input : "-";
+};

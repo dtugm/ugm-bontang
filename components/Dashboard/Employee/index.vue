@@ -1,225 +1,251 @@
 <template>
-  <v-container fluid>
-    <v-row align="stretch" class="">
-      <v-col cols="12" sm="4">
+  <v-container fluid class="h-full">
+    <v-row>
+      <v-col cols="12" sm="6">
         <DashboardEmployeePresensi />
       </v-col>
-      <v-col cols="12" sm="4" align-self="end">
-        <AppCardProgress
-          title="Capaian"
-          unit="GRID"
-          :total-value="capaianTarget?.jumlah_grid"
-          :progress="pencapaianEmployee"
+      <v-col cols="12" sm="6">
+        <AppCardInformation
+          title="Capaian Anda"
+          :target-value="capaianPerOrang[0].jumlah_grid"
         />
       </v-col>
     </v-row>
-    <v-row class="">
-      <v-col cols="12" sm="12" class="h-full">
-        <v-card class="h-full" variant="flat">
-          <v-data-table
-            :loading="isTableLoading"
-            :headers="header"
-            :items="taskList"
-          >
-            <template #item.status="{ item }: any">
-              <v-chip :color="statusGridColor[item.status]">
-                {{ statusGrid[item.status] }}
-              </v-chip>
-            </template>
-            <template #item.date_created="{ item }: any">
-              {{ formatDateFirebase(item.date_created) }}
-            </template>
-            <template #item.date_submitted="{ item }: any">
-              <p v-if="item.date_submitted">
-                {{ formatDateFirebase(item.date_submitted) }}
-              </p>
-              <p v-else>Not submmited yet</p>
-            </template>
-            <template #item.action="{ item }: any">
-              <div class="flex gap-1 justify-end">
-                <v-btn
-                  v-if="item.status == 2"
-                  class="text-none"
-                  color="primary"
-                  @click="openDetail(item)"
-                  >Notes</v-btn
-                >
-                <v-btn
-                  class="text-none"
-                  color="primary"
-                  variant="outlined"
-                  prepend-icon="mdi-upload"
-                  @click="openForm(item)"
-                  >Upload</v-btn
-                >
-              </div>
-            </template>
-          </v-data-table>
+    <v-row>
+      <v-col cols="12">
+        <v-card variant="flat" class="h-[calc(100vh-124px-60px)]">
+          <v-container>
+            <v-row no-gutters class="items-center gap-4">
+              <slot name="prepend"></slot>
+              <AppTextH5 color="primary">LogBook</AppTextH5>
+              <v-spacer></v-spacer>
+              <AppButton
+                variant="outlined"
+                label="Add"
+                color="info"
+                @click="addDialog = true"
+              />
+            </v-row>
+            <v-data-table
+              class="h-[calc(100vh-124px-110px)] header-theme"
+              :headers="logbookHeader"
+              :items="logbook"
+              fixed-header
+              fixed-footer
+            >
+              <template #item.capaian_su>
+                {{ handleDataTable(item?.capaian_su) }}
+              </template>
+              <template #item.capaian_mdl>
+                {{ handleDataTable(item?.capaian_mdl) }}
+              </template>
+              <template #item.keterangan>
+                {{ handleDataTable(item?.keterangan) }}
+              </template>
+              <template #item.jam_kerja>
+                {{ handleDataTable(item?.jam_kerja) }}
+              </template>
+              <template #item.jam_lembur>
+                {{ handleDataTable(item?.jam_lembur) }}
+              </template>
+            </v-data-table>
+          </v-container>
         </v-card>
       </v-col>
+      <!-- <v-col cols="12" sm="3">
+        <v-card variant="flat" class="h-[calc(100vh-124px-60px)]"></v-card>
+      </v-col> -->
     </v-row>
   </v-container>
-  <AppDialog v-model="submitDialog">
-    <v-card-text>
-      <v-form
-        id="submitForm"
-        ref="formSubmitRef"
-        @submit.prevent="handleSubmitTask()"
-      >
-        <AppInputTextarea
-          v-model="googleDriveUrl"
-          label="Google Drive URL"
-          :rules="[() => !!googleDriveUrl || 'This field is required']"
-          hide-details
-          required
-        />
-        <div>
-          <v-checkbox v-model="yakin" color="primary" hide-details>
-            <template v-slot:label>
-              <p class="text-text">
-                Saya yakin akan mengirimkan
-                <span class="text-primary"> File </span>Ini
-              </p>
-            </template>
-          </v-checkbox>
-        </div>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <AppButton
-            label="Cancel"
-            color="info"
-            variant="outlined"
-            @click="submitDialog = false"
-          />
-          <AppButton
-            :disabled="!yakin"
-            form="submitForm"
-            label="Submit"
-            color="success"
-            type="submit"
-          />
-        </v-card-actions>
-      </v-form>
-    </v-card-text>
-  </AppDialog>
-  <AppDialog :title="selectedTask?.id" v-model="detailDialog">
-    <v-card-text>
-      <v-row>
-        <v-col cols="6" v-for="(item, index) in petaGarisConstant.digitasiItem">
-          <div class="flex gap-1">
-            <AppTextH5 class="text-sm" color="primary"> {{ item }} </AppTextH5>
-            <v-icon
-              :icon="digitasiStatusIcon[selectedTask[index]]"
-              :color="digitasiStatusColor[selectedTask[index]]"
-            ></v-icon>
-          </div>
-          <div v-if="selectedTask[index] == 1">
-            <p class="text-text">Revisi notes:</p>
-            {{ selectedTask[`${index}_notes`] }}
-          </div>
-          <div v-if="selectedTask[index] == 0">tidak ada</div>
-        </v-col>
-      </v-row>
-    </v-card-text>
+  <AppDialog v-model="addDialog">
+    <v-card>
+      <v-card-text>
+        <v-form
+          id="logbookForm"
+          ref="formRef"
+          @submit.prevent="handleSubmitLogbook()"
+        >
+          <v-row>
+            <v-col cols="12">
+              <AppInputDatePicker
+                v-model="logBookForm.tanggal"
+                label="Tanggal"
+                :rules="[(value) => !!value || 'This field is required']"
+                required
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12">
+              <AppInputText
+                v-model="logBookForm.kegiatan"
+                label="Nama Kegiatan"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="4">
+              <AppInputText
+                v-model="logBookForm.capaian_pg"
+                label="PG (ha)"
+                hide-details
+                type="number"
+              />
+            </v-col>
+            <v-col cols="4">
+              <AppInputText
+                v-model="logBookForm.capaian_su"
+                label="SU (Blok Tanah)"
+                hide-details
+                type="number"
+              />
+            </v-col>
+            <v-col cols="4">
+              <AppInputText
+                v-model="logBookForm.capaian_mdl"
+                label="MDL (ha)"
+                hide-details
+                type="number"
+              />
+            </v-col>
+            <v-col cols="4">
+              <AppInputText
+                v-model="logBookForm.capaian_pg_url"
+                label="Url PG"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="4">
+              <AppInputText
+                v-model="logBookForm.capaian_su_url"
+                label="Url SU"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="4">
+              <AppInputText
+                v-model="logBookForm.capaian_mdl_url"
+                label="Url MDL"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="6">
+              <AppInputText
+                v-model="logBookForm.jam_kerja"
+                label="Jam Kerja"
+                hide-details
+                type="number"
+              />
+            </v-col>
+            <v-col cols="6">
+              <AppInputText
+                v-model="logBookForm.jam_lembur"
+                label="Jam Lembur"
+                hide-details
+                type="number"
+              />
+            </v-col>
+            <v-col cols="12">
+              <AppInputTextarea
+                v-model="logBookForm.keterangan"
+                label="Keterangan Lain"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <AppButton label="Cancel" color="info" variant="outlined" />
+            <AppButton
+              form="logbookForm"
+              label="Submit"
+              color="success"
+              type="submit"
+            />
+          </v-card-actions>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </AppDialog>
 </template>
-<script lang="ts" setup>
-import {
-  collection,
-  doc,
-  getDocs,
-  orderBy,
-  query,
-  setDoc,
-} from "firebase/firestore";
+<script setup>
+import { collection, doc, setDoc, getDocs, query } from "firebase/firestore";
 import petaGarisMock from "~/app/mock/petaGaris.mock";
-import petaGarisConstant from "~/app/constant/petaGaris.constant";
-import employeeConstant from "~/app/constant/employee.constant";
-const isTableLoading = ref(false);
-const digitasiStatus: any = petaGarisConstant.digitasiStatus;
-const digitasiStatusColor: any = petaGarisConstant.digitasiStatusColor;
-const digitasiStatusIcon: any = petaGarisConstant.digitasiStatusIcon;
-const appStore = useAppStore();
-const selectedTask: any = ref({});
-const submitDialog = ref(false);
-const detailDialog = ref(false);
-const openForm = (item: any) => {
-  submitDialog.value = true;
-  selectedTask.value = item;
-};
-const openDetail = (item: any) => {
-  detailDialog.value = true;
-  selectedTask.value = item;
-};
-const header: any = employeeConstant.petaGarisHeader;
-const statusGrid: any = petaGarisConstant.statusGrid;
-const statusGridColor: any = petaGarisConstant.statusGridColor;
-import appMock from "~/app/mock/app.mock";
-const employeeList = appMock.employee;
-const taskHeader: any = petaGarisConstant.progressHeader;
-const db = useFirestore();
 const authStore = useAuthStore();
-const capaianTarget = petaGarisMock.pembagianArea.find((item) => {
-  return item.employee_email == authStore.user?.email;
-});
-const taskList: any = ref([]);
-const employee: any = employeeList.find(
-  (employee) => employee.email == authStore.user?.email
+const capaianPerOrang = petaGarisMock.pembagianArea.filter(
+  (item) => item.employee_email == authStore.user.email
 );
-async function fetchFilteredOrders() {
-  isTableLoading.value = true;
-  const collectionPath = `/responsibles/${employee?.responsibleId}/employees/${employee?.id}/peta_garis_task`;
-  try {
-    const ordersQuery = query(
-      collection(db, collectionPath),
-      orderBy("GRID", "asc")
-    );
-    const querySnapshot = await getDocs(ordersQuery);
-    taskList.value = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    isTableLoading.value = false;
-  } catch (error) {
-    console.error("Error fetching filtered orders:", error);
-    isTableLoading.value = false;
-  }
-}
-const pencapaianEmployee = computed(() => {
-  return taskList.value.filter((item: any) => item.status === 3).length;
-});
-fetchFilteredOrders();
-const formSubmitRef = ref();
-const googleDriveUrl = ref("");
-const yakin = ref(false);
-const handleSubmitTask = async () => {
-  const { valid } = await formSubmitRef.value.validate();
+const appStore = useAppStore();
+const db = useFirestore();
+const formRef = ref();
+const addDialog = ref(false);
+const logBookForm = ref({ tanggal: "" });
+const handleSubmitLogbook = async () => {
+  const employeeRef = collection(db, "employee");
+  const employeeDoc = doc(employeeRef, authStore.user.uid);
+  const logPresensiRef = collection(employeeDoc, "logbook_harian");
+  const { valid } = await formRef.value.validate();
   if (valid) {
-    const responsiblesRef = collection(db, "responsibles");
-    const responsibleDoc = doc(responsiblesRef, employee?.responsibleId);
-    const employeesRef = collection(responsibleDoc, "employees");
-    const employeeDoc = doc(employeesRef, employee?.id);
-    const tasksRef = collection(employeeDoc, "peta_garis_task");
-    const taskDoc = doc(tasksRef, selectedTask.value.id);
     const payload = {
-      file_url: googleDriveUrl.value,
-      status: 1, // set ke to do review
-      date_submitted: new Date(),
+      ...logBookForm.value,
     };
-    await setDoc(taskDoc, payload, { merge: true }).then(() => {
-      submitDialog.value = false;
-      appStore.toastSuccess("Data berhasil disubmit!");
-      googleDriveUrl.value = "";
-      yakin.value = false;
-      employee?.email;
-      appStore.sendUpdateEmail(
-        employee.email,
-        employee.responsibleEmail,
-        "QC Dong Bang!, Naik Gaji lah..",
-        `Bang makan bang, Periksa id ini bang ${selectedTask.value.id}`
-      );
-      fetchFilteredOrders();
+    await setDoc(doc(logPresensiRef, logBookForm.value.tanggal), payload, {
+      merge: true,
+    }).then(() => {
+      logBookForm.value = {};
+      addDialog.value = false;
+      getAllLogBook();
     });
   }
 };
+const logbook = ref([]);
+const getAllLogBook = async () => {
+  try {
+    const collectionPath = `/employee/${authStore.user.uid}/logbook_harian`;
+    console.log("first");
+    const logbookQuery = query(collection(db, collectionPath));
+    const querySnapshot = await getDocs(logbookQuery);
+    console.log(logbookQuery);
+    logbook.value = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    appStore.toastError("Gagal Mendapatkan Data");
+  }
+};
+getAllLogBook();
+const logbookHeader = [
+  { title: "Tanggal", value: "tanggal", minWidth: "200" },
+  { title: "Kegiatan", value: "kegiatan", minWidth: "200" },
+  {
+    title: "Capaian Kerja",
+    align: "center",
+
+    children: [
+      { title: "PG (ha)", value: "capaian_pg", minWidth: "200" },
+      { title: "SU (Blok Tanah)", value: "capaian_su", minWidth: "200" },
+      { title: "MDL (ha)", value: "capaian_mdl", minWidth: "200" },
+    ],
+  },
+  // {
+  //   title: "Data (URL)",
+  //   align: "center",
+  //   children: [
+  //     { title: "PG (ha)", value: "capaian_phg_url", minWidth: "200" },
+  //     { title: "SU (Blok Tanah)", value: "capaian_su_url", minWidth: "200" },
+  //     { title: "MDL (ha)", value: "capaian_mdl_url", minWidth: "200" },
+  //   ],
+  // },
+  { title: "Jam Kerja", value: "jam_kerja", minWidth: "200" },
+  { title: "Jam Lembur", value: "jam_lembur", minWidth: "200" },
+  { title: "Keterangan", value: "keterangan", minminWidth: "200" },
+  { title: "Actions", value: "action", minminWidth: "200" },
+];
 </script>
+<style scoped>
+.header-theme:deep() th {
+  color: rgb(var(--v-theme-primary));
+}
+.header-theme:deep() .v-data-table-header__content span {
+  font-weight: bold;
+}
+</style>
