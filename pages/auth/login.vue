@@ -40,7 +40,7 @@
       <v-img
         height="75"
         class="bg-white"
-        src="/logo/logo_Typography_1.png"
+        src="/logo/Logo_Typography_1.png"
       ></v-img>
     </diva>
   </v-container>
