@@ -8,4 +8,5 @@ export const bontangLight = {
   text: "#5C5F66",
   gray: "#F3F3F3",
   secondary: "#1D1D1B",
+  tertiary: "#032D64",
 };
