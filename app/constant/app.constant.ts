@@ -108,21 +108,21 @@ export default {
       prepend_icon: "mdi-earth",
       title: "Progress",
       sub_menu: [
-        {
-          prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Suvey PBB",
-          path: "/production-survey-pbb",
-        },
+        // {
+        //   prepend_icon: "mdi-receipt-text-edit-outline",
+        //   title: "Suvey PBB",
+        //   path: "/production-survey-pbb",
+        // },
         {
           prepend_icon: "mdi-map",
           title: "Peta Garis",
           path: "/production-peta-garis",
         },
-        {
-          prepend_icon: "mdi-cube-outline",
-          title: "3D Models",
-          path: "/production-3d-models",
-        },
+        // {
+        //   prepend_icon: "mdi-cube-outline",
+        //   title: "3D Models",
+        //   path: "/production-3d-models",
+        // },
       ],
     },
   ],

@@ -76,8 +76,9 @@
               />
             </v-col>
             <v-col cols="12">
-              <AppInputText
+              <AppInputAutocomplete
                 v-model="logBookForm.kegiatan"
+                :items="['Peta Garis', 'Blok Tanah', 'MDL']"
                 label="Nama Kegiatan"
                 hide-details
               />
@@ -167,6 +168,7 @@
   </AppDialog>
 </template>
 <script setup>
+import { AppInputAutocomplete } from "#components";
 import { collection, doc, setDoc, getDocs, query } from "firebase/firestore";
 import petaGarisMock from "~/app/mock/petaGaris.mock";
 const authStore = useAuthStore();
