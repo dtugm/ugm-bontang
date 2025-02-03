@@ -1,9 +1,9 @@
 <template>
   <AppCardProgressCircular
     title="3d Models"
-    :value="0"
+    :value="528"
     done-color="info"
-    :target-value="514"
+    :target-value="4497"
   />
 </template>
 <script lang="ts" setup>

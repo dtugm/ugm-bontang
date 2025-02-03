@@ -11,7 +11,7 @@
       <v-col cols="12" sm="4">
         <AppCardInformation
           title="3D Models"
-          :target-value="3959"
+          :target-value="4497"
           icon="mdi-cube-outline"
         />
       </v-col>

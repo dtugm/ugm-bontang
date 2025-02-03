@@ -64,5 +64,12 @@ onMounted(async () => {
       }),
     });
   });
+  addGeoJson("/3d/Blok_N.geojson", map, {
+    style: (feature) => ({
+      fillColor: "rgba(34, 139, 230, 1)",
+      fillOpacity: 1,
+      color: "rgba(34, 139, 230, 1)",
+    }),
+  });
 });
 </script>
