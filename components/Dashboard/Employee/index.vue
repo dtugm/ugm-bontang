@@ -202,10 +202,8 @@ const logbook = ref([]);
 const getAllLogBook = async () => {
   try {
     const collectionPath = `/employee/${authStore.user.uid}/logbook_harian`;
-    console.log("first");
     const logbookQuery = query(collection(db, collectionPath));
     const querySnapshot = await getDocs(logbookQuery);
-    console.log(logbookQuery);
     logbook.value = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
