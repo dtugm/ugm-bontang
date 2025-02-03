@@ -6,12 +6,8 @@ export const useEmployeeStore = defineStore("employee", () => {
   const db = useFirestore();
   const lat = ref();
   const lng = ref();
-  const userInfo = {
-    user_id: authStore.user?.uid,
-    user_name: authStore.user?.displayName,
-    user_email: authStore.user?.email,
-  };
   const updateAttendance = async (
+    userInfo: any,
     check_type: string,
     userId: any,
     data: any
@@ -65,9 +61,41 @@ export const useEmployeeStore = defineStore("employee", () => {
     }
   };
   getLocation();
-
+  const updateAttendanceByAdmin = async (
+    check_type: string,
+    userId: any,
+    data: any
+  ) => {
+    const employeeRef = collection(db, "employee");
+    const employeeDoc = doc(employeeRef, userId);
+    const logPresensiRef = collection(employeeDoc, "presensi_log");
+    try {
+      await setDoc(
+        employeeDoc,
+        {
+          ...data,
+          [check_type]: tanggalIndoNowLengkap(),
+        },
+        { merge: true }
+      ).then(async () => {
+        toast.success("Berhasil Memperbarui Status Presensi");
+      });
+      await setDoc(
+        doc(logPresensiRef, tanggalIndoNow()),
+        {
+          ...data,
+          [check_type]: jamIndoNow(),
+          tanggal: tanggalIndoNow(),
+        },
+        { merge: true }
+      );
+    } catch (e) {
+      toast.error("Gagal Melakukan Presensi :(");
+    }
+  };
   return {
     updateAttendance,
+    updateAttendanceByAdmin,
   };
 });
 

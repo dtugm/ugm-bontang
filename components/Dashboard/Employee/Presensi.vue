@@ -120,6 +120,11 @@ const db = useFirestore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
 const employeeStore = useEmployeeStore();
+const userInfo = {
+  user_id: authStore.user?.uid,
+  user_name: authStore.user?.displayName,
+  user_email: authStore.user?.email,
+};
 const work_type = ref();
 const izin_type = ref();
 const checkInDialog = ref(false);
@@ -140,7 +145,7 @@ const handleSubmitCheckIn = async () => {
     statusKerja: true,
   };
   await employeeStore
-    .updateAttendance("check_in_time", authStore.user?.uid, payload)
+    .updateAttendance(userInfo, "check_in_time", authStore.user?.uid, payload)
     .then(() => {
       checkInDialog.value = false;
     });
@@ -152,7 +157,7 @@ const handleSubmitCheckOut = async () => {
     statusKerja: true,
   };
   await employeeStore
-    .updateAttendance("check_out_time", authStore.user?.uid, payload)
+    .updateAttendance(userInfo, "check_out_time", authStore.user?.uid, payload)
     .then(() => {
       checkOutDialog.value = false;
     });
@@ -164,7 +169,7 @@ const handleIzin = async () => {
     statusKerja: false,
   };
   await employeeStore
-    .updateAttendance("izin_time", authStore.user?.uid, payload)
+    .updateAttendance(userInfo, "izin_time", authStore.user?.uid, payload)
     .then(() => {
       izinDialog.value = false;
     });
