@@ -55,14 +55,21 @@ onMounted(async () => {
   addGeoJson("/new_bontang.geojson", map, {
     style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
   });
-  geoJsonFiles.forEach((blok) => {
-    addGeoJson(`/3d/${blok}.geojson`, map, {
-      style: (feature) => ({
-        fillColor: "rgba(139, 146, 152, 1)",
-        fillOpacity: 0.5,
-        color: "white",
-      }),
-    });
+  // geoJsonFiles.forEach((blok) => {
+  //   addGeoJson(`/3d/${blok}.geojson`, map, {
+  //     style: (feature) => ({
+  //       fillColor: "rgba(139, 146, 152, 1)",
+  //       fillOpacity: 0.5,
+  //       color: "white",
+  //     }),
+  //   });
+  // });
+  await addGeoJson("/3d/ALL_3d.geojson", map, {
+    style: (feature) => ({
+      fillColor: "rgba(139, 146, 152, 1)",
+      fillOpacity: 0.5,
+      color: "white",
+    }),
   });
   addGeoJson("/3d/Blok_N.geojson", map, {
     style: (feature) => ({
