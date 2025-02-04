@@ -59,6 +59,11 @@ const NameMap: any = {
   "bontanggiri@gmail.com": "Giri",
   "bontangheru@gmail.com": "Heru",
   "bontangsyafriansyah@gmail.com": "Syafriansyah",
+  "ugmruli@gmail.com": "Ruli",
+  "ugmyuli@gmail.com": "Yuli",
+  "ugmtrias@gmail.com": "Trias",
+  "ugmbambang@gmail.com": "Bambang",
+  "ugmpurnama@gmail.com": "Purnama",
 };
 const authStore: any = useAuthStore();
 const selectedTab = ref("/");

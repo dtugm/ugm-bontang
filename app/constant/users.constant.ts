@@ -35,5 +35,10 @@ export default {
     "bontangsyafriansyah@gmail.com",
     "bontangjaya@gmail.com",
     "digitaltwinugm@gmail.com",
+    "ugmruli@gmail.com",
+    "ugmyuli@gmail.com",
+    "ugmtrias@gmail.com",
+    "ugmbambang@gmail.com",
+    "ugmpurnama@gmail.com",
   ],
 };
