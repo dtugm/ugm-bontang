@@ -59,7 +59,6 @@ const NameMap: any = {
   "bontanggiri@gmail.com": "Giri",
   "bontangheru@gmail.com": "Heru",
   "bontangsyafriansyah@gmail.com": "Syafriansyah",
-  "hyatma.a.a@mail.ugm.ac.id": "/logo/frontman_2.jpg",
 };
 const authStore: any = useAuthStore();
 const selectedTab = ref("/");
