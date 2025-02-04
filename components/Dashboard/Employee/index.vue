@@ -170,6 +170,7 @@
 <script setup>
 import { AppInputAutocomplete } from "#components";
 import { collection, doc, setDoc, getDocs, query } from "firebase/firestore";
+import employeeConstant from "~/app/constant/employee.constant";
 import petaGarisMock from "~/app/mock/petaGaris.mock";
 const authStore = useAuthStore();
 const capaianPerOrang = petaGarisMock.pembagianArea.filter(
@@ -213,33 +214,7 @@ const getAllLogBook = async () => {
   }
 };
 getAllLogBook();
-const logbookHeader = [
-  { title: "Tanggal", value: "tanggal", minWidth: "200" },
-  { title: "Kegiatan", value: "kegiatan", minWidth: "200" },
-  {
-    title: "Capaian Kerja",
-    align: "center",
-
-    children: [
-      { title: "PG (ha)", value: "capaian_pg", minWidth: "200" },
-      { title: "SU (Blok Tanah)", value: "capaian_su", minWidth: "200" },
-      { title: "MDL (ha)", value: "capaian_mdl", minWidth: "200" },
-    ],
-  },
-  // {
-  //   title: "Data (URL)",
-  //   align: "center",
-  //   children: [
-  //     { title: "PG (ha)", value: "capaian_phg_url", minWidth: "200" },
-  //     { title: "SU (Blok Tanah)", value: "capaian_su_url", minWidth: "200" },
-  //     { title: "MDL (ha)", value: "capaian_mdl_url", minWidth: "200" },
-  //   ],
-  // },
-  { title: "Jam Kerja", value: "jam_kerja", minWidth: "200" },
-  { title: "Jam Lembur", value: "jam_lembur", minWidth: "200" },
-  { title: "Keterangan", value: "keterangan", minminWidth: "200" },
-  { title: "Actions", value: "action", minminWidth: "200" },
-];
+const logbookHeader = employeeConstant.logBookHeader;
 </script>
 <style scoped>
 .header-theme:deep() th {

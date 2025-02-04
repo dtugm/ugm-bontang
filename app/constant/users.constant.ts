@@ -27,5 +27,13 @@ export default {
     "michaelkrisna1975@mail.ugm.ac.id",
     "test1@gmail.com",
   ],
-  superadmin_user: ["superadmin@gmail.com", "bontangjaya@gmail.com"],
+  superadmin_user: [
+    "superadmin@gmail.com",
+    "bontangsyafrudin@gmail.com",
+    "bontanggiri@gmail.com",
+    "bontangheru@gmail.com",
+    "bontangsyafriansyah@gmail.com",
+    "bontangjaya@gmail.com",
+    "digitaltwinugm@gmail.com",
+  ],
 };

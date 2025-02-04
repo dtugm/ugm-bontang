@@ -7,4 +7,22 @@ export default {
     { title: "Date Submitted", minWidth: "150px", value: "date_submitted" },
     { title: "Action", value: "action", width: "200px", align: "center" },
   ],
+  logBookHeader: [
+    { title: "Tanggal", value: "tanggal", minWidth: "200" },
+    { title: "Kegiatan", value: "kegiatan", minWidth: "200" },
+    {
+      title: "Capaian Kerja",
+      align: "center",
+
+      children: [
+        { title: "PG (ha)", value: "capaian_pg", minWidth: "200" },
+        { title: "SU (Blok Tanah)", value: "capaian_su", minWidth: "200" },
+        { title: "MDL (ha)", value: "capaian_mdl", minWidth: "200" },
+      ],
+    },
+    { title: "Jam Kerja", value: "jam_kerja", minWidth: "200" },
+    { title: "Jam Lembur", value: "jam_lembur", minWidth: "200" },
+    { title: "Keterangan", value: "keterangan", minminWidth: "200" },
+    { title: "Actions", value: "action", minminWidth: "200" },
+  ],
 };

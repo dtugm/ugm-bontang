@@ -97,6 +97,11 @@ export default {
         },
       ],
     },
+    {
+      prepend_icon: "mdi-account-multiple",
+      title: "Employee",
+      path: "/employee-management",
+    },
   ],
   employee_menus: [
     {

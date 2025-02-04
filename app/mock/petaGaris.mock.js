@@ -8,14 +8,6 @@ export default {
       pj: "kinanthinastiti@gmail.com",
       color: "rgba(255, 99, 132, 1)",
     },
-    // {
-    //   bagi_18: 1,
-    //   employee: "Cintia Lirifa Asmarani",
-    //   employee_email: "test1@gmail.com",
-    //   jumlah_grid: 29,
-    //   pj: "test1@gmail.com",
-    //   color: "rgba(255, 99, 132, 1)",
-    // },
     {
       bagi_18: 2,
       employee: "Anisa Putri Ambiani",

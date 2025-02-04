@@ -12,11 +12,10 @@
     <!-- <v-divider class="py-2" color="primary" :thickness="2">or</v-divider> -->
     <v-form id="login-form" @submit.prevent="Login()">
       <v-text-field
-        v-model="email"
-        label="Email"
+        v-model="username"
+        label="Email/Username"
         density="compact"
         variant="outlined"
-        type="email"
       ></v-text-field>
       <v-text-field
         :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -29,6 +28,7 @@
       ></v-text-field>
       <div class="flex flex-col gap-2">
         <AppButton
+          :loading="isLoading"
           color="tertiary"
           @click="Login"
           label="Sign In"
@@ -47,7 +47,15 @@
 </template>
 <script setup lang="ts">
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-const email = ref("");
+import { collection, getDocs, query, where } from "firebase/firestore";
+function isEmail(email: any) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+const isLoading = ref(false);
+const db = useFirestore();
+// const email = ref("");
+const username = ref("");
 const password = ref("");
 definePageMeta({
   layout: "auth",
@@ -56,15 +64,33 @@ const visible = ref(false);
 const auth = getAuth();
 const appStore = useAppStore();
 const router = useRouter();
-const Login = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((userCredential) => {
-      appStore.toastSuccess("Login Success!");
-      // const user = userCredential.user;
-      router.replace("/");
-    })
-    .catch((error) => {
-      appStore.toastError("Login Failed");
-    });
+const Login = async () => {
+  isLoading.value = true;
+  let email;
+  if (!isEmail(username.value)) {
+    const usersRef = collection(db, "usernames");
+    const q = query(usersRef, where("username", "==", username.value));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      alert("Username tidak ditemukan");
+      return;
+    }
+    const userData = querySnapshot.docs[0].data();
+    email = userData.email;
+  } else {
+    email = username.value;
+  }
+  try {
+    signInWithEmailAndPassword(auth, email, password.value)
+      .then((userCredential) => {
+        appStore.toastSuccess("Login Success!");
+        isLoading.value = false;
+        // const user = userCredential.user;
+        router.replace("/");
+      })
+      .catch((error) => {
+        appStore.toastError("Login Failed");
+      });
+  } catch (error) {}
 };
 </script>

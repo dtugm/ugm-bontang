@@ -43,6 +43,6 @@ onMounted(() => {
     (item) => item.responsibleId === pj?.id
   );
   employee.value = selectedEmployees;
-  tab.value = selectedEmployees[0].id;
+  tab.value = selectedEmployees[0]?.id;
 });
 </script>
