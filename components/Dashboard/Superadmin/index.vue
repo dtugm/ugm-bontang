@@ -68,7 +68,7 @@ const mockData = {
         return gradient;
       },
       borderColor: "#EB0E44",
-      data: [10, 80, 40, 70, 46, 90, 50],
+      data: [0, 22],
       fill: true,
       radius: 0,
       borderWidth: 2,
@@ -87,7 +87,7 @@ const mockData = {
         return gradient;
       },
       borderColor: "#228BE6",
-      data: [10, 70, 30, 60, 33, 80, 40],
+      data: [0, 12],
       fill: true,
       radius: 0,
       borderWidth: 2,
@@ -106,7 +106,7 @@ const mockData = {
         return gradient;
       },
       borderColor: "#4CAF50",
-      data: [10, 80, 50, 60, 30, 80, 40],
+      data: [0],
       fill: true,
       radius: 0,
       borderWidth: 2,

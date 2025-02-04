@@ -90,24 +90,29 @@ export default {
         scales: {
           y: {
             min: 0,
+            max: 100,
+            title: {
+              display: true,
+              text: "Presentasi Selesai (%)",
+            },
             ticks: {
-              stepSize: 1,
+              stepSize: 10,
             },
-            max: (context) => {
-              const chartData = context.chart.data;
-              const datasets = chartData.datasets || [];
+            // max: (context) => {
+            //   const chartData = context.chart.data;
+            //   const datasets = chartData.datasets || [];
 
-              if (datasets.length === 0) {
-                return 10;
-              }
+            //   if (datasets.length === 0) {
+            //     return 10;
+            //   }
 
-              const data = datasets.reduce((acc, curr) => {
-                return [...acc, ...curr.data];
-              }, []);
+            //   const data = datasets.reduce((acc, curr) => {
+            //     return [...acc, ...curr.data];
+            //   }, []);
 
-              const maxValue = Math.max(...data);
-              return maxValue + 2;
-            },
+            //   const maxValue = Math.max(...data);
+            //   return maxValue + 2;
+            // },
           },
         },
         // plugins: {
