@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <LMap
     ref="map"
     style="height: 100vh"
@@ -18,9 +18,63 @@
       :key="geojsonKey"
     />
   </LMap>
-</template>
+</template> -->
+<template>
+  <div class="relative h-screen w-full">
+    <!-- Map Container -->
+    <div id="petaKerjaMap" class="h-full w-full z-0 pointer-events-auto"></div>
 
+    <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
+      <DashboardPjProgressCardSurverPbb
+        class="w-[calc(100vw-70px)] md:w-[300px]"
+      />
+    </div>
+  </div>
+</template>
 <script setup>
+import { onMounted } from "vue";
+import L from "leaflet";
+const latitude = 0.155452;
+const longitude = 117.475476;
+const zoomLevel = 15;
+const osm =
+  "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+async function addGeoJson(url, map, style) {
+  await fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      L.geoJSON(data, style).addTo(map);
+    });
+}
+const geoJsonFiles = ["peta_kerja_1", "peta_kerja_2", "peta_kerja_3"];
+onMounted(async () => {
+  const mapElement = document.getElementById("petaKerjaMap");
+  if (!mapElement) {
+    console.error("Elemen map tidak ditemukan");
+    return;
+  }
+  const map = L.map("petaKerjaMap").setView([latitude, longitude], zoomLevel);
+  L.tileLayer(osm, {
+    maxZoom: 18,
+  }).addTo(map);
+
+  addGeoJson("/new_bontang.geojson", map, {
+    style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
+  });
+  geoJsonFiles.forEach((blok) => {
+    addGeoJson(`/petaKerja/${blok}.geojson`, map, {
+      style: (feature) => ({
+        fillColor: "rgba(139, 146, 152, 1)",
+        fillOpacity: 0.5,
+        weight: 0.9,
+        color: "white",
+      }),
+    });
+  });
+});
+</script>
+
+<!-- <script setup>
 import { ref } from "vue";
 import { collection, getFirestore } from "firebase/firestore";
 const geojson = ref(undefined);
@@ -48,4 +102,4 @@ function checkFeature(feature) {
     (item) => item.D_NOP === feature.properties.D_NOP && item.status === true
   );
 }
-</script>
+</script> -->
