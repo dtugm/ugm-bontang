@@ -2,12 +2,14 @@
   <v-list>
     <v-list-item
       :prepend-avatar="
-        authStore.user.email == 'hyatma.a.a@mail.ugm.ac.id'
-          ? '/logo/frontman_2.jpg'
-          : '/logo/HD-wallpaper-squid-game-worker-art.jpg'
+        profileMap[authStore.user.email] ??
+        '/logo/HD-wallpaper-squid-game-worker-art.jpg'
       "
-      :subtitle="authStore.user.email"
-      :title="authStore.user.displayName"
+      :title="
+        authStore.user.email == 'bontangjaya@gmail.com'
+          ? 'Bontang'
+          : authStore.user.displayName
+      "
     ></v-list-item>
   </v-list>
   <v-list mandatory density="compact" nav @update:selected="changePage">
@@ -47,6 +49,10 @@
 <script lang="ts" setup>
 import appConstant from "~/app/constant/app.constant";
 import usersConstant from "~/app/constant/users.constant";
+const profileMap: any = {
+  "bontangjaya@gmail.com": "/logo/Logo_1.png",
+  "hyatma.a.a@mail.ugm.ac.id": "/logo/frontman_2.jpg",
+};
 const authStore: any = useAuthStore();
 const selectedTab = ref("/");
 const arrays = [
