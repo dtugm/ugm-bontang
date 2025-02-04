@@ -29,6 +29,10 @@ export default {
   ],
   superadmin_user: [
     "superadmin@gmail.com",
+    "bontangsyafrudin@gmail.com",
+    "bontanggiri@gmail.com",
+    "bontangheru@gmail.com",
+    "bontangsyafriansyah@gmail.com",
     "bontangjaya@gmail.com",
     "digitaltwinugm@gmail.com",
   ],
