@@ -1,7 +1,13 @@
 export default {
   evaluasiHeader: [
     { title: "ID", value: "id", align: "center" },
-    { title: "GRID", value: "GRID", align: "center", sortable: true },
+    {
+      title: "GRID",
+      value: "GRID",
+      align: "center",
+      sortable: true,
+      orderBy: "GRID",
+    },
     { title: "Status", value: "status", align: "center" },
     { title: "Date Submitted", minWidth: "150px", value: "date_submitted" },
     { title: "Files", value: "file" },

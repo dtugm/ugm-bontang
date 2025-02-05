@@ -1,9 +1,25 @@
 <template>
+  <v-row no-gutters class="items-center gap-4">
+    <AppTextH5 color="primary"> List Kerjaan </AppTextH5>
+    <v-spacer></v-spacer>
+    <v-col lg="3">
+      <AppInputAutocomplete
+        v-model="filterTable"
+        :items="[
+          { title: 'To Do', value: 0 },
+          { title: 'To Do Review', value: 1 },
+          { title: 'Revision', value: 2 },
+          { title: 'Done', value: 3 },
+        ]"
+      />
+    </v-col>
+  </v-row>
   <v-data-table
     class="h-[calc(100vh-90px)]"
-    :items="taskList"
+    :items="filterTaskList"
     :headers="header"
     items-per-page="20"
+    v-model:sort-by="sortBy"
     fixed-header
     fixed-footer
   >
@@ -33,7 +49,7 @@
         color="primary"
         variant="outlined"
         @click="processTask(item)"
-        >Porcess</v-btn
+        >Evaluate</v-btn
       >
     </template>
   </v-data-table>
@@ -243,14 +259,21 @@ import {
 } from "firebase/firestore";
 import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import pjConstant from "~/app/constant/pj.constant";
+const sortBy: any = ref([{ key: "GRID", order: "asc" }]);
 const props = defineProps({
   employee: {
     type: Object,
     default: () => {},
   },
 });
+const filterTable = ref(0);
 const db = useFirestore();
 const taskList: any = ref([]);
+const filterTaskList = computed(() => {
+  return taskList.value.filter((item: any) => {
+    return item.status == filterTable.value;
+  });
+});
 const isTableLoading = ref(false);
 const header: any = pjConstant.evaluasiHeader;
 const statusGrid: any = petaGarisConstant.statusGrid;
@@ -261,9 +284,10 @@ async function fetchFilteredOrders() {
   const collectionPath = `/responsibles/${props.employee?.responsibleId}/employees/${props.employee?.id}/peta_garis_task`;
   try {
     const ordersQuery = query(
-      collection(db, collectionPath),
-      where("status", "!=", 0)
+      collection(db, collectionPath)
+      // where("status", "!=", 0)
     );
+    console.log("get");
     const querySnapshot = await getDocs(ordersQuery);
     taskList.value = querySnapshot.docs.map((doc) => ({
       id: doc.id,
