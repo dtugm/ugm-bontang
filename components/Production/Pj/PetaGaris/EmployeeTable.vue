@@ -15,10 +15,10 @@
     </v-col>
   </v-row>
   <v-data-table
-    class="h-[calc(100vh-90px)]"
+    class="h-[calc(100vh-150px)]"
     :items="filterTaskList"
     :headers="header"
-    items-per-page="20"
+    items-per-page="50"
     v-model:sort-by="sortBy"
     fixed-header
     fixed-footer
