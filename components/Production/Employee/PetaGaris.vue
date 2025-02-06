@@ -3,14 +3,26 @@
     <v-card class="h-full" variant="flat">
       <v-container>
         <v-row no-gutters class="items-center gap-4">
-          <slot name="prepend"></slot>
           <AppTextH5 color="text"> Progress Peta Garis</AppTextH5>
+          <v-spacer></v-spacer>
+          <v-col lg="3">
+            <AppInputAutocomplete
+              v-model="filterTable"
+              :items="[
+                { title: 'To Do', value: 0 },
+                { title: 'To Do Review', value: 1 },
+                { title: 'Revision', value: 2 },
+                { title: 'Done', value: 3 },
+              ]"
+              hide-details
+            />
+          </v-col>
         </v-row>
         <v-data-table
-          class="h-[calc(100vh-80px)] header-theme"
+          class="h-[calc(100vh-100px)] header-theme"
           :loading="isTableLoading"
           :headers="header"
-          :items="taskList"
+          :items="filterTaskList"
           items-per-page="50"
           fixed-header
           fixed-footer
@@ -130,7 +142,7 @@ import employeeConstant from "~/app/constant/employee.constant";
 import appMock from "~/app/mock/app.mock";
 const digitasiStatusColor: any = petaGarisConstant.digitasiStatusColor;
 const digitasiStatusIcon: any = petaGarisConstant.digitasiStatusIcon;
-
+const filterTable = ref(0);
 //Firebase
 const db = useFirestore();
 const appStore = useAppStore();
@@ -152,6 +164,11 @@ const statusGridColor: any = petaGarisConstant.statusGridColor;
 const employeeList = appMock.employee;
 const authStore = useAuthStore();
 const taskList: any = ref([]);
+const filterTaskList = computed(() => {
+  return taskList.value.filter((item: any) => {
+    return item.status == filterTable.value;
+  });
+});
 const employee: any = employeeList.find(
   (employee) => employee.email == authStore.user?.email
 );
