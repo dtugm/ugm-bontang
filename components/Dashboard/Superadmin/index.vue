@@ -68,7 +68,7 @@ const mockData = {
         return gradient;
       },
       borderColor: "#EB0E44",
-      data: [0, 22],
+      data: [0, 32.5],
       fill: true,
       radius: 0,
       borderWidth: 2,
