@@ -37,8 +37,7 @@ import L from "leaflet";
 const latitude = 0.155452;
 const longitude = 117.475476;
 const zoomLevel = 15;
-const osm =
-  "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+const osm = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 async function addGeoJson(url, map, style) {
   await fetch(url)
     .then((response) => response.json())
@@ -58,6 +57,14 @@ onMounted(async () => {
     maxZoom: 18,
   }).addTo(map);
 
+  L.tileLayer(
+    "https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{y}.png",
+    {
+      tms: true,
+      minZoom: 12,
+      maxZoom: 19,
+    }
+  ).addTo(map);
   addGeoJson("/new_bontang.geojson", map, {
     style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
   });
