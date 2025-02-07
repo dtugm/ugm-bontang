@@ -141,14 +141,14 @@ export default {
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
       hasil: 28,
     },
-    {
-      id: "e15",
-      name: "David Emanuel Putra Ham Imbiri",
-      email: "chrisyal9@gmail.com",
-      responsibleId: "pj4",
-      responsibleEmail: "fikrikrz88@gmail.com",
-      hasil: 29,
-    },
+    // {
+    //   id: "e15",
+    //   name: "David Emanuel Putra Ham Imbiri",
+    //   email: "chrisyal9@gmail.com",
+    //   responsibleId: "pj4",
+    //   responsibleEmail: "fikrikrz88@gmail.com",
+    //   hasil: 29,
+    // },
     {
       id: "e16",
       name: "Farry Handika Nuradhiba",
@@ -171,7 +171,7 @@ export default {
       email: "michaelkrisna1975@mail.ugm.ac.id",
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
-      hasil: 31,
+      hasil: 46,
     },
   ],
 };

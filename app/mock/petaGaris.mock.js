@@ -112,14 +112,14 @@ export default {
       pj: "hyatma.a.a@mail.ugm.ac.id",
       color: "rgba(0, 255, 255, 1)",
     },
-    {
-      bagi_18: 15,
-      employee: "David Emanuel Putra Ham Imbiri",
-      employee_email: "chrisyal9@gmail.com",
-      jumlah_grid: 14,
-      pj: "fikrikrz88@gmail.com",
-      color: "rgba(255, 0, 255, 1)",
-    },
+    // {
+    //   bagi_18: 15,
+    //   employee: "David Emanuel Putra Ham Imbiri",
+    //   employee_email: "chrisyal9@gmail.com",
+    //   jumlah_grid: 14,
+    //   pj: "fikrikrz88@gmail.com",
+    //   color: "rgba(255, 0, 255, 1)",
+    // },
     {
       bagi_18: 16,
       employee: "Farry Handika Nuradhiba",
