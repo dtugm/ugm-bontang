@@ -25,7 +25,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" sm="9">
+      <v-col cols="12" sm="12">
         <v-row>
           <v-col cols="12" sm="4">
             <DashboardPjProgressCardPetaGaris />
@@ -45,9 +45,9 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" sm="3">
+      <!-- <v-col cols="12" sm="3">
         <DashboardLeaderboard />
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -62,13 +62,13 @@ const mockData = {
         const canvas = ctx.chart.ctx;
         const gradient = canvas.createLinearGradient(0, 0, 0, 200);
 
-        gradient.addColorStop(0, "#EB0E44");
+        gradient.addColorStop(0, "#4CAF50");
         gradient.addColorStop(1, "#ffffff00");
 
         return gradient;
       },
-      borderColor: "#EB0E44",
-      data: [0, 32.5],
+      borderColor: "#4CAF50",
+      data: [0, 53.31],
       fill: true,
       radius: 0,
       borderWidth: 2,
@@ -100,12 +100,12 @@ const mockData = {
         const canvas = ctx.chart.ctx;
         const gradient = canvas.createLinearGradient(0, 0, 0, 200);
 
-        gradient.addColorStop(0, "#4CAF50");
+        gradient.addColorStop(0, "#EB0E44");
         gradient.addColorStop(1, "#ffffff00");
 
         return gradient;
       },
-      borderColor: "#4CAF50",
+      borderColor: "#EB0E44",
       data: [0],
       fill: true,
       radius: 0,
