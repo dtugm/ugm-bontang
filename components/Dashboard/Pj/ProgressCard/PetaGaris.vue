@@ -2,7 +2,7 @@
   <AppCardProgressCircular
     title="Peta Garis"
     :value="petaGarisStore.totalGrid"
-    done-color="primary"
+    done-color="success"
     :target-value="514"
   />
 </template>
