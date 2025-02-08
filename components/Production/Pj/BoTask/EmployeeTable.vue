@@ -30,18 +30,20 @@
     </template>
     <template #item.date_submitted="{ item }: any">
       <p v-if="item.date_submitted">
-        {{ formatDateFirebase(item.date_submitted) }}
+        {{ item.date_submitted }}
       </p>
       <p v-else>Not submmited yet</p>
     </template>
     <template #item.file="{ item }: any">
       <v-btn
+        v-if="item.file_url"
         icon="mdi-folder-download-outline"
         class="text-none"
         size="sm"
         variant="flat"
         @click="downloadFile(item.file_url)"
       ></v-btn>
+      <p v-else>Not submmited yet</p>
     </template>
     <template #item.action="{ item }: any">
       <v-btn
@@ -57,7 +59,7 @@
     <v-card-text>
       <v-form>
         <v-row>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="12">
             <AppInputSelect
               class-label="text-primary font-semibold"
               label="Digitasi Bangunan"
@@ -77,139 +79,7 @@
             <AppInputTextarea
               label="Error Notes"
               v-model="selectedtask.digitasi_bangunan_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Transportasi"
-              v-model="selectedtask.digitasi_transportasi"
-              :items="digitasiStatusList"
-              chips
               hide-details
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_transportasi_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Badan Air"
-              ref="formSubmitRef"
-              v-model="selectedtask.digitasi_badan_air"
-              :items="digitasiStatusList"
-              hide-details
-              chips
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_badan_air_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Penutupan Lahan"
-              v-model="selectedtask.digitasi_penutupan_lahan"
-              :items="digitasiStatusList"
-              chips
-              hide-details
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_penutupan_lahan_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Relief"
-              v-model="selectedtask.digitasi_relief"
-              :items="digitasiStatusList"
-              chips
-              hide-details
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_relief_notes"
-            />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Batas Administrasi"
-              v-model="selectedtask.digitasi_batas_administrasi"
-              :items="digitasiStatusList"
-              chips
-              hide-details
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_batas_administrasi_notes"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="3">
-            <AppInputSelect
-              class-label="text-primary font-semibold"
-              label="Digitasi Toponimi"
-              v-model="selectedtask.digitasi_toponomi"
-              :items="digitasiStatusList"
-              hide-details
-            >
-              <template v-slot:chip="{ props, item }">
-                <v-chip
-                  v-bind="props"
-                  :text="item.title"
-                  :color="digitasiStatusColor[item.value]"
-                ></v-chip>
-              </template>
-            </AppInputSelect>
-            <AppInputTextarea
-              label="Error Notes"
-              v-model="selectedtask.digitasi_toponomi_notes"
             />
           </v-col>
         </v-row>
@@ -259,7 +129,7 @@ import {
 } from "firebase/firestore";
 import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import pjConstant from "~/app/constant/pj.constant";
-const sortBy: any = ref([{ key: "GRID", order: "asc" }]);
+const sortBy: any = ref([{ key: "new_grid", order: "asc" }]);
 const props = defineProps({
   employee: {
     type: Object,
@@ -275,13 +145,13 @@ const filterTaskList = computed(() => {
   });
 });
 const isTableLoading = ref(false);
-const header: any = pjConstant.evaluasiHeader;
+const header: any = pjConstant.evaluasiBoHeader;
 const statusGrid: any = petaGarisConstant.statusGrid;
 const statusGridColor: any = petaGarisConstant.statusGridColor;
 const digitasiStatusColor: any = petaGarisConstant.digitasiStatusColor;
 async function fetchFilteredOrders() {
   isTableLoading.value = true;
-  const collectionPath = `/responsibles/${props.employee?.responsibleId}/employees/${props.employee?.id}/peta_garis_task`;
+  const collectionPath = `/employee/${props.employee?.uid}/bo_task`;
   try {
     const ordersQuery = query(
       collection(db, collectionPath)
@@ -323,11 +193,9 @@ const processTask = (task: any) => {
 const yakin = ref(false);
 const appStore = useAppStore();
 const submitTask = async (status: number) => {
-  const responsiblesRef = collection(db, "responsibles");
-  const responsibleDoc = doc(responsiblesRef, props.employee?.responsibleId);
-  const employeesRef = collection(responsibleDoc, "employees");
-  const employeeDoc = doc(employeesRef, props.employee?.id);
-  const tasksRef = collection(employeeDoc, "peta_garis_task");
+  const responsiblesRef = collection(db, "employee");
+  const responsibleDoc = doc(responsiblesRef, props.employee?.uid);
+  const tasksRef = collection(responsibleDoc, "bo_task");
   const taskDoc = doc(tasksRef, selectedtask.value.id);
 
   const payload = {
@@ -343,7 +211,7 @@ const submitTask = async (status: number) => {
         props.employee?.responsibleEmail,
         props.employee?.email,
         "REVISI DIGITASI",
-        `Revisi pada grid: ${selectedtask.value.GRID} Area: ${selectedtask.value.bagi_18}. Buka Aplikasi untuk mencari lebih tahu mengenai Detailnya`
+        `Revisi pada grid: ${selectedtask.value.new_grid} Area: ${selectedtask.value.area}. Buka Aplikasi untuk mencari lebih tahu mengenai Detailnya`
       );
     }
     appStore.toastSuccess("Data berhasil disubmit!");

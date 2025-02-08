@@ -36,6 +36,7 @@ export default {
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
       hasil: 29,
+      uid: "HOwotiYND2gmUsOR6gK0HxMLyRa2",
     },
     {
       id: "e2",
@@ -44,6 +45,7 @@ export default {
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
       hasil: 28,
+      uid: "SjET6hoq94VNoKXGlRqt3lageeu1",
     },
     {
       id: "e3",
@@ -52,6 +54,7 @@ export default {
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
       hasil: 28,
+      uid: "jCB466erHcN6IduQBJo3LLIIkjy1",
     },
     {
       id: "e4",
@@ -60,6 +63,7 @@ export default {
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
       hasil: 28,
+      uid: "VinkZCGZDOer3Pj6tYIjVaA4zSx2",
     },
     {
       id: "e5",
@@ -68,6 +72,7 @@ export default {
       responsibleId: "pj1",
       responsibleEmail: "kinanthinastiti@gmail.com",
       hasil: 28,
+      uid: "mX9mPBQ6jVNVZVRNvfcUNizPOdf2",
     },
     {
       id: "e6",
@@ -76,6 +81,7 @@ export default {
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
       hasil: 29,
+      uid: "iYD3r3PTZ0gjjYBakG63s7bnAh92",
     },
     {
       id: "e7",
@@ -84,6 +90,7 @@ export default {
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
       hasil: 28,
+      uid: "yRVk6VARKYR0NrpEbLt0iYrWiu02",
     },
     {
       id: "e8",
@@ -92,6 +99,7 @@ export default {
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
       hasil: 28,
+      uid: "aki8lkZuLMgq4KTKD19JdQcj3Xh1",
     },
     {
       id: "e9",
@@ -100,6 +108,7 @@ export default {
       responsibleId: "pj2",
       responsibeEmail: "prasetyarini.ea@gmail.com",
       hasil: 29,
+      uid: "HSBTJ0cIEXQ1LiDuH1UHNfF9w0D2",
     },
     {
       id: "e10",
@@ -108,6 +117,7 @@ export default {
       responsibleId: "pj2",
       responsibleEmail: "prasetyarini.ea@gmail.com",
       hasil: 23,
+      uid: "04Uq9CVhkfQ5jyniCDsK78hWaUr1",
     },
     {
       id: "e11",
@@ -116,6 +126,7 @@ export default {
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
       hasil: 29,
+      uid: "VXM4axaqIjSHHXD64BwsY2BBkFv1",
     },
     {
       id: "e12",
@@ -124,6 +135,7 @@ export default {
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
       hasil: 32,
+      uid: "WYOF4KvxolOlB6zYfo9M13Uf8pk1",
     },
     {
       id: "e13",
@@ -132,6 +144,7 @@ export default {
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
       hasil: 27,
+      uid: "cQZh6a4FrnSoodhdCTbkYept8sO2",
     },
     {
       id: "e14",
@@ -140,15 +153,8 @@ export default {
       responsibleId: "pj3",
       responsibleEmail: "hyatma.a.a@mail.ugm.ac.id",
       hasil: 28,
+      uid: "pYASMyWEA9X2NC6x8YecmlnV93t1",
     },
-    // {
-    //   id: "e15",
-    //   name: "David Emanuel Putra Ham Imbiri",
-    //   email: "chrisyal9@gmail.com",
-    //   responsibleId: "pj4",
-    //   responsibleEmail: "fikrikrz88@gmail.com",
-    //   hasil: 29,
-    // },
     {
       id: "e16",
       name: "Farry Handika Nuradhiba",
@@ -156,6 +162,7 @@ export default {
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
       hasil: 30,
+      uid: "GXTmCd9nYYbCTVAE01hBSZIKtoX2",
     },
     {
       id: "e17",
@@ -164,6 +171,7 @@ export default {
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
       hasil: 30,
+      uid: "GVR1ve5gvBRtBGpQ9LhJFywFc3c2",
     },
     {
       id: "e18",
@@ -172,6 +180,26 @@ export default {
       responsibleId: "pj4",
       responsibleEmail: "fikrikrz88@gmail.com",
       hasil: 46,
+      uid: "ByFjSk78eMPZGApZoNRn1T9JVFG3",
     },
+  ],
+  employee_uid: [
+    "HOwotiYND2gmUsOR6gK0HxMLyRa2",
+    "SjET6hoq94VNoKXGlRqt3lageeu1",
+    "jCB466erHcN6IduQBJo3LLIIkjy1",
+    "VinkZCGZDOer3Pj6tYIjVaA4zSx2",
+    "mX9mPBQ6jVNVZVRNvfcUNizPOdf2",
+    "iYD3r3PTZ0gjjYBakG63s7bnAh92",
+    "yRVk6VARKYR0NrpEbLt0iYrWiu02",
+    "aki8lkZuLMgq4KTKD19JdQcj3Xh1",
+    "HSBTJ0cIEXQ1LiDuH1UHNfF9w0D2",
+    "04Uq9CVhkfQ5jyniCDsK78hWaUr1",
+    "VXM4axaqIjSHHXD64BwsY2BBkFv1",
+    "WYOF4KvxolOlB6zYfo9M13Uf8pk1",
+    "cQZh6a4FrnSoodhdCTbkYept8sO2",
+    "pYASMyWEA9X2NC6x8YecmlnV93t1",
+    "GXTmCd9nYYbCTVAE01hBSZIKtoX2",
+    "GVR1ve5gvBRtBGpQ9LhJFywFc3c2",
+    "ByFjSk78eMPZGApZoNRn1T9JVFG3",
   ],
 };

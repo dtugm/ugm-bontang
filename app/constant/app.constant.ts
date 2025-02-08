@@ -95,6 +95,11 @@ export default {
           title: "3D Models",
           path: "/production-3d-models",
         },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Building Outline",
+          path: "/production-bo",
+        },
       ],
     },
     {
@@ -122,6 +127,11 @@ export default {
           prepend_icon: "mdi-map",
           title: "Peta Garis",
           path: "/production-peta-garis",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Building Outline",
+          path: "/production-bo",
         },
         // {
         //   prepend_icon: "mdi-cube-outline",

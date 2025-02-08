@@ -86,4 +86,7 @@ export default {
     digitasi_toponomi: "Toponomi",
     digitasi_transportasi: "Transportasi",
   },
+  digitasiItemBo: {
+    digitasi_bangunan: "Bangunan",
+  },
 };

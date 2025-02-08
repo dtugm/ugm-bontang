@@ -7,6 +7,25 @@ export default {
     { title: "Date Submitted", minWidth: "150px", value: "date_submitted" },
     { title: "Action", value: "action", width: "200px", align: "center" },
   ],
+  boTaskHeader: [
+    { title: "ID", value: "id", align: "center" },
+    {
+      title: "OLD GRID",
+      value: "old_grid",
+      sortable: true,
+      orderBy: "old_grid",
+    },
+    {
+      title: "NEW GRID",
+      value: "new_grid",
+      sortable: true,
+      orderBy: "new_grid",
+    },
+    { title: "Status", value: "status", align: "center" },
+    { title: "Files", value: "file_kerja" },
+    { title: "Date Submitted", minWidth: "150px", value: "date_submitted" },
+    { title: "Action", value: "action", width: "200px", align: "center" },
+  ],
   logBookHeader: [
     { title: "Tanggal", value: "tanggal", minWidth: "200" },
     { title: "Kegiatan", value: "kegiatan", minWidth: "200" },

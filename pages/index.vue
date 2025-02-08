@@ -14,4 +14,11 @@ const pj_user = usersConstant.pj_user;
 const employee_user = usersConstant.employee_user;
 const superadmin_user = usersConstant.superadmin_user;
 const authStore = useAuthStore();
+const petaGarisStore = usePetaGarisStore();
+if (
+  superadmin_user.includes(authStore.user.email) ||
+  pj_user.includes(authStore.user.email)
+) {
+  petaGarisStore.queryAll();
+}
 </script>

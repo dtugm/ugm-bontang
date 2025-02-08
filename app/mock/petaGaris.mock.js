@@ -1,6 +1,7 @@
 export default {
   pembagianArea: [
     {
+      employee_id: "e1",
       bagi_18: 1,
       employee: "Cintia Lirifa Asmarani",
       jumlah_grid: 29,
@@ -9,6 +10,7 @@ export default {
       color: "rgba(255, 99, 132, 1)",
     },
     {
+      employee_id: "e2",
       bagi_18: 2,
       employee: "Anisa Putri Ambiani",
       employee_email: "anisaputri1006@gmail.com",
@@ -17,6 +19,7 @@ export default {
       color: "rgba(204, 65, 67, 1)",
     },
     {
+      employee_id: "e3",
       bagi_18: 3,
       employee: "Lutfy Angsoka Novita",
       employee_email: "angsokanovita@gmail.com",
@@ -25,6 +28,7 @@ export default {
       color: "rgba(255, 206, 86, 1)",
     },
     {
+      employee_id: "e4",
       bagi_18: 4,
       employee: "Safira Ardelia Oktaviani",
       employee_email: "safiraardelia25@gmail.com",
@@ -33,6 +37,7 @@ export default {
       color: "rgba(75, 0, 130, 1)",
     },
     {
+      employee_id: "e5",
       bagi_18: 5,
       employee: "Indah Fitriyany",
       employee_email: "indahfitriyaa11@gmail.com",
@@ -41,6 +46,7 @@ export default {
       color: "rgba(153, 102, 255, 1)",
     },
     {
+      employee_id: "e6",
       bagi_18: 6,
       employee: "Yeni Ikawati",
       employee_email: "yeniikawati99@gmail.com",
@@ -49,6 +55,7 @@ export default {
       color: "rgba(117, 57, 35, 1)",
     },
     {
+      employee_id: "e7",
       bagi_18: 7,
       employee: "Annisa Rizky",
       employee_email: "annisa.rizky.kusuma04@gmail.com",
@@ -57,6 +64,7 @@ export default {
       color: "rgba(201, 203, 207, 1)",
     },
     {
+      employee_id: "e8",
       bagi_18: 8,
       employee: "Shinta Puspa Megawanti",
       employee_email: "shintapuspam43@gmail.com",
@@ -65,6 +73,7 @@ export default {
       color: "rgba(0, 128, 192, 1)",
     },
     {
+      employee_id: "e9",
       bagi_18: 9,
       employee: "Devi Zulfa Miftakuljannah",
       employee_email: "devizulfa77@gmail.com",
@@ -73,6 +82,7 @@ export default {
       color: "rgba(128, 0, 64, 1)",
     },
     {
+      employee_id: "e10",
       bagi_18: 10,
       employee: "Nabilla Dwi Chandra Kumala",
       employee_email: "99nabilla@gmail.com",
@@ -81,6 +91,7 @@ export default {
       color: "rgba(255, 0, 0, 1)",
     },
     {
+      employee_id: "e11",
       bagi_18: 11,
       employee: "Ainun Nisa Rezika",
       employee_email: "ainun.nisa.rezika@mail.ugm.ac.id",
@@ -89,6 +100,7 @@ export default {
       color: "rgba(128, 128, 0, 1)",
     },
     {
+      employee_id: "e12",
       bagi_18: 12,
       employee: "Endang Retno Nurhayati",
       employee_email: "endangretnonurhayati@gmail.com",
@@ -97,6 +109,7 @@ export default {
       color: "rgba(0, 0, 255, 1)",
     },
     {
+      employee_id: "e13",
       bagi_18: 13,
       employee: "Suzi Tessa",
       employee_email: "suzitessa99@gmail.com",
@@ -105,6 +118,7 @@ export default {
       color: "rgba(146, 201, 255, 1)",
     },
     {
+      employee_id: "e14",
       bagi_18: 14,
       employee: "Wegyzaldy",
       employee_email: "zaldywegy@gmail.com",
@@ -121,6 +135,7 @@ export default {
     //   color: "rgba(255, 0, 255, 1)",
     // },
     {
+      employee_id: "e16",
       bagi_18: 16,
       employee: "Farry Handika Nuradhiba",
       employee_email: "farryhandika.n79@gmail.com",
@@ -129,6 +144,7 @@ export default {
       color: "rgba(255, 128, 0, 1)",
     },
     {
+      employee_id: "e17",
       bagi_18: 17,
       employee: "Praba Sultan Arian Alhamdy Syukron",
       employee_email: "prabarian09@gmail.com",
@@ -137,6 +153,7 @@ export default {
       color: "rgba(64, 0, 128, 1)",
     },
     {
+      employee_id: "e18",
       bagi_18: 18,
       employee: "Michael Krisna Revio Putra",
       employee_email: "michaelkrisna1975@mail.ugm.ac.id",

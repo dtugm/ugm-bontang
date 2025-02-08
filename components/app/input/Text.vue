@@ -1,6 +1,8 @@
 <template>
   <div :class="{ 'd-flex flex-row items-center': vertical }">
-    <label v-if="label" :for="label" :class="classLabel">{{ label }}</label>
+    <label v-if="label && isFilter" :for="label" :class="classLabel">{{
+      label
+    }}</label>
     <v-text-field
       v-bind="$attrs"
       :id="label || undefined"
@@ -25,6 +27,7 @@ interface Props {
   placeholder: string;
   density: Density;
   vertical: boolean;
+  isFilter: boolean;
   classLabel: string;
 }
 

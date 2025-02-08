@@ -5,6 +5,7 @@ export const usePetaGarisStore = defineStore("petaGaris", () => {
   const totalArray: any = ref([]);
   const leaderBoard = ref({});
   const queryAll = async () => {
+    console.log("getBang");
     const db = useFirestore();
     const tasksQuery = query(
       collectionGroup(db, "peta_garis_task"),
@@ -32,7 +33,7 @@ export const usePetaGarisStore = defineStore("petaGaris", () => {
     totalArray.value = results;
     leaderBoard.value = taskCount;
   };
-  queryAll();
+  // queryAll();
   return {
     leaderBoard,
     totalGrid,
