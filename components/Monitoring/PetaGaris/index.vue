@@ -36,8 +36,31 @@ onMounted(async () => {
   const area = await response.json();
   const responseGrid = await fetch("/petagaris/GRID_PETA_GARIS.geojson");
   const grid = await responseGrid.json();
-  petaGarisStore.queryAll().then(async () => {
-    const gridGeoJson = L.geoJson(grid, {
+  if (petaGarisStore.totalArray.length == 0) {
+    petaGarisStore.queryAll().then(async () => {
+      const gridGeoJson = L.geoJson(grid, {
+        style: (feature) => ({
+          fillColor: petaGarisStore?.totalArray.some(
+            (item) =>
+              item.GRID === feature?.properties?.GRID && // Pastikan GRID ada
+              Number(item.bagi_18) === feature?.properties?.bagi_18 // Pastikan bagi_18 ada
+          )
+            ? "green"
+            : "rgba(139, 146, 152, 1)",
+          fillOpacity: petaGarisStore?.totalArray.some(
+            (item) =>
+              item.GRID === feature?.properties?.GRID && // Pastikan GRID ada
+              Number(item.bagi_18) === feature?.properties?.bagi_18 // Pastikan bagi_18 ada
+          )
+            ? 1
+            : 0.5,
+          color: "white",
+          opacity: 1,
+        }),
+      }).addTo(map);
+    });
+  } else {
+    L.geoJson(grid, {
       style: (feature) => ({
         fillColor: petaGarisStore?.totalArray.some(
           (item) =>
@@ -57,7 +80,7 @@ onMounted(async () => {
         opacity: 1,
       }),
     }).addTo(map);
-  });
+  }
 });
 const isMobile = ref(window.innerWidth < 768);
 

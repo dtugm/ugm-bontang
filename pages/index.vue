@@ -19,6 +19,8 @@ if (
   superadmin_user.includes(authStore.user.email) ||
   pj_user.includes(authStore.user.email)
 ) {
-  petaGarisStore.queryAll();
+  if (petaGarisStore.totalArray.length == 0) {
+    petaGarisStore.queryAll();
+  }
 }
 </script>
