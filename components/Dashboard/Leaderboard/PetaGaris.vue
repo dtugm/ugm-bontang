@@ -7,6 +7,7 @@
       @click=""
     >
       <template #subtitle>
+        {{ leaderBoard[item.id] }}/{{ item.hasil }}
         <v-progress-linear
           color="primary"
           :model-value="(leaderBoard[item.id] / item.hasil) * 100"
