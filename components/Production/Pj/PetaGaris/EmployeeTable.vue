@@ -42,6 +42,14 @@
         variant="flat"
         @click="downloadFile(item.file_url)"
       ></v-btn>
+      <v-btn
+        v-if="item.file_url"
+        icon="mdi-folder-google-drive"
+        class="text-none"
+        size="sm"
+        variant="flat"
+        @click="openFile(item.file_url)"
+      ></v-btn>
     </template>
     <template #item.action="{ item }: any">
       <v-btn
@@ -266,6 +274,9 @@ const props = defineProps({
     default: () => {},
   },
 });
+const openFile = async (url: string) => {
+  window.open(url, "_blank");
+};
 const filterTable = ref(0);
 const db = useFirestore();
 const taskList: any = ref([]);
