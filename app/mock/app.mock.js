@@ -182,6 +182,15 @@ export default {
       hasil: 46,
       uid: "ByFjSk78eMPZGApZoNRn1T9JVFG3",
     },
+    {
+      id: "e19",
+      name: "Yudhisthira Lukman Kestriarto",
+      email: "lkyudhistira@mail.ugm.ac.id",
+      responsibleId: "pj4",
+      responsibleEmail: "fikrikrz88@gmail.com",
+      hasil: 14,
+      uid: "2n2USlTjKFYXX1TOJYqiJVR9sAp2",
+    },
   ],
   employee_uid: [
     "HOwotiYND2gmUsOR6gK0HxMLyRa2",
@@ -201,5 +210,6 @@ export default {
     "GXTmCd9nYYbCTVAE01hBSZIKtoX2",
     "GVR1ve5gvBRtBGpQ9LhJFywFc3c2",
     "ByFjSk78eMPZGApZoNRn1T9JVFG3",
+    "2n2USlTjKFYXX1TOJYqiJVR9sAp2",
   ],
 };

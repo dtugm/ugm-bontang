@@ -161,6 +161,15 @@ export default {
       pj: "fikrikrz88@gmail.com",
       color: "rgba(0, 64, 128, 1)",
     },
+    {
+      employee_id: "e19",
+      bagi_18: 15,
+      employee: "Yudhisthira Lukman Kestriarto",
+      employee_email: "lkyudhistira@mail.ugm.ac.id",
+      jumlah_grid: 14,
+      pj: "fikrikrz88@gmail.com",
+      color: "rgba(0, 64, 128, 1)",
+    },
   ],
 
   progressDocument: [

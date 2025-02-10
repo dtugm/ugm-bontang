@@ -25,6 +25,7 @@ export default {
     "farryhandika.n79@gmail.com",
     "prabarian09@gmail.com",
     "michaelkrisna1975@mail.ugm.ac.id",
+    "lkyudhistira@mail.ugm.ac.id",
     "test1@gmail.com",
   ],
   superadmin_user: [
