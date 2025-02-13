@@ -1,6 +1,7 @@
 <template>
   <v-row no-gutters class="items-center gap-4">
     <AppTextH5 color="primary"> List Kerjaan </AppTextH5>
+    <ProductionPjPetaGarisAddTask @after-submit="fetchFilteredOrders()" />
     <v-spacer></v-spacer>
     <v-col lg="3">
       <AppInputAutocomplete
@@ -52,13 +53,23 @@
       ></v-btn>
     </template>
     <template #item.action="{ item }: any">
-      <v-btn
-        class="text-none"
-        color="primary"
-        variant="outlined"
-        @click="processTask(item)"
-        >Evaluate</v-btn
-      >
+      <div class="flex gap-2 items-center">
+        <v-btn
+          class="text-none"
+          color="primary"
+          variant="outlined"
+          @click="processTask(item)"
+          >Evaluate</v-btn
+        >
+        <v-btn
+          icon="mdi-delete-outline"
+          density="compact"
+          class="text-none rounded-sm"
+          color="primary"
+          variant="outlined"
+          @click="deleteTask(item)"
+        />
+      </div>
     </template>
   </v-data-table>
   <AppDialog v-model="rejectDialog" width="900">
@@ -255,10 +266,20 @@
       <!-- 3 untuk Approve -->
     </v-card-actions>
   </AppDialog>
+  <AppDialog v-model="deleteDialog">
+    <v-card-text> Yakin ingin manghapus task ini? </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="error" variant="elevated" @click="commitDeleteTask"
+        >Delete</v-btn
+      >
+    </v-card-actions>
+  </AppDialog>
 </template>
 <script lang="ts" setup>
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -267,7 +288,9 @@ import {
 } from "firebase/firestore";
 import petaGarisConstant from "~/app/constant/petaGaris.constant";
 import pjConstant from "~/app/constant/pj.constant";
+import appMock from "~/app/mock/app.mock";
 const sortBy: any = ref([{ key: "GRID", order: "asc" }]);
+const authStore = useAuthStore();
 const props = defineProps({
   employee: {
     type: Object,
@@ -360,5 +383,36 @@ const submitTask = async (status: number) => {
     appStore.toastSuccess("Data berhasil disubmit!");
     fetchFilteredOrders();
   });
+};
+const deleteDialog = ref(false);
+const deleteSelectedTask: any = ref({});
+const deleteTask = (item: any) => {
+  deleteDialog.value = true;
+  deleteSelectedTask.value = item;
+  console.log(authStore.user?.email);
+  console.log(item.id);
+  console.log(props.employee.id);
+};
+const commitDeleteTask = async () => {
+  const taskId = deleteSelectedTask.value?.id;
+  const employee = props.employee.id;
+  const pj = appMock.penanggungJawab.filter(
+    (item) => item.email == authStore.user?.email
+  )[0].id;
+  try {
+    const responsiblesRef = collection(db, "responsibles");
+    const responsibleDoc = doc(responsiblesRef, pj);
+    const employeesRef = collection(responsibleDoc, "employees");
+    const employeeDoc = doc(employeesRef, employee);
+    const tasksRef = collection(employeeDoc, "peta_garis_task");
+
+    const taskDoc = doc(tasksRef, taskId);
+    await deleteDoc(taskDoc);
+    fetchFilteredOrders();
+    deleteDialog.value = false;
+    appStore.toastSuccess("Sukses Menghapus Task");
+  } catch (error) {
+    console.error("Error menghapus task:", error);
+  }
 };
 </script>
