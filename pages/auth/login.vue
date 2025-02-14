@@ -3,10 +3,12 @@
     width="500"
     class="shadow-md md:shadow-none rounded-md py-12 px-5 lg:px-15"
   >
-    <div class="pb-5 justify-center flex flex-col items-center">
-      <AppTextH2 class="text-2xl mb-5" color="secondary"
-        >Welcome Back</AppTextH2
+    <div class="pb-5 justify-center flex flex-col items-center mb-5">
+      <AppTextH2 class="text-[25px]" color="secondary"
+        >Welcome to
+        <span class="text-primary">Dashboard Monitoring</span></AppTextH2
       >
+      <p>Pekerjaan Validasi Data PBB Kota Bontang</p>
       <!-- <p>Selamat! Anda adalah orang yang terpilih. hehe..</p> -->
     </div>
     <!-- <v-divider class="py-2" color="primary" :thickness="2">or</v-divider> -->
