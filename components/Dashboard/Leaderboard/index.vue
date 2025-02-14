@@ -18,6 +18,9 @@
       <v-tabs-window-item value="3d_models">
         <DashboardLeaderboard3dModels />
       </v-tabs-window-item>
+      <v-tabs-window-item value="bo_task">
+        <DashboardLeaderboardBuildingBo />
+      </v-tabs-window-item>
     </v-tabs-window>
   </v-card>
 </template>
@@ -36,6 +39,11 @@ export default {
           title: "3d Models",
           value: "3d_models",
           icon: "mdi-cube-outline",
+        },
+        {
+          title: "Bo",
+          value: "bo_task",
+          icon: "mdi-map",
         },
       ],
     };

@@ -1,4 +1,12 @@
-import { collection, doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  collectionGroup,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import { useToast } from "vue-toastification";
 const toast = useToast();
 export const useEmployeeStore = defineStore("employee", () => {
@@ -93,7 +101,46 @@ export const useEmployeeStore = defineStore("employee", () => {
       toast.error("Gagal Melakukan Presensi :(");
     }
   };
+  const boTaskProgress: any = ref([]);
+
+  async function getTasksWithEmployees() {
+    const taskBoQuery = query(collectionGroup(db, "bo_task"));
+    const taskSnapshot: any = await getDocs(taskBoQuery);
+    const employeeTasksMap = new Map();
+
+    for (const taskDoc of taskSnapshot.docs) {
+      const taskData = taskDoc.data();
+      const employeeId = taskDoc.ref.parent.parent.id;
+
+      if (!employeeTasksMap.has(employeeId)) {
+        employeeTasksMap.set(employeeId, []);
+      }
+      employeeTasksMap.get(employeeId).push({
+        id: taskDoc.id,
+        ...taskData,
+      });
+    }
+    const employees = [];
+    for (const [employeeId, tasks] of employeeTasksMap.entries()) {
+      const employeeRef = doc(db, "employee", employeeId);
+      const employeeSnap = await getDoc(employeeRef);
+
+      if (employeeSnap.exists()) {
+        employees.push({
+          id: employeeId,
+          ...employeeSnap.data(),
+          bo_tasks: tasks,
+          bo_tasks_total: tasks.length,
+          done_task: tasks.filter((item: any) => item.status == 3).length,
+          todoReview_task: tasks.filter((item: any) => item.status == 1).length,
+        });
+      }
+    }
+    boTaskProgress.value = employees;
+  }
   return {
+    boTaskProgress,
+    getTasksWithEmployees,
     updateAttendance,
     updateAttendanceByAdmin,
   };
