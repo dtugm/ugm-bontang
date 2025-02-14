@@ -35,6 +35,12 @@
       </p>
       <p v-else>Not submmited yet</p>
     </template>
+    <template #item.done_date="{ item }: any">
+      <p v-if="item.done_date">
+        {{ item.done_date }}
+      </p>
+      <p v-else>Not submmited yet</p>
+    </template>
     <template #item.file="{ item }: any">
       <v-btn
         icon="mdi-folder-download-outline"
@@ -367,7 +373,7 @@ const submitTask = async (status: number) => {
   const payload = {
     ...selectedtask.value,
     status: status,
-    evaluate_date: tanggalIndoNowLengkap(),
+    done_date: status == 3 ? tanggalIndoNowLengkap() : undefined,
   };
   await setDoc(taskDoc, payload, { merge: true }).then(() => {
     rejectDialog.value = false;

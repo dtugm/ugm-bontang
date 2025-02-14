@@ -207,7 +207,7 @@ const submitTask = async (status: number) => {
   const payload = {
     ...selectedtask.value,
     status: status,
-    done_date: tanggalIndoNowLengkap(),
+    done_date: status == 3 ? tanggalIndoNowLengkap() : undefined,
   };
   await setDoc(taskDoc, payload, { merge: true }).then(() => {
     rejectDialog.value = false;

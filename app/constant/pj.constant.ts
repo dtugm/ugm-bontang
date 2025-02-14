@@ -10,6 +10,7 @@ export default {
     },
     { title: "Status", value: "status", align: "center" },
     { title: "Date Submitted", minWidth: "150px", value: "date_submitted" },
+    { title: "Done Date", minWidth: "150px", value: "done_date" },
     { title: "Files", value: "file" },
     { title: "Action", value: "action", width: "200px", align: "center" },
   ],
