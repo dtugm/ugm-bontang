@@ -60,7 +60,7 @@ export const usePjStore = defineStore("pj", () => {
       console.log("Geolocation tidak didukung oleh browser ini.");
     }
   };
-  getLocation();
+  // getLocation();
   return {
     presensiPj,
   };

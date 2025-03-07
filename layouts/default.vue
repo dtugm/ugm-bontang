@@ -8,7 +8,7 @@
         class="bg-secondary"
       >
         <div class="absolute w-full">
-          <AppSidebar />
+          <!-- <AppSidebar /> -->
         </div>
         <div class="absolute md:-right-3 -right-5 z-50 top-12">
           <v-btn
@@ -26,14 +26,14 @@
     <v-main class="bg-gray">
       <slot />
     </v-main>
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       expand-on-hover
       rail
       v-if="isPersil()"
       location="right"
     >
       <AppSidebarTools />
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
   </v-layout>
 </template>
 <script lang="ts" setup>

@@ -9,10 +9,8 @@
         <span class="text-primary">Dashboard Monitoring</span></AppTextH2
       >
       <p>Pekerjaan Validasi Data PBB Kota Bontang</p>
-      <!-- <p>Selamat! Anda adalah orang yang terpilih. hehe..</p> -->
     </div>
-    <!-- <v-divider class="py-2" color="primary" :thickness="2">or</v-divider> -->
-    <v-form id="login-form" @submit.prevent="Login()">
+    <v-form id="login-form">
       <v-text-field
         v-model="username"
         label="Email/Username"
@@ -32,7 +30,7 @@
         <AppButton
           :loading="isLoading"
           color="tertiary"
-          @click="Login"
+          @click="do_login"
           label="Sign In"
           class="w-full"
         />
@@ -48,51 +46,65 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
+const appStore = useAppStore();
+const authenticationStore = useAuthenticationStore();
+const username = ref("");
+const password = ref("");
+const do_login = async () => {
+  isLoading.value = true;
+  try {
+    const payload = {
+      email: username.value,
+      password: password.value,
+    };
+    await authenticationStore.login(payload);
+    appStore.toastSuccess("Login Success!");
+    isLoading.value = false;
+  } catch (error) {
+    isLoading.value = false;
+    appStore.toastError("Login Failed");
+  }
+};
 function isEmail(email: any) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
 const isLoading = ref(false);
-const db = useFirestore();
-// const email = ref("");
-const username = ref("");
-const password = ref("");
+
 definePageMeta({
   layout: "auth",
 });
 const visible = ref(false);
-const auth = getAuth();
-const appStore = useAppStore();
-const router = useRouter();
-const Login = async () => {
-  isLoading.value = true;
-  let email;
-  if (!isEmail(username.value)) {
-    const usersRef = collection(db, "usernames");
-    const q = query(usersRef, where("username", "==", username.value));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      alert("Username tidak ditemukan");
-      return;
-    }
-    const userData = querySnapshot.docs[0].data();
-    email = userData.email;
-  } else {
-    email = username.value;
-  }
-  try {
-    signInWithEmailAndPassword(auth, email, password.value)
-      .then((userCredential) => {
-        appStore.toastSuccess("Login Success!");
-        isLoading.value = false;
-        // const user = userCredential.user;
-        router.replace("/");
-      })
-      .catch((error) => {
-        appStore.toastError("Login Failed");
-      });
-  } catch (error) {}
-};
+// const auth = getAuth();
+// const appStore = useAppStore();
+// const router = useRouter();
+// const Login = async () => {
+//   isLoading.value = true;
+//   let email;
+//   if (!isEmail(username.value)) {
+//     const usersRef = collection(db, "usernames");
+//     const q = query(usersRef, where("username", "==", username.value));
+//     const querySnapshot = await getDocs(q);
+//     if (querySnapshot.empty) {
+//       alert("Username tidak ditemukan");
+//       return;
+//     }
+//     const userData = querySnapshot.docs[0].data();
+//     email = userData.email;
+//   } else {
+//     email = username.value;
+//   }
+//   try {
+//     signInWithEmailAndPassword(auth, email, password.value)
+//       .then((userCredential) => {
+//         appStore.toastSuccess("Login Success!");
+//         isLoading.value = false;
+//         // const user = userCredential.user;
+//         router.replace("/");
+//       })
+//       .catch((error) => {
+//         appStore.toastError("Login Failed");
+//       });
+//   } catch (error) {}
+// };
 </script>
