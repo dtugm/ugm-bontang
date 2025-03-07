@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     public: {
       mapTilesKey: process.env.MAPTILES_API_KEY,
       brevoApiKey: process.env.BREVO_API_KEY,
+      API_BASE_URL: process.env.API_BASE_URL,
     },
   },
   build: {
