@@ -1,14 +1,5 @@
 <template>
   <div class="h-screen">
-    <ProductionPjSurveyPbb v-if="pj_user.includes(authStore.user.email)" />
-    <ProductionEmployeeSurveyPbb
-      v-if="employee_user.includes(authStore.user.email)"
-    />
+    <ProductionPjSurveyPbb />
   </div>
 </template>
-<script setup>
-import usersConstant from "~/app/constant/users.constant";
-const pj_user = usersConstant.pj_user;
-const employee_user = usersConstant.employee_user;
-const authStore = useAuthStore();
-</script>

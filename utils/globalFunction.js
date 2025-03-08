@@ -46,3 +46,22 @@ export const formatDateFirebase = (timestamp) => {
 export const handleDataTable = (input) => {
   return input ? input : "-";
 };
+export async function addGeoJsonProperties(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const geoJson = await response.json();
+
+    if (!geoJson.features || !Array.isArray(geoJson.features)) {
+      throw new Error("Invalid GeoJSON format: Missing 'features' array");
+    }
+
+    const tableData = geoJson.features.map((feature) => feature.properties);
+
+    return tableData;
+  } catch (error) {
+    console.error("Error fetching GeoJSON:", error);
+    return [];
+  }
+}

@@ -72,8 +72,6 @@ const addTask = async (
   const tasksRef = collection(employeeDoc, "peta_garis_task");
   for (const id of grid) {
     const taskDoc = doc(tasksRef, `A${area}-G${id}`);
-    console.log(taskDoc);
-    console.log(id);
     await setDoc(
       taskDoc,
       {

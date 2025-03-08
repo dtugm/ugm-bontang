@@ -1,5 +1,5 @@
 export default {
-  menus: [
+  stakeHolder_menus: [
     {
       prepend_icon: "mdi-monitor-dashboard",
       title: "Dashboard",

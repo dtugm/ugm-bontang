@@ -7,10 +7,10 @@
       <v-col cols="12" lg="3">
         <AppCardSimpleProgress
           title="Pembuatan Peta Kerja"
-          :total="400"
+          :total="422"
           :from="514"
           unit="Grid"
-          icon="mdi-folder-information-outline"
+          icon="mdi-map"
           color="tertiary"
         />
       </v-col>
@@ -20,7 +20,7 @@
           :total="10"
           :from="40"
           unit="Grid"
-          icon="mdi-folder-information-outline"
+          icon="mdi-cube-outline"
           color="secondary"
       /></v-col>
       <v-col cols="12" lg="3">
@@ -29,7 +29,7 @@
           :total="10"
           :from="40"
           unit="Features"
-          icon="mdi-folder-information-outline"
+          icon="mdi-earth"
           color="success"
         />
       </v-col>
@@ -79,7 +79,7 @@
       <v-col cols="12" lg="4">
         <AppCardSimpleProgress
           title="Bontang Baru"
-          :total="400"
+          :total="422"
           :from="514"
           unit="Bidang Tanah"
           icon="mdi-folder-information-outline"

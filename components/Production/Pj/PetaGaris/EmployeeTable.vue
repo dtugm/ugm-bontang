@@ -396,9 +396,6 @@ const deleteSelectedTask: any = ref({});
 const deleteTask = (item: any) => {
   deleteDialog.value = true;
   deleteSelectedTask.value = item;
-  console.log(authStore.user?.email);
-  console.log(item.id);
-  console.log(props.employee.id);
 };
 const commitDeleteTask = async () => {
   const taskId = deleteSelectedTask.value?.id;

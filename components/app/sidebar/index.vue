@@ -7,9 +7,6 @@
     ></v-list-item>
   </v-list>
   <v-list mandatory density="compact" nav @update:selected="changePage">
-    <!-- <v-list density="compact" nav>
-      <AppTextH5 color="white">Bontang</AppTextH5>
-    </v-list> -->
     <template v-for="(menu, index) in menus" :key="index">
       <v-list-group v-if="menu.sub_menu">
         <template v-slot:activator="{ props }">
@@ -48,12 +45,12 @@ const selectedTab = ref("/");
 const arrays = [
   usersConstant.employee_user,
   usersConstant.pj_user,
-  usersConstant.superadmin_user,
+  usersConstant.stakeHolder_user,
 ];
 const menuMap: any = {
   0: appConstant.employee_menus,
   1: appConstant.pj_menus,
-  2: appConstant.menus,
+  2: appConstant.stakeHolder_menus,
 };
 const foundIndexes: any = arrays
   .map((arr, index) => (arr.includes(authStore.user.email) ? index : -1))

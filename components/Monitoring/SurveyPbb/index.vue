@@ -1,63 +1,28 @@
-<!-- <template>
-  <LMap
-    ref="map"
-    style="height: 100vh"
-    :zoom="zoom"
-    :center="[0.12505772302512846, 117.48004699561473]"
-    :use-global-leaflet="false"
-  >
-    <LTileLayer
-      url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-      layer-type="base"
-      name="OpenStreetMap"
-    />
-    <LGeoJson
-      v-if="surveyStore.refreshPersil"
-      :geojson="geojson"
-      :options-style="geoStyler"
-      :key="geojsonKey"
-    />
-  </LMap>
-</template> -->
-<template>
-  <div class="relative h-screen w-full">
-    <!-- Map Container -->
-    <div id="petaKerjaMap" class="h-full w-full z-0 pointer-events-auto"></div>
-
-    <div class="absolute bottom-4 right-4 p-4 z-10 pointer-events-auto">
-      <DashboardPjProgressCardSurverPbb
-        class="w-[calc(100vw-70px)] md:w-[300px]"
-      />
-    </div>
-  </div>
-</template>
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import L from "leaflet";
-const latitude = 0.155452;
-const longitude = 117.475476;
-const zoomLevel = 15;
-const osm = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-async function addGeoJson(url, map, style) {
-  await fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      L.geoJSON(data, style).addTo(map);
-    });
-}
-const geoJsonFiles = ["peta_kerja_1", "peta_kerja_2", "peta_kerja_3"];
-onMounted(async () => {
-  const mapElement = document.getElementById("petaKerjaMap");
-  if (!mapElement) {
-    console.error("Elemen map tidak ditemukan");
-    return;
-  }
-  const map = L.map("petaKerjaMap").setView([latitude, longitude], zoomLevel);
-  L.tileLayer(osm, {
-    maxZoom: 18,
-  }).addTo(map);
+import SurveyLapanganConstant from "~/app/constant/SurveyLapangan.constant";
+const statusMap = SurveyLapanganConstant.statusMap;
+const statusColorMap = SurveyLapanganConstant.statusColorMap;
+const ownerTypeMap = SurveyLapanganConstant.ownerTypeMap;
+const surveyStore = useSurveyStore();
+const latitude = 0.139267;
+const longitude = 117.494326;
+const zoomLevel = 16;
 
-  L.tileLayer(
+const totalPolygons = ref(0); // Total bidang dalam GeoJSON
+const surveyedCount = ref(0); // Bidang yang sudah disurvei
+const progress = ref(0); // Persentase progress
+
+onMounted(async () => {
+  const map = L.map("map").setView([latitude, longitude], zoomLevel);
+  const osm = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution: "&copy; OpenStreetMap contributors",
+    }
+  ).addTo(map);
+  const awsTiles = L.tileLayer(
     "https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{y}.png",
     {
       tms: true,
@@ -65,48 +30,175 @@ onMounted(async () => {
       maxZoom: 19,
     }
   ).addTo(map);
-  addGeoJson("/new_bontang.geojson", map, {
-    style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
-  });
-  geoJsonFiles.forEach((blok) => {
-    addGeoJson(`/petaKerja/${blok}.geojson`, map, {
-      style: (feature) => ({
-        fillColor: "rgba(139, 146, 152, 1)",
-        fillOpacity: 0.5,
-        weight: 0.9,
-        color: "white",
-      }),
+
+  // Fetch Data GeoJSON
+  const geoJsonBontangBaru = await fetch(
+    "/SurveyPbb/peta_kerja_bontang_baru.geojson"
+  );
+  const bidangBontangBaru = await geoJsonBontangBaru.json();
+
+  totalPolygons.value = bidangBontangBaru.features.length;
+
+  if (surveyStore.bidang_bontang_baru.length === 0) {
+    // await surveyStore.getAllDoneBidangTanah();
+  }
+  await surveyStore.getAllUpdatedFeature();
+  console.log(surveyStore.bidangTanahData);
+  // Hitung jumlah bidang yang sudah disurvei
+  surveyedCount.value = surveyStore.bidangTanahData.filter(
+    (item) => item.status === "ACCURATE"
+  ).length;
+  progress.value = (surveyedCount.value / totalPolygons.value) * 100; // Kalkulasi progress
+
+  // Fungsi Style GeoJSON
+  const getStyle = (feature) => {
+    const fid = feature?.properties?.FID;
+    const isSurveyed = surveyStore.bidangTanahData.some(
+      (item) => item.fid === String(fid) && item.status === "ACCURATE"
+    );
+    return {
+      fillColor: isSurveyed ? "green" : "rgba(139, 146, 152, 1)",
+      weight: 1,
+      color: "white",
+      fillOpacity: isSurveyed ? 1 : 0.5,
+    };
+  };
+
+  // Event GeoJSON
+  const onEachFeature = (feature, layer) => {
+    const fid = feature?.properties?.FID;
+    const isSurveyed = surveyStore.bidangTanahData.some(
+      (item) => item.fid === String(fid) && item.status === "ACCURATE"
+    );
+    const dataItem = surveyStore.bidangTanahData.find(
+      (item) => item.fid == feature.properties.fid
+    );
+
+    layer.on({
+      mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
+      mouseout: (e) => e.target.setStyle({ weight: 1, color: "white" }),
     });
-  });
+    layer.on("click", () => {
+      const itemMap = new Map(
+        surveyStore.bidangTanahData.map((item) => [item.fid, item])
+      );
+      console.log(itemMap);
+      console.log(feature.properties.FID);
+      const detailItem = itemMap.get(String(feature.properties.FID));
+      console.log(detailItem);
+      if (detailItem) {
+        const popupContent = `
+                <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
+
+            <p><strong>Provinsi:</strong> ${detailItem.province}</p>
+                        <p><strong>Tipe Bidang Tanah:</strong> ${
+                          ownerTypeMap[detailItem.ownerType]
+                        }</p>
+            <p><strong>Alamat OP:</strong> ${detailItem.taxObjectAddress}</p>
+            <p><strong>Nama WP:</strong> ${detailItem.taxPayerName}</p>
+            <p><strong>Status:</strong> <span style='color: ${
+              statusColorMap[detailItem.status]
+            };'>${statusMap[detailItem.status]}</span></p>
+              <p><strong>Polygon ID  :</strong> ${detailItem.polygonId}</p>
+              <img src="${detailItem.imageUrls}" 
+      style="max-width: 250px; height: auto; display: block; margin: 10px auto; border-radius: 5px;" />
+              </div>
+          `;
+        layer.bindPopup(popupContent, { maxWidth: 700 }).openPopup();
+      } else {
+        layer
+          .bindPopup(
+            `
+            <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
+              <p><strong>Status:</strong> <span style='color: red;'>Belum Disurvey</span></p>
+              <p><strong>Polygon ID  :</strong> ${feature.properties.ID}</p>
+            </div>
+            `
+          )
+          .openPopup();
+      }
+      console.log("first");
+    });
+  };
+
+  const geoJsonLayer = L.geoJSON(bidangBontangBaru, {
+    style: getStyle,
+    onEachFeature: onEachFeature,
+  }).addTo(map);
+
+  const baseMaps = { OpenStreetMap: osm };
+  const overlayMaps = {
+    "AWS Tiles": awsTiles,
+    "Bidang Bontang Baru": geoJsonLayer,
+  };
+
+  L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
 });
 </script>
 
-<!-- <script setup>
-import { ref } from "vue";
-import { collection, getFirestore } from "firebase/firestore";
-const geojson = ref(undefined);
-const batas = ref(undefined);
-const zoom = ref(15);
-const db = getFirestore();
-const surveyStore = useSurveyStore();
-const geoStyler = (feature) => ({
-  fillColor: checkFeature(feature) ? "green" : "rgba(139, 146, 152, 1)",
-  fillOpacity: checkFeature(feature) ? 1 : 0.5,
-  color: "white",
-  weight: 4,
-});
-const geojsonKey = ref(0);
-const API_KEY = useRuntimeConfig().public.mapTilesKey;
-onMounted(async () => {
-  const response = await fetch("/Bontang_web.geojson");
-  const batasBontang = await fetch("/new_bontang.geojson");
-  geojson.value = await response.json();
-  batas.value = await batasBontang.json();
-});
-const surveyProgress = useCollection(collection(db, "surveyProgress"));
-function checkFeature(feature) {
-  return surveyProgress.value.some(
-    (item) => item.D_NOP === feature.properties.D_NOP && item.status === true
-  );
+<template>
+  <div class="map-container">
+    <!-- Peta -->
+    <div id="map" class="map"></div>
+
+    <div class="progress-container">
+      <div class="text-left mb-2">
+        <p class="text-lg font-semibold">Progres Bontang Baru</p>
+        <p class="">
+          Selesai {{ surveyedCount }} dari
+          {{ totalPolygons }}
+        </p>
+      </div>
+      <v-progress-circular
+        :model-value="progress"
+        :size="140"
+        :width="20"
+        color="success"
+      >
+        {{ Math.round(progress) }}%
+      </v-progress-circular>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
 }
-</script> -->
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.progress-circle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 5px;
+  z-index: 999;
+}
+
+.progress-container {
+  z-index: 999;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.progress-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+</style>

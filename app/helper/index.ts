@@ -3,26 +3,13 @@ const runtimeConfig = useRuntimeConfig();
 
 const apiBase = axios.create({
   baseURL: runtimeConfig.public.API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
 });
-if (runtimeConfig.public.API_KEY) {
+if (runtimeConfig.public.API_BASE_KEY_NEW) {
   apiBase.defaults.headers.common[
     "Authorization"
-  ] = `ApiKey ${runtimeConfig.public.API_KEY}`;
+  ] = `ApiKey ${runtimeConfig.public.API_BASE_KEY_NEW}`;
 }
-apiBase.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
 export const apiPostData = async (url: string, data: any, config = {}) => {
   try {
     const response = await apiBase.post(url, data, config);
@@ -74,5 +61,41 @@ export const apiPatchData = async (url: any, data: any, config = {}) => {
     throw error;
   }
 };
+export class CustomFormData extends FormData {
+  constructor() {
+    super();
+  }
 
+  generateFormByObj(payload: { [key: string]: any }): void {
+    for (const key in payload) {
+      if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        this.addForm(key, payload[key]);
+      }
+    }
+  }
+
+  addForm(fieldName: string, fieldData: any, nullAllowed = false): void {
+    if (Array.isArray(fieldData)) {
+      if (fieldData.length === 0) {
+        fieldData = null;
+      } else {
+        const undefinedDataList = fieldData.filter(
+          (data) => data === undefined
+        );
+        if (undefinedDataList.length === fieldData.length) {
+          fieldData = null;
+        }
+      }
+    }
+    if (nullAllowed) {
+      this.append(fieldName, fieldData);
+    } else {
+      if (fieldData !== null && fieldData !== "") {
+        this.append(fieldName, fieldData);
+      } else if (fieldData === 0) {
+        this.append(fieldName, fieldData);
+      }
+    }
+  }
+}
 export default apiBase;
