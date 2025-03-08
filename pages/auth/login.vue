@@ -50,13 +50,17 @@ const appStore = useAppStore();
 const authenticationStore = useAuthenticationStore();
 const username = ref("");
 const password = ref("");
+function isEmail(email: any) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
 const do_login = async () => {
   isLoading.value = true;
   try {
-    const payload = {
-      email: username.value,
-      password: password.value,
-    };
+    const payload = isEmail(username.value)
+      ? { email: username.value, password: password.value }
+      : { username: username.value, password: password.value };
+    console.log(payload);
     await authenticationStore.login(payload);
     appStore.toastSuccess("Login Success!");
     isLoading.value = false;
@@ -65,46 +69,11 @@ const do_login = async () => {
     appStore.toastError("Login Failed");
   }
 };
-function isEmail(email: any) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
+
 const isLoading = ref(false);
 
 definePageMeta({
   layout: "auth",
 });
 const visible = ref(false);
-// const auth = getAuth();
-// const appStore = useAppStore();
-// const router = useRouter();
-// const Login = async () => {
-//   isLoading.value = true;
-//   let email;
-//   if (!isEmail(username.value)) {
-//     const usersRef = collection(db, "usernames");
-//     const q = query(usersRef, where("username", "==", username.value));
-//     const querySnapshot = await getDocs(q);
-//     if (querySnapshot.empty) {
-//       alert("Username tidak ditemukan");
-//       return;
-//     }
-//     const userData = querySnapshot.docs[0].data();
-//     email = userData.email;
-//   } else {
-//     email = username.value;
-//   }
-//   try {
-//     signInWithEmailAndPassword(auth, email, password.value)
-//       .then((userCredential) => {
-//         appStore.toastSuccess("Login Success!");
-//         isLoading.value = false;
-//         // const user = userCredential.user;
-//         router.replace("/");
-//       })
-//       .catch((error) => {
-//         appStore.toastError("Login Failed");
-//       });
-//   } catch (error) {}
-// };
 </script>
