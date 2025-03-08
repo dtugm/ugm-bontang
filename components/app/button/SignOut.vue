@@ -22,7 +22,7 @@
           class="flex-grow-1 text-none"
           color="error"
           variant="flat"
-          @click="handleSignOut"
+          @click="auth.logout"
         >
           Sign Out
         </v-btn>
@@ -31,17 +31,6 @@
   </AppDialog>
 </template>
 <script setup>
-import { getAuth, signOut } from "firebase/auth";
 const signOutDialog = ref(false);
-const auth = getAuth();
-const router = useRouter();
-const handleSignOut = () => {
-  signOut(auth)
-    .then(() => {
-      router.replace("/auth/login");
-    })
-    .catch((error) => {
-      // An error happened
-    });
-};
+const auth = useAuthenticationStore();
 </script>

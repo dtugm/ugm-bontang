@@ -43,27 +43,6 @@
 <script lang="ts" setup>
 import appConstant from "~/app/constant/app.constant";
 import usersConstant from "~/app/constant/users.constant";
-const profileMap: any = {
-  "bontangjaya@gmail.com": "/logo/Logo_1.png",
-  "bontangsyafrudin@gmail.com": "/logo/Logo_1.png",
-  "bontanggiri@gmail.com": "/logo/Logo_1.png",
-  "bontangheru@gmail.com": "/logo/Logo_1.png",
-  "bontangsyafriansyah@gmail.com": "/logo/Logo_1.png",
-  "hyatma.a.a@mail.ugm.ac.id": "/logo/frontman_2.jpg",
-};
-const NameMap: any = {
-  "bontangjaya@gmail.com": "Syafruddin",
-  "bontangsyafrudin@gmail.com": "Syafrudin",
-  "bontanggiri@gmail.com": "Giri",
-  "bontangheru@gmail.com": "Heru",
-  "bontangsyafriansyah@gmail.com": "Syafriansyah",
-  "ugmruli@gmail.com": "Ruli",
-  "ugmyuli@gmail.com": "Yuli",
-  "ugmtrias@gmail.com": "Trias",
-  "ugmbambang@gmail.com": "Bambang",
-  "ugmpurnama@gmail.com": "Purnama",
-};
-// const authStore: any = useAuthStore();
 const authStore = useAuthenticationStore();
 const selectedTab = ref("/");
 const arrays = [

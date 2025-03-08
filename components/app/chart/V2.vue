@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { Line } from "vue-chartjs";
+import { Line, Bar } from "vue-chartjs";
 import dataHandleConstant from "~/app/constant/dataHandle.constant";
 import {
   Chart as ChartJS,
@@ -33,7 +33,7 @@ ChartJS.register(
 export default {
   name: "LineChart",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: { Line },
+  components: { Line, Bar },
   props: {
     chartId: {
       type: String,

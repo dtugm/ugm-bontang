@@ -26,23 +26,9 @@
     <v-main class="bg-gray">
       <slot />
     </v-main>
-    <!-- <v-navigation-drawer
-      expand-on-hover
-      rail
-      v-if="isPersil()"
-      location="right"
-    >
-      <AppSidebarTools />
-    </v-navigation-drawer> -->
   </v-layout>
 </template>
 <script lang="ts" setup>
-const authenticationStore = useAuthenticationStore();
-const route = useRoute();
 const drawer = ref(true);
 const rail = ref(false);
-
-const isPersil = () => {
-  return route.path == "/survey-monitoring";
-};
 </script>

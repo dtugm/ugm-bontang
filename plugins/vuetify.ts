@@ -10,6 +10,13 @@ const bontangLightTheme: ThemeDefinition = {
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
+    defaults: {
+      global: {
+        style: {
+          fontFamily: '"Plus Jakarta Sans", sans-serif',
+        },
+      },
+    },
     theme: {
       defaultTheme: "bontangLightTheme",
       themes: { bontangLightTheme },

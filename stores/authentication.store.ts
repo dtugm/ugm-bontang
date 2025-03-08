@@ -1,23 +1,27 @@
 import authApi from "~/app/api/auth.api";
 export const useAuthenticationStore = defineStore("authentication", {
   state: () => ({
-    user: JSON.parse(localStorage.getItem("userData") ?? "null"),
-    token: localStorage.getItem("authToken") || null,
+    user: JSON.parse(sessionStorage.getItem("user") || "null"),
+    token: sessionStorage.getItem("token") || "",
   }),
 
   actions: {
-    setUser(user: any) {
-      this.user = user;
+    setUser(userData: any) {
+      this.user = userData;
+      sessionStorage.setItem("user", JSON.stringify(userData));
+    },
+    setToken(token: string) {
+      this.token = token;
+      sessionStorage.setItem("token", token);
     },
 
     async login(payload: ILoginPayload) {
-      console.log("login");
       try {
         const response = await authApi.login(payload);
         if (response && response.token) {
           this.token = response.token;
-          localStorage.setItem("authToken", response.token);
-          localStorage.setItem("userData", JSON.stringify(response.user));
+          this.setToken(response.token);
+          this.setUser(response.user);
         }
         setTimeout(() => {
           navigateTo("/");
@@ -29,7 +33,10 @@ export const useAuthenticationStore = defineStore("authentication", {
       }
     },
     async logout() {
-      localStorage.clear();
+      this.user = null;
+      this.token = "";
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("token");
       navigateTo("/auth/login");
     },
     isAuthenticated() {
