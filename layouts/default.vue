@@ -8,7 +8,7 @@
         class="bg-secondary"
       >
         <div class="absolute w-full">
-          <!-- <AppSidebar /> -->
+          <AppSidebar />
         </div>
         <div class="absolute md:-right-3 -right-5 z-50 top-12">
           <v-btn
@@ -37,6 +37,7 @@
   </v-layout>
 </template>
 <script lang="ts" setup>
+const authenticationStore = useAuthenticationStore();
 const route = useRoute();
 const drawer = ref(true);
 const rail = ref(false);

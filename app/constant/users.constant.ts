@@ -4,7 +4,6 @@ export default {
     "fikrikrz88@gmail.com",
     "kinanthinastiti@gmail.com",
     "prasetyarini.ea@gmail.com",
-    "dhiasdmn@gmail.com",
   ],
   employee_user: [
     "lirifaasmarani@gmail.com",
@@ -41,5 +40,6 @@ export default {
     "ugmtrias@gmail.com",
     "ugmbambang@gmail.com",
     "ugmpurnama@gmail.com",
+    "dhiasdmn@gmail.com",
   ],
 };

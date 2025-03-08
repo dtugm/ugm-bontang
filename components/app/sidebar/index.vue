@@ -1,11 +1,9 @@
 <template>
   <v-list>
     <v-list-item
-      :prepend-avatar="
-        profileMap[authStore.user.email] ??
-        '/logo/HD-wallpaper-squid-game-worker-art.jpg'
-      "
-      :title="NameMap[authStore.user.email] ?? authStore.user.displayName"
+      prepend-icon="mdi-account"
+      :title="`${authStore.user.firstName} ${authStore.user.lastName}`"
+      :subtitle="authStore.user.username"
     ></v-list-item>
   </v-list>
   <v-list mandatory density="compact" nav @update:selected="changePage">
@@ -65,7 +63,8 @@ const NameMap: any = {
   "ugmbambang@gmail.com": "Bambang",
   "ugmpurnama@gmail.com": "Purnama",
 };
-const authStore: any = useAuthStore();
+// const authStore: any = useAuthStore();
+const authStore = useAuthenticationStore();
 const selectedTab = ref("/");
 const arrays = [
   usersConstant.employee_user,
@@ -78,7 +77,7 @@ const menuMap: any = {
   2: appConstant.menus,
 };
 const foundIndexes: any = arrays
-  .map((arr, index) => (arr.includes(authStore.user?.email) ? index : -1))
+  .map((arr, index) => (arr.includes(authStore.user.email) ? index : -1))
   .filter((index) => index !== -1);
 
 const menus: any = computed(() => {
