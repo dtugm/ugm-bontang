@@ -139,6 +139,19 @@ export const useSurveyStore = defineStore("survey", () => {
       appStore.toastError(error);
     }
   };
+  const putBidangTanahBontangBaru = async (payload: any) => {
+    try {
+      const formData = new FormData();
+      console.log(payload.images);
+      formData.append("images", payload.images);
+      formData.append("data", JSON.stringify(payload.data));
+      await surveyApi.put_lot_survey_monitorings(formData, payload.data.id);
+
+      appStore.toastSuccess("Add Data Berhasil!");
+    } catch (error: any) {
+      appStore.toastError(error);
+    }
+  };
 
   return {
     refreshLoading,
@@ -156,6 +169,7 @@ export const useSurveyStore = defineStore("survey", () => {
     getBidangTanahBontangBaru,
     bidangTanahBontangBaruItems,
     postBidangTanahBontangBaru,
+    putBidangTanahBontangBaru,
   };
 });
 

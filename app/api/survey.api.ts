@@ -11,6 +11,8 @@ export default {
     });
   },
   put_lot_survey_monitorings: async (payload: any, id: string) => {
-    return apiPutData(`${mainPath}/${id}`, payload);
+    return apiPutData(`${mainPath}/${id}`, payload, {
+      "Content-Type": "multipart/form-data",
+    });
   },
 };

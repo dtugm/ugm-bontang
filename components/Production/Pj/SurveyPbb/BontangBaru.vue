@@ -71,7 +71,9 @@
           statusMap[item.status]
         }}</v-chip>
       </template>
-      <template #item.action> Edit, delete</template>
+      <template #item.action="{ item }">
+        <v-btn @click="openEditDialog(item)">Edit</v-btn> delete</template
+      >
     </v-data-table>
   </v-container>
 
@@ -128,7 +130,6 @@
   </AppDialog>
 
   <AppDialog v-model="addDialog">
-    {{ formAddData }}
     <v-card-text>
       <AppInputAutocomplete
         label="FID"
@@ -178,6 +179,58 @@
           label="Add"
           color="tertiary"
           @click="addDataBindang()"
+        />
+      </v-card-actions>
+    </v-card-text>
+  </AppDialog>
+  <AppDialog v-model="editDialog">
+    <v-card-text>
+      {{ editFormData }}
+      <AppInputText label="Provinsi" v-model="formAddData.data.province" />
+      <AppInputText label="Kota" v-model="formAddData.data.city" />
+
+      <AppInputAutocomplete
+        label="Kelurahan"
+        v-model="editFormData.data.district"
+        :items="['Bontang Baru', 'Api Api', 'Loktuan']"
+      />
+      <AppInputText label="Kecamatan" v-model="editFormData.data.village" />
+      <AppInputText
+        label="Alamat Objek Pajak"
+        v-model="editFormData.data.taxObjectAddress"
+      />
+      <AppInputText
+        label="Nama Wajib Pajak"
+        v-model="editFormData.data.taxPayerName"
+      />
+      <AppInputAutocomplete
+        label="Status"
+        v-model="editFormData.data.status"
+        :items="statusFeatureOptions"
+      />
+      <AppInputAutocomplete
+        label="Tipe Bidang"
+        v-model="editFormData.data.ownerType"
+        :items="ownerTypeOptions"
+      />
+      <AppInputFileIBoxV2 v-model="editFormData.images" />
+      <v-img
+        v-if="!editFormData.images"
+        :src="editFormData.data.imageUrls[0]"
+      ></v-img>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <AppButton
+          label="Cancel"
+          color="info"
+          variant="outlined"
+          @click="editDialog = false"
+        />
+        <AppButton
+          form="presensiForm"
+          label="Submit"
+          color="tertiary"
+          @click="submitEdit()"
         />
       </v-card-actions>
     </v-card-text>
@@ -248,16 +301,8 @@ const filteredItems = computed(() => {
     item.FID.toString().includes(search.value.toLowerCase())
   );
 });
-// surveyStore.getAllDoneBidangTanah();
-const isPersilDone = (id: any) => {
-  return surveyStore.bidangTanahData.some((item: any) => {
-    return item.fid === String(id);
-  });
-};
-
-const addDialog = ref(false);
-const formAddData = ref({
-  images: null, // File upload
+const basicForm = {
+  images: null,
   data: {
     fid: "",
     polygonId: "",
@@ -270,7 +315,9 @@ const formAddData = ref({
     status: null,
     ownerType: null,
   },
-});
+};
+const addDialog = ref(false);
+const formAddData = ref(basicForm);
 
 const assignValue = (value: any) => {
   if (value) {
@@ -295,20 +342,39 @@ const addDataBindang = async () => {
   await surveyStore.postBidangTanahBontangBaru(formAddData.value);
   fetchAllData();
   addDialog.value = false;
-  formAddData.value = {
-    images: null,
-    data: {
-      fid: "",
-      polygonId: "",
-      province: "Kalimantan Timur",
-      city: "Bontang",
-      district: "Bontang Baru",
-      village: null,
-      taxObjectAddress: "",
-      taxPayerName: "",
-      status: null,
-      ownerType: null,
-    },
-  };
+  formAddData.value = basicForm;
+};
+
+const editDialog = ref(false);
+const editFormData = ref({
+  ...basicForm,
+  data: { ...basicForm.data, imageUrls: "" },
+});
+const openEditDialog = (item: any) => {
+  const {
+    ALAMAT_OP,
+    ALAMAT_WP,
+    DATE_UPDT,
+    FID,
+    F_WWC,
+    ID,
+    JML_BGN,
+    JML_KDR2,
+    JML_KDR4,
+    KECAMATAN,
+    KELURAHAN,
+    L_BUMI,
+    NIK_WP,
+    NOP_BARU,
+    TIPEHAK,
+    UPDATE,
+    VALIDATOR,
+    ...api
+  } = item;
+  editFormData.value.data = api;
+  editDialog.value = true;
+};
+const submitEdit = async () => {
+  await surveyStore.putBidangTanahBontangBaru(editFormData.value);
 };
 </script>
