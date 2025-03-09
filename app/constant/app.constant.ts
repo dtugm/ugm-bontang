@@ -27,7 +27,7 @@ export default {
       sub_menu: [
         {
           prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Bumi",
+          title: "Bidang Tanah",
           path: "/survey-monitoring",
         },
         {
@@ -66,7 +66,7 @@ export default {
       sub_menu: [
         {
           prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Bumi",
+          title: "Bidang Tanah",
           path: "/survey-monitoring",
         },
         {
@@ -82,31 +82,32 @@ export default {
       sub_menu: [
         {
           prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Suvey PBB",
+          title: "Bidang Tanah",
           path: "/production-survey-pbb",
         },
-        {
-          prepend_icon: "mdi-map",
-          title: "Peta Garis",
-          path: "/production-peta-garis",
-        },
-        {
-          prepend_icon: "mdi-cube-outline",
-          title: "3D Models",
-          path: "/production-3d-models",
-        },
+
         {
           prepend_icon: "mdi-office-building",
-          title: "Building Outline",
+          title: "Bangunan",
           path: "/production-bo",
         },
+        // {
+        //   prepend_icon: "mdi-map",
+        //   title: "Peta Garis",
+        //   path: "/production-peta-garis",
+        // },
+        // {
+        //   prepend_icon: "mdi-cube-outline",
+        //   title: "3D Models",
+        //   path: "/production-3d-models",
+        // },
       ],
     },
-    {
-      prepend_icon: "mdi-account-multiple",
-      title: "Employee",
-      path: "/employee-management",
-    },
+    // {
+    //   prepend_icon: "mdi-account-multiple",
+    //   title: "Employee",
+    //   path: "/employee-management",
+    // },
   ],
   employee_menus: [
     {

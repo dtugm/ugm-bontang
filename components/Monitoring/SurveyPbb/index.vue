@@ -45,39 +45,38 @@ onMounted(async () => {
   await surveyStore.getAllUpdatedFeature();
   console.log(surveyStore.bidangTanahData);
   // Hitung jumlah bidang yang sudah disurvei
-  surveyedCount.value = surveyStore.bidangTanahData.filter(
-    (item) => item.status === "ACCURATE"
-  ).length;
+  surveyedCount.value = surveyStore.bidangTanahData.length;
   progress.value = (surveyedCount.value / totalPolygons.value) * 100; // Kalkulasi progress
 
   // Fungsi Style GeoJSON
   const getStyle = (feature) => {
-    const fid = feature?.properties?.FID;
-    const isSurveyed = surveyStore.bidangTanahData.some(
-      (item) => item.fid === String(fid) && item.status === "ACCURATE"
+    const itemMap = new Map(
+      surveyStore.bidangTanahData.map((item) => [item.fid, item])
     );
+    const detailItem = itemMap.get(String(feature?.properties?.FID));
+    let fillColor = "rgba(139, 146, 152, 1)";
+    if (detailItem) {
+      if (detailItem.ownerType === "GOVERNMENT_AREA") {
+        fillColor = "blue";
+      } else {
+        fillColor = statusColorMap[detailItem.status] || fillColor;
+      }
+    }
     return {
-      fillColor: isSurveyed ? "green" : "rgba(139, 146, 152, 1)",
+      fillColor: fillColor,
       weight: 1,
       color: "white",
-      fillOpacity: isSurveyed ? 1 : 0.5,
+      fillOpacity: detailItem ? 1 : 0.5,
     };
   };
 
   // Event GeoJSON
   const onEachFeature = (feature, layer) => {
-    const fid = feature?.properties?.FID;
-    const isSurveyed = surveyStore.bidangTanahData.some(
-      (item) => item.fid === String(fid) && item.status === "ACCURATE"
-    );
-    const dataItem = surveyStore.bidangTanahData.find(
-      (item) => item.fid == feature.properties.fid
-    );
-
     layer.on({
       mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
       mouseout: (e) => e.target.setStyle({ weight: 1, color: "white" }),
     });
+
     layer.on("click", () => {
       const itemMap = new Map(
         surveyStore.bidangTanahData.map((item) => [item.fid, item])
@@ -100,7 +99,7 @@ onMounted(async () => {
               statusColorMap[detailItem.status]
             };'>${statusMap[detailItem.status]}</span></p>
               <p><strong>Polygon ID  :</strong> ${detailItem.polygonId}</p>
-              <img src="${detailItem.imageUrls}" 
+              <img src="${detailItem.imageUrls}"
       style="max-width: 250px; height: auto; display: block; margin: 10px auto; border-radius: 5px;" />
               </div>
           `;

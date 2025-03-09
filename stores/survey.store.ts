@@ -102,6 +102,26 @@ export const useSurveyStore = defineStore("survey", () => {
       appStore.toastError(error);
     }
   };
+  const bidangTanahBontangBaruItems = ref([]);
+
+  const getBidangTanahBontangBaru = async () => {
+    try {
+      const properties = await addGeoJsonProperties(
+        "/SurveyPbb/peta_kerja_bontang_baru.geojson"
+      );
+      const { data } = await surveyApi.lot_survey_monitorings();
+
+      const mapData = new Map(data.map((item: any) => [item.fid, item]));
+      console.log(mapData);
+      bidangTanahBontangBaruItems.value = properties.map((item: any) => ({
+        ...item,
+        ...(mapData.get(String(item.FID)) || {}),
+      }));
+      console.log(bidangTanahBontangBaruItems.value);
+    } catch (error: any) {
+      appStore.toastError(error);
+    }
+  };
 
   return {
     refreshLoading,
@@ -115,6 +135,9 @@ export const useSurveyStore = defineStore("survey", () => {
     addUpdatedBulkFeature,
     getAllUpdatedFeature,
     bidangTanahData,
+
+    getBidangTanahBontangBaru,
+    bidangTanahBontangBaruItems,
   };
 });
 

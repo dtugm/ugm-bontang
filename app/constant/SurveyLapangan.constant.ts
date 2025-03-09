@@ -2,8 +2,8 @@ export default {
   BindagTanahHeader: [
     { title: "FID", value: "FID" },
     { title: "ID", value: "ID" },
-    { title: "Nama Kelurahan", value: "KELURAHAN" },
-    { title: "Nama Kecamatan", value: "KECAMATAN" },
+
+    { title: "Tipe Pemilik", value: "ownerType" },
     { title: "Status", value: "status", sortable: true },
     { title: "Actions", value: "action" },
   ],
@@ -47,5 +47,6 @@ export default {
   ownerTypeOptions: [
     { title: "Fasilitas Umum", value: "PUBLIC_FACILITY" },
     { title: "Government Area", value: "GOVERNMENT_AREA" },
+    { title: "Non Government Area", value: "NON_GOVERNMENT_AREA" },
   ],
 };

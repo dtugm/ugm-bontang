@@ -1,5 +1,20 @@
 <template>
   <v-container>
+    <v-row>
+      <v-col lg="12"
+        ><AppInputAutocomplete
+          v-model="statusFilter"
+          @update:model-value="filterByStatus"
+          label="Status"
+          is-filter
+          :items="[
+            { title: 'Sudah disurvey', value: true },
+            { title: 'Belum disurvey', value: false },
+          ]"
+          hide-details
+        />
+      </v-col>
+    </v-row>
     <v-row no-gutters class="items-center gap-4">
       <AppTextH5 color="primary"> Update Status Survey</AppTextH5>
       <div class="flex gap-2">
@@ -21,19 +36,7 @@
         >
       </div>
       <v-spacer></v-spacer>
-      <v-col lg="3"
-        ><AppInputAutocomplete
-          v-model="statusFilter"
-          @update:model-value="filterByStatus"
-          label="Status"
-          is-filter
-          :items="[
-            { title: 'Sudah disurvey', value: true },
-            { title: 'Belum disurvey', value: false },
-          ]"
-          hide-details
-        />
-      </v-col>
+
       <v-col lg="3">
         <v-text-field
           v-model="search"
@@ -57,15 +60,14 @@
       fixed-footer
       fixed-header
       return-object
+      :loading="isTableLoading"
     >
       <template #item.status="{ item }: any">
-        <v-chip v-if="statusFilter" :color="item.status ? 'success' : 'error'">
-          {{ item.status ? "DONE" : "Not Done" }}
-        </v-chip>
-        <v-chip v-else :color="isPersilDone(item.FID) ? 'success' : 'error'">
-          {{ isPersilDone(item.FID) ? "DONE" : "Not Done" }}
-        </v-chip>
+        <v-chip :color="statusColorMap[item.status]" v-if="item.status">{{
+          statusMap[item.status]
+        }}</v-chip>
       </template>
+      <template #item.action> Edit, delete</template>
     </v-data-table>
   </v-container>
 
@@ -124,21 +126,27 @@
 <script lang="ts" setup>
 import SurveyLapanganConstant from "~/app/constant/SurveyLapangan.constant";
 const surveyStore = useSurveyStore();
+const isTableLoading = ref(false);
 const items = ref([]);
 const propertiesData = ref([]);
 const ownerTypeOptions = SurveyLapanganConstant.ownerTypeOptions;
 const statusFeatureOptions = SurveyLapanganConstant.statusFeatureOptions;
+const statusMap: any = SurveyLapanganConstant.statusMap;
+const statusColorMap: any = SurveyLapanganConstant.statusColorMap;
 onMounted(async () => {
   const properties = await addGeoJsonProperties(
     "/SurveyPbb/peta_kerja_bontang_baru.geojson"
   );
+  isTableLoading.value = true;
+  await surveyStore.getBidangTanahBontangBaru();
+  isTableLoading.value = false;
   propertiesData.value = properties;
-  items.value = properties;
+  items.value = surveyStore.bidangTanahBontangBaruItems;
   surveyStore.totalObject.bontang_baru == properties.length;
 });
 const filterByStatus = (value: any) => {
   if (value) {
-    items.value = surveyStore.bidang_bontang_baru;
+    // items.value = surveyStore.bidangTanahData;
   } else {
     items.value = propertiesData.value;
   }
@@ -162,7 +170,6 @@ const updatePersil = async () => {
       ownerType: ownerType.value,
     };
   });
-  console.log(payload);
   await surveyStore.addUpdatedBulkFeature(payload);
   updateItem.value = [];
   updateDialog.value = false;
@@ -177,8 +184,8 @@ const filteredItems = computed(() => {
 });
 // surveyStore.getAllDoneBidangTanah();
 const isPersilDone = (id: any) => {
-  return surveyStore.bidang_bontang_baru.some((item: any) => {
-    return item.FID === String(id) && item.status === true;
+  return surveyStore.bidangTanahData.some((item: any) => {
+    return item.fid === String(id);
   });
 };
 </script>
