@@ -60,7 +60,6 @@ const do_login = async () => {
     const payload = isEmail(username.value)
       ? { email: username.value, password: password.value }
       : { username: username.value, password: password.value };
-    console.log(payload);
     await authenticationStore.login(payload);
     appStore.toastSuccess("Login Success!");
     isLoading.value = false;

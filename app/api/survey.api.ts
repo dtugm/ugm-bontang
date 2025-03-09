@@ -1,4 +1,10 @@
-import { apiGetData, apiPostData, apiPutData, CustomFormData } from "../helper";
+import {
+  apiDeleteData,
+  apiGetData,
+  apiPostData,
+  apiPutData,
+  CustomFormData,
+} from "../helper";
 const mainPath = "/lot-survey-monitorings";
 
 export default {
@@ -12,6 +18,11 @@ export default {
   },
   put_lot_survey_monitorings: async (payload: any, id: string) => {
     return apiPutData(`${mainPath}/${id}`, payload, {
+      "Content-Type": "multipart/form-data",
+    });
+  },
+  delete_lot_survey_monitorings: async (id: string) => {
+    return apiDeleteData(`${mainPath}/${id}`, {
       "Content-Type": "multipart/form-data",
     });
   },

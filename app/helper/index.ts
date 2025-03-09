@@ -43,12 +43,14 @@ export const apiPutData = async (url: string, data: any, headers = {}) => {
     throw error;
   }
 };
-export const apiDeleteData = async (url: string, config = {}) => {
+// API DELETE
+export const apiDeleteData = async (url: string, headers = {}) => {
   try {
-    const response = await apiBase.delete(url, config);
+    const response = await apiBase.delete(url, {
+      headers: { ...apiBase.defaults.headers, ...headers },
+    });
     return response.data;
-  } catch (error: any) {
-    console.error("API DELETE Error:", error?.response?.data || error.message);
+  } catch (error) {
     throw error;
   }
 };

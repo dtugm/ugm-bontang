@@ -116,40 +116,48 @@ export const useSurveyStore = defineStore("survey", () => {
       });
 
       const mapData = new Map(data.map((item: any) => [item.fid, item]));
-      console.log(mapData);
+
       bidangTanahBontangBaruItems.value = properties.map((item: any) => ({
         ...item,
         ...(mapData.get(String(item.FID)) || {}),
       }));
-      console.log(bidangTanahBontangBaruItems.value);
     } catch (error: any) {
-      appStore.toastError(error);
+      appStore.toastError(error.message);
     }
   };
   const postBidangTanahBontangBaru = async (payload: any) => {
     try {
       const formData = new FormData();
-      console.log(payload.images);
+
       formData.append("images", payload.images);
       formData.append("data", JSON.stringify(payload.data));
       await surveyApi.post_lot_survey_monitorings(formData);
 
       appStore.toastSuccess("Add Data Berhasil!");
     } catch (error: any) {
-      appStore.toastError(error);
+      appStore.toastError(error.message);
     }
   };
   const putBidangTanahBontangBaru = async (payload: any) => {
     try {
       const formData = new FormData();
-      console.log(payload.images);
+
       formData.append("images", payload.images);
       formData.append("data", JSON.stringify(payload.data));
       await surveyApi.put_lot_survey_monitorings(formData, payload.data.id);
 
-      appStore.toastSuccess("Add Data Berhasil!");
+      appStore.toastSuccess("Edit Data Berhasil!");
     } catch (error: any) {
-      appStore.toastError(error);
+      appStore.toastError(error.message);
+    }
+  };
+
+  const deleteBidangTanahBontangBaru = async (id: string) => {
+    try {
+      await surveyApi.delete_lot_survey_monitorings(id);
+      appStore.toastSuccess("Hapus Data Berhasil!");
+    } catch (error: any) {
+      appStore.toastError(error.message);
     }
   };
 
@@ -170,6 +178,7 @@ export const useSurveyStore = defineStore("survey", () => {
     bidangTanahBontangBaruItems,
     postBidangTanahBontangBaru,
     putBidangTanahBontangBaru,
+    deleteBidangTanahBontangBaru,
   };
 });
 

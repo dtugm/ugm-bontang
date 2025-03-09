@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'd-flex flex-row items-center': vertical }">
-    <label v-if="label && isFilter" :for="label" :class="classLabel">{{
+    <label v-if="label && !isFilter" :for="label" :class="classLabel">{{
       label
     }}</label>
     <v-text-field

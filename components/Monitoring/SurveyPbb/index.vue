@@ -43,7 +43,6 @@ onMounted(async () => {
     // await surveyStore.getAllDoneBidangTanah();
   }
   await surveyStore.getAllUpdatedFeature();
-  console.log(surveyStore.bidangTanahData);
   // Hitung jumlah bidang yang sudah disurvei
   surveyedCount.value = surveyStore.bidangTanahData.length;
   progress.value = (surveyedCount.value / totalPolygons.value) * 100; // Kalkulasi progress
@@ -81,10 +80,9 @@ onMounted(async () => {
       const itemMap = new Map(
         surveyStore.bidangTanahData.map((item) => [item.fid, item])
       );
-      console.log(itemMap);
-      console.log(feature.properties.FID);
+
       const detailItem = itemMap.get(String(feature.properties.FID));
-      console.log(detailItem);
+
       if (detailItem) {
         const popupContent = `
                 <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
@@ -116,7 +114,6 @@ onMounted(async () => {
           )
           .openPopup();
       }
-      console.log("first");
     });
   };
 

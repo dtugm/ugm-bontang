@@ -1,24 +1,22 @@
 <template>
   <v-container>
     <v-row>
-      <v-col lg="12"
-        ><AppInputAutocomplete
+      <v-col lg="5">
+        <AppInputAutocomplete
           v-model="statusFilter"
           @update:model-value="filterByStatus"
           label="Status"
           is-filter
-          :items="[
-            { title: 'Sudah disurvey', value: true },
-            { title: 'Belum disurvey', value: false },
-          ]"
+          :items="statusFeatureOptions"
           hide-details
+          clearable
         />
       </v-col>
     </v-row>
-    <v-row no-gutters class="items-center gap-4">
+    <v-row no-gutters class="items-center gap-4 pt-3">
       <AppTextH5 color="primary"> Update Status Survey</AppTextH5>
       <div class="flex gap-2">
-        <v-btn class="text-none" color="tertiary" @click="addDialog = true"
+        <v-btn class="text-none" color="tertiary" @click="openAddData()"
           >Add Data</v-btn
         >
         <v-btn
@@ -28,15 +26,6 @@
           :disabled="updateItem.length == 0"
           @click="updateDialog = true"
           >Bulk Update</v-btn
-        >
-
-        <v-btn
-          class="text-none"
-          variant="outlined"
-          color="error"
-          :disabled="updateItem.length == 0"
-          @click="undoDialog = true"
-          >Undo</v-btn
         >
       </div>
       <v-spacer></v-spacer>
@@ -71,9 +60,25 @@
           statusMap[item.status]
         }}</v-chip>
       </template>
-      <template #item.action="{ item }">
-        <v-btn @click="openEditDialog(item)">Edit</v-btn> delete</template
-      >
+      <template #item.action="{ item }: any">
+        <div class="flex gap-1 text-none">
+          <v-btn
+            v-if="item.id"
+            @click="openEditDialog(item)"
+            color="tertiary"
+            class="text-none"
+            >Edit</v-btn
+          >
+          <v-btn
+            v-if="item.id"
+            @click="openDeleteDialog(item)"
+            color="error"
+            class="text-none"
+            variant="outlined"
+            >Delete</v-btn
+          >
+        </div>
+      </template>
     </v-data-table>
   </v-container>
 
@@ -102,34 +107,35 @@
           form="presensiForm"
           label="Update"
           color="success"
+          :loading="bulkUpdateLoading"
           @click="updatePersil()"
         />
       </v-card-actions>
     </v-card-text>
   </AppDialog>
-  <AppDialog v-model="undoDialog" title="Undo Status Bidang" width="500">
-    <AppInputAutocomplete />
+  <AppDialog v-model="deleteDialog" title=" Hapus Data Seruvey?" width="500">
     <v-card-text>
-      Pastikan data yang akan ubah sudah benar
+      It can't be undone
       <v-card-actions>
         <v-spacer></v-spacer>
         <AppButton
           label="Cancel"
           color="info"
           variant="outlined"
-          @click="undoDialog = false"
+          @click="deleteDialog = false"
         />
         <AppButton
+          :loading="deleteLoading"
           form="presensiForm"
-          label="Undo"
+          label="Delete"
           color="error"
-          @click="updatePersil()"
+          @click="deleteItem()"
         />
       </v-card-actions>
     </v-card-text>
   </AppDialog>
 
-  <AppDialog v-model="addDialog">
+  <AppDialog v-model="addDialog" title="Tambah Bidang Survey">
     <v-card-text>
       <AppInputAutocomplete
         label="FID"
@@ -139,6 +145,7 @@
         return-object
         @update:model-value="assignValue"
       />
+      <AppInputText label="Polygon ID" v-model="formAddData.data.polygonId" />
       <AppInputText label="Provinsi" v-model="formAddData.data.province" />
       <AppInputText label="Kota" v-model="formAddData.data.city" />
       <AppInputAutocomplete
@@ -175,17 +182,17 @@
           @click="addDialog = false"
         />
         <AppButton
+          :loading="addLoading"
           form="presensiForm"
           label="Add"
           color="tertiary"
-          @click="addDataBindang()"
+          @click="addDataBidang()"
         />
       </v-card-actions>
     </v-card-text>
   </AppDialog>
   <AppDialog v-model="editDialog">
     <v-card-text>
-      {{ editFormData }}
       <AppInputText label="Provinsi" v-model="formAddData.data.province" />
       <AppInputText label="Kota" v-model="formAddData.data.city" />
 
@@ -227,6 +234,7 @@
           @click="editDialog = false"
         />
         <AppButton
+          :loading="editLoading"
           form="presensiForm"
           label="Submit"
           color="tertiary"
@@ -246,7 +254,6 @@ const ownerTypeOptions = SurveyLapanganConstant.ownerTypeOptions;
 const statusFeatureOptions = SurveyLapanganConstant.statusFeatureOptions;
 const statusMap: any = SurveyLapanganConstant.statusMap;
 const statusColorMap: any = SurveyLapanganConstant.statusColorMap;
-
 const fetchAllData = async () => {
   isTableLoading.value = true;
   await surveyStore.getBidangTanahBontangBaru();
@@ -262,20 +269,26 @@ onMounted(async () => {
   surveyStore.totalObject.bontang_baru == properties.length;
 });
 const filterByStatus = (value: any) => {
-  if (value) {
-    // items.value = surveyStore.bidangTanahData;
+  if (value === "NOT_YET_SURVEYED") {
+    console.log("first");
+    items.value = surveyStore.bidangTanahBontangBaruItems.filter(
+      (item: any) => !item.status
+    );
+  } else if (value) {
+    items.value = surveyStore.bidangTanahBontangBaruItems.filter(
+      (item: any) => item.status === value
+    );
   } else {
-    items.value = propertiesData.value;
+    items.value = surveyStore.bidangTanahBontangBaruItems;
   }
 };
 const updateItem = ref([]);
 const search = ref("");
 const updateDialog = ref(false);
-const undoDialog = ref(false);
-
 const statusFilter = ref(null);
 const statusFeature = ref();
 const ownerType = ref();
+const bulkUpdateLoading = ref(false);
 const updatePersil = async () => {
   const payload = updateItem.value.map((item: any) => {
     return {
@@ -288,11 +301,12 @@ const updatePersil = async () => {
       ownerType: ownerType.value,
     };
   });
+  bulkUpdateLoading.value = true;
   await surveyStore.addUpdatedBulkFeature(payload);
   fetchAllData();
   updateItem.value = [];
   updateDialog.value = false;
-  undoDialog.value = false;
+  bulkUpdateLoading.value = false;
 };
 
 const filteredItems = computed(() => {
@@ -301,7 +315,7 @@ const filteredItems = computed(() => {
     item.FID.toString().includes(search.value.toLowerCase())
   );
 });
-const basicForm = {
+let basicForm = {
   images: null,
   data: {
     fid: "",
@@ -318,7 +332,11 @@ const basicForm = {
 };
 const addDialog = ref(false);
 const formAddData = ref(basicForm);
-
+const addLoading = ref(false);
+const openAddData = () => {
+  addDialog.value = true;
+  formAddData.value = { ...basicForm, data: { ...basicForm.data } };
+};
 const assignValue = (value: any) => {
   if (value) {
     formAddData.value.data.fid = value.FID;
@@ -338,11 +356,13 @@ const selectedFID = computed({
     }
   },
 });
-const addDataBindang = async () => {
+const addDataBidang = async () => {
+  addLoading.value = true;
   await surveyStore.postBidangTanahBontangBaru(formAddData.value);
   fetchAllData();
   addDialog.value = false;
-  formAddData.value = basicForm;
+  formAddData.value = { ...basicForm, data: { ...basicForm.data } };
+  addLoading.value = false;
 };
 
 const editDialog = ref(false);
@@ -350,7 +370,12 @@ const editFormData = ref({
   ...basicForm,
   data: { ...basicForm.data, imageUrls: "" },
 });
+const editLoading = ref(false);
 const openEditDialog = (item: any) => {
+  editFormData.value = {
+    ...basicForm,
+    data: { ...basicForm.data, imageUrls: "" },
+  };
   const {
     ALAMAT_OP,
     ALAMAT_WP,
@@ -375,6 +400,29 @@ const openEditDialog = (item: any) => {
   editDialog.value = true;
 };
 const submitEdit = async () => {
+  editLoading.value = true;
   await surveyStore.putBidangTanahBontangBaru(editFormData.value);
+  fetchAllData();
+  editDialog.value = false;
+  editFormData.value = {
+    ...basicForm,
+    data: { ...basicForm.data, imageUrls: "" },
+  };
+  editLoading.value = false;
+};
+
+const deleteDialog = ref(false);
+const deleteLoading = ref(false);
+const selectedDeleteId = ref();
+const openDeleteDialog = (item: any) => {
+  selectedDeleteId.value = item.id;
+  deleteDialog.value = true;
+};
+const deleteItem = async () => {
+  deleteLoading.value = true;
+  await surveyStore.deleteBidangTanahBontangBaru(selectedDeleteId.value);
+  fetchAllData();
+  deleteDialog.value = false;
+  deleteLoading.value = false;
 };
 </script>
