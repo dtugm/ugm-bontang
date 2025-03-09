@@ -7,6 +7,7 @@ import {
   collectionGroup,
   query,
   where,
+  setDoc,
 } from "firebase/firestore";
 import { defineStore } from "pinia";
 import surveyApi from "~/app/api/survey.api";
@@ -160,8 +161,62 @@ export const useSurveyStore = defineStore("survey", () => {
       appStore.toastError(error.message);
     }
   };
+  const lat = ref();
+  const lng = ref();
+  const addLogBook = async (
+    collectionName: any,
+    data: any,
+    nama_survey: string,
+    dokumen_kelurahan: string
+  ) => {
+    try {
+      const parentDocRef = doc(db, collectionName, dokumen_kelurahan);
+      const subCollectionRef = collection(parentDocRef, nama_survey);
+      const subDocRef = doc(subCollectionRef, `${data.team}_${data.date}`);
 
+      await setDoc(
+        subDocRef,
+        { ...data, lat: lat.value, lng: lng.value },
+        { merge: true }
+      );
+
+      appStore.toastSuccess("Data berhasil diperbarui!");
+    } catch (error: any) {
+      console.log(error);
+      appStore.toastError(error);
+    }
+  };
+  const logBookData = ref([]);
+  const logBookQuery = query(collectionGroup(db, "log_book_bontang_baru"));
+  const getAllLogBook = async () => {
+    console.log("first");
+    const logbookSnapshot = await getDocs(logBookQuery);
+    let logBookSurvey: any = [];
+    logbookSnapshot.forEach((doc) => {
+      logBookSurvey.push({ ...doc.data() });
+    });
+    logBookData.value = logBookSurvey;
+    console.log(logBookSurvey);
+  };
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          lat.value = position.coords.latitude;
+          lng.value = position.coords.longitude;
+        },
+        (err) => {
+          console.log(`Gagal mendapatkan lokasi: ${err.message}`);
+        }
+      );
+    } else {
+      console.log("Geolocation tidak didukung oleh browser ini.");
+    }
+  };
+  getLocation();
   return {
+    addLogBook,
+    logBookData,
     refreshLoading,
     refreshPersil,
     persilStatus,
@@ -179,6 +234,7 @@ export const useSurveyStore = defineStore("survey", () => {
     postBidangTanahBontangBaru,
     putBidangTanahBontangBaru,
     deleteBidangTanahBontangBaru,
+    getAllLogBook,
   };
 });
 

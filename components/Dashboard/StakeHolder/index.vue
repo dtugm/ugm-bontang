@@ -105,9 +105,10 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="12">
-        <v-card variant="flat" class="h-[calc(100vh-124px-347.88px-30px)]">
+        <v-card variant="flat">
           <v-container class="h-full">
-            <AppChartV2 :data="mockData" />
+            <!-- <AppChartV2 :data="mockData" /> -->
+            <MonitoringSurveyPbbLogbook />
           </v-container>
         </v-card>
       </v-col>
