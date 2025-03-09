@@ -3,16 +3,19 @@
     <div>
       {{ title }}
     </div>
-    <div class="d-flex align-start py-2 px-2">
-      <v-icon class="pr-3" size="40">{{ icon }}</v-icon>
-      <p class="text-h4">{{ total }}</p>
-      <p class="pl-1">{{ unit }}</p>
+    <div>
+      <div class="d-flex align-start pt-2 px-2">
+        <v-icon class="pr-3" size="40">{{ icon }}</v-icon>
+        <p class="text-h4">{{ total }}</p>
+        <p class="pl-1">{{ unit }}</p>
+      </div>
+      <div class="flex justify-end text-sm pb-1">Target: {{ from }}</div>
     </div>
 
     <div class="pb-1">
       <v-progress-linear :model-value="getPercent()" height="25">
         <template #default="{ value }">
-          <strong :class="`text-${color}`"> {{ value }}% </strong>
+          <strong :class="`text-${color}`"> {{ value.toFixed(2) }}% </strong>
         </template>
       </v-progress-linear>
     </div>

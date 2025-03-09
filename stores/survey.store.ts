@@ -100,7 +100,7 @@ export const useSurveyStore = defineStore("survey", () => {
         pageSize: 10000,
       });
       bidangTanahData.value = data;
-      appStore.toastSuccess("Batch update berhasil!");
+      // appStore.toastSuccess("Batch update berhasil!");
     } catch (error: any) {
       appStore.toastError(error);
     }
