@@ -10,9 +10,10 @@ const latitude = 0.139267;
 const longitude = 117.494326;
 const zoomLevel = 16;
 
-const totalPolygons = ref(0); // Total bidang dalam GeoJSON
-const surveyedCount = ref(0); // Bidang yang sudah disurvei
-const progress = ref(0); // Persentase progress
+const totalPolygons = ref(0);
+const bangunanPolygon = ref(0);
+const surveyedCount = ref(0);
+const progress = ref(0);
 
 onMounted(async () => {
   const map = L.map("map").setView([latitude, longitude], zoomLevel);
@@ -35,15 +36,16 @@ onMounted(async () => {
   const geoJsonBontangBaru = await fetch(
     "/SurveyPbb/peta_kerja_bontang_baru.geojson"
   );
+  const geoJsonBangunan = await fetch(
+    "/SurveyPbb/bangunan_bontang_baru.geojson"
+  );
   const bidangBontangBaru = await geoJsonBontangBaru.json();
+  const bangunanBontangBaru = await geoJsonBangunan.json();
 
   totalPolygons.value = bidangBontangBaru.features.length;
+  console.log(bangunanBontangBaru);
 
-  if (surveyStore.bidang_bontang_baru.length === 0) {
-    // await surveyStore.getAllDoneBidangTanah();
-  }
   await surveyStore.getAllUpdatedFeature();
-  // Hitung jumlah bidang yang sudah disurvei
   surveyedCount.value = surveyStore.bidangTanahData.length;
   progress.value = (surveyedCount.value / totalPolygons.value) * 100; // Kalkulasi progress
 
@@ -69,7 +71,6 @@ onMounted(async () => {
     };
   };
 
-  // Event GeoJSON
   const onEachFeature = (feature, layer) => {
     layer.on({
       mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
@@ -116,19 +117,79 @@ onMounted(async () => {
       }
     });
   };
+  // Bangunan
+  const getBangunanStyle = (feature) => {
+    return {
+      fillColor: "rgba(139, 146, 152, 1)",
+      weight: 1,
+      color: "yellow",
+      fillOpacity: 0.7,
+    };
+  };
+  const onEachBangunanFeature = (feature, layer) => {
+    layer.on({
+      mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
+      mouseout: (e) => e.target.setStyle({ weight: 1, color: "yellow" }),
+    });
 
+    layer.on("click", () => {
+      const itemMap = new Map(
+        surveyStore.bidangTanahData.map((item) => [item.fid, item])
+      );
+
+      const detailItem = itemMap.get(String(feature.properties.FID));
+
+      if (detailItem) {
+        const popupContent = `
+                <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
+
+            <p><strong>Provinsi:</strong> ${detailItem.province}</p>
+                        <p><strong>Tipe Bidang Tanah:</strong> ${
+                          ownerTypeMap[detailItem.ownerType]
+                        }</p>
+            <p><strong>Alamat OP:</strong> ${detailItem.taxObjectAddress}</p>
+            <p><strong>Nama WP:</strong> ${detailItem.taxPayerName}</p>
+            <p><strong>Status:</strong> <span style='color: ${
+              statusColorMap[detailItem.status]
+            };'>${statusMap[detailItem.status]}</span></p>
+              <p><strong>Polygon ID  :</strong> ${detailItem.polygonId}</p>
+              <img src="${detailItem.imageUrls}"
+      style="max-width: 250px; height: auto; display: block; margin: 10px auto; border-radius: 5px;" />
+              </div>
+          `;
+        layer.bindPopup(popupContent, { maxWidth: 700 }).openPopup();
+      } else {
+        layer
+          .bindPopup(
+            `
+            <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
+              <p><strong>Status:</strong> <span style='color: red;'>Belum Disurvey</span></p>
+              <p><strong>Polygon ID  :</strong> ${feature.properties.ID}</p>
+            </div>
+            `
+          )
+          .openPopup();
+      }
+    });
+  };
   const geoJsonLayer = L.geoJSON(bidangBontangBaru, {
     style: getStyle,
     onEachFeature: onEachFeature,
+  }).addTo(map);
+
+  const bangunanLayer = L.geoJSON(bangunanBontangBaru, {
+    style: getBangunanStyle,
+    onEachFeature: onEachBangunanFeature,
   }).addTo(map);
 
   const baseMaps = { OpenStreetMap: osm };
   const overlayMaps = {
     "AWS Tiles": awsTiles,
     "Bidang Bontang Baru": geoJsonLayer,
+    "Bangunan Bontang Baru": bangunanLayer,
   };
 
-  L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+  L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
 });
 </script>
 
