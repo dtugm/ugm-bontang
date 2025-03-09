@@ -18,14 +18,18 @@
     <v-row no-gutters class="items-center gap-4">
       <AppTextH5 color="primary"> Update Status Survey</AppTextH5>
       <div class="flex gap-2">
+        <v-btn class="text-none" color="tertiary" @click="addDialog = true"
+          >Add Data</v-btn
+        >
         <v-btn
           class="text-none"
           variant="outlined"
           color="green"
           :disabled="updateItem.length == 0"
           @click="updateDialog = true"
-          >Update</v-btn
+          >Bulk Update</v-btn
         >
+
         <v-btn
           class="text-none"
           variant="outlined"
@@ -122,6 +126,62 @@
       </v-card-actions>
     </v-card-text>
   </AppDialog>
+
+  <AppDialog v-model="addDialog">
+    {{ formAddData }}
+    <v-card-text>
+      <AppInputAutocomplete
+        label="FID"
+        :items="propertiesData"
+        v-model="selectedFID"
+        item-title="FID"
+        return-object
+        @update:model-value="assignValue"
+      />
+      <AppInputText label="Provinsi" v-model="formAddData.data.province" />
+      <AppInputText label="Kota" v-model="formAddData.data.city" />
+      <AppInputAutocomplete
+        label="Kelurahan"
+        v-model="formAddData.data.district"
+        :items="['Bontang Baru', 'Api Api', 'Loktuan']"
+      />
+      <AppInputText label="Kecamatan" v-model="formAddData.data.village" />
+      <AppInputText
+        label="Alamat Objek Pajak"
+        v-model="formAddData.data.taxObjectAddress"
+      />
+      <AppInputText
+        label="Nama Wajib Pajak"
+        v-model="formAddData.data.taxPayerName"
+      />
+      <AppInputAutocomplete
+        label="Status"
+        v-model="formAddData.data.status"
+        :items="statusFeatureOptions"
+      />
+      <AppInputAutocomplete
+        label="Tipe Bidang"
+        v-model="formAddData.data.ownerType"
+        :items="ownerTypeOptions"
+      />
+      <AppInputFileIBoxV2 v-model="formAddData.images" />
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <AppButton
+          label="Cancel"
+          color="info"
+          variant="outlined"
+          @click="addDialog = false"
+        />
+        <AppButton
+          form="presensiForm"
+          label="Add"
+          color="tertiary"
+          @click="addDataBindang()"
+        />
+      </v-card-actions>
+    </v-card-text>
+  </AppDialog>
 </template>
 <script lang="ts" setup>
 import SurveyLapanganConstant from "~/app/constant/SurveyLapangan.constant";
@@ -133,15 +193,19 @@ const ownerTypeOptions = SurveyLapanganConstant.ownerTypeOptions;
 const statusFeatureOptions = SurveyLapanganConstant.statusFeatureOptions;
 const statusMap: any = SurveyLapanganConstant.statusMap;
 const statusColorMap: any = SurveyLapanganConstant.statusColorMap;
+
+const fetchAllData = async () => {
+  isTableLoading.value = true;
+  await surveyStore.getBidangTanahBontangBaru();
+  isTableLoading.value = false;
+  items.value = surveyStore.bidangTanahBontangBaruItems;
+};
 onMounted(async () => {
   const properties = await addGeoJsonProperties(
     "/SurveyPbb/peta_kerja_bontang_baru.geojson"
   );
-  isTableLoading.value = true;
-  await surveyStore.getBidangTanahBontangBaru();
-  isTableLoading.value = false;
+  fetchAllData();
   propertiesData.value = properties;
-  items.value = surveyStore.bidangTanahBontangBaruItems;
   surveyStore.totalObject.bontang_baru == properties.length;
 });
 const filterByStatus = (value: any) => {
@@ -155,6 +219,7 @@ const updateItem = ref([]);
 const search = ref("");
 const updateDialog = ref(false);
 const undoDialog = ref(false);
+
 const statusFilter = ref(null);
 const statusFeature = ref();
 const ownerType = ref();
@@ -171,6 +236,7 @@ const updatePersil = async () => {
     };
   });
   await surveyStore.addUpdatedBulkFeature(payload);
+  fetchAllData();
   updateItem.value = [];
   updateDialog.value = false;
   undoDialog.value = false;
@@ -187,5 +253,62 @@ const isPersilDone = (id: any) => {
   return surveyStore.bidangTanahData.some((item: any) => {
     return item.fid === String(id);
   });
+};
+
+const addDialog = ref(false);
+const formAddData = ref({
+  images: null, // File upload
+  data: {
+    fid: "",
+    polygonId: "",
+    province: "Kalimantan Timur",
+    city: "Bontang",
+    district: "Bontang Baru",
+    village: null,
+    taxObjectAddress: "",
+    taxPayerName: "",
+    status: null,
+    ownerType: null,
+  },
+});
+
+const assignValue = (value: any) => {
+  if (value) {
+    formAddData.value.data.fid = value.FID;
+    formAddData.value.data.polygonId = value.ID;
+    formAddData.value.data.taxObjectAddress = value.ALAMAT_OP;
+    formAddData.value.data.taxPayerName = value.ALAMAT_WP;
+  }
+};
+const selectedFID = computed({
+  get: () =>
+    propertiesData.value.find(
+      (item: any) => item.FID === formAddData.value.data.fid
+    ) || null,
+  set: (val) => {
+    if (val) {
+      assignValue(val);
+    }
+  },
+});
+const addDataBindang = async () => {
+  await surveyStore.postBidangTanahBontangBaru(formAddData.value);
+  fetchAllData();
+  addDialog.value = false;
+  formAddData.value = {
+    images: null,
+    data: {
+      fid: "",
+      polygonId: "",
+      province: "Kalimantan Timur",
+      city: "Bontang",
+      district: "Bontang Baru",
+      village: null,
+      taxObjectAddress: "",
+      taxPayerName: "",
+      status: null,
+      ownerType: null,
+    },
+  };
 };
 </script>

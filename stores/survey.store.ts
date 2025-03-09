@@ -95,7 +95,9 @@ export const useSurveyStore = defineStore("survey", () => {
   const bidangTanahData = ref([]);
   const getAllUpdatedFeature = async () => {
     try {
-      const { data } = await surveyApi.lot_survey_monitorings();
+      const { data } = await surveyApi.lot_survey_monitorings({
+        pageSize: 10000,
+      });
       bidangTanahData.value = data;
       appStore.toastSuccess("Batch update berhasil!");
     } catch (error: any) {
@@ -109,7 +111,9 @@ export const useSurveyStore = defineStore("survey", () => {
       const properties = await addGeoJsonProperties(
         "/SurveyPbb/peta_kerja_bontang_baru.geojson"
       );
-      const { data } = await surveyApi.lot_survey_monitorings();
+      const { data } = await surveyApi.lot_survey_monitorings({
+        pageSize: 10000,
+      });
 
       const mapData = new Map(data.map((item: any) => [item.fid, item]));
       console.log(mapData);
@@ -118,6 +122,19 @@ export const useSurveyStore = defineStore("survey", () => {
         ...(mapData.get(String(item.FID)) || {}),
       }));
       console.log(bidangTanahBontangBaruItems.value);
+    } catch (error: any) {
+      appStore.toastError(error);
+    }
+  };
+  const postBidangTanahBontangBaru = async (payload: any) => {
+    try {
+      const formData = new FormData();
+      console.log(payload.images);
+      formData.append("images", payload.images);
+      formData.append("data", JSON.stringify(payload.data));
+      await surveyApi.post_lot_survey_monitorings(formData);
+
+      appStore.toastSuccess("Add Data Berhasil!");
     } catch (error: any) {
       appStore.toastError(error);
     }
@@ -138,6 +155,7 @@ export const useSurveyStore = defineStore("survey", () => {
 
     getBidangTanahBontangBaru,
     bidangTanahBontangBaruItems,
+    postBidangTanahBontangBaru,
   };
 });
 

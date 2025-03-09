@@ -10,12 +10,13 @@ if (runtimeConfig.public.API_BASE_KEY_NEW) {
     "Authorization"
   ] = `ApiKey ${runtimeConfig.public.API_BASE_KEY_NEW}`;
 }
-export const apiPostData = async (url: string, data: any, config = {}) => {
+export const apiPostData = async (url: string, data: any, headers = {}) => {
   try {
-    const response = await apiBase.post(url, data, config);
+    const response: any = await apiBase.post(url, data, {
+      headers: { ...apiBase.defaults.headers, ...headers },
+    });
     return response.data;
   } catch (error) {
-    console.error("API Post Error:", error);
     throw error;
   }
 };
