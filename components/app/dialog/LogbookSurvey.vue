@@ -4,6 +4,7 @@
       <v-row class="mb-3">
         <v-col cols="12">
           <AppInputDatePicker
+            readonly
             v-model="selectedLog.date"
             label="Tanggal"
             :rules="[(value) => !!value || 'This field is required']"
@@ -12,13 +13,42 @@
           />
         </v-col>
         <v-col cols="6">
-          <AppInputText v-model="selectedLog.pic" label="PIC" hide-details />
+          <AppInputText
+            readonly
+            v-model="selectedLog.pic"
+            label="PIC"
+            hide-details
+          />
         </v-col>
         <v-col cols="6">
-          <AppInputText v-model="selectedLog.team" label="Team" hide-details />
+          <AppInputText
+            readonly
+            v-model="selectedLog.team"
+            label="Team"
+            hide-details
+          />
         </v-col>
+        <v-col cols="12">
+          <p>Anggota</p>
+          <v-chip
+            class="mt-2"
+            v-for="(item, index) in selectedLog.anggota"
+            :key="index"
+          >
+            {{ item }}
+          </v-chip>
+        </v-col>
+        <!-- <v-col cols="12">
+          <AppInputAutocomplete
+            readonly
+            v-model="selectedLog.anggota"
+            label="Anggota"
+            hide-details
+          />
+        </v-col> -->
         <v-col cols="4">
           <AppInputText
+            readonly
             v-model="selectedLog.kelurahan"
             label="Kelurahan"
             hide-details
@@ -26,16 +56,23 @@
         </v-col>
         <v-col cols="4">
           <AppInputText
+            readonly
             v-model="selectedLog.kecamatan"
             label="Kecamatan"
             hide-details
           />
         </v-col>
         <v-col cols="4">
-          <AppInputText v-model="selectedLog.rt" label="RT" hide-details />
+          <AppInputText
+            readonly
+            v-model="selectedLog.rt"
+            label="RT"
+            hide-details
+          />
         </v-col>
         <v-col cols="12">
           <AppInputText
+            readonly
             v-model="selectedLog.progress"
             label="Capaian"
             hide-details
@@ -44,12 +81,14 @@
 
         <v-col cols="12">
           <AppInputTextarea
-            v-model="selectedLog.notes"
+            readonly
+            v-model="selectedLog.kegiatan"
             label="Keterangan"
             hide-details
           />
         </v-col>
       </v-row>
+
       <LMap
         v-if="selectedLog.lat"
         ref="map"

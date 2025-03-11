@@ -172,13 +172,13 @@ export const useSurveyStore = defineStore("survey", () => {
     try {
       const parentDocRef = doc(db, collectionName, dokumen_kelurahan);
       const subCollectionRef = collection(parentDocRef, nama_survey);
-      const subDocRef = doc(subCollectionRef, `${data.team}_${data.date}`);
-
-      await setDoc(
-        subDocRef,
-        { ...data, lat: lat.value, lng: lng.value },
-        { merge: true }
+      const uniqueId = new Date().getTime(); // Bisa juga pakai uuidv4()
+      const subDocRef = doc(
+        subCollectionRef,
+        `${data.team}_${data.date}_${uniqueId}`
       );
+
+      await setDoc(subDocRef, { ...data, lat: lat.value, lng: lng.value });
 
       appStore.toastSuccess("Data berhasil diperbarui!");
     } catch (error: any) {
