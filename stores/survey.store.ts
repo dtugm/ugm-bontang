@@ -8,6 +8,7 @@ import {
   query,
   where,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { defineStore } from "pinia";
 import surveyApi from "~/app/api/survey.api";
@@ -189,14 +190,29 @@ export const useSurveyStore = defineStore("survey", () => {
   const logBookData = ref([]);
   const logBookQuery = query(collectionGroup(db, "log_book_bontang_baru"));
   const getAllLogBook = async () => {
-    console.log("first");
     const logbookSnapshot = await getDocs(logBookQuery);
     let logBookSurvey: any = [];
+
     logbookSnapshot.forEach((doc) => {
-      logBookSurvey.push({ ...doc.data() });
+      logBookSurvey.push({ id: doc.id, path: doc.ref.path, ...doc.data() }); // Simpan path lengkap
     });
+
     logBookData.value = logBookSurvey;
-    console.log(logBookSurvey);
+    // console.log(logBookSurvey);
+  };
+
+  const deleteLogBook = async (docPath: any) => {
+    try {
+      await deleteDoc(doc(db, docPath)); // Gunakan path lengkap
+      console.log(`Dokumen ${docPath} berhasil dihapus`);
+
+      // Hapus dari state agar tampilan diperbarui
+      logBookData.value = logBookData.value.filter(
+        (item: any) => item.path !== docPath
+      );
+    } catch (error) {
+      console.error("Gagal menghapus dokumen:", error);
+    }
   };
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -235,6 +251,7 @@ export const useSurveyStore = defineStore("survey", () => {
     putBidangTanahBontangBaru,
     deleteBidangTanahBontangBaru,
     getAllLogBook,
+    deleteLogBook,
   };
 });
 

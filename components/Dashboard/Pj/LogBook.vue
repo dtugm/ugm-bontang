@@ -15,21 +15,28 @@
                 @click="addDialog = true"
               />
             </v-row>
+            <v-btn @click="downloadJSON">download</v-btn>
             <v-data-table
               :loading="isTableLoading"
               class="h-[calc(100vh-100px)]"
               :headers="headers"
               :items="surveyStore.logBookData"
+              items-per-page="20"
               fixed-header
               fixed-footer
             >
               <template #item.action="{ item }">
-                <v-btn
-                  color="primary"
-                  variant="outlined"
-                  @click="openDetailLog(item)"
-                  >Detail</v-btn
-                >
+                <div class="flex gap-2">
+                  <v-btn color="primary" @click="openDetailLog(item)"
+                    >Detail</v-btn
+                  >
+                  <v-btn
+                    color="error"
+                    variant="outlined"
+                    @click="openDelete(item)"
+                    >Delete</v-btn
+                  >
+                </div>
               </template>
             </v-data-table>
           </v-container>
@@ -161,6 +168,27 @@
     v-model="logDetailDialog"
     :selected-log="selectedLog"
   />
+  <AppDialog v-model="deleteDialog" title="Hapus Data Logbook?" width="500">
+    <v-card-text>
+      It can't be undone
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <AppButton
+          label="Cancel"
+          color="info"
+          variant="outlined"
+          @click="deleteDialog = false"
+        />
+        <AppButton
+          :loading="deleteLoading"
+          form="presensiForm"
+          label="Delete"
+          color="error"
+          @click="deleteDataLogbook"
+        />
+      </v-card-actions>
+    </v-card-text>
+  </AppDialog>
 </template>
 <script setup>
 const surveyStore = useSurveyStore();
@@ -169,7 +197,7 @@ const logBookForm = ref({ date: "" });
 const headers = [
   { title: "PIC", value: "pic" },
   // { title: "Team", value: "team" },
-  { title: "Tanggal", value: "date" },
+  { title: "Tanggal", value: "date", sortable: true },
   //   { title: "Kelurahan", value: "kelurahan" },
   //   { title: "Kecamatan", value: "kecamatan" },
   //   { title: "RT", value: "rt" },
@@ -226,5 +254,27 @@ const logDetailDialog = ref(false);
 const openDetailLog = (item) => {
   logDetailDialog.value = true;
   selectedLog.value = item;
+};
+const selectedItemLog = ref({});
+const deleteDialog = ref(false);
+const openDelete = (item) => {
+  selectedItemLog.value = item;
+  deleteDialog.value = true;
+};
+const deleteDataLogbook = async () => {
+  await surveyStore.deleteLogBook(selectedItemLog.value.path);
+  deleteDialog.value = false;
+  fetchAllData();
+};
+const downloadJSON = () => {
+  const dataStr =
+    "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(surveyStore.logBookData, null, 2));
+  const downloadAnchor = document.createElement("a");
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", "data.json");
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  document.body.removeChild(downloadAnchor);
 };
 </script>
