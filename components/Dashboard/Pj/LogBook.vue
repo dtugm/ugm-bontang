@@ -64,6 +64,7 @@
           </v-col>
           <v-col cols="6">
             <AppInputAutocomplete
+              multiple
               v-model="logBookForm.team"
               :items="[
                 'TIM A',
@@ -166,8 +167,8 @@ const surveyStore = useSurveyStore();
 const addDialog = ref(false);
 const logBookForm = ref({ date: "" });
 const headers = [
-  // { title: "PIC", value: "pic" },
-  { title: "Team", value: "team" },
+  { title: "PIC", value: "pic" },
+  // { title: "Team", value: "team" },
   { title: "Tanggal", value: "date" },
   //   { title: "Kelurahan", value: "kelurahan" },
   //   { title: "Kecamatan", value: "kecamatan" },

@@ -12,7 +12,7 @@
             hide-details
           />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12">
           <AppInputText
             readonly
             v-model="selectedLog.pic"
@@ -20,19 +20,29 @@
             hide-details
           />
         </v-col>
-        <v-col cols="6">
+        <!-- <v-col cols="6">
           <AppInputText
             readonly
             v-model="selectedLog.team"
             label="Team"
             hide-details
           />
-        </v-col>
+        </v-col> -->
         <v-col cols="12">
           <p>Anggota</p>
           <v-chip
-            class="mt-2"
+            class="mt-2 mx-1"
             v-for="(item, index) in selectedLog.anggota"
+            :key="index"
+          >
+            {{ item }}
+          </v-chip>
+        </v-col>
+        <v-col cols="12">
+          <p>Tim</p>
+          <v-chip
+            class="mt-2 mx-1"
+            v-for="(item, index) in selectedLog.team"
             :key="index"
           >
             {{ item }}

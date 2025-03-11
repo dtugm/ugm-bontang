@@ -5,12 +5,12 @@
         <slot name="prepend"></slot>
         <AppTextH5 color="primary">LogBook Survey PBB</AppTextH5>
         <v-spacer></v-spacer>
-        <AppButton
+        <!-- <AppButton
           variant="outlined"
           label="Add"
           color="info"
           @click="addDialog = true"
-        />
+        /> -->
       </v-row>
       <v-data-table
         :loading="isTableLoading"
@@ -28,7 +28,7 @@
       </v-data-table>
     </v-container>
   </v-card>
-  <AppDialog v-model="addDialog">
+  <!-- <AppDialog v-model="addDialog">
     <v-card-text>
       <v-form
         id="logbookForm"
@@ -146,7 +146,7 @@
         </v-card-actions>
       </v-form>
     </v-card-text>
-  </AppDialog>
+  </AppDialog> -->
   <AppDialogLogbookSurvey
     v-model="logDetailDialog"
     :selected-log="selectedLog"
@@ -157,8 +157,8 @@ const surveyStore = useSurveyStore();
 const addDialog = ref(false);
 const logBookForm = ref({ date: "" });
 const headers = [
-  // { title: "PIC", value: "pic" },
-  { title: "Team", value: "team" },
+  { title: "PIC", value: "pic" },
+  // { title: "Team", value: "team" },
   { title: "Tanggal", value: "date" },
   //   { title: "Kelurahan", value: "kelurahan" },
   //   { title: "Kecamatan", value: "kecamatan" },
