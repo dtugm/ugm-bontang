@@ -17,7 +17,7 @@
             </v-row>
             <v-data-table
               :loading="isTableLoading"
-              class="h-[calc(100vh-32px)]"
+              class="h-[calc(100vh-100px)]"
               :headers="headers"
               :items="surveyStore.logBookData"
               fixed-header
@@ -54,45 +54,76 @@
               hide-details
             />
           </v-col>
-          <v-col cols="12">
-            <AppInputText v-model="logBookForm.pic" label="PIC" hide-details />
+          <v-col cols="6">
+            <AppInputAutocomplete
+              v-model="logBookForm.pic"
+              label="PIC"
+              :items="names"
+              hide-details
+            />
           </v-col>
-          <v-col cols="12">
-            <AppInputText
+          <v-col cols="6">
+            <AppInputAutocomplete
               v-model="logBookForm.team"
+              :items="[
+                'TIM A',
+                'TIM B',
+                'TIM C',
+                'TIM D',
+                'TIM E',
+                'TIM F',
+                'TIM G',
+                'TIM H',
+              ]"
               label="Team"
               hide-details
             />
           </v-col>
           <v-col cols="12">
-            <AppInputText
+            <AppInputAutocomplete
+              multiple
+              v-model="logBookForm.anggota"
+              :items="names"
+              label="Anggota"
+              hide-details
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppInputAutocomplete
               v-model="logBookForm.kelurahan"
+              :items="['Bontang Baru', 'Api api', 'Loktuan']"
               label="Kelurahan"
               hide-details
             />
           </v-col>
-          <v-col cols="12">
+          <v-col cols="6">
             <AppInputText
               v-model="logBookForm.kecamatan"
               label="Kecamatan"
               hide-details
             />
           </v-col>
-          <v-col cols="12">
+          <v-col cols="6">
             <AppInputText v-model="logBookForm.rt" label="RT" hide-details />
           </v-col>
-          <v-col cols="12">
+          <v-col cols="6">
             <AppInputText
               v-model="logBookForm.progress"
               label="Capaian"
               hide-details
             />
           </v-col>
-
+          <v-col cols="12">
+            <AppInputText
+              v-model="logBookForm.judul_kegiatan"
+              label="Judul Kegiatan"
+              hide-details
+            />
+          </v-col>
           <v-col cols="12">
             <AppInputTextarea
-              v-model="logBookForm.notes"
-              label="Keterangan"
+              v-model="logBookForm.kegiatan"
+              label="Kegiatan"
               hide-details
             />
           </v-col>
@@ -135,16 +166,27 @@ const surveyStore = useSurveyStore();
 const addDialog = ref(false);
 const logBookForm = ref({ date: "" });
 const headers = [
-  { title: "PIC", value: "pic" },
+  // { title: "PIC", value: "pic" },
   { title: "Team", value: "team" },
   { title: "Tanggal", value: "date" },
   //   { title: "Kelurahan", value: "kelurahan" },
   //   { title: "Kecamatan", value: "kecamatan" },
   //   { title: "RT", value: "rt" },
+  { title: "Kegiatan", value: "judul_kegiatan" },
   { title: "Progress", value: "progress" },
   //   { title: "Lokasi", value: "location" },
-  { title: "Catatan", value: "notes" },
+  // { title: "Catatan", value: "notes" },
   { title: "Action", value: "action" },
+];
+const names = [
+  "Hyatma Adikara Ajrin",
+  "Fikri Kurniawan",
+  "Elizabeth Angela Prasetyarini",
+  "Kinanthi Puteri Nastiti",
+  "Cintia Lirifa Asmarani",
+  "Wegyzaldy",
+  "Praba Sultan Arian Alhamdy Syukron",
+  "Lutfy Angsoka Novita",
 ];
 const isDone = ref(false);
 const formRef = ref();
