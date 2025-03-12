@@ -8,6 +8,13 @@
               <slot name="prepend"></slot>
               <AppTextH5 color="primary">LogBook Survey PBB</AppTextH5>
               <v-spacer></v-spacer>
+              <AppInputDatePicker
+                placeholder="Filter By Date"
+                is-filter
+                clearable
+                v-model="dateFilter"
+                v-on:clear="dateFilter = null"
+              />
               <AppButton
                 variant="outlined"
                 label="Add"
@@ -15,12 +22,12 @@
                 @click="addDialog = true"
               />
             </v-row>
-            <v-btn @click="downloadJSON">download</v-btn>
+            <!-- <v-btn @click="downloadJSON">download</v-btn> -->
             <v-data-table
               :loading="isTableLoading"
               class="h-[calc(100vh-100px)]"
               :headers="headers"
-              :items="surveyStore.logBookData"
+              :items="filteredData"
               items-per-page="20"
               fixed-header
               fixed-footer
@@ -228,6 +235,7 @@ const fetchAllData = async () => {
 onMounted(() => {
   fetchAllData();
 });
+const dateFilter = ref();
 const isButtonLoading = ref(false);
 const handleSubmitLogbook = async () => {
   const { valid } = await formRef.value.validate();
@@ -251,6 +259,15 @@ const handleSubmitLogbook = async () => {
 };
 const selectedLog = ref({});
 const logDetailDialog = ref(false);
+const filteredData = computed(() => {
+  if (dateFilter.value) {
+    return surveyStore.logBookData.filter(
+      (item) => item.date == dateFilter.value
+    );
+  } else {
+    return surveyStore.logBookData;
+  }
+});
 const openDetailLog = (item) => {
   logDetailDialog.value = true;
   selectedLog.value = item;
