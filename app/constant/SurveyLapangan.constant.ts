@@ -43,6 +43,7 @@ export default {
   ownerTypeMap: {
     PUBLIC_FACILITY: "Fasilitas Umum",
     GOVERNMENT_AREA: "Government Area",
+    NON_GOVERNMENT_AREA: "Non Government Area",
   },
   ownerTypeOptions: [
     { title: "Fasilitas Umum", value: "PUBLIC_FACILITY" },
