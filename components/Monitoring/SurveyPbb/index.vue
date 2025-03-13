@@ -132,45 +132,45 @@ onMounted(async () => {
       mouseout: (e) => e.target.setStyle({ weight: 1, color: "yellow" }),
     });
 
-    layer.on("click", () => {
-      const itemMap = new Map(
-        surveyStore.bidangTanahData.map((item) => [item.fid, item])
-      );
+    // layer.on("click", () => {
+    //   const itemMap = new Map(
+    //     surveyStore.bangunanData.map((item) => [item.fid, item])
+    //   );
 
-      const detailItem = itemMap.get(String(feature.properties.FID));
+    //   const detailItem = itemMap.get(String(feature.properties.FID));
 
-      if (detailItem) {
-        const popupContent = `
-                <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
+    //   if (detailItem) {
+    //     const popupContent = `
+    //             <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
 
-            <p><strong>Provinsi:</strong> ${detailItem.province}</p>
-                        <p><strong>Tipe Bidang Tanah:</strong> ${
-                          ownerTypeMap[detailItem.ownerType]
-                        }</p>
-            <p><strong>Alamat OP:</strong> ${detailItem.taxObjectAddress}</p>
-            <p><strong>Nama WP:</strong> ${detailItem.taxPayerName}</p>
-            <p><strong>Status:</strong> <span style='color: ${
-              statusColorMap[detailItem.status]
-            };'>${statusMap[detailItem.status]}</span></p>
-              <p><strong>Polygon ID  :</strong> ${detailItem.polygonId}</p>
-              <img src="${detailItem.imageUrls}"
-      style="max-width: 250px; height: auto; display: block; margin: 10px auto; border-radius: 5px;" />
-              </div>
-          `;
-        layer.bindPopup(popupContent, { maxWidth: 700 }).openPopup();
-      } else {
-        layer
-          .bindPopup(
-            `
-            <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
-              <p><strong>Status:</strong> <span style='color: red;'>Belum Disurvey</span></p>
-              <p><strong>Polygon ID  :</strong> ${feature.properties.ID}</p>
-            </div>
-            `
-          )
-          .openPopup();
-      }
-    });
+    //         <p><strong>Provinsi:</strong> ${detailItem.province}</p>
+    //                     <p><strong>Tipe Bidang Tanah:</strong> ${
+    //                       ownerTypeMap[detailItem.ownerType]
+    //                     }</p>
+    //         <p><strong>Alamat OP:</strong> ${detailItem.taxObjectAddress}</p>
+    //         <p><strong>Nama WP:</strong> ${detailItem.taxPayerName}</p>
+    //         <p><strong>Status:</strong> <span style='color: ${
+    //           statusColorMap[detailItem.status]
+    //         };'>${statusMap[detailItem.status]}</span></p>
+    //           <p><strong>Polygon ID  :</strong> ${detailItem.polygonId}</p>
+    //           <img src="${detailItem.imageUrls}"
+    //   style="max-width: 250px; height: auto; display: block; margin: 10px auto; border-radius: 5px;" />
+    //           </div>
+    //       `;
+    //     layer.bindPopup(popupContent, { maxWidth: 700 }).openPopup();
+    //   } else {
+    //     layer
+    //       .bindPopup(
+    //         `
+    //         <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
+    //           <p><strong>Status:</strong> <span style='color: red;'>Belum Disurvey</span></p>
+    //           <p><strong>Polygon ID  :</strong> ${feature.properties.ID}</p>
+    //         </div>
+    //         `
+    //       )
+    //       .openPopup();
+    //   }
+    // });
   };
   const geoJsonLayer = L.geoJSON(bidangBontangBaru, {
     style: getStyle,

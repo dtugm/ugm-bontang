@@ -52,7 +52,7 @@ const mockData = {
         return gradient;
       },
       borderColor: "#228BE6",
-      data: [0, 0, 2, 2.3, 2.7, 3, 3.7, 4, 4.2, 5], // Tambahkan titik kedua agar terlihat
+      data: [0, 0, 2, 2.3, 2.7, 3, 4.7, 5.3, 9.6, 11.74], // Tambahkan titik kedua agar terlihat
       fill: true,
       radius: 0,
       borderWidth: 2,
@@ -70,7 +70,7 @@ const mockData = {
         return gradient;
       },
       borderColor: "#EB0E44",
-      data: [0, 0, 0, 0, 0, 1, 1.3, 2, 4, 7.12],
+      data: [0, 0, 0, 0, 0, 1, 1.3, 2, 4, 10.17],
       fill: true,
       radius: 0,
       borderWidth: 2,

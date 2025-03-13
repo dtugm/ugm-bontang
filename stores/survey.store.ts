@@ -94,6 +94,7 @@ export const useSurveyStore = defineStore("survey", () => {
       appStore.toastError(error);
     }
   };
+  const bangunanData = ref([]);
   const bidangTanahData = ref([]);
   const getAllUpdatedFeature = async () => {
     try {
@@ -252,6 +253,7 @@ export const useSurveyStore = defineStore("survey", () => {
     deleteBidangTanahBontangBaru,
     getAllLogBook,
     deleteLogBook,
+    bangunanData,
   };
 });
 

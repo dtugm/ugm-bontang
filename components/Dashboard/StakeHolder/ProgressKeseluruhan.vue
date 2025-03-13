@@ -25,8 +25,8 @@
     <v-col cols="12" lg="3">
       <AppCardSimpleProgress
         title="Pelaksanaan Survey PBB"
-        :total="985"
-        :from="13000"
+        :total="surveyStore.bidangTanahData.length"
+        :from="10165"
         unit="Features"
         icon="mdi-earth"
         color="success"
@@ -34,3 +34,6 @@
     </v-col>
   </v-row>
 </template>
+<script lang="ts" setup>
+const surveyStore = useSurveyStore();
+</script>
