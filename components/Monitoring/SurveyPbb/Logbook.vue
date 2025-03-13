@@ -5,18 +5,19 @@
         <slot name="prepend"></slot>
         <AppTextH5 color="primary">LogBook Survey PBB</AppTextH5>
         <v-spacer></v-spacer>
-        <!-- <AppButton
-          variant="outlined"
-          label="Add"
-          color="info"
-          @click="addDialog = true"
-        /> -->
+        <AppInputDatePicker
+          placeholder="Filter By Date"
+          is-filter
+          clearable
+          v-model="dateFilter"
+          v-on:clear="dateFilter = null"
+        />
       </v-row>
       <v-data-table
         :loading="isTableLoading"
         class="h-[calc(100vh-250px)]"
         :headers="headers"
-        :items="surveyStore.logBookData"
+        :items="filteredData"
         fixed-header
         fixed-footer
       >
@@ -35,6 +36,7 @@
   />
 </template>
 <script setup>
+const dateFilter = ref();
 const surveyStore = useSurveyStore();
 const addDialog = ref(false);
 const logBookForm = ref({ date: "" });
@@ -69,6 +71,15 @@ const fetchAllData = async () => {
   await surveyStore.getAllLogBook();
   isTableLoading.value = false;
 };
+const filteredData = computed(() => {
+  if (dateFilter.value) {
+    return surveyStore.logBookData.filter(
+      (item) => item.date == dateFilter.value
+    );
+  } else {
+    return surveyStore.logBookData;
+  }
+});
 onMounted(() => {
   fetchAllData();
 });
