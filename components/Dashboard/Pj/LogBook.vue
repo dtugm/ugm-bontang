@@ -29,6 +29,7 @@
               :headers="headers"
               :items="filteredData"
               items-per-page="20"
+              :sort-by="[{ key: 'date', order: 'desc' }]"
               fixed-header
               fixed-footer
             >
@@ -202,16 +203,15 @@ const surveyStore = useSurveyStore();
 const addDialog = ref(false);
 const logBookForm = ref({ date: "" });
 const headers = [
-  { title: "PIC", value: "pic" },
-  // { title: "Team", value: "team" },
-  { title: "Tanggal", value: "date", sortable: true },
-  //   { title: "Kelurahan", value: "kelurahan" },
-  //   { title: "Kecamatan", value: "kecamatan" },
-  //   { title: "RT", value: "rt" },
-  { title: "Kegiatan", value: "judul_kegiatan" },
-  { title: "Progress", value: "progress" },
-  //   { title: "Lokasi", value: "location" },
-  // { title: "Catatan", value: "notes" },
+  { title: "PIC", value: "pic", minWidth: "200px", maxWidth: "200px" },
+  { title: "Tanggal", value: "date", sortable: true, minWidth: "150px" },
+  {
+    title: "Kegiatan",
+    value: "judul_kegiatan",
+    maxWidth: "200px",
+    minWidth: "200px",
+  },
+  { title: "Progress", value: "progress", minWidth: "70px", maxWidth: "70px" },
   { title: "Action", value: "action" },
 ];
 const names = [
