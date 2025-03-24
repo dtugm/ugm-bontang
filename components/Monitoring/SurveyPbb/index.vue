@@ -63,6 +63,8 @@ onMounted(async () => {
     if (detailItem) {
       if (detailItem.ownerType === "GOVERNMENT_AREA") {
         fillColor = "#87CEEB";
+      } else if (detailItem.ownerType === "PUBLIC_FACILITY") {
+        fillColor = "#ffa6c8";
       } else {
         fillColor = statusColorMap[detailItem.status] || fillColor;
       }
@@ -199,10 +201,12 @@ onMounted(async () => {
   }).addTo(map);
 
   const baseMaps = { OpenStreetMap: osm };
+
   const overlayMaps = {
     "AWS Tiles": awsTiles,
     "Bidang Bontang Baru": geoJsonLayer,
-    "Bangunan Bontang Baru": bangunanLayer,
+    "Bangunan Bontang Baru Terupdate": bangunanLayer,
+    "Bangunan Bontang Baru Belum Terupdate": bangunanLayerProgress,
   };
 
   L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
