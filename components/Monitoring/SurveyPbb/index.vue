@@ -37,10 +37,14 @@ onMounted(async () => {
     "/SurveyPbb/peta_kerja_bontang_baru.geojson"
   );
   const geoJsonBangunan = await fetch(
-    "/SurveyPbb/bangunan_bontang_baru.geojson"
+    "/SurveyPbb/building_bontang_baru_done.geojson"
+  );
+  const geoJsonBangunanRest = await fetch(
+    "/SurveyPbb/building_bontang_baru_progress.geojson"
   );
   const bidangBontangBaru = await geoJsonBontangBaru.json();
   const bangunanBontangBaru = await geoJsonBangunan.json();
+  const bangunanBontangBaruProgress = await geoJsonBangunanRest.json();
 
   totalPolygons.value = bidangBontangBaru.features.length;
   console.log(bangunanBontangBaru);
@@ -58,7 +62,7 @@ onMounted(async () => {
     let fillColor = "rgba(139, 146, 152, 1)";
     if (detailItem) {
       if (detailItem.ownerType === "GOVERNMENT_AREA") {
-        fillColor = "blue";
+        fillColor = "#87CEEB";
       } else {
         fillColor = statusColorMap[detailItem.status] || fillColor;
       }
@@ -67,7 +71,7 @@ onMounted(async () => {
       fillColor: fillColor,
       weight: 1,
       color: "white",
-      fillOpacity: detailItem ? 1 : 0.5,
+      fillOpacity: detailItem ? 0.7 : 0.5,
     };
   };
 
@@ -120,16 +124,24 @@ onMounted(async () => {
   // Bangunan
   const getBangunanStyle = (feature) => {
     return {
+      fillColor: "blue",
+      weight: 1,
+      color: "white",
+      fillOpacity: 0.5,
+    };
+  };
+  const getBangunanStyleProgress = (feature) => {
+    return {
       fillColor: "rgba(139, 146, 152, 1)",
       weight: 1,
-      color: "yellow",
-      fillOpacity: 0.7,
+      color: "white",
+      fillOpacity: 0.5,
     };
   };
   const onEachBangunanFeature = (feature, layer) => {
     layer.on({
       mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
-      mouseout: (e) => e.target.setStyle({ weight: 1, color: "yellow" }),
+      mouseout: (e) => e.target.setStyle({ weight: 1, color: "white" }),
     });
 
     // layer.on("click", () => {
@@ -179,6 +191,10 @@ onMounted(async () => {
 
   const bangunanLayer = L.geoJSON(bangunanBontangBaru, {
     style: getBangunanStyle,
+    onEachFeature: onEachBangunanFeature,
+  }).addTo(map);
+  const bangunanLayerProgress = L.geoJSON(bangunanBontangBaruProgress, {
+    style: getBangunanStyleProgress,
     onEachFeature: onEachBangunanFeature,
   }).addTo(map);
 
