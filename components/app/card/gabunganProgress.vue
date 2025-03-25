@@ -1,5 +1,17 @@
 <template>
   <v-card :loading="loading" class="pa-4 rounded-lg" :color="color">
+    <slot name="overlay">
+      <v-overlay
+        v-model="isLoading"
+        absolute
+        class="align-center justify-center"
+        contained
+      >
+        <v-progress-circular size="50" color="white" indeterminate>
+        </v-progress-circular>
+      </v-overlay>
+    </slot>
+
     <div v-for="(item, index) in items" :key="index" class="pb-3">
       <div>
         {{ item?.title }}
@@ -29,6 +41,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      overlay: true,
+    };
+  },
   props: {
     items: {
       type: Array,
@@ -66,6 +83,9 @@ export default {
   computed: {
     progressValue() {
       this.getPercent();
+    },
+    isLoading() {
+      return this.loading;
     },
   },
   methods: {

@@ -8,14 +8,37 @@
       />
     </v-col>
     <v-col cols="12" lg="4">
-      <AppCardGabunganProgress :items="Loktuan" color="secondary"
-    /></v-col>
+      <AppCardGabunganProgress :items="ApiApi" color="secondary">
+        <template #overlay>
+          <v-overlay
+            v-model="overlay"
+            absolute
+            class="align-center justify-center"
+            contained
+          >
+            Start Survey in April 2025
+          </v-overlay>
+        </template>
+      </AppCardGabunganProgress></v-col
+    >
     <v-col cols="12" lg="4">
-      <AppCardGabunganProgress :items="ApiApi" color="success" />
+      <AppCardGabunganProgress :items="Loktuan" color="success">
+        <template #overlay>
+          <v-overlay
+            v-model="overlay"
+            absolute
+            class="align-center justify-center"
+            contained
+          >
+            Start Survey in May 2025
+          </v-overlay>
+        </template>
+      </AppCardGabunganProgress>
     </v-col>
   </v-row>
 </template>
 <script lang="ts" setup>
+const overlay = ref(true);
 const surveyStore = useSurveyStore();
 const isFetchingData = ref(false);
 const BontangBaru = ref([
