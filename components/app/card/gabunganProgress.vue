@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4 rounded-lg" :color="color">
+  <v-card :loading="loading" class="pa-4 rounded-lg" :color="color">
     <div v-for="(item, index) in items" :key="index" class="pb-3">
       <div>
         {{ item?.title }}

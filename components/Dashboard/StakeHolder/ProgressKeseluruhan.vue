@@ -24,6 +24,7 @@
     /></v-col>
     <v-col cols="12" lg="3">
       <AppCardSimpleProgress
+        :loading="surveyStore.isFetchingData"
         title="Pelaksanaan Survey PBB"
         :total="surveyStore.bidangTanahData.length"
         :from="10165"

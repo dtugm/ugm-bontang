@@ -96,12 +96,15 @@ export const useSurveyStore = defineStore("survey", () => {
   };
   const bangunanData = ref([]);
   const bidangTanahData = ref([]);
+  const isFetchingData = ref(false);
   const getAllUpdatedFeature = async () => {
+    isFetchingData.value = true;
     try {
       const { data } = await surveyApi.lot_survey_monitorings({
         pageSize: 10000,
       });
       bidangTanahData.value = data;
+      isFetchingData.value = false;
       // appStore.toastSuccess("Batch update berhasil!");
     } catch (error: any) {
       appStore.toastError(error);
@@ -254,6 +257,7 @@ export const useSurveyStore = defineStore("survey", () => {
     getAllLogBook,
     deleteLogBook,
     bangunanData,
+    isFetchingData,
   };
 });
 
