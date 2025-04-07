@@ -10,10 +10,18 @@
         usersConstant.stakeHolder_user.includes(authenticationStore.user.email)
       "
     />
+
+    <!-- Khusus Dhias -->
+    <DashboardSuperadmin
+      v-if="
+        usersConstant.masterWebUser.includes(authenticationStore.user.email)
+      "
+    />
   </div>
 </template>
 
 <script setup>
+import { DashboardSuperadmin } from "#components";
 import usersConstant from "~/app/constant/users.constant";
 const authenticationStore = useAuthenticationStore();
 

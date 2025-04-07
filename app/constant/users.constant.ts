@@ -54,4 +54,5 @@ export default {
     "lkyudhistira@mail.ugm.ac.id",
     "test1@gmail.com",
   ],
+  masterWebUser: ["dhiasdmn@gmail.com"],
 };
