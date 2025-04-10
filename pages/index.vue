@@ -2,6 +2,11 @@
   <div class="min-h-screen">
     <!-- <DashboardEmployee v-if="employee_user.includes(authStore.user.email)" /> -->
     <!-- <DashboardPj v-if="pj_user.includes(authStore.user.email)" /> -->
+    <DashboardSuperadmin
+      v-if="
+        usersConstant.superadmin_user.includes(authenticationStore.user.email)
+      "
+    />
     <DashboardPjLogBook
       v-if="usersConstant.pj_user.includes(authenticationStore.user.email)"
     />
