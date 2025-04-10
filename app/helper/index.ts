@@ -10,6 +10,15 @@ if (runtimeConfig.public.API_BASE_KEY_NEW) {
     "Authorization"
   ] = `ApiKey ${runtimeConfig.public.API_BASE_KEY_NEW}`;
 }
+
+apiBase.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export const apiPostData = async (url: string, data: any, headers = {}) => {
   try {
     const response: any = await apiBase.post(url, data, {
