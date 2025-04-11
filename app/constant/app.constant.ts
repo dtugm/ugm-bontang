@@ -46,6 +46,11 @@ export default {
     },
     {
       prepend_icon: "mdi-monitor-multiple",
+      title: "Studio Lidar",
+      path: "/studio/studio_lidar",
+    },
+    {
+      prepend_icon: "mdi-monitor-multiple",
       title: "Monitoring Studio",
       sub_menu: [
         {

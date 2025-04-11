@@ -2,7 +2,7 @@
   <div class="min-h-screen">
     <!-- <DashboardEmployee v-if="employee_user.includes(authStore.user.email)" /> -->
     <!-- <DashboardPj v-if="pj_user.includes(authStore.user.email)" /> -->
-    <!-- <DashboardSuperadmin
+    <DashboardSuperadmin
       v-if="
         usersConstant.superadmin_user.includes(authenticationStore.user.email)
       "
@@ -14,15 +14,7 @@
       v-if="
         usersConstant.stakeHolder_user.includes(authenticationStore.user.email)
       "
-    /> -->
-
-    <!-- Dashboard Studio Member -->
-    <DashboardMemberLidarView v-if="isMemberLidar" />
-    <DashboardMemberModellingView v-if="isMemberModelling" />
-
-    <!-- Dashboard Studio Leader -->
-    <DashboardLeaderLidarView v-if="isLeaderLidar" />
-    <DashboardLeaderModellingView v-if="isLeaderModelling" />
+    />
   </div>
 </template>
 
