@@ -17,4 +17,10 @@ export default {
   create_lidar_task: async (payload: ICreateLidarTask) => {
     return apiPostData(`${mainPath}`, payload);
   },
+  delete_lidar_task: async (taskId: string) => {
+    return apiDeleteData(`${mainPath}/${taskId}?`);
+  },
+  edit_lidar_task: async (taskId: string, payload: ICreateLidarTask) => {
+    return apiPutData(`${mainPath}/${taskId}?`, payload);
+  },
 };
