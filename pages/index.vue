@@ -21,27 +21,7 @@
 <script setup>
 import usersConstant from "~/app/constant/users.constant";
 const authenticationStore = useAuthenticationStore();
-const isMemberLidar = computed(() =>
-  authenticationStore.user.groups.some(
-    (group) => group.name === "Divisi Lidar" && group.role === "MEMBER"
-  )
-);
-const isMemberModelling = computed(() =>
-  authenticationStore.user.groups.some(
-    (group) => group.name === "3d-Modelling" && group.role === "MEMBER"
-  )
-);
 
-const isLeaderLidar = computed(() =>
-  authenticationStore.user.groups.some(
-    (group) => group.name === "Divisi Lidar" && group.role === "LEADER"
-  )
-);
-const isLeaderModelling = computed(() =>
-  authenticationStore.user.groups.some(
-    (group) => group.name === "3d-Modelling" && group.role === "LEADER"
-  )
-);
 // import surveyApi from "~/app/api/survey.api";
 // const testGet = async () => {
 //   const formData = new FormData();
