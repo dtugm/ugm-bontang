@@ -49,6 +49,7 @@ const arrays = [
   usersConstant.superadmin_user,
   usersConstant.leader_studio_users,
   usersConstant.member_lidar_users,
+  usersConstant.member_3d_users,
 ];
 const menuMap: any = {
   0: appConstant.pj_menus,
@@ -56,6 +57,7 @@ const menuMap: any = {
   2: appConstant.superadmin_menus,
   3: appConstant.leader_studio_menus,
   4: appConstant.member_lidar_users,
+  5: appConstant.member_3d_users,
 };
 const foundIndexes: any = arrays
   .map((arr, index) => (arr.includes(authStore.user.email) ? index : -1))

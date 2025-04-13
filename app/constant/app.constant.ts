@@ -61,6 +61,50 @@ export default {
       title: "Lidar",
       path: "/studio/studio_lidar",
     },
+    {
+      prepend_icon: "mdi-earth",
+      title: "Progress",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-map",
+          title: "Peta Garis",
+          path: "/production-peta-garis",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Building Outline",
+          path: "/production-bo",
+        },
+      ],
+    },
+  ],
+  member_3d_users: [
+    {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "Dashboard",
+      path: "/",
+    },
+    {
+      prepend_icon: "mdi-cube",
+      title: "3d Model",
+      path: "/studio/studio_3d",
+    },
+    {
+      prepend_icon: "mdi-earth",
+      title: "Progress",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-map",
+          title: "Peta Garis",
+          path: "/production-peta-garis",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Building Outline",
+          path: "/production-bo",
+        },
+      ],
+    },
   ],
 
   pj_menus: [

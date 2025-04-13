@@ -162,7 +162,7 @@ const header: any = employeeConstant.petaGarisHeader;
 const statusGrid: any = petaGarisConstant.statusGrid;
 const statusGridColor: any = petaGarisConstant.statusGridColor;
 const employeeList = appMock.employee;
-const authStore = useAuthStore();
+const authStore = useAuthenticationStore();
 const taskList: any = ref([]);
 const filterTaskList = computed(() => {
   return taskList.value.filter((item: any) => {
@@ -173,6 +173,8 @@ const employee: any = employeeList.find(
   (employee) => employee.email == authStore.user?.email
 );
 async function fetchFilteredOrders() {
+  console.log(employee);
+  console.log(authStore.user?.email);
   isTableLoading.value = true;
   const collectionPath = `/responsibles/${employee?.responsibleId}/employees/${employee?.id}/peta_garis_task`;
   try {
@@ -180,7 +182,9 @@ async function fetchFilteredOrders() {
       collection(db, collectionPath),
       orderBy("GRID", "asc")
     );
+
     const querySnapshot = await getDocs(ordersQuery);
+    console.log(querySnapshot);
     taskList.value = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),

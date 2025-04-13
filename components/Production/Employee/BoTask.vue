@@ -171,7 +171,7 @@ const header: any = employeeConstant.boTaskHeader;
 const statusGrid: any = petaGarisConstant.statusGrid;
 const statusGridColor: any = petaGarisConstant.statusGridColor;
 const employeeList = appMock.employee;
-const authStore = useAuthStore();
+const authStore = useAuthenticationStore();
 const taskList: any = ref([]);
 const filterTaskList = computed(() => {
   return taskList.value.filter((item: any) => {

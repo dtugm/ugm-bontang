@@ -57,7 +57,6 @@ export default {
     "devizulfa77@gmail.com",
     "ainun.nisa.rezika@mail.ugm.ac.id",
   ],
-
   survey_users: [
     "hyatma.a.a@mail.ugm.ac.id",
     "kinanthinastiti@gmail.com",
