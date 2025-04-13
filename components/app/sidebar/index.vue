@@ -44,18 +44,18 @@ const authStore = useAuthenticationStore();
 const route = useRoute();
 const selectedTab = ref(route.path);
 const arrays = [
-  usersConstant.employee_user,
   usersConstant.pj_user,
   usersConstant.stakeHolder_user,
-  usersConstant.leader_studio_users,
   usersConstant.superadmin_user,
+  usersConstant.leader_studio_users,
+  usersConstant.member_lidar_users,
 ];
 const menuMap: any = {
-  0: appConstant.employee_menus,
-  1: appConstant.pj_menus,
-  2: appConstant.stakeHolder_menus,
+  0: appConstant.pj_menus,
+  1: appConstant.stakeHolder_menus,
+  2: appConstant.superadmin_menus,
   3: appConstant.leader_studio_menus,
-  4: appConstant.superadmin_menus,
+  4: appConstant.member_lidar_users,
 };
 const foundIndexes: any = arrays
   .map((arr, index) => (arr.includes(authStore.user.email) ? index : -1))

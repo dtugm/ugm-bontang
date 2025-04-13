@@ -23,6 +23,12 @@
     </v-row>
     <!-- <AppButton label="Add Task" color="tertiary" @click="openAddTask" /> -->
     <v-data-table :headers="taskHeader" :items="lidarTaskByMember">
+      <template #item.notes="{ item }: any">
+        <template v-if="item.notes && item.status == 'REVISION'">
+          <AppButton label="Note Detail" variant="text" />
+        </template>
+        <template v-else> Nothing to see </template>
+      </template>
       <template #item.action="{ item }: any">
         <div class="flex gap-1">
           <AppButton
@@ -58,10 +64,22 @@
       </v-card-actions>
     </v-card>
   </AppDialog>
-  <AppDialog v-model="editDialog" title="Edit" width="400">
+  <AppDialog v-model="editDialog" title="Edit">
     <v-card>
       <v-card-text>
         <AppInputText v-model="editForm.taskName" label="Grid"></AppInputText>
+        <AppInputAutocomplete
+          v-model="editForm.status"
+          label="Status"
+          :items="[
+            { title: 'To Do', value: 'TODO' },
+            { title: 'To Do Review', value: 'TODO_REVIEW' },
+            { title: 'Revision', value: 'REVISION' },
+            { title: 'Done', value: 'DONE' },
+          ]"
+          hide-details
+        />
+        <AppInputTextarea v-model="editForm.notes" label="Notes" />
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -170,7 +188,7 @@ const editForm = ref();
 const editTask = (item: any) => {
   editDialog.value = true;
   console.log(item);
-  editForm.value = item;
+  editForm.value = JSON.parse(JSON.stringify(item));
 };
 const confirmEditTask = async () => {
   const {
@@ -198,12 +216,20 @@ const taskHeader = [
     key: "status",
   },
   {
-    title: "Created At",
-    key: "createdAt",
+    title: "Server Path",
+    key: "serverPath",
   },
+  // {
+  //   title: "Created At",
+  //   key: "createdAt",
+  // },
+  // {
+  //   title: "Upodated At",
+  //   key: "updatedAt",
+  // },
   {
-    title: "Upodated At",
-    key: "updatedAt",
+    title: "Notes",
+    key: "notes",
   },
   {
     title: "Actions",

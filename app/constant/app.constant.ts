@@ -50,11 +50,16 @@ export default {
       ],
     },
   ],
-  member_studio_users: [
+  member_lidar_users: [
     {
       prepend_icon: "mdi-monitor-dashboard",
       title: "Dashboard",
       path: "/",
+    },
+    {
+      prepend_icon: "mdi-access-point",
+      title: "Lidar",
+      path: "/studio/studio_lidar",
     },
   ],
 
