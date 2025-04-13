@@ -24,20 +24,40 @@ export default {
     {
       prepend_icon: "mdi-earth",
       title: "Survey PBB",
+      path: "/survey-monitoring",
+    },
+  ],
+  leader_studio_menus: [
+    {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "Dashboard",
+      path: "/",
+    },
+    {
+      prepend_icon: "mdi-monitor-multiple",
+      title: "Studio Lidar",
       sub_menu: [
         {
-          prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Bidang Tanah",
-          path: "/survey-monitoring",
+          prepend_icon: "mdi-access-point",
+          title: "Lidar",
+          path: "/studio/studio_lidar",
         },
         {
-          prepend_icon: "mdi-office-building",
-          title: "Bangunan",
-          path: "/building-monitoring",
+          prepend_icon: "mdi-cube",
+          title: "3d Models",
+          path: "/studio/studio_3d",
         },
       ],
     },
   ],
+  member_studio_users: [
+    {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "Dashboard",
+      path: "/",
+    },
+  ],
+
   pj_menus: [
     {
       prepend_icon: "mdi-monitor-dashboard",
@@ -48,6 +68,11 @@ export default {
       prepend_icon: "mdi-monitor-multiple",
       title: "Studio Lidar",
       path: "/studio/studio_lidar",
+    },
+    {
+      prepend_icon: "mdi-book-clock",
+      title: "LogBook Survey",
+      path: "/survey/logbook",
     },
     {
       prepend_icon: "mdi-monitor-multiple",
@@ -68,18 +93,7 @@ export default {
     {
       prepend_icon: "mdi-earth",
       title: "Survey PBB",
-      sub_menu: [
-        {
-          prepend_icon: "mdi-receipt-text-edit-outline",
-          title: "Bidang Tanah",
-          path: "/survey-monitoring",
-        },
-        {
-          prepend_icon: "mdi-office-building",
-          title: "Bangunan",
-          path: "/building-monitoring",
-        },
-      ],
+      path: "/survey-monitoring",
     },
     {
       prepend_icon: "mdi-database-edit",
@@ -90,29 +104,8 @@ export default {
           title: "Bidang Tanah",
           path: "/production-survey-pbb",
         },
-
-        {
-          prepend_icon: "mdi-office-building",
-          title: "Bangunan",
-          path: "/production-bo",
-        },
-        // {
-        //   prepend_icon: "mdi-map",
-        //   title: "Peta Garis",
-        //   path: "/production-peta-garis",
-        // },
-        // {
-        //   prepend_icon: "mdi-cube-outline",
-        //   title: "3D Models",
-        //   path: "/production-3d-models",
-        // },
       ],
     },
-    // {
-    //   prepend_icon: "mdi-account-multiple",
-    //   title: "Employee",
-    //   path: "/employee-management",
-    // },
   ],
   employee_menus: [
     {
@@ -124,11 +117,6 @@ export default {
       prepend_icon: "mdi-earth",
       title: "Progress",
       sub_menu: [
-        // {
-        //   prepend_icon: "mdi-receipt-text-edit-outline",
-        //   title: "Suvey PBB",
-        //   path: "/production-survey-pbb",
-        // },
         {
           prepend_icon: "mdi-map",
           title: "Peta Garis",
@@ -139,12 +127,14 @@ export default {
           title: "Building Outline",
           path: "/production-bo",
         },
-        // {
-        //   prepend_icon: "mdi-cube-outline",
-        //   title: "3D Models",
-        //   path: "/production-3d-models",
-        // },
       ],
+    },
+  ],
+  superadmin_menus: [
+    {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "Dashboard",
+      path: "/",
     },
   ],
 

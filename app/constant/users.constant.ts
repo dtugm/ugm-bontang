@@ -1,7 +1,7 @@
 export default {
   pj_user: [
     "hyatma.a.a@mail.ugm.ac.id",
-    "fikrikrz88@gmail.com",
+    // "fikrikrz88@gmail.com",
     "kinanthinastiti@gmail.com",
     "prasetyarini.ea@gmail.com",
   ],
@@ -17,21 +17,7 @@ export default {
     "bambang@bontang.com",
     "purnama@bontang.com",
   ],
-  superadmin_user: [
-    "superadmin@gmail.com",
-    "bontangsyafrudin@gmail.com",
-    "bontanggiri@gmail.com",
-    "bontangheru@gmail.com",
-    "bontangsyafriansyah@gmail.com",
-    "bontangjaya@gmail.com",
-    "digitaltwinugm@gmail.com",
-    "ugmruli@gmail.com",
-    "ugmyuli@gmail.com",
-    "ugmtrias@gmail.com",
-    "ugmbambang@gmail.com",
-    "ugmpurnama@gmail.com",
-    "dhiasdmn@gmail.com",
-  ],
+  superadmin_user: ["superadmin@gmail.com", "dhiasdmn@gmail.com"],
   employee_user: [
     "lirifaasmarani@gmail.com",
     "anisaputri1006@gmail.com",
@@ -53,5 +39,28 @@ export default {
     "michaelkrisna1975@mail.ugm.ac.id",
     "lkyudhistira@mail.ugm.ac.id",
     "test1@gmail.com",
+  ],
+  leader_studio_users: ["fikrikrz88@gmail.com"],
+  member_lidar_users: [
+    "annisa.rizky.kusuma04@gmail.com",
+    "suzitessa99@gmail.com",
+    "anisaputri1006@gmail.com",
+    "farryhandika.n79@gmail.com",
+    "yeniikawati99@gmail.com",
+    "99nabilla@gmail.com",
+  ],
+  member_3d_users: [
+    "lkyudhistira@mail.ugm.ac.id",
+    "safiraardelia25@gmail.com",
+    "endangretnonurhayati@gmail.com",
+    "indahfitriyaa11@gmail.com",
+    "devizulfa77@gmail.com",
+    "ainun.nisa.rezika@mail.ugm.ac.id",
+  ],
+
+  survey_users: [
+    "hyatma.a.a@mail.ugm.ac.id",
+    "kinanthinastiti@gmail.com",
+    "prasetyarini.ea@gmail.com",
   ],
 };

@@ -41,16 +41,21 @@
 import appConstant from "~/app/constant/app.constant";
 import usersConstant from "~/app/constant/users.constant";
 const authStore = useAuthenticationStore();
-const selectedTab = ref("/");
+const route = useRoute();
+const selectedTab = ref(route.path);
 const arrays = [
   usersConstant.employee_user,
   usersConstant.pj_user,
   usersConstant.stakeHolder_user,
+  usersConstant.leader_studio_users,
+  usersConstant.superadmin_user,
 ];
 const menuMap: any = {
   0: appConstant.employee_menus,
   1: appConstant.pj_menus,
   2: appConstant.stakeHolder_menus,
+  3: appConstant.leader_studio_menus,
+  4: appConstant.superadmin_menus,
 };
 const foundIndexes: any = arrays
   .map((arr, index) => (arr.includes(authStore.user.email) ? index : -1))
