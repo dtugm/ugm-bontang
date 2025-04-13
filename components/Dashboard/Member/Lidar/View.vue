@@ -13,6 +13,7 @@
               placeholder="Filter By Status"
               @update:model-value="getTaskList()"
               hide-details
+              clearable
             />
           </v-col>
         </v-row>

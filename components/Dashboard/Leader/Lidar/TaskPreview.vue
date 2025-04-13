@@ -14,6 +14,7 @@
             { title: 'Done', value: 'DONE' },
           ]"
           placeholder="Filter By Status"
+          clearable
           @update:model-value="getTaskList()"
           hide-details
         />
@@ -23,6 +24,18 @@
     </v-row>
     <!-- <AppButton label="Add Task" color="tertiary" @click="openAddTask" /> -->
     <v-data-table :headers="taskHeader" :items="lidarTaskByMember">
+      <template #item.serverPath="{ item }: any">
+        <template v-if="item.serverPath && item.status == 'TODO_REVIEW'">
+          {{ item.serverPath }}
+          <button
+            @click="copyToClipboard(item.serverPath)"
+            title="Copy to clipboard"
+          >
+            📋
+          </button>
+        </template>
+        <template v-else> Nothing to see </template>
+      </template>
       <template #item.notes="{ item }: any">
         <template v-if="item.notes && item.status == 'REVISION'">
           <AppButton label="Note Detail" variant="text" />
@@ -105,7 +118,7 @@
     <v-card>
       <v-card-text>
         <v-row>
-          <v-col cols="6">
+          <!-- <v-col cols="6">
             <AppTextH5>Create Task Lidar</AppTextH5>
             <AppInputAutocomplete
               v-model="formTask.userId"
@@ -124,8 +137,8 @@
               color="tertiary"
               @click="createMockTask"
             />
-          </v-col>
-          <v-col cols="6">
+          </v-col> -->
+          <v-col cols="12">
             <AppTextH5>Create Bulk Task Lidar</AppTextH5>
             <AppInputAutocomplete
               v-model="formBulkTask.userId"
@@ -157,12 +170,12 @@ const props = defineProps({
   },
 });
 const lidarTaskByMember = ref([]);
-const taskFilter = ref("TODO");
+const taskFilter = ref(null);
 const getTaskList = async () => {
   await studioLidarApi
     .get_all_lidar_tasks(groupConstant.groupId.lidar, {
       assignedToUserId: props.member.id,
-      status: taskFilter.value,
+      status: taskFilter.value ?? null,
     })
     .then((resp) => {
       lidarTaskByMember.value = resp;
@@ -283,5 +296,15 @@ const createBulkTask = async () => {
 
   await Promise.all(tasks);
   getTaskList();
+  addTaskDialog.value = false;
+};
+const appStore = useAppStore();
+const copyToClipboard = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    appStore.toastSuccess("Copied to clipboard");
+  } catch (err) {
+    alert(err);
+  }
 };
 </script>
