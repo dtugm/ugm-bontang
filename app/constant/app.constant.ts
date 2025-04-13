@@ -35,7 +35,7 @@ export default {
     },
     {
       prepend_icon: "mdi-monitor-multiple",
-      title: "Studio Lidar",
+      title: "Studio",
       sub_menu: [
         {
           prepend_icon: "mdi-access-point",
