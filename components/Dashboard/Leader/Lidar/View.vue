@@ -31,7 +31,6 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import studioLidarApi from "~/app/api/studioLidar.api";
 const tab = ref();
 
 const groupStore = useGroup();

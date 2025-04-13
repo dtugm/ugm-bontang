@@ -11,9 +11,21 @@ export const useGroup = defineStore("group", () => {
     });
   };
   getLidarGroup();
+  const modelGroup = ref();
+  const getModelGroup = async () => {
+    const groupId = groupConstant.groupId.model;
+
+    await groupApi.get_group_info_by_id(groupId).then((resp) => {
+      modelGroup.value = resp;
+    });
+  };
+  getModelGroup();
   return {
     getLidarGroup,
     lidarGroup,
+
+    getModelGroup,
+    modelGroup,
   };
 });
 

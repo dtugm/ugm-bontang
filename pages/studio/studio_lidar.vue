@@ -3,10 +3,6 @@
     <!-- Leader Lidar -->
     <DashboardMemberLidarView v-if="isMemberLidar" />
     <DashboardLeaderLidarView v-if="isLeaderLidar" />
-
-    <!-- Member Lidar -->
-    <DashboardMemberModellingView v-if="isMemberModelling" />
-    <DashboardLeaderModellingView v-if="isLeaderModelling" />
   </div>
 </template>
 <script setup>
