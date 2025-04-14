@@ -21,7 +21,7 @@
 
       <AppButton label="Add Task" color="tertiary" @click="openAddTask" />
     </v-row>
-    <!-- <AppButton label="Add Task" color="tertiary" @click="openAddTask" /> -->
+
     <v-data-table :headers="taskHeader" :items="lidarTaskByMember">
       <template #item.action="{ item }: any">
         <div class="flex gap-1">
@@ -87,7 +87,7 @@
     <v-card>
       <v-card-text>
         <v-row>
-          <v-col cols="6">
+          <v-col cols="12">
             <AppTextH5>Create Task Lidar</AppTextH5>
             <AppInputAutocomplete
               v-model="formTask.userId"
@@ -97,30 +97,13 @@
               label="Member"
             ></AppInputAutocomplete>
             <AppInputText
-              v-model="formTask.grid"
-              label="Grid"
-              type="number"
+              v-model="formTask.taskName"
+              label="Task Name (Week)"
             ></AppInputText>
             <AppButton
               label="Create Task"
               color="tertiary"
-              @click="createMockTask"
-            />
-          </v-col>
-          <v-col cols="6">
-            <AppTextH5>Create Bulk Task Lidar</AppTextH5>
-            <AppInputAutocomplete
-              v-model="formBulkTask.userId"
-              :items="memberLidarItem"
-              item-title="email"
-              item-value="id"
-              label="Member"
-            ></AppInputAutocomplete>
-            <AppInputComboBox v-model="formBulkTask.grid" label="Grid" />
-            <AppButton
-              label="Create Bulk Task"
-              color="tertiary"
-              @click="createBulkTask"
+              @click="createTask"
             />
           </v-col>
         </v-row>
@@ -190,7 +173,7 @@ const confirmEditTask = async () => {
 };
 const taskHeader = [
   {
-    title: "GRID",
+    title: "Task Name (Week)",
     key: "taskName",
   },
   {
@@ -216,20 +199,20 @@ const openAddTask = () => {
 };
 const formTask: any = ref({});
 const formBulkTask: any = ref({});
-const createMockTask = async () => {
+const createTask = async () => {
   const payload = {
     groupId: groupConstant.groupId.model,
     assignedToUserId: formTask.value.userId,
     status: "TODO",
-    taskName: `GRID ${formTask.value.grid} `,
-    notes: "",
-    serverPath: "",
+    taskName: formTask.value.taskName,
   };
   await studioModelApi.create_Model_task(payload);
+  addTaskDialog.value = false;
+  getTaskList();
 };
 const groupStore = useGroup();
 const memberLidarItem = computed(() =>
-  groupStore.lidarGroup?.members
+  groupStore.modelGroup?.members
     .filter((item: any) => item.role == "MEMBER")
     .map((item: any) => ({
       id: item.id,
@@ -248,9 +231,6 @@ const createBulkTask = async () => {
       groupId: groupConstant.groupId.model,
       assignedToUserId: formBulkTask.value.userId,
       status: "TODO",
-      taskName: `GRID ${grid}`,
-      notes: "",
-      serverPath: "",
     };
     return studioModelApi.create_Model_task(payload);
   });

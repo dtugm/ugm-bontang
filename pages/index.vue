@@ -7,9 +7,9 @@
         usersConstant.superadmin_user.includes(authenticationStore.user.email)
       "
     />
-    <!-- <DashboardPjLogBook
+    <DashboardPjLogBook
       v-if="usersConstant.pj_user.includes(authenticationStore.user.email)"
-    /> -->
+    />
     <DashboardStakeHolder
       v-if="
         usersConstant.stakeHolder_user.includes(authenticationStore.user.email)
