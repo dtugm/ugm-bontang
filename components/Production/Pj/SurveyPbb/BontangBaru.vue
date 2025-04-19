@@ -69,6 +69,9 @@
             class="text-none"
             >Edit</v-btn
           >
+          <v-btn @click="checkID(item)" color="tertiary" class="text-none"
+            >CheckID</v-btn
+          >
           <v-btn
             v-if="item.id"
             @click="openDeleteDialog(item)"
@@ -289,6 +292,9 @@ const statusFilter = ref(null);
 const statusFeature = ref();
 const ownerType = ref();
 const bulkUpdateLoading = ref(false);
+const checkID = (item: any) => {
+  console.log(item);
+};
 const updatePersil = async () => {
   const payload = updateItem.value.map((item: any) => {
     return {
@@ -372,6 +378,7 @@ const editFormData = ref({
 });
 const editLoading = ref(false);
 const openEditDialog = (item: any) => {
+  console.log(item);
   editFormData.value = {
     ...basicForm,
     data: { ...basicForm.data, imageUrls: "" },

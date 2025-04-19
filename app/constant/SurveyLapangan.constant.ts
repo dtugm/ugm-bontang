@@ -1,6 +1,6 @@
 export default {
   BindagTanahHeader: [
-    { title: "FID", value: "FID" },
+    { title: "FID", value: "fid" },
     { title: "ID", value: "ID" },
 
     { title: "Tipe Pemilik", value: "ownerType" },

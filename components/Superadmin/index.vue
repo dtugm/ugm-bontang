@@ -1,78 +1,139 @@
+<!-- <v-container>
+    <v-file-input
+      label="Upload GeoJSON File"
+      accept=".geojson,.json"
+      @change="handleFileUpload"
+      prepend-icon="mdi-file-upload"
+    ></v-file-input>
+
+    <v-card v-if="geoJsonData" class="mt-4" elevation="2">
+      <v-card-title>GeoJSON Properties:</v-card-title>
+      <v-card-text>
+        <v-code>{{ propertiesArray.length }}</v-code>
+      </v-card-text>
+    </v-card>
+  </v-container> -->
+
 <template>
   <v-container>
-    <!-- <AppInputText v-model="addUserForm.email" label="email" /> -->
-    <AppInputAutocomplete
-      v-model="addUserForm.email"
-      :items="usersConstant.employee_user"
-    />
-    <AppInputAutocomplete
-      v-model="addUserForm.role"
-      label="role"
-      :items="['Member', 'Admin']"
-    />
-    <AppButton @click="addUsers" />
-  </v-container>
-  <v-container>
-    <AppTextH2>Group</AppTextH2>
-    <!-- <AppInputText v-model="addUserForm.email" label="email" /> -->
-    <AppInputAutocomplete
-      v-model="addMemberForm.userId"
-      item-title="email"
-      item-value="id"
-      :items="allUsers"
-    />
-    <AppInputAutocomplete
-      v-model="addMemberForm.role"
-      label="role"
-      :items="['LEADER', 'MEMBER']"
-    />
-    {{ group }}
-    <AppInputAutocomplete v-model="group" label="role" :items="groupID" />
+    {{ propertiesArray.length }}
+    {{ images }}
+    <v-file-input
+      label="Upload GeoJSON"
+      accept=".geojson,application/json"
+      @change="handleFileUpload"
+    ></v-file-input>
 
-    <AppButton @click="addToGroup" />
+    <v-file-input
+      v-model="images"
+      label="Upload Gambar"
+      accept="image/*"
+      multiple
+      @change="handleImagesUpload"
+    ></v-file-input>
+
+    <v-btn color="primary" @click="processBulkUpload"> Submit </v-btn>
+
+    <v-progress-linear
+      v-if="loading"
+      indeterminate
+      color="primary"
+      class="mt-4"
+    ></v-progress-linear>
+
+    <v-alert v-if="successMessage" type="success" class="mt-4">
+      {{ successMessage }}
+    </v-alert>
   </v-container>
 </template>
-<script setup>
-import groupApi from "~/app/api/group.api";
-import organizationApi from "~/app/api/organization.api";
-import usersApi from "~/app/api/users.api";
-import usersConstant from "~/app/constant/users.constant";
 
-const addUserForm = ref({
-  email: "",
-  role: "",
-});
-const addUsers = async () => {
-  const resp = await organizationApi.add_user_to_organization(
-    addUserForm.value
-  );
-  console.log(addUserForm.value);
-  console.log(resp);
-};
+<script>
+export default {
+  data() {
+    return {
+      geoJsonData: null,
+      propertiesArray: [], // New array to store all properties
+      images: [],
+    };
+  },
+  computed: {
+    displayProperties() {
+      if (!this.geoJsonData) return null;
+      if (
+        this.geoJsonData.type === "FeatureCollection" &&
+        this.geoJsonData.features?.length > 0
+      ) {
+        return JSON.stringify(this.geoJsonData.features[0].properties, null, 2);
+      }
+      if (this.geoJsonData.type === "Feature") {
+        return JSON.stringify(this.geoJsonData.properties, null, 2);
+      }
+      return "No properties found in this GeoJSON.";
+    },
+  },
+  methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-const addMemberForm = ref({});
-const allUsers = ref([]);
-const getAllUsers = async () => {
-  await usersApi.get_all_users().then((resp) => {
-    console.log(resp);
-    allUsers.value = resp.users;
-  });
-};
-getAllUsers();
-const group = ref();
-const groupID = ref([
-  {
-    title: "Lidar",
-    value: "7d8533c5-5d84-45e8-8812-77aa6cead296",
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          this.geoJsonData = JSON.parse(e.target.result);
+          console.log("GeoJSON data loaded:", this.geoJsonData);
+          this.extractPropertiesArray();
+        } catch (error) {
+          console.error("Error parsing GeoJSON:", error);
+          alert("Invalid GeoJSON file");
+        }
+      };
+      reader.readAsText(file);
+    },
+    handleImagesUpload(files) {
+      console.log(this.images);
+    },
+
+    extractPropertiesArray() {
+      this.propertiesArray = [];
+      if (
+        this.geoJsonData.type === "FeatureCollection" &&
+        this.geoJsonData.features?.length > 0
+      ) {
+        this.propertiesArray = this.geoJsonData.features.map(
+          (feature) => feature.properties
+        );
+      } else if (this.geoJsonData.type === "Feature") {
+        this.propertiesArray = [this.geoJsonData.properties];
+      }
+
+      console.log("Properties array created:", this.propertiesArray);
+    },
+
+    async processBulkUpload() {
+      console.log(this.propertiesArray);
+      console.log(this.images);
+      for (const feature of this.propertiesArray) {
+        console.log(first);
+        const fileName = (feature?.F_WWC || "").split("/").pop();
+        console.log(fileName);
+        const matchedImage = this.images.find((img) => img.name === fileName);
+        console.log(matchedImage);
+        if (!matchedImage) {
+          console.warn(`No matching image for ${fileName}`);
+          continue;
+        }
+
+        // const formData = new FormData();
+        // formData.append("geojsonFeature", JSON.stringify(feature));
+        // formData.append("image", matchedImage);
+
+        // try {
+        //   await axios.post("https://your-api-url.com/submit", formData);
+        // } catch (err) {
+        //   console.error(`Error uploading ${fileName}:`, err);
+        // }
+      }
+    },
   },
-  {
-    title: "3d Model",
-    value: "58e9e247-992d-414c-b733-3e6931bc6219",
-  },
-]);
-const addToGroup = async () => {
-  await groupApi.add_member_to_group(group.value, addMemberForm.value);
-  //   console.log(addMemberForm.value);
-  //   console.log(group.value);
 };
 </script>

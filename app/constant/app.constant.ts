@@ -185,6 +185,16 @@ export default {
       title: "Dashboard",
       path: "/",
     },
+    {
+      prepend_icon: "mdi-earth",
+      title: "Survey PBB",
+      path: "/survey-monitoring",
+    },
+    {
+      prepend_icon: "mdi-receipt-text-edit-outline",
+      title: "Bidang Tanah",
+      path: "/production-survey-pbb",
+    },
   ],
 
   location: {
