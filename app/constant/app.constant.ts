@@ -195,6 +195,11 @@ export default {
       title: "Bidang Tanah",
       path: "/production-survey-pbb",
     },
+    {
+      prepend_icon: "mdi-receipt-text-edit-outline",
+      title: "Data Survey",
+      path: "/survey-monitoring/data",
+    },
   ],
 
   location: {

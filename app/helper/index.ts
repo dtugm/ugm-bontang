@@ -1,6 +1,6 @@
 import axios from "axios";
 const runtimeConfig = useRuntimeConfig();
-
+import { useToast } from "vue-toastification";
 const apiBase = axios.create({
   baseURL: runtimeConfig.public.API_BASE_URL,
   headers: { "Content-Type": "application/json" },
@@ -112,3 +112,95 @@ export class CustomFormData extends FormData {
   }
 }
 export default apiBase;
+export async function actionWrapper<T extends IResponseAPI>(
+  callback: () => Promise<T>,
+  messageSuccess: string = "Success",
+  messageFail: string = "Failed"
+) {
+  const $toast = useToast();
+  try {
+    const resp = await callback();
+    if (resp.status && resp.status == "error") {
+      $toast.error(resp.msg || messageFail);
+    } else {
+      $toast.success(resp?.msg || messageSuccess);
+    }
+
+    return resp;
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.msg) {
+      $toast.error(err.response.data.msg || messageFail);
+      throw err;
+    } else if (err.msg) {
+      $toast.error(err.msg || messageFail);
+      throw err;
+    } else {
+      $toast.error(messageFail); // Fallback if no specific error message is provided
+      throw err;
+    }
+  }
+}
+export class FormInput implements IFormInput {
+  type?:
+    | "autocomplete"
+    | "checkbox"
+    | "combobox"
+    | "datepicker"
+    | "daterange"
+    | "file"
+    | "file_image"
+    | "password"
+    | "select"
+    | "text"
+    | "number"
+    | "textarea"
+    | "usergroup"
+    | "usergroupaccess"
+    | "provider"
+    | "project_phase"
+    | "icon"
+    | "parent_menu"
+    | "richtexteditor"
+    | "filebox"
+    | "milestone"
+    | "file_image_v2"
+    | "file_v2"
+    | "kontraktor"
+    | "radio"
+    | "siteRealId"
+    | undefined = "text";
+
+  label!: string;
+  placeholder?: string | undefined;
+  rules?: any[] | undefined;
+  disabled?: boolean | undefined;
+  readonly?: boolean | undefined;
+  items?: any[] | undefined;
+  itemValue?: string | undefined;
+  itemTitle?: string | undefined;
+  hide?: boolean | undefined;
+  cols?: number | undefined = 12;
+  sm?: number | undefined;
+  md?: number | undefined;
+  lg?: number | undefined;
+  hint?: string | undefined;
+  persistentHint?: boolean | undefined;
+  preview_img?: string | undefined;
+  isFilter?: boolean | undefined;
+  multiple?: boolean | undefined;
+  clearable?: boolean | undefined;
+  hideDetails?: boolean | undefined;
+  loading?: boolean | undefined;
+  accept?: string;
+  onClick?: any;
+  onSearch?: any;
+  falseValue?: any | undefined;
+  trueValue?: any | undefined;
+  tooltip?: string | undefined;
+  isMultiple?: boolean | undefined;
+  canSelectAll?: boolean | undefined;
+
+  constructor(args: IFormInput) {
+    Object.assign(this, args);
+  }
+}

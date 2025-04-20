@@ -8,3 +8,26 @@ declare interface IErrorAPI {
   error: string;
   statusCode: number;
 }
+declare interface ITableProps {
+  page: number;
+  itemsPerPage: number;
+  sortBy?: any[];
+  groupBy?: any[];
+  search?: string | null;
+}
+declare interface IMinimalFilter {
+  limit: number | null;
+  pageSize?: number | null;
+  keyword?: string | null;
+  ordersBy?: Array | null;
+  ordersType?: Array | null;
+}
+declare interface IMetaData {
+  searchable_columns: string[];
+  orderable_columns: string[];
+}
+declare interface IResponsePaginate extends IResponseAPI {
+  recordsTotal: number;
+  recordsFiltered: number;
+  meta_data: IMetaData;
+}
