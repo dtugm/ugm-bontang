@@ -378,7 +378,6 @@ const editFormData = ref({
 });
 const editLoading = ref(false);
 const openEditDialog = (item: any) => {
-  console.log(item);
   editFormData.value = {
     ...basicForm,
     data: { ...basicForm.data, imageUrls: "" },
