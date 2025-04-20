@@ -11,6 +11,9 @@ export default {
   lot_survey_monitorings: async (payload?: any) => {
     return apiGetData(`${mainPath}?`, payload);
   },
+  lot_survey_monitorings_summary: async (payload?: any) => {
+    return apiGetData(`${mainPath}/summary`, payload);
+  },
   post_lot_survey_monitorings: async (payload: any) => {
     return apiPostData(`${mainPath}`, payload, {
       "Content-Type": "multipart/form-data",
