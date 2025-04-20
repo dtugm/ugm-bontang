@@ -27,7 +27,7 @@
       {{ successMessage }}
     </v-alert>
   </v-container>
-  <!-- <DashboardStakeHolder /> -->
+  <DashboardStakeHolder />
   <!-- <DashboardLapangan /> -->
 </template>
 

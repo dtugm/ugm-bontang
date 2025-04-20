@@ -218,7 +218,7 @@ onMounted(async () => {
     <!-- Peta -->
     <div id="map" class="map"></div>
 
-    <div class="progress-container">
+    <!-- <div class="progress-container">
       <div class="text-left mb-2">
         <p class="text-lg font-semibold">Progres Bontang Baru</p>
         <p class="">
@@ -234,7 +234,7 @@ onMounted(async () => {
       >
         {{ Math.round(progress) }}%
       </v-progress-circular>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -242,7 +242,7 @@ onMounted(async () => {
 .map-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 .map {

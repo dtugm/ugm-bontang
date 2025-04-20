@@ -1,3 +1,5 @@
 <template>
-  <MonitoringSurveyPbb />
+  <div class="h-screen">
+    <MonitoringSurveyPbb />
+  </div>
 </template>

@@ -3,7 +3,10 @@
     <DashboardStakeHolderProgressKeseluruhan />
     <v-row>
       <v-col cols="12" sm="12">
-        <DashboardStakeHolderScurve />
+        <div class="h-[500px] rounded-md">
+          <MonitoringSurveyPbb />
+        </div>
+        <!-- <DashboardStakeHolderScurve /> -->
       </v-col>
     </v-row>
     <DashboardStakeHolderProgressPbb />
@@ -16,6 +19,11 @@
             <MonitoringSurveyPbbLogbook />
           </v-container>
         </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="12">
+        <DashboardStakeHolderScurve />
       </v-col>
     </v-row>
   </v-container>
