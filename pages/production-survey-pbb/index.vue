@@ -1,5 +1,5 @@
 <template>
   <div class="h-screen">
-    <ProductionPjSurveyPbb />
+    <SurveyDataPersil />
   </div>
 </template>

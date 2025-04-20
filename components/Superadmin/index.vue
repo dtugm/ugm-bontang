@@ -1,23 +1,5 @@
-<!-- <v-container>
-    <v-file-input
-      label="Upload GeoJSON File"
-      accept=".geojson,.json"
-      @change="handleFileUpload"
-      prepend-icon="mdi-file-upload"
-    ></v-file-input>
-
-    <v-card v-if="geoJsonData" class="mt-4" elevation="2">
-      <v-card-title>GeoJSON Properties:</v-card-title>
-      <v-card-text>
-        <v-code>{{ propertiesArray.length }}</v-code>
-      </v-card-text>
-    </v-card>
-  </v-container> -->
-
 <template>
   <v-container>
-    {{ propertiesArray.length }}
-    {{ images }}
     <v-file-input
       label="Upload GeoJSON"
       accept=".geojson,application/json"
@@ -45,6 +27,8 @@
       {{ successMessage }}
     </v-alert>
   </v-container>
+  <!-- <DashboardStakeHolder /> -->
+  <!-- <DashboardLapangan /> -->
 </template>
 
 <script>
@@ -75,7 +59,6 @@ export default {
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
@@ -113,11 +96,38 @@ export default {
       console.log(this.propertiesArray);
       console.log(this.images);
       for (const feature of this.propertiesArray) {
-        console.log(first);
         const fileName = (feature?.F_WWC || "").split("/").pop();
-        console.log(fileName);
         const matchedImage = this.images.find((img) => img.name === fileName);
-        console.log(matchedImage);
+        if (matchedImage) {
+          console.log(feature);
+          const payload = {
+            images: matchedImage,
+            data: {
+              polygonId: feature.ID,
+              fid: feature.FID,
+              province: "Kalimantan Timur",
+              city: "Bontang",
+              district: "Bontang Baru",
+              village: "Bontang Utara",
+              taxObjectAddress: feature.FID,
+              taxPayerName: feature.FID,
+              status: "OWNER_CANNOT_BE_MEET",
+              ownerType: "NON_GOVERNMENT_AREA",
+              taxObjectNumber: null,
+              citizenId: null,
+              taxPayerAddress: null,
+              taxPayerPhone: null,
+              buildingTotal: null,
+              buildingFloorTotal: null,
+              wallType: null,
+              vehicleTotal: null,
+              createdAt: "2025-04-18T06:08:56.919Z",
+              updatedAt: "2025-04-18T06:08:56.919Z",
+            },
+          };
+          console.log(matchedImage);
+          continue;
+        }
         if (!matchedImage) {
           console.warn(`No matching image for ${fileName}`);
           continue;
