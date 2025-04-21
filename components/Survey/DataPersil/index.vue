@@ -19,8 +19,8 @@
         </v-tabs>
         <v-window v-model="tab">
           <v-window-item value="bontang_baru">
-            <!-- <ProductionPjSurveyPbbBontangBaru /> -->
-            <SurveyDataPersilBontangBaru />
+            <ProductionPjSurveyPbbBontangBaru />
+            <!-- <SurveyDataPersilBontangBaru /> -->
           </v-window-item>
           <v-window-item value="api_api">
             <SurveyDataPersilApiApi />
