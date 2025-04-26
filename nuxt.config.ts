@@ -12,6 +12,7 @@ export default defineNuxtConfig({
       ],
     },
   },
+  css: ["cesium/Build/Cesium/Widgets/widgets.css"],
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   ssr: false,
@@ -27,12 +28,16 @@ export default defineNuxtConfig({
       brevoApiKey: process.env.BREVO_API_KEY,
       API_BASE_URL: process.env.API_BASE_URL,
       API_BASE_KEY_NEW: process.env.API_BASE_KEY_NEW,
+      CESIUM_BASE_URL: "/cesium",
     },
   },
   build: {
     transpile: ["vuetify"],
   },
   vite: {
+    define: {
+      CESIUM_BASE_URL: JSON.stringify("/cesium"),
+    },
     vue: {
       template: {
         transformAssetUrls,
