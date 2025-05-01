@@ -4,8 +4,8 @@
 
 <script setup>
 const { $Cesium } = useNuxtApp();
-$Cesium.Ion.defaultAccessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1YTM4NjcyYy1mMGZmLTRhZmEtYTMxMi01YjA0ZDg3MjFkOWUiLCJpZCI6MjQ5NTg3LCJpYXQiOjE3Mjk0OTM4NjV9.2npo1m66SFpIlNazINBopkMP66ANa-O0EOexw-oH9wQ";
+const runtimeConfig = useRuntimeConfig();
+$Cesium.Ion.defaultAccessToken = runtimeConfig.public.CESIUM_TOKEN;
 onMounted(async () => {
   const viewer = new $Cesium.Viewer("cesiumContainer", {
     // terrainProvider: await $Cesium.createWorldTerrainAsync(),

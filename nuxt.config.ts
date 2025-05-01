@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       brevoApiKey: process.env.BREVO_API_KEY,
       API_BASE_URL: process.env.API_BASE_URL,
       API_BASE_KEY_NEW: process.env.API_BASE_KEY_NEW,
+      CESIUM_TOKEN: process.env.CESIUM_TOKEN,
       CESIUM_BASE_URL: "/cesium",
     },
   },
