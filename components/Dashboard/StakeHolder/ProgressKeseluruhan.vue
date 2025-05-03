@@ -1,12 +1,12 @@
 <template>
   <v-row>
-    <v-col cols="12" lg="3">
+    <!-- <v-col cols="12" lg="3">
       <AppTextH2> Progress Dashboard </AppTextH2>
-    </v-col>
+    </v-col> -->
     <v-col cols="12" lg="3">
       <AppCardSimpleProgress
         title="Pembuatan Peta Garis"
-        :total="422"
+        :total="444"
         :from="514"
         unit="Grid"
         icon="mdi-map"
@@ -15,10 +15,19 @@
     </v-col>
     <v-col cols="12" lg="3">
       <AppCardSimpleProgress
-        title="Pembuatan 3D Models"
-        :total="528"
-        :from="4497"
-        unit="Grid"
+        title="Pembuatan 3D Models LOD 1"
+        :total="170"
+        :from="499"
+        unit="RT"
+        icon="mdi-cube-outline"
+        color="secondary"
+    /></v-col>
+    <v-col cols="12" lg="3">
+      <AppCardSimpleProgress
+        title="Pembuatan 3D Models LOD 2"
+        :total="65"
+        :from="499"
+        unit="RT"
         icon="mdi-cube-outline"
         color="secondary"
     /></v-col>
@@ -26,8 +35,8 @@
       <AppCardSimpleProgress
         :loading="surveyStore.isFetchingData"
         title="Pelaksanaan Survey PBB"
-        :total="surveyStore.bidangTanahData.length"
-        :from="10165"
+        :total="3060"
+        :from="12053"
         unit="Features"
         icon="mdi-earth"
         color="success"

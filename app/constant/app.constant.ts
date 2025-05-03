@@ -54,6 +54,11 @@ export default {
         },
       ],
     },
+    {
+      prepend_icon: "mdi-cube",
+      title: "3d Model Viewer",
+      path: "/3d-viewer",
+    },
   ],
   member_lidar_users: [
     {
@@ -110,6 +115,11 @@ export default {
         },
       ],
     },
+    {
+      prepend_icon: "mdi-cube",
+      title: "3d Model Viewer",
+      path: "/3d-viewer",
+    },
   ],
 
   pj_menus: [
@@ -159,6 +169,11 @@ export default {
           path: "/production-survey-pbb",
         },
       ],
+    },
+    {
+      prepend_icon: "mdi-cube",
+      title: "3d Model Viewer",
+      path: "/3d-viewer",
     },
   ],
   employee_menus: [

@@ -42,12 +42,16 @@ onMounted(async () => {
   const geoJsonBangunanRest = await fetch(
     "/SurveyPbb/building_bontang_baru_progress.geojson"
   );
+  const bangunanApiApi = await fetch("/Pbb/BO_api_api.geojson");
+  const bidangApiApi = await fetch("/Pbb/Bidang_api_api.geojson");
+
   const bidangBontangBaru = await geoJsonBontangBaru.json();
   const bangunanBontangBaru = await geoJsonBangunan.json();
   const bangunanBontangBaruProgress = await geoJsonBangunanRest.json();
+  const bangunanApiApiProgress = await bangunanApiApi.json();
+  const bidangApiApiProgress = await bidangApiApi.json();
 
   totalPolygons.value = bidangBontangBaru.features.length;
-  console.log(bangunanBontangBaru);
 
   await surveyStore.getAllUpdatedFeature();
   surveyedCount.value = surveyStore.bidangTanahData.length;
@@ -145,46 +149,6 @@ onMounted(async () => {
       mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
       mouseout: (e) => e.target.setStyle({ weight: 1, color: "white" }),
     });
-
-    // layer.on("click", () => {
-    //   const itemMap = new Map(
-    //     surveyStore.bangunanData.map((item) => [item.fid, item])
-    //   );
-
-    //   const detailItem = itemMap.get(String(feature.properties.FID));
-
-    //   if (detailItem) {
-    //     const popupContent = `
-    //             <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
-
-    //         <p><strong>Provinsi:</strong> ${detailItem.province}</p>
-    //                     <p><strong>Tipe Bidang Tanah:</strong> ${
-    //                       ownerTypeMap[detailItem.ownerType]
-    //                     }</p>
-    //         <p><strong>Alamat OP:</strong> ${detailItem.taxObjectAddress}</p>
-    //         <p><strong>Nama WP:</strong> ${detailItem.taxPayerName}</p>
-    //         <p><strong>Status:</strong> <span style='color: ${
-    //           statusColorMap[detailItem.status]
-    //         };'>${statusMap[detailItem.status]}</span></p>
-    //           <p><strong>Polygon ID  :</strong> ${detailItem.polygonId}</p>
-    //           <img src="${detailItem.imageUrls}"
-    //   style="max-width: 250px; height: auto; display: block; margin: 10px auto; border-radius: 5px;" />
-    //           </div>
-    //       `;
-    //     layer.bindPopup(popupContent, { maxWidth: 700 }).openPopup();
-    //   } else {
-    //     layer
-    //       .bindPopup(
-    //         `
-    //         <div style="font-family: Arial, sans-serif; width:400px max-width: 400px;">
-    //           <p><strong>Status:</strong> <span style='color: red;'>Belum Disurvey</span></p>
-    //           <p><strong>Polygon ID  :</strong> ${feature.properties.ID}</p>
-    //         </div>
-    //         `
-    //       )
-    //       .openPopup();
-    //   }
-    // });
   };
   const geoJsonLayer = L.geoJSON(bidangBontangBaru, {
     style: getStyle,
@@ -196,6 +160,14 @@ onMounted(async () => {
     onEachFeature: onEachBangunanFeature,
   }).addTo(map);
   const bangunanLayerProgress = L.geoJSON(bangunanBontangBaruProgress, {
+    style: getBangunanStyleProgress,
+    onEachFeature: onEachBangunanFeature,
+  }).addTo(map);
+  const ApiApiLayer = L.geoJSON(bangunanApiApiProgress, {
+    style: getBangunanStyleProgress,
+    onEachFeature: onEachBangunanFeature,
+  }).addTo(map);
+  const BidangApiApiLayer = L.geoJSON(bidangApiApiProgress, {
     style: getBangunanStyleProgress,
     onEachFeature: onEachBangunanFeature,
   }).addTo(map);

@@ -9,18 +9,8 @@
     </v-col>
     <v-col cols="12" lg="4">
       <AppCardGabunganProgress :items="ApiApi" color="secondary">
-        <template #overlay>
-          <v-overlay
-            v-model="overlay"
-            absolute
-            class="align-center justify-center"
-            contained
-          >
-            Start Survey in April 2025
-          </v-overlay>
-        </template>
-      </AppCardGabunganProgress></v-col
-    >
+      </AppCardGabunganProgress
+    ></v-col>
     <v-col cols="12" lg="4">
       <AppCardGabunganProgress :items="Loktuan" color="success">
         <template #overlay>
@@ -44,14 +34,14 @@ const isFetchingData = ref(false);
 const BontangBaru = ref([
   {
     title: "Bidang Tanah Bontang Baru",
-    total: 0,
-    from: 3121,
+    total: 3060,
+    from: 3237,
     unit: "Feature",
     icon: "mdi-folder-information-outline",
   },
   {
     title: "Bangunan Bontang Baru",
-    total: 0,
+    total: 3699,
     from: 5043,
     unit: "Feature",
     icon: "mdi-folder-information-outline",
@@ -79,14 +69,14 @@ const ApiApi = ref([
   {
     title: "Bidang Tanah Api Api",
     total: 0,
-    from: 3447,
+    from: 5219,
     unit: "Feature",
     icon: "mdi-folder-information-outline",
   },
   {
     title: "Bangunan Api Api",
     total: 0,
-    from: 4999,
+    from: 5496,
     unit: "Feature",
     icon: "mdi-folder-information-outline",
   },
@@ -106,9 +96,9 @@ const fetchData = async () => {
   const bangunanBontangBaru = await geoJsonBangunan.json();
   const bangunanBontangBaruDone = await geoJsonBangunanDone.json();
   await surveyStore.getAllUpdatedFeature();
-  BontangBaru.value[0].total = surveyStore.bidangTanahData.length;
-  BontangBaru.value[0].from = bidangBontangBaru.features.length;
-  BontangBaru.value[1].total = bangunanBontangBaruDone.features.length;
+  // BontangBaru.value[0].total = surveyStore.bidangTanahData.length;
+  // BontangBaru.value[0].from = bidangBontangBaru.features.length;
+  // BontangBaru.value[1].total = bangunanBontangBaruDone.features.length;
   BontangBaru.value[1].from = bangunanBontangBaru.features.length;
   isFetchingData.value = false;
 };
