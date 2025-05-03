@@ -32,7 +32,7 @@ const geoJsonFiles = [
   "Apiapi",
   "Loktuan",
   "TanjungLaut",
-  "BrebesPantai",
+  "BerebasPantai",
   "BO_BONLES",
   // "Blok_G",
   // "Blok_H",
