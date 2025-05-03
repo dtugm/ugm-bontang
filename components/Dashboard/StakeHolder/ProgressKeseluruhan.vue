@@ -16,7 +16,7 @@
     <v-col cols="12" lg="3">
       <AppCardSimpleProgress
         title="Pembuatan 3D Models LOD 1"
-        :total="170"
+        :total="193"
         :from="499"
         unit="RT"
         icon="mdi-cube-outline"

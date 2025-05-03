@@ -28,18 +28,19 @@ async function addGeoJson(url, map, style) {
     });
 }
 const geoJsonFiles = [
-  "Blok_A",
-  "Blok_B",
-  "Blok_C",
-  "Blok_D",
-  "Blok_F",
-  "Blok_G",
-  "Blok_H",
-  "Blok_I",
-  "Blok_J",
-  "Blok_K",
-  "Blok_L",
-  "Blok_M",
+  "BontangBaru",
+  "Apiapi",
+  "Loktuan",
+  "TanjungLaut",
+  "BrebesPantai",
+  "BO_BONLES",
+  // "Blok_G",
+  // "Blok_H",
+  // "Blok_I",
+  // "Blok_J",
+  // "Blok_K",
+  // "Blok_L",
+  // "Blok_M",
 ];
 onMounted(async () => {
   const mapElement = document.getElementById("3dMap");
@@ -51,32 +52,32 @@ onMounted(async () => {
   L.tileLayer(osm, {
     maxZoom: 18,
   }).addTo(map);
-
-  addGeoJson("/new_bontang.geojson", map, {
-    style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
-  });
-  // geoJsonFiles.forEach((blok) => {
-  //   addGeoJson(`/3d/${blok}.geojson`, map, {
-  //     style: (feature) => ({
-  //       fillColor: "rgba(139, 146, 152, 1)",
-  //       fillOpacity: 0.5,
-  //       color: "white",
-  //     }),
-  //   });
-  // });
-  await addGeoJson("/3d/ALL_3d.geojson", map, {
+  await addGeoJson("/3d/AREAALL.geojson", map, {
     style: (feature) => ({
       fillColor: "rgba(139, 146, 152, 1)",
       fillOpacity: 0.5,
       color: "white",
     }),
   });
-  addGeoJson("/3d/Blok_N.geojson", map, {
-    style: (feature) => ({
-      fillColor: "rgba(34, 139, 230, 1)",
-      fillOpacity: 1,
-      color: "rgba(34, 139, 230, 1)",
-    }),
+  addGeoJson("/new_bontang.geojson", map, {
+    style: (feature) => ({ fillColor: "rgba(0, 0, 0, 0)", color: "yellow" }),
   });
+  geoJsonFiles.forEach((blok) => {
+    addGeoJson(`/3d/${blok}.geojson`, map, {
+      style: (feature) => ({
+        fillColor: "rgba(34, 139, 230, 1)",
+        fillOpacity: 0.5,
+        color: "rgba(34, 139, 230, 1)",
+      }),
+    });
+  });
+
+  // addGeoJson("/3d/Blok_N.geojson", map, {
+  //   style: (feature) => ({
+  //     fillColor: "rgba(34, 139, 230, 1)",
+  //     fillOpacity: 1,
+  //     color: "rgba(34, 139, 230, 1)",
+  //   }),
+  // });
 });
 </script>
