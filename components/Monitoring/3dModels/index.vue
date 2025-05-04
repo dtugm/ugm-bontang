@@ -28,12 +28,12 @@ async function addGeoJson(url, map, style) {
     });
 }
 const geoJsonFiles = [
-  "BontangBaru",
-  "Apiapi",
-  "Loktuan",
-  "TanjungLaut",
-  "BerebasPantai",
-  "BO_BONLES",
+  "DoneArea",
+  // "Apiapi",
+  // "Loktuan",
+  // "TanjungLaut",
+  // "BerebasPantai",
+  // "BO_BONLES",
   // "Blok_G",
   // "Blok_H",
   // "Blok_I",
