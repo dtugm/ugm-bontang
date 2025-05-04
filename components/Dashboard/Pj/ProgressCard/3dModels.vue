@@ -2,7 +2,7 @@
   <v-btn block class="mb-1" @click="goTo3D">View 3D</v-btn>
   <AppCardProgressCircular
     title="3d Models (By RT)"
-    :value="193"
+    :value="324"
     done-color="info"
     :target-value="499"
   />
