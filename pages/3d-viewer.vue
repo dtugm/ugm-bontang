@@ -203,8 +203,10 @@ onMounted(async () => {
   });
   viewer.dataSources.add(geojson);
   kelurahanName.forEach((item) => {
+    const posisi = $Cesium.Cartesian3.fromDegrees(item.lng, item.lat, 100); // label agak melayang
+    const posisiTanah = $Cesium.Cartesian3.fromDegrees(item.lng, item.lat, 0); // titik di tanah
     viewer.entities.add({
-      position: $Cesium.Cartesian3.fromDegrees(item.lng, item.lat), // Koordinat Bontang
+      position: posisi,
       label: {
         text: item.nama,
         font: "20px sans-serif",
@@ -212,9 +214,27 @@ onMounted(async () => {
         outlineColor: $Cesium.Color.WHITE,
         outlineWidth: 5,
         style: $Cesium.LabelStyle.FILL_AND_OUTLINE,
-        heightReference: $Cesium.HeightReference.CLAMP_TO_GROUND,
+        // heightReference: $Cesium.HeightReference.CLAMP_TO_GROUND,
         verticalOrigin: $Cesium.VerticalOrigin.BOTTOM,
         pixelOffset: new $Cesium.Cartesian2(0, -10),
+      },
+    });
+    viewer.entities.add({
+      polyline: {
+        positions: [posisi, posisiTanah],
+        width: 2,
+        material: $Cesium.Color.WHITE.withAlpha(1),
+        clampToGround: false,
+      },
+    });
+    viewer.entities.add({
+      position: posisi,
+      point: {
+        pixelSize: 10,
+        color: $Cesium.Color.RED,
+        outlineColor: $Cesium.Color.WHITE,
+        outlineWidth: 2,
+        heightReference: $Cesium.HeightReference.NONE,
       },
     });
   });
