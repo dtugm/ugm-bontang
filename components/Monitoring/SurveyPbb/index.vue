@@ -183,6 +183,22 @@ onMounted(async () => {
 
   L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
 });
+
+const legendVisible = ref(true);
+const StatusSurvey = [
+  { color: "#008000", title: "Sudah Tepat" },
+  { color: "#FFD700", title: "Data Baru" },
+  { color: "#FFA500", title: "Penggabungan Objek Pajak" },
+  { color: "#FF8C00", title: "Pemecahan Objek Pajak" },
+  { color: "#FF4500", title: "Delineasi" },
+  { color: "#B22222", title: "Sengketa" },
+  { color: "#FF8C00", title: "Pemilik Tidak Bisa Ditemui" },
+  { color: "#FF4500", title: "Belum Disurvey" },
+];
+const kepemilikan = [
+  { color: "#87CEEB", title: "Government Area " },
+  { color: "#ffa6c8", title: "Fasilitas Umum" },
+];
 </script>
 
 <template>
@@ -190,23 +206,77 @@ onMounted(async () => {
     <!-- Peta -->
     <div id="map" class="map"></div>
 
-    <!-- <div class="progress-container">
-      <div class="text-left mb-2">
-        <p class="text-lg font-semibold">Progres Bontang Baru</p>
-        <p class="">
-          Selesai {{ surveyedCount }} dari
-          {{ totalPolygons }}
-        </p>
-      </div>
-      <v-progress-circular
-        :model-value="progress"
-        :size="140"
-        :width="20"
-        color="success"
-      >
-        {{ Math.round(progress) }}%
-      </v-progress-circular>
-    </div> -->
+    <div class="progress-container">
+      <v-card variant="flat" class="rounded-lg" width="400">
+        <v-expansion-panels>
+          <v-expansion-panel title="Status Survey">
+            <v-expansion-panel-text>
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in StatusSurvey"
+                  :key="index"
+                  prepend-icon="mdi-exit-run"
+                >
+                  <template v-slot:prepend>
+                    <v-avatar size="20" :color="item.color"></v-avatar>
+                  </template>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+        <v-expansion-panels>
+          <v-expansion-panel title="Penggunaan lahan">
+            <v-expansion-panel-text>
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in kepemilikan"
+                  :key="index"
+                  prepend-icon="mdi-exit-run"
+                >
+                  <template v-slot:prepend>
+                    <v-avatar size="20" :color="item.color"></v-avatar>
+                  </template>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+        <!-- <v-card-title class="pa-0">
+          <v-btn
+            icon
+            variant="text"
+            size="small"
+            class="block"
+            @click="legendVisible = !legendVisible"
+          >
+            <v-icon>{{
+              legendVisible ? "mdi-chevron-down" : "mdi-chevron-up"
+            }}</v-icon>
+          </v-btn>
+          Legenda
+        </v-card-title>
+
+        <v-expand-transition>
+          <div v-show="legendVisible">
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in StatusSurvey"
+                :key="index"
+                prepend-icon="mdi-exit-run"
+              >
+                <template v-slot:prepend>
+                  <v-avatar size="20" :color="item.color"></v-avatar>
+                </template>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </div>
+        </v-expand-transition> -->
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -240,7 +310,7 @@ onMounted(async () => {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 10px;
-  text-align: center;
+  text-align: start;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -251,3 +321,18 @@ onMounted(async () => {
   color: #333;
 }
 </style>
+<!-- <div class="text-left mb-2">
+  <p class="text-lg font-semibold">Progres Bontang Baru</p>
+  <p class="">
+    Selesai {{ surveyedCount }} dari
+    {{ totalPolygons }}
+  </p>
+</div>
+<v-progress-circular
+  :model-value="progress"
+  :size="140"
+  :width="20"
+  color="success"
+>
+  {{ Math.round(progress) }}%
+</v-progress-circular> -->
