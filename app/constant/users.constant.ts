@@ -17,6 +17,7 @@ export default {
     "bambang@bontang.com",
     "purnama@bontang.com",
     "bpnbontang@bontang.com",
+    "samarindabpn@gmail.com",
   ],
   superadmin_user: ["superadmin@gmail.com", "dhiasdmn@gmail.com"],
   // employee_user: [
