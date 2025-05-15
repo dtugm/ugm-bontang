@@ -5,6 +5,9 @@ export default {
   building_survey_monitorings: async (payload?: any) => {
     return apiGetData(`${mainPath}?`, payload);
   },
+  get_building_by_fid: async (fid?: any) => {
+    return apiGetData(`${mainPath}/complete-data/${fid}`);
+  },
   post_building_survey_monitorings: async (payload: any) => {
     return apiPostData(`${mainPath}`, payload, {
       "Content-Type": "multipart/form-data",
