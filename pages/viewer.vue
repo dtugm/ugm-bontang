@@ -66,7 +66,6 @@
               <AppTableProps :title="defaultHead" :value="buildingDetail" />
             </div>
           </div>
-          <!-- <div v-else>Tidak ada atribut tersedia untuk objek ini.</div> -->
         </div>
         <div v-else>
           <div class="d-flex align-center justify-center h-[350px]">
@@ -301,6 +300,9 @@ onMounted(async () => {
         NAMA_WP: "Nama Wajib Pajak",
         NOP: "NOP",
         "PAJAK TERH": "Pajak Terhutang",
+        NIB: "NIB",
+        KODEWILAYA: "Kode Wilayah",
+        TIPEHAK: "Tipe Hak",
       };
     }
   }, $Cesium.ScreenSpaceEventType.LEFT_CLICK);
