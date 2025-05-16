@@ -11,6 +11,9 @@ export default {
   lot_survey_monitorings: async (payload?: any) => {
     return apiGetData(`${mainPath}?`, payload);
   },
+  get_persil_by_fid: async (fid?: any) => {
+    return apiGetData(`${mainPath}/by-fid/${fid}`);
+  },
   lot_survey_monitorings_summary: async (payload?: any) => {
     return apiGetData(`${mainPath}/summary`, payload);
   },

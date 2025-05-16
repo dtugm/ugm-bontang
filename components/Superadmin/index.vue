@@ -27,11 +27,13 @@
       {{ successMessage }}
     </v-alert>
   </v-container>
-  <DashboardStakeHolder />
+  <!-- <DashboardStakeHolder /> -->
   <!-- <DashboardLapangan /> -->
 </template>
 
 <script>
+import buildingSurveyApi from "../app/api/buildingSurvey.api";
+import surveyApi from "~/app/api/survey.api";
 export default {
   data() {
     return {
@@ -104,28 +106,39 @@ export default {
             images: matchedImage,
             data: {
               polygonId: feature.ID,
-              fid: feature.FID,
+              fid: feature.UUID_PRSL,
               province: "Kalimantan Timur",
               city: "Bontang",
               district: "Bontang Baru",
               village: "Bontang Utara",
-              taxObjectAddress: feature.FID,
-              taxPayerName: feature.FID,
-              status: "OWNER_CANNOT_BE_MEET",
+              status: "ACCURATE",
               ownerType: "NON_GOVERNMENT_AREA",
-              taxObjectNumber: null,
-              citizenId: null,
-              taxPayerAddress: null,
-              taxPayerPhone: null,
-              buildingTotal: null,
-              buildingFloorTotal: null,
-              wallType: null,
-              vehicleTotal: null,
+              // floorCount: feature.JML_LANTAI,
+              taxObjectNumber: "-",
+              taxObjectAddress: "-",
+              // citizenId: null,
+              taxPayerAddress: "-",
+              taxPayerName: "-",
+              // buildingTotal: null,
+              // buildingFloorTotal: null,
+              // wallType: null,
+              // vehicleTotal: null,
               createdAt: "2025-04-18T06:08:56.919Z",
               updatedAt: "2025-04-18T06:08:56.919Z",
             },
           };
-          console.log(matchedImage);
+          console.log("cocok", matchedImage);
+          console.log("first", payload);
+          const formData = new FormData();
+          formData.append("images", payload.images);
+          formData.append("data", JSON.stringify(payload.data));
+          try {
+            await surveyApi.post_lot_survey_monitorings(formData);
+          } catch (error) {
+            console.log("Gagal mengirim data, harus update");
+
+            continue;
+          }
           continue;
         }
         if (!matchedImage) {
@@ -133,7 +146,6 @@ export default {
           continue;
         }
 
-        // const formData = new FormData();
         // formData.append("geojsonFeature", JSON.stringify(feature));
         // formData.append("image", matchedImage);
 

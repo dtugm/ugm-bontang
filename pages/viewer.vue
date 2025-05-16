@@ -42,14 +42,14 @@
     >
       <div style="overflow-y: auto">
         <div class="d-flex justify-space-between align-center mb-2">
-          <strong>Detail Bangunan</strong>
+          <strong>Detail Object</strong>
           <v-btn icon size="small" @click="popupVisible = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
         <div v-if="!isLoadingDetail">
-          <div v-if="Object.keys(detail).length">
-            <div class="h-[350px]">
+          <div>
+            <div v-if="Object.keys(detail).length" class="h-[350px]">
               <v-img :src="detail.imageUrls[0]">
                 <template v-slot:placeholder>
                   <div class="d-flex align-center justify-center fill-height">
@@ -61,11 +61,12 @@
                 </template>
               </v-img>
             </div>
+            <div v-else>Maaf Foto Tidak Tersedia</div>
             <div v-if="buildingDetail">
               <AppTableProps :title="defaultHead" :value="buildingDetail" />
             </div>
           </div>
-          <div v-else>Tidak ada atribut tersedia untuk objek ini.</div>
+          <!-- <div v-else>Tidak ada atribut tersedia untuk objek ini.</div> -->
         </div>
         <div v-else>
           <div class="d-flex align-center justify-center h-[350px]">
@@ -237,43 +238,58 @@ onMounted(async () => {
       const fid = pickedFeature.getProperty("uuid_bgn");
       try {
         const resp = await buildingSurveyApi.get_building_by_fid(fid);
-        const data = {
-          alamat: pickedFeature.getProperty("ALAMAT_BGN"),
-          date: pickedFeature.getProperty("DATE_UPDT"),
-          tinggi: pickedFeature.getProperty("Height"),
-          jlmh_lantai: pickedFeature.getProperty("JML_LANTAI"),
-          kelurahan: pickedFeature.getProperty("KEL"),
-          luas: pickedFeature.getProperty("LUAS_BGN"),
-          lat: pickedFeature.getProperty("Latitude"),
-          lon: pickedFeature.getProperty("Longitude"),
-          nama_wp: pickedFeature.getProperty("NAMA_WP"),
-          nik_wp: pickedFeature.getProperty("NIK_WP"),
-          nop: pickedFeature.getProperty("NOP"),
-          rt: pickedFeature.getProperty("RT"),
-          toponimi: pickedFeature.getProperty("Toponimi"),
-        };
         detail.value = resp;
-        buildingDetail.value = data;
-        defaultHead.value = buildingHead;
         isLoadingDetail.value = false;
       } catch (error) {
         detail.value = {};
         isLoadingDetail.value = false;
       }
+      const data = {
+        alamat: pickedFeature.getProperty("ALAMAT_BGN"),
+        date: pickedFeature.getProperty("DATE_UPDT"),
+        tinggi: pickedFeature.getProperty("Height"),
+        jlmh_lantai: pickedFeature.getProperty("JML_LANTAI"),
+        kelurahan: pickedFeature.getProperty("KEL"),
+        luas: pickedFeature.getProperty("LUAS_BGN"),
+        lat: pickedFeature.getProperty("Latitude"),
+        lon: pickedFeature.getProperty("Longitude"),
+        nama_wp: pickedFeature.getProperty("NAMA_WP"),
+        nik_wp: pickedFeature.getProperty("NIK_WP"),
+        nop: pickedFeature.getProperty("NOP"),
+        rt: pickedFeature.getProperty("RT"),
+        toponimi: pickedFeature.getProperty("Toponimi"),
+      };
+
+      buildingDetail.value = data;
+      defaultHead.value = buildingHead;
       // Hit Get
     } else if ($Cesium.defined(pickedFeature) && pickedFeature?.id) {
       popupVisible.value = true;
+      isLoadingDetail.value = true;
       const entity = pickedFeature.id;
       const props = entity.properties;
       const allAttributes = {};
-      // const resp = await surveyApi.get_persil_by_fid(fid);
       for (const key in props) {
         if (props[key] && typeof props[key].getValue === "function") {
           const cleanKey = key.startsWith("_") ? key.slice(1) : key;
           allAttributes[cleanKey] = props[key].getValue();
         }
       }
+      console.log(props);
+      try {
+        const resp = await surveyApi.get_persil_by_fid(
+          props._UUID_PRSL.getValue()
+        );
+        detail.value = resp;
+        console.log(resp);
+        console.log(allAttributes);
 
+        // console.log(props);
+        isLoadingDetail.value = false;
+      } catch (error) {
+        detail.value = {};
+        isLoadingDetail.value = false;
+      }
       buildingDetail.value = allAttributes;
       defaultHead.value = {
         ALAMAT_OP: "Alamat Objek Pajak",
@@ -284,9 +300,8 @@ onMounted(async () => {
         L_BUMI: "Luas Bumi",
         NAMA_WP: "Nama Wajib Pajak",
         NOP: "NOP",
-        "PAJAK TERH": "Pajak TERH",
+        "PAJAK TERH": "Pajak Terhutang",
       };
-      // console.log(props);
     }
   }, $Cesium.ScreenSpaceEventType.LEFT_CLICK);
   viewer.imageryLayers.removeAll();
