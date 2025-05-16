@@ -1,6 +1,9 @@
 <template>
   <div id="cesiumContainer" style="width: 100%; height: 100vh">
-    <div style="position: absolute; bottom: 30px; right: 10px; z-index: 1">
+    <div
+      style="position: absolute; bottom: 30px; right: 10px; z-index: 1"
+      class="flex gap-3"
+    >
       <v-card class="px-5">
         <v-switch
           v-model="showXYZ"
@@ -9,6 +12,16 @@
           color="primary"
           hide-details
         ></v-switch>
+      </v-card>
+      <v-card class="px-5">
+        <v-switch
+          v-model="showLod1"
+          inset
+          label="Bangunan"
+          color="tertiary"
+          hide-details
+          @change="toggleTileset('lod1', showLod1)"
+        />
       </v-card>
 
       <!-- Floating Popup -->
@@ -49,7 +62,7 @@
               </v-img>
             </div>
             <div v-if="buildingDetail">
-              <AppTableProps :data="buildingDetail" />
+              <AppTableProps :title="defaultHead" :value="buildingDetail" />
             </div>
           </div>
           <div v-else>Tidak ada atribut tersedia untuk objek ini.</div>
@@ -68,8 +81,25 @@
 </template>
 
 <script setup>
+import surveyApi from "~/app/api/survey.api";
 import buildingSurveyApi from "../app/api/buildingSurvey.api";
 import viewerConstant from "~/app/constant/viewer.constant.ts";
+const defaultHead = ref({});
+const buildingHead = {
+  alamat: "Alamat",
+  date: "Tanggal Update",
+  tinggi: "Tinggi Bangunan",
+  jlmh_lantai: "Jumlah Lantai",
+  kelurahan: "Kelurahan",
+  luas: "Luas Bangunan",
+  lat: "Latitude",
+  lon: "Longitude",
+  nama_wp: "Nama Wajib Pajak",
+  nik_wp: "NIK Wajib Pajak",
+  nop: "NOP",
+  rt: "RT",
+  toponimi: "Toponimi",
+};
 const { $Cesium } = useNuxtApp();
 const runtimeConfig = useRuntimeConfig();
 const popupVisible = ref(false);
@@ -86,7 +116,7 @@ const tilesets = {
   lod2: [],
   vegetasi: [],
 };
-const detail = ref();
+const detail = ref({});
 const buildingDetail = ref();
 onMounted(async () => {
   viewer = new $Cesium.Viewer("cesiumContainer", {
@@ -136,6 +166,12 @@ onMounted(async () => {
     strokeWidth: 3,
   });
   viewer.dataSources.add(geojson);
+  const persil = await $Cesium.GeoJsonDataSource.load("/persil_nib.geojson", {
+    stroke: $Cesium.Color.BLUE,
+    fill: $Cesium.Color.YELLOW.withAlpha(0.7),
+    strokeWidth: 3,
+  });
+  viewer.dataSources.add(persil);
   kelurahanName.forEach((item) => {
     const posisi = $Cesium.Cartesian3.fromDegrees(item.lng, item.lat, 100); // label agak melayang
     const posisiTanah = $Cesium.Cartesian3.fromDegrees(item.lng, item.lat, 0); // titik di tanah
@@ -185,41 +221,72 @@ onMounted(async () => {
     if (feature instanceof $Cesium.Cesium3DTileFeature) {
       highlightedFeature = feature;
       originalColor = $Cesium.Color.clone(feature.color);
-      feature.color = $Cesium.Color.YELLOW;
+      feature.color = $Cesium.Color.BLUE;
     }
   }, $Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
   handler.setInputAction(async function (movement) {
     const pickedFeature = viewer.scene.pick(movement.position);
-
+    console.log(pickedFeature);
     if (
       $Cesium.defined(pickedFeature) &&
       pickedFeature instanceof $Cesium.Cesium3DTileFeature
     ) {
-      console.log(pickedFeature);
       popupVisible.value = true;
       isLoadingDetail.value = true;
       const fid = pickedFeature.getProperty("uuid_bgn");
-      const resp = await buildingSurveyApi.get_building_by_fid(fid);
-      const data = {
-        alamat: pickedFeature.getProperty("ALAMAT_BGN"),
-        date: pickedFeature.getProperty("DATE_UPDT"),
-        tinggi: pickedFeature.getProperty("Height"),
-        jlmh_lantai: pickedFeature.getProperty("JML_LANTAI"),
-        kelurahan: pickedFeature.getProperty("KEL"),
-        luas: pickedFeature.getProperty("LUAS_BGN"),
-        lat: pickedFeature.getProperty("Latitude"),
-        lon: pickedFeature.getProperty("Longitude"),
-        nama_wp: pickedFeature.getProperty("NAMA_WP"),
-        nik_wp: pickedFeature.getProperty("NIK_WP"),
-        nop: pickedFeature.getProperty("NOP"),
-        rt: pickedFeature.getProperty("RT"),
-        toponimi: pickedFeature.getProperty("Toponimi"),
-      };
-      detail.value = resp;
-      buildingDetail.value = data;
-      isLoadingDetail.value = false;
+      try {
+        const resp = await buildingSurveyApi.get_building_by_fid(fid);
+        const data = {
+          alamat: pickedFeature.getProperty("ALAMAT_BGN"),
+          date: pickedFeature.getProperty("DATE_UPDT"),
+          tinggi: pickedFeature.getProperty("Height"),
+          jlmh_lantai: pickedFeature.getProperty("JML_LANTAI"),
+          kelurahan: pickedFeature.getProperty("KEL"),
+          luas: pickedFeature.getProperty("LUAS_BGN"),
+          lat: pickedFeature.getProperty("Latitude"),
+          lon: pickedFeature.getProperty("Longitude"),
+          nama_wp: pickedFeature.getProperty("NAMA_WP"),
+          nik_wp: pickedFeature.getProperty("NIK_WP"),
+          nop: pickedFeature.getProperty("NOP"),
+          rt: pickedFeature.getProperty("RT"),
+          toponimi: pickedFeature.getProperty("Toponimi"),
+        };
+        detail.value = resp;
+        buildingDetail.value = data;
+        defaultHead.value = buildingHead;
+        isLoadingDetail.value = false;
+      } catch (error) {
+        detail.value = {};
+        isLoadingDetail.value = false;
+      }
       // Hit Get
+    } else if ($Cesium.defined(pickedFeature) && pickedFeature?.id) {
+      popupVisible.value = true;
+      const entity = pickedFeature.id;
+      const props = entity.properties;
+      const allAttributes = {};
+      // const resp = await surveyApi.get_persil_by_fid(fid);
+      for (const key in props) {
+        if (props[key] && typeof props[key].getValue === "function") {
+          const cleanKey = key.startsWith("_") ? key.slice(1) : key;
+          allAttributes[cleanKey] = props[key].getValue();
+        }
+      }
+
+      buildingDetail.value = allAttributes;
+      defaultHead.value = {
+        ALAMAT_OP: "Alamat Objek Pajak",
+        ALAMAT_WP: "Alamat Wajib Pajak",
+        JML_BGN: "Jumlah Bangunan",
+        KECAMATAN: "Kecamatan",
+        KELURAHAN: "Kelurahan",
+        L_BUMI: "Luas Bumi",
+        NAMA_WP: "Nama Wajib Pajak",
+        NOP: "NOP",
+        "PAJAK TERH": "Pajak TERH",
+      };
+      // console.log(props);
     }
   }, $Cesium.ScreenSpaceEventType.LEFT_CLICK);
   viewer.imageryLayers.removeAll();
@@ -251,6 +318,12 @@ onMounted(async () => {
     },
   });
 });
+const showLod1 = ref(true);
+function toggleTileset(lodLevel, isVisible) {
+  tilesets[lodLevel].forEach((tileset) => {
+    tileset.show = isVisible;
+  });
+}
 watch(showXYZ, (value) => {
   if (awsTiles) {
     awsTiles.show = value;

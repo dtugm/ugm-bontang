@@ -5,11 +5,14 @@
     >
     <v-table>
       <tbody>
-        <tr v-for="(value, key) in formattedData" :key="key">
+        <tr v-for="(label, key) in title" :key="key">
           <td class="text-capitalize font-weight-medium">
-            {{ formatKey(key) }}
+            {{ label }}
           </td>
-          <td>{{ value }}</td>
+          <td>
+            {{ value[key] ?? "-" }} {{ key == "luas" ? "m²" : "" }}
+            {{ key == "tinggi" ? "m" : "" }}
+          </td>
         </tr>
       </tbody>
     </v-table>
@@ -18,7 +21,11 @@
 
 <script setup>
 const props = defineProps({
-  data: {
+  title: {
+    type: Object,
+    required: true,
+  },
+  value: {
     type: Object,
     required: true,
   },
