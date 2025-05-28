@@ -28,6 +28,7 @@ export default {
     NOT_YET_SURVEYED: "#FF4500",
     OTHER: "#008000",
   },
+
   statusFeatureOptions: [
     { title: "Sudah Tepat", value: "ACCURATE" },
     { title: "Data Baru", value: "NEW_DATA" },
@@ -49,4 +50,12 @@ export default {
     { title: "Government Area", value: "GOVERNMENT_AREA" },
     { title: "Non Government Area", value: "NON_GOVERNMENT_AREA" },
   ],
+
+  JENIS_TNH: {
+    1: "#4CAF50", // Tanah & Bangunan - hijau
+    2: "#2196F3", // Kavling Siap Bangun - biru
+    3: "#FFC107", // Tanah Kosong - kuning
+    4: "#9C27B0", // Fasilitas Umum - ungu
+    5: "#F44336", // Tanah Pemerintah - merah
+  },
 };

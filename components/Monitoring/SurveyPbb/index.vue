@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import L from "leaflet";
 import SurveyLapanganConstant from "~/app/constant/SurveyLapangan.constant";
+import vectorApi from "~/app/api/vectors.api";
+import axios from "axios";
 const statusMap = SurveyLapanganConstant.statusMap;
 const statusColorMap = SurveyLapanganConstant.statusColorMap;
 const ownerTypeMap = SurveyLapanganConstant.ownerTypeMap;
@@ -9,11 +11,10 @@ const surveyStore = useSurveyStore();
 const latitude = 0.139267;
 const longitude = 117.494326;
 const zoomLevel = 16;
-
 const totalPolygons = ref(0);
-const bangunanPolygon = ref(0);
 const surveyedCount = ref(0);
 const progress = ref(0);
+const JENIS_TNH = SurveyLapanganConstant.JENIS_TNH;
 
 onMounted(async () => {
   const map = L.map("map").setView([latitude, longitude], zoomLevel);
@@ -31,56 +32,6 @@ onMounted(async () => {
       maxZoom: 19,
     }
   ).addTo(map);
-
-  // Fetch Data GeoJSON
-  const geoJsonBontangBaru = await fetch(
-    "/SurveyPbb/peta_kerja_bontang_baru.geojson"
-  );
-  const geoJsonBangunan = await fetch(
-    "/SurveyPbb/building_bontang_baru_done.geojson"
-  );
-  const geoJsonBangunanRest = await fetch(
-    "/SurveyPbb/building_bontang_baru_progress.geojson"
-  );
-  const bangunanApiApi = await fetch("/Pbb/BO_api_api.geojson");
-  const bidangApiApi = await fetch("/Pbb/Bidang_api_api.geojson");
-
-  const bidangBontangBaru = await geoJsonBontangBaru.json();
-  const bangunanBontangBaru = await geoJsonBangunan.json();
-  const bangunanBontangBaruProgress = await geoJsonBangunanRest.json();
-  const bangunanApiApiProgress = await bangunanApiApi.json();
-  const bidangApiApiProgress = await bidangApiApi.json();
-
-  totalPolygons.value = bidangBontangBaru.features.length;
-
-  await surveyStore.getAllUpdatedFeature();
-  surveyedCount.value = surveyStore.bidangTanahData.length;
-  progress.value = (surveyedCount.value / totalPolygons.value) * 100; // Kalkulasi progress
-
-  // Fungsi Style GeoJSON
-  const getStyle = (feature) => {
-    const itemMap = new Map(
-      surveyStore.bidangTanahData.map((item) => [item.fid, item])
-    );
-    const detailItem = itemMap.get(String(feature?.properties?.FID));
-    let fillColor = "rgba(139, 146, 152, 1)";
-    if (detailItem) {
-      if (detailItem.ownerType === "GOVERNMENT_AREA") {
-        fillColor = "#87CEEB";
-      } else if (detailItem.ownerType === "PUBLIC_FACILITY") {
-        fillColor = "#ffa6c8";
-      } else {
-        fillColor = statusColorMap[detailItem.status] || fillColor;
-      }
-    }
-    return {
-      fillColor: fillColor,
-      weight: 1,
-      color: "white",
-      fillOpacity: detailItem ? 0.7 : 0.5,
-    };
-  };
-
   const onEachFeature = (feature, layer) => {
     layer.on({
       mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
@@ -127,64 +78,80 @@ onMounted(async () => {
       }
     });
   };
-  // Bangunan
-  const getBangunanStyle = (feature) => {
+  const getStyle = (feature) => {
+    const itemMap = new Map(
+      surveyStore.bidangTanahData.map((item) => [item.fid, item])
+    );
+    const detailItem = itemMap.get(String(feature?.properties?.FID));
+    let fillColor = "rgba(139, 146, 152, 1)";
+    if (detailItem) {
+      if (detailItem.ownerType === "GOVERNMENT_AREA") {
+        fillColor = "#87CEEB";
+      } else if (detailItem.ownerType === "PUBLIC_FACILITY") {
+        fillColor = "#ffa6c8";
+      } else {
+        fillColor = statusColorMap[detailItem.status] || fillColor;
+      }
+    }
     return {
-      fillColor: "blue",
+      fillColor: fillColor,
       weight: 1,
       color: "white",
-      fillOpacity: 0.5,
+      fillOpacity: detailItem ? 0.7 : 0.5,
     };
   };
-  const getBangunanStyleProgress = (feature) => {
+  const geoJsonBontangBaru = await fetch(
+    "/SurveyPbb/peta_kerja_bontang_baru.geojson"
+  );
+  const bidangBontangBaru = await geoJsonBontangBaru.json();
+  const resp = await vectorApi.get_all_vectors({ category: "land_parcel" });
+  const getApiApiStyle = (feature) => {
+    const tanah = feature.properties.JENIS_TNH;
+    const fillColor = JENIS_TNH[tanah] || "rgba(139, 146, 152, 1)"; // default abu-abu
     return {
-      fillColor: "rgba(139, 146, 152, 1)",
+      fillColor: fillColor,
       weight: 1,
       color: "white",
-      fillOpacity: 0.5,
+      fillOpacity: tanah ? 0.7 : 0.5,
     };
   };
+  const fetchPromises = resp.map(async (item) => {
+    if (item.url) {
+      try {
+        const response = await fetch(item.url);
+        const geojsonData = await response.json();
+        L.geoJSON(geojsonData, {
+          style: getApiApiStyle,
+          onEachFeature: onEachFeature,
+        }).addTo(map);
+      } catch (error) {
+        console.error(`Gagal memuat GeoJSON dari ${item.url}:`, error);
+      }
+    }
+  });
+  await Promise.all(fetchPromises);
+
+  totalPolygons.value = bidangBontangBaru.features.length;
+
+  await surveyStore.getAllUpdatedFeature();
+  surveyedCount.value = surveyStore.bidangTanahData.length;
+  progress.value = (surveyedCount.value / totalPolygons.value) * 100;
+
+  // Fungsi Style GeoJSON
+
+  const geoJsonLayer = L.geoJSON(bidangBontangBaru, {
+    style: getStyle,
+    onEachFeature: onEachFeature,
+  }).addTo(map);
+
   const onEachBangunanFeature = (feature, layer) => {
     layer.on({
       mouseover: (e) => e.target.setStyle({ weight: 5, color: "yellow" }),
       mouseout: (e) => e.target.setStyle({ weight: 1, color: "white" }),
     });
   };
-  const geoJsonLayer = L.geoJSON(bidangBontangBaru, {
-    style: getStyle,
-    onEachFeature: onEachFeature,
-  }).addTo(map);
-
-  const bangunanLayer = L.geoJSON(bangunanBontangBaru, {
-    style: getBangunanStyle,
-    onEachFeature: onEachBangunanFeature,
-  }).addTo(map);
-  const bangunanLayerProgress = L.geoJSON(bangunanBontangBaruProgress, {
-    style: getBangunanStyleProgress,
-    onEachFeature: onEachBangunanFeature,
-  }).addTo(map);
-  const ApiApiLayer = L.geoJSON(bangunanApiApiProgress, {
-    style: getBangunanStyleProgress,
-    onEachFeature: onEachBangunanFeature,
-  }).addTo(map);
-  const BidangApiApiLayer = L.geoJSON(bidangApiApiProgress, {
-    style: getBangunanStyleProgress,
-    onEachFeature: onEachBangunanFeature,
-  }).addTo(map);
-
-  const baseMaps = { OpenStreetMap: osm };
-
-  const overlayMaps = {
-    "AWS Tiles": awsTiles,
-    "Bidang Bontang Baru": geoJsonLayer,
-    "Bangunan Bontang Baru Terupdate": bangunanLayer,
-    "Bangunan Bontang Baru Belum Terupdate": bangunanLayerProgress,
-  };
-
-  L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
 });
 
-const legendVisible = ref(true);
 const StatusSurvey = [
   { color: "#008000", title: "Sudah Tepat" },
   { color: "#FFD700", title: "Data Baru" },
@@ -244,37 +211,6 @@ const kepemilikan = [
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-        <!-- <v-card-title class="pa-0">
-          <v-btn
-            icon
-            variant="text"
-            size="small"
-            class="block"
-            @click="legendVisible = !legendVisible"
-          >
-            <v-icon>{{
-              legendVisible ? "mdi-chevron-down" : "mdi-chevron-up"
-            }}</v-icon>
-          </v-btn>
-          Legenda
-        </v-card-title>
-
-        <v-expand-transition>
-          <div v-show="legendVisible">
-            <v-list>
-              <v-list-item
-                v-for="(item, index) in StatusSurvey"
-                :key="index"
-                prepend-icon="mdi-exit-run"
-              >
-                <template v-slot:prepend>
-                  <v-avatar size="20" :color="item.color"></v-avatar>
-                </template>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </div>
-        </v-expand-transition> -->
       </v-card>
     </div>
   </div>
@@ -321,18 +257,3 @@ const kepemilikan = [
   color: #333;
 }
 </style>
-<!-- <div class="text-left mb-2">
-  <p class="text-lg font-semibold">Progres Bontang Baru</p>
-  <p class="">
-    Selesai {{ surveyedCount }} dari
-    {{ totalPolygons }}
-  </p>
-</div>
-<v-progress-circular
-  :model-value="progress"
-  :size="140"
-  :width="20"
-  color="success"
->
-  {{ Math.round(progress) }}%
-</v-progress-circular> -->
