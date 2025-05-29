@@ -1,22 +1,8 @@
 <template>
-  <AppTableBasic :items="items" title="Nyoba" />
+  <AppTableBasic :items="landParcelStore.landParcelItems" title="List Persil" />
+  <LeafletMap />
 </template>
 <script setup lang="ts">
-const items = [
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-  { name: "kaka", age: "kaka", phone: "kaka" },
-];
+const landParcelStore = useLandVectors();
+landParcelStore.getLandParcel({ category: "land_parcel" });
 </script>

@@ -8,6 +8,8 @@ const statusMap = SurveyLapanganConstant.statusMap;
 const statusColorMap = SurveyLapanganConstant.statusColorMap;
 const ownerTypeMap = SurveyLapanganConstant.ownerTypeMap;
 const surveyStore = useSurveyStore();
+const landParcelStore = useLandVectors();
+const buildingStore = useBuildingVectors();
 const latitude = 0.139267;
 const longitude = 117.494326;
 const zoomLevel = 16;
@@ -15,6 +17,7 @@ const totalPolygons = ref(0);
 const surveyedCount = ref(0);
 const progress = ref(0);
 const JENIS_TNH = SurveyLapanganConstant.JENIS_TNH;
+const JENIS_BGN = SurveyLapanganConstant.JENIS_BGN;
 
 onMounted(async () => {
   const map = L.map("map").setView([latitude, longitude], zoomLevel);
@@ -105,6 +108,7 @@ onMounted(async () => {
   );
   const bidangBontangBaru = await geoJsonBontangBaru.json();
   const resp = await vectorApi.get_all_vectors({ category: "land_parcel" });
+  const building = await vectorApi.get_all_vectors({ category: "building" });
   const getApiApiStyle = (feature) => {
     const tanah = feature.properties.JENIS_TNH;
     const fillColor = JENIS_TNH[tanah] || "rgba(139, 146, 152, 1)"; // default abu-abu
@@ -115,11 +119,27 @@ onMounted(async () => {
       fillOpacity: tanah ? 0.7 : 0.5,
     };
   };
+  const getApiApiBuildingStyle = (feature) => {
+    const bgn = feature.properties.JENIS_BGN;
+    const fillColor = JENIS_BGN[bgn] || "rgba(139, 146, 152, 1)"; // default abu-abu
+    return {
+      fillColor: fillColor,
+      weight: 1,
+      color: "blue",
+      fillOpacity: bgn ? 0.7 : 0.5,
+    };
+  };
+  const featurePersilCounts = [];
   const fetchPromises = resp.map(async (item) => {
     if (item.url) {
       try {
         const response = await fetch(item.url);
         const geojsonData = await response.json();
+        const count = geojsonData.features?.length || 0;
+        featurePersilCounts.push({
+          url: item.url,
+          count: count,
+        });
         L.geoJSON(geojsonData, {
           style: getApiApiStyle,
           onEachFeature: onEachFeature,
@@ -129,10 +149,43 @@ onMounted(async () => {
       }
     }
   });
-  await Promise.all(fetchPromises);
-
+  await Promise.all(fetchPromises).then(() => {
+    const totalFeatures = featurePersilCounts.reduce(
+      (sum, item) => sum + item.count,
+      0
+    );
+    landParcelStore.totalLandParcelCounts = totalFeatures;
+  });
+  const featureBuildingCounts = [];
+  const fetchPromisesBuilding = building.map(async (item) => {
+    if (item.url) {
+      try {
+        const response = await fetch(item.url);
+        const geojsonData = await response.json();
+        const count = geojsonData.features?.length || 0;
+        featureBuildingCounts.push({
+          url: item.url,
+          count: count,
+        });
+        L.geoJSON(geojsonData, {
+          style: getApiApiBuildingStyle,
+          onEachFeature: onEachFeature,
+        }).addTo(map);
+      } catch (error) {
+        console.error(`Gagal memuat GeoJSON dari ${item.url}:`, error);
+      }
+    }
+  });
   totalPolygons.value = bidangBontangBaru.features.length;
-
+  await Promise.all(fetchPromisesBuilding).then(() => {
+    console.log(featureBuildingCounts);
+    const totalFeatures = featureBuildingCounts.reduce(
+      (sum, item) => sum + item.count,
+      0
+    );
+    console.log(totalFeatures);
+    buildingStore.totalBuildingCounts = totalFeatures;
+  });
   await surveyStore.getAllUpdatedFeature();
   surveyedCount.value = surveyStore.bidangTanahData.length;
   progress.value = (surveyedCount.value / totalPolygons.value) * 100;
@@ -173,7 +226,7 @@ const kepemilikan = [
     <!-- Peta -->
     <div id="map" class="map"></div>
 
-    <div class="progress-container">
+    <!-- <div class="progress-container">
       <v-card variant="flat" class="rounded-lg" width="400">
         <v-expansion-panels>
           <v-expansion-panel title="Status Survey">
@@ -212,7 +265,7 @@ const kepemilikan = [
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card>
-    </div>
+    </div> -->
   </div>
 </template>
 

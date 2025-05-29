@@ -30,6 +30,8 @@
 <script lang="ts" setup>
 const overlay = ref(true);
 const surveyStore = useSurveyStore();
+const landParcelStore = useLandVectors();
+const buildingStore = useBuildingVectors();
 const isFetchingData = ref(false);
 const BontangBaru = ref([
   {
@@ -65,17 +67,17 @@ const Loktuan = ref([
   },
 ]);
 
-const ApiApi = ref([
+const ApiApi = computed(() => [
   {
     title: "Bidang Tanah Api Api",
-    total: 0,
+    total: landParcelStore.totalLandParcelCounts,
     from: 5219,
     unit: "Feature",
     icon: "mdi-folder-information-outline",
   },
   {
     title: "Bangunan Api Api",
-    total: 0,
+    total: buildingStore.totalBuildingCounts,
     from: 5496,
     unit: "Feature",
     icon: "mdi-folder-information-outline",
