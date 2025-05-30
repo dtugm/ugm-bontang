@@ -26,8 +26,9 @@ export default {
     ordersBy: any = null,
     ordersType: any = null
   ) {
-    filter.limit = props.itemsPerPage;
-    filter.pageSize = props.itemsPerPage * props.page - props.itemsPerPage;
+    filter.page = props.page;
+    filter.pageSize = props.itemsPerPage;
+    // filter.pageSize = props.itemsPerPage * props.page - props.itemsPerPage;
     if (search) {
       filter.keyword = search;
     } else {
