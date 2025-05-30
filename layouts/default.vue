@@ -5,25 +5,25 @@
         v-model="drawer"
         :rail="rail"
         @click="rail = false"
-        class="bg-secondary"
+        class="bg-grayish"
       >
         <div class="absolute w-full">
           <AppSidebar />
         </div>
-        <div class="absolute md:-right-3 -right-5 z-50 top-12">
+        <!-- <div class="absolute md:-right-3 -right-5 z-50 top-12">
           <v-btn
             color="grey"
             :icon="rail ? 'mdi-chevron-right' : 'mdi-chevron-left'"
             density="compact"
             @click.stop="rail = !rail"
           ></v-btn>
-        </div>
+        </div> -->
         <template v-slot:append>
           <AppButtonSignOut />
         </template>
       </v-navigation-drawer>
     </div>
-    <v-main class="bg-gray">
+    <v-main class="bg-white">
       <slot />
     </v-main>
   </v-layout>

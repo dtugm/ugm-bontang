@@ -1,7 +1,7 @@
 <template>
-  <h2 class="font-bold text-2xl" :class="['text-' + color]">
+  <h5 class="font-bold text-base" :class="['text-' + color]" v-bind="$attrs">
     <slot></slot>
-  </h2>
+  </h5>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: "text",
+      default: "primary",
     },
   },
 };

@@ -1,10 +1,10 @@
 <template>
   <v-list>
-    <v-list-item
+    <!-- <v-list-item
       prepend-icon="mdi-account"
       :title="`${authStore.user.firstName} ${authStore.user.lastName}`"
       :subtitle="authStore.user.username"
-    ></v-list-item>
+    ></v-list-item> -->
   </v-list>
   <v-list mandatory density="compact" nav @update:selected="changePage">
     <template v-for="(menu, index) in menus" :key="index">
@@ -23,16 +23,17 @@
           :prepend-icon="subMenu.prepend_icon"
           :title="subMenu.title"
           :value="subMenu.path"
-          active-class="bg-primary"
+          active-class="bg-white"
         ></v-list-item>
       </v-list-group>
       <v-list-item
+        class="rounded-left"
         v-else
         :prepend-icon="menu.prepend_icon"
         :title="menu.title"
         :value="menu.path"
         :active="menu.path === selectedTab"
-        active-class="bg-primary"
+        active-class="bg-tertiary"
       ></v-list-item>
     </template>
   </v-list>
@@ -71,3 +72,9 @@ const changePage = (item: any) => {
   navigateTo(item[0]);
 };
 </script>
+<style scoped>
+.rounded-left {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+</style>

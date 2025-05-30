@@ -3,7 +3,7 @@
     <slot name="prepend-title"></slot>
     <v-row no-gutters class="items-center gap-4">
       <slot name="prepend"></slot>
-      <AppTextH5 color="primary">{{ title }}</AppTextH5>
+      <AppTextH5 color="tertiary">{{ title }}</AppTextH5>
       <slot name="action"></slot>
       <v-spacer></v-spacer>
       <v-col v-if="isSearchable" lg="3" class="d-flex gap-2 items-center">
@@ -100,7 +100,7 @@ defineProps({
 <style scoped>
 .header-theme:deep() .v-data-table__thead {
   background-color: rgb(var(--v-theme-light-blue));
-  color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-tertiary));
 }
 .header-theme:deep() .v-data-table__thead span {
   font-weight: bold;

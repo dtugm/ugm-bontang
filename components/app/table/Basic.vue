@@ -1,14 +1,15 @@
 <template>
   <v-container>
+    <slot name="prepend-title"></slot>
     <div class="flex gap-3 items-center">
-      <AppTextH5 color="primary" class="mb-2">{{ title }}</AppTextH5>
+      <AppTextH5 color="tertiary" class="mb-2">{{ title }}</AppTextH5>
       <slot name="action"></slot>
     </div>
     <div class="flex justify-between items-center gap-2">
       <slot name="prepend-table"></slot>
       <slot name="validate-table"></slot>
     </div>
-    <v-data-table class="header-theme mt-2" v-bind="$attrs">
+    <v-data-table class="header-theme mt-2 rounded-lg border" v-bind="$attrs">
       <template #[`item.no`]="{ internalItem }">
         <div>
           {{ internalItem.index + 1 }}
@@ -35,8 +36,8 @@ defineProps({
 </script>
 <style scoped>
 .header-theme:deep() thead {
-  background-color: #6492b7;
-  color: white;
+  background-color: #eef5ff;
+  color: rgb(var(--v-theme-tertiary));
 }
 .header-theme:deep() .v-data-table-header__content span {
   font-weight: bold;
