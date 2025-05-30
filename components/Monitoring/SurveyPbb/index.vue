@@ -205,20 +205,20 @@ onMounted(async () => {
   };
 });
 
-const StatusSurvey = [
-  { color: "#008000", title: "Sudah Tepat" },
-  { color: "#FFD700", title: "Data Baru" },
-  { color: "#FFA500", title: "Penggabungan Objek Pajak" },
-  { color: "#FF8C00", title: "Pemecahan Objek Pajak" },
-  { color: "#FF4500", title: "Delineasi" },
-  { color: "#B22222", title: "Sengketa" },
-  { color: "#FF8C00", title: "Pemilik Tidak Bisa Ditemui" },
-  { color: "#FF4500", title: "Belum Disurvey" },
-];
-const kepemilikan = [
-  { color: "#87CEEB", title: "Government Area " },
-  { color: "#ffa6c8", title: "Fasilitas Umum" },
-];
+// const StatusSurvey = [
+//   { color: "#008000", title: "Sudah Tepat" },
+//   { color: "#FFD700", title: "Data Baru" },
+//   { color: "#FFA500", title: "Penggabungan Objek Pajak" },
+//   { color: "#FF8C00", title: "Pemecahan Objek Pajak" },
+//   { color: "#FF4500", title: "Delineasi" },
+//   { color: "#B22222", title: "Sengketa" },
+//   { color: "#FF8C00", title: "Pemilik Tidak Bisa Ditemui" },
+//   { color: "#FF4500", title: "Belum Disurvey" },
+// ];
+// const kepemilikan = [
+//   { color: "#87CEEB", title: "Government Area " },
+//   { color: "#ffa6c8", title: "Fasilitas Umum" },
+// ];
 </script>
 
 <template>
