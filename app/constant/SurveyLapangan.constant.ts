@@ -28,6 +28,7 @@ export default {
     NOT_YET_SURVEYED: "#FF4500",
     OTHER: "#008000",
   },
+
   statusFeatureOptions: [
     { title: "Sudah Tepat", value: "ACCURATE" },
     { title: "Data Baru", value: "NEW_DATA" },
@@ -49,4 +50,25 @@ export default {
     { title: "Government Area", value: "GOVERNMENT_AREA" },
     { title: "Non Government Area", value: "NON_GOVERNMENT_AREA" },
   ],
+
+  JENIS_TNH: {
+    1: "#4CAF50", // Tanah & Bangunan - hijau
+    2: "#2196F3", // Kavling Siap Bangun - biru
+    3: "#FFC107", // Tanah Kosong - kuning
+    4: "#9C27B0", // Fasilitas Umum - ungu
+    5: "#F44336", // Tanah Pemerintah - merah
+  },
+  JENIS_BGN: {
+    1: "#4caf50", // Perumahan - Hijau
+    2: "#2196f3", // Perkantoran Swasta - Biru
+    3: "#f44336", // Pabrik - Merah
+    4: "#ff9800", // Toko/Apotek/Pasar/Ruko - Oranye
+    5: "#9c27b0", // Rumah Sakit/Klinik - Ungu
+    6: "#00bcd4", // Olahraga/Rekreasi - Cyan
+    7: "#ffeb3b", // Hotel/Wisma - Kuning
+    8: "#795548", // Bengkel/Gudang/Pertanian - Coklat
+    9: "#3f51b5", // Gedung Pemerintah - Biru tua
+    10: "#8bc34a", // Gedung Sekolah - Hijau muda
+    11: "#9e9e9e", // Lain-lain - Abu-abu
+  },
 };

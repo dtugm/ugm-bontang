@@ -1,7 +1,5 @@
 <template>
   <div class="min-h-screen">
-    <!-- <DashboardEmployee v-if="employee_user.includes(authStore.user.email)" /> -->
-    <!-- <DashboardPj v-if="pj_user.includes(authStore.user.email)" /> -->
     <Superadmin
       v-if="
         usersConstant.superadmin_user.includes(authenticationStore.user.email)
@@ -18,10 +16,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import usersConstant from "~/app/constant/users.constant";
 const authenticationStore = useAuthenticationStore();
 
+const isStakeholder = computed(() => {
+  return authenticationStore.user.groups.some(
+    (group: any) => group.name.toLowerCase() === "stakeholder"
+  );
+});
 // import surveyApi from "~/app/api/survey.api";
 // const testGet = async () => {
 //   const formData = new FormData();

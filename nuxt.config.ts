@@ -20,8 +20,11 @@ export default defineNuxtConfig({
     "nuxt-vuefire",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/leaflet",
-    "@pinia/nuxt",
+    ["@pinia/nuxt", { autoImports: ["defineStore", "acceptHMRUpdate"] }],
   ],
+  imports: {
+    dirs: ["stores/**", "composables/**"],
+  },
   runtimeConfig: {
     public: {
       mapTilesKey: process.env.MAPTILES_API_KEY,
