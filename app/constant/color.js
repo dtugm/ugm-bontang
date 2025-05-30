@@ -1,7 +1,7 @@
 export const bontangLight = {
   primary: "#EB0E44",
   danger: "#FA5252",
-  error: "#F44334",
+  error: "#FF6B6B",
   info: "#228BE6",
   success: "#4CAF50",
   warning: "#FB8C00",
@@ -9,4 +9,7 @@ export const bontangLight = {
   gray: "#F3F3F3",
   secondary: "#1D1D1B",
   tertiary: "#032D64",
+  "primary-2": "#243746",
+  grayish: "#FAFCFF",
+  "light-blue": "#EEF5FF",
 };

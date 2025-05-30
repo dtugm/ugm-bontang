@@ -16,7 +16,7 @@ declare interface ITableProps {
   search?: string | null;
 }
 declare interface IMinimalFilter {
-  limit: number | null;
+  page: number | null;
   pageSize?: number | null;
   keyword?: string | null;
   ordersBy?: Array | null;
@@ -29,5 +29,6 @@ declare interface IMetaData {
 declare interface IResponsePaginate extends IResponseAPI {
   recordsTotal: number;
   recordsFiltered: number;
+  totalDocuments: number;
   meta_data: IMetaData;
 }

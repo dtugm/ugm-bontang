@@ -1,5 +1,5 @@
 import surveyApi from "~/app/api/survey.api";
-import { useFormDialog } from "~/composable/useFormDialog";
+import { useFormDialog } from "~/composables/useFormDialog";
 
 export const useSurveyDataStore = defineStore("admin/survey", () => {
   const appStore = useAppStore();

@@ -1,0 +1,52 @@
+declare interface IGetLotSurveyParams extends IMinimalFilter {
+  category: string;
+}
+declare interface ILotSurveyItems {
+  area: string;
+  buildingFloorTotal: string;
+  buildingTotal: string;
+  citizenId: string;
+  city: string;
+  createdAt: string;
+  district: string;
+  fid: string;
+  fourWheelVehicleTotal: string;
+  id: string;
+  imageUrls: string[];
+  ketSrtf: string;
+  landType: string;
+  landUsage: string;
+  newTaxObjectNumber: string;
+  newUuid: string;
+  nib: string;
+  nibel: string;
+  ownerType: string;
+  phoneNumber1: string;
+  phoneNumber2: string;
+  polygonId: string;
+  productType: string;
+  province: string;
+  regionCode: string;
+  rt: string;
+  rw: string;
+  status: string;
+  taxObjectAddress: string;
+  taxObjectCode_1: string;
+  taxObjectCode_2: string;
+  taxObjectNumber: string;
+  taxPayerAddress: string;
+  taxPayerCode: string;
+  taxPayerName: string;
+  taxPayerPhone: string;
+  taxStatus: string;
+  twoWheelVehicleTotal: string;
+  typeOfRight: string;
+  updatedAt: string;
+  uuid: string;
+  vehicleTotal: string;
+  village: string;
+  wallType: string;
+  wwcCode: string;
+  wwcPhoto: string;
+  year: string;
+}
