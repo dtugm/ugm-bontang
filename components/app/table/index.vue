@@ -1,0 +1,3 @@
+<tamplate>
+    table
+</tamplate>

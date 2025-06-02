@@ -38,7 +38,6 @@ export const useTableData = <TItem, IMinimalFilter>(
   }
 
   async function getData(props: ITableProps) {
-    console.log(props);
     if (props) {
       tableProps.value = { ...props };
       tableData.value.loading = true;

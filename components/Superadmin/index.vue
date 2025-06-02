@@ -4,7 +4,15 @@
     :headers="persilTableHeader"
     title="List Persil"
   />
+  <AppTableBasic
+    :items="userStore.usersList"
+    :headers="usersListHeader"
+    title="List User"
+  />
+
+  <v-divider></v-divider>
   <AppTableData :read-data="landDataStore.readLotSurveyData" />
+  <AppTableData :read-data="buildingStore.readLotSurveyData" />
 </template>
 <script setup lang="ts">
 const persilTableHeader = [
@@ -17,7 +25,19 @@ const persilTableHeader = [
   { title: "Updated At", key: "createdAt" },
   { title: "Actions", key: "action" },
 ];
+const usersListHeader = [
+  { title: "No", key: "no" },
+  { title: "Email", key: "email" },
+  { title: "First Name", key: "firstName" },
+  { title: "Last Name", key: "lastName" },
+  { title: "ID Organisasi", key: "organizationId" },
+  { title: "Organisasi Name", key: "organizationName" },
+  { title: "Role", key: "role" },
+];
 const landParcelStore = useLandVectors();
 const landDataStore = useLandDataStore();
+const userStore = useUsersStore();
+const buildingStore = useBuildingDataStore();
+userStore.getUsersList();
 landParcelStore.getLandParcel({ category: "land_parcel" });
 </script>
