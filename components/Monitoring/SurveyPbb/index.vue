@@ -107,7 +107,10 @@ onMounted(async () => {
     "/SurveyPbb/peta_kerja_bontang_baru.geojson"
   );
   const bidangBontangBaru = await geoJsonBontangBaru.json();
-  const resp = await vectorApi.get_all_vectors({ category: "land_parcel" });
+  const resp = await vectorApi.get_all_vectors({
+    category: "land_parcel",
+    isActive: true,
+  });
   const building = await vectorApi.get_all_vectors({ category: "building" });
   const getApiApiStyle = (feature) => {
     const tanah = feature.properties.JENIS_TNH;
@@ -130,7 +133,7 @@ onMounted(async () => {
     };
   };
   const featurePersilCounts = [];
-  const fetchPromises = resp.map(async (item) => {
+  const fetchPromises = resp?.data.map(async (item) => {
     if (item.url) {
       try {
         const response = await fetch(item.url);
@@ -157,7 +160,7 @@ onMounted(async () => {
     landParcelStore.totalLandParcelCounts = totalFeatures;
   });
   const featureBuildingCounts = [];
-  const fetchPromisesBuilding = building.map(async (item) => {
+  const fetchPromisesBuilding = building.data.map(async (item) => {
     if (item.url) {
       try {
         const response = await fetch(item.url);
