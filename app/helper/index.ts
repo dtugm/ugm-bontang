@@ -1,10 +1,13 @@
 import axios from "axios";
-const runtimeConfig = useRuntimeConfig();
 import { useToast } from "vue-toastification";
+
+const runtimeConfig = useRuntimeConfig();
+
 const apiBase = axios.create({
   baseURL: runtimeConfig.public.API_BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
+
 if (runtimeConfig.public.API_BASE_KEY_NEW) {
   apiBase.defaults.headers.common[
     "Authorization"
@@ -21,14 +24,19 @@ apiBase.interceptors.request.use((config) => {
 
 export const apiPostData = async (url: string, data: any, headers = {}) => {
   try {
-    const response: any = await apiBase.post(url, data, {
-      headers: { ...apiBase.defaults.headers, ...headers },
+    const defaultHeaders = apiBase.defaults.headers.common || {};
+    const mergedHeaders = { ...defaultHeaders, ...headers };
+
+    const response = await apiBase.post(url, data, {
+      headers: mergedHeaders,
     });
+
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+
 export const apiGetData = async (url: string, params = {}, config = {}) => {
   try {
     const response: IResponseAPI = await apiBase.get(url, {
@@ -52,6 +60,7 @@ export const apiPutData = async (url: string, data: any, headers = {}) => {
     throw error;
   }
 };
+
 // API DELETE
 export const apiDeleteData = async (url: string, headers = {}) => {
   try {
@@ -74,6 +83,33 @@ export const apiPatchData = async (url: any, data: any, config = {}) => {
     throw error;
   }
 };
+export function objectToFormData(
+  obj: Record<string, any>,
+  form?: FormData,
+  namespace?: string
+): FormData {
+  const formData = form || new FormData();
+
+  for (const property in obj) {
+    if (!obj.hasOwnProperty(property)) continue;
+
+    const key = namespace ? `${namespace}[${property}]` : property;
+    const value = obj[property];
+
+    if (value instanceof Date) {
+      formData.append(key, value.toISOString());
+    } else if (value instanceof File || value instanceof Blob) {
+      formData.append(key, value);
+    } else if (typeof value === "object" && value !== null) {
+      objectToFormData(value, formData, key); // recursive for nested object
+    } else if (value !== undefined && value !== null) {
+      formData.append(key, String(value));
+    }
+  }
+
+  return formData;
+}
+
 export class CustomFormData extends FormData {
   constructor() {
     super();
