@@ -7,8 +7,13 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     tiles3dItems.value = resp;
   };
 
+  const upload3dTiles = async (payload: IUpload3dTilesPayload) => {
+    const resp = await tiles3DApi.upload_3d_tiles(payload);
+  };
+
   return {
     getAll3dTiles,
     tiles3dItems,
+    upload3dTiles,
   };
 });

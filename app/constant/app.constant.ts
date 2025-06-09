@@ -221,6 +221,11 @@ export default {
       path: "/groups",
     },
     {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "3D Tiles",
+      path: "/3dTiles",
+    },
+    {
       prepend_icon: "mdi-earth",
       title: "Survey PBB",
       path: "/survey-monitoring",

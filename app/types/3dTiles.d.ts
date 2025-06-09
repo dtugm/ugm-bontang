@@ -5,8 +5,8 @@ declare interface IGet3dTilesParams {
 }
 
 declare interface IUpload3dTilesPayload {
-  category: String;
-  status: Boolean;
+  category: String | null;
+  status: Boolean | null;
   center_x: number;
   center_y: number;
   file: any;
