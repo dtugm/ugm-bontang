@@ -14,6 +14,9 @@ export default {
   get_group_info_by_id: async (groupId: string) => {
     return apiGetData(`${mainPath}/${groupId}?`);
   },
+  add_new_group: async (payload: any) => {
+    return apiPostData(`${mainPath}`, payload);
+  },
   add_member_to_group: async (groupId: string, payload: any) => {
     return apiPostData(`${mainPath}/${groupId}/members`, payload);
   },

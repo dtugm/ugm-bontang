@@ -7,10 +7,20 @@ export const useGroup = defineStore("group", () => {
     const resp = await groupApi.get_all_groups();
     groupsItems.value = resp;
   };
+  const deleteDataGroups = async (id: string) => {
+    const resp = await groupApi.delete_group(id);
+  };
+  const addNewGroup = async (payload: IUploadGroupsParams) => {
+    const resp = await groupApi.add_new_group(payload);
+    console.log(resp);
+  };
   return {
     // All Groups
     getAllGroups,
     groupsItems,
+    deleteDataGroups,
+
+    addNewGroup,
   };
 });
 

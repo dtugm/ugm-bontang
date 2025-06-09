@@ -216,6 +216,11 @@ export default {
       path: "/",
     },
     {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "Groups",
+      path: "/groups",
+    },
+    {
       prepend_icon: "mdi-earth",
       title: "Survey PBB",
       path: "/survey-monitoring",
