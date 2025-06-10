@@ -1,9 +1,4 @@
 <template>
-  <!-- <AppTableBasic
-    :items="landParcelStore.landParcelItems"
-    :headers="persilTableHeader"
-    title="List Persil"
-  /> -->
   <AppTableData :read-data="landParcelStore.readVectorsLandParcel">
     <template #item.action="{ item }">
       <div class="flex items-center">
@@ -23,21 +18,29 @@
     title="List User"
   />
 
+  <AppTableBasic
+    :items="tiles3d.tiles3dItems"
+    :headers="tiles3dHeaders"
+    title="3D Tiles List"
+  />
+
   <v-divider></v-divider>
   <AppTableData :read-data="landDataStore.readLotSurveyData" />
   <AppTableData :read-data="buildingStore.readLotSurveyData" />
 </template>
 <script setup lang="ts">
-const persilTableHeader = [
+const tiles3d = use3dTilesStore();
+tiles3d.getAll3dTiles();
+
+const tiles3dHeaders = [
   { title: "No", key: "no" },
   { title: "Name", key: "name" },
-  { title: "Type", key: "type" },
+  { title: "Status", key: "status" },
   { title: "Category", key: "category" },
-  { title: "Status", key: "isActive" },
-  { title: "Created At", key: "updatedAt" },
-  { title: "Updated At", key: "createdAt" },
+  { title: "File", key: "file" },
   { title: "Actions", key: "action" },
 ];
+
 const usersListHeader = [
   { title: "No", key: "no" },
   { title: "Email", key: "email" },

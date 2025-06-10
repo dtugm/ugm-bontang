@@ -1,27 +1,26 @@
 <template>
   <div class="min-h-screen">
+    <!-- {{ userInGroup(authStore.user.groups, "stakeholder") }}
+    {{ authStore.user.groups }} -->
     <Superadmin
-      v-if="
-        usersConstant.superadmin_user.includes(authenticationStore.user.email)
-      "
-    />
-    <DashboardPjLogBook
-      v-if="usersConstant.pj_user.includes(authenticationStore.user.email)"
+      v-if="usersConstant.superadmin_user.includes(authStore.user.email)"
     />
     <DashboardStakeHolder
-      v-if="
-        usersConstant.stakeHolder_user.includes(authenticationStore.user.email)
-      "
+      v-if="usersConstant.stakeHolder_user.includes(authStore.user.email)"
+    />
+    <DashboardStudio
+      v-if="userInGroup(authStore.user.groups, 'Supervisor Bontang')"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { userInGroup } from "~/app/helper/auth.helper";
 import usersConstant from "~/app/constant/users.constant";
-const authenticationStore = useAuthenticationStore();
+const authStore = useAuthenticationStore();
 
 const isStakeholder = computed(() => {
-  return authenticationStore.user.groups.some(
+  return authStore.user.groups.some(
     (group: any) => group.name.toLowerCase() === "stakeholder"
   );
 });

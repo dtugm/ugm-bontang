@@ -44,6 +44,11 @@ export default {
       path: "/",
     },
     {
+      prepend_icon: "mdi-monitor-dashboard",
+      title: "3D Tiles",
+      path: "/3dTiles",
+    },
+    {
       prepend_icon: "mdi-monitor-multiple",
       title: "Studio",
       sub_menu: [

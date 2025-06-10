@@ -24,19 +24,27 @@
     </template>
   </AppTableBasic>
 
-  <AppDialogConfirm v-model="addDialog" @confirm="upload3dTiles">
+  <AppDialogConfirm
+    title="Add New 3D Tiles"
+    close-text="Cancel"
+    confirm-text="Add"
+    confirm-color="tertiary"
+    :confirm-loading="uploadLoading"
+    v-model="addDialog"
+    @confirm="upload3dTiles"
+  >
     <AppInputAutocomplete
       label="Category"
       :items="['road', 'building']"
       v-model="uploadForm.category"
     />
     <AppInputText
-      label="Center X"
+      label="Center X (lng)"
       type="number"
       v-model="uploadForm.center_x"
     />
     <AppInputText
-      label="Center Y"
+      label="Center Y (lat)"
       type="number"
       v-model="uploadForm.center_y"
     />
@@ -61,7 +69,11 @@ const uploadForm = ref<IUpload3dTilesPayload>({
   file: undefined,
 });
 const addDialog = ref(false);
-const upload3dTiles = () => {
-  tiles3dStore.upload3dTiles(uploadForm.value);
+const uploadLoading = ref(false);
+const upload3dTiles = async () => {
+  uploadLoading.value = true;
+  await tiles3dStore.upload3dTiles(uploadForm.value);
+  addDialog.value = false;
+  uploadLoading.value = false;
 };
 </script>
