@@ -39,7 +39,10 @@
     :confirm-loading="uploadLoading"
     v-model="addDialog"
     @confirm="upload3dTiles"
+    @close="addDialog = false"
   >
+    <AppInputText label="Name" v-model="uploadForm.name" />
+    <!-- <AppInputText label="LOD" type="number" v-model="uploadForm.lod" /> -->
     <AppInputAutocomplete
       label="Category"
       :items="['road', 'building']"
@@ -78,6 +81,7 @@ const selectedId = ref();
 const tiles3dStore = use3dTilesStore();
 tiles3dStore.getAll3dTiles();
 const uploadForm = ref<IUpload3dTilesPayload>({
+  name: null,
   category: null,
   status: true,
   center_x: 0,
@@ -89,7 +93,9 @@ const deleteDialog = ref(false);
 const uploadLoading = ref(false);
 const upload3dTiles = async () => {
   uploadLoading.value = true;
-  await tiles3dStore.upload3dTiles(uploadForm.value);
+  await tiles3dStore.upload3dTiles({
+    ...uploadForm.value,
+  });
   addDialog.value = false;
   uploadLoading.value = false;
 };
