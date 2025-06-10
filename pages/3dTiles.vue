@@ -82,6 +82,7 @@ const tiles3dStore = use3dTilesStore();
 tiles3dStore.getAll3dTiles();
 const uploadForm = ref<IUpload3dTilesPayload>({
   name: null,
+  // lod: 0,
   category: null,
   status: true,
   center_x: 0,
@@ -96,6 +97,7 @@ const upload3dTiles = async () => {
   await tiles3dStore.upload3dTiles({
     ...uploadForm.value,
   });
+  await tiles3dStore.getAll3dTiles();
   addDialog.value = false;
   uploadLoading.value = false;
 };
