@@ -9,7 +9,7 @@ declare interface IUpload3dTilesPayload {
   // lod: number | null;
   category: String | null;
   status: Boolean | null;
-  center_x: number;
-  center_y: number;
+  center_x: number | null;
+  center_y: number | null;
   file: any;
 }

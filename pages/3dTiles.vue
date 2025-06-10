@@ -49,12 +49,14 @@
       v-model="uploadForm.category"
     />
     <AppInputText
-      label="Center X (lng)"
+      label="Center X (Longitude)"
+      placeholder="ex: 117.0"
       type="number"
       v-model="uploadForm.center_x"
     />
     <AppInputText
-      label="Center Y (lat)"
+      label="Center Y (Latitude)"
+      placeholder="ex: 0.312"
       type="number"
       v-model="uploadForm.center_y"
     />
@@ -85,8 +87,8 @@ const uploadForm = ref<IUpload3dTilesPayload>({
   // lod: 0,
   category: null,
   status: true,
-  center_x: 0,
-  center_y: 0,
+  center_x: null,
+  center_y: null,
   file: undefined,
 });
 const addDialog = ref(false);
