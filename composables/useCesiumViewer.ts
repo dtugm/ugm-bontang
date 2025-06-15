@@ -191,6 +191,34 @@ export function useCesiumViewer() {
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   }
 
+  const selectedProperties = ref<Record<string, any>>({});
+  function enableClickGetProperties(viewer: any, Cesium: any) {
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    handler.setInputAction((movement: any) => {
+      const pickedFeature = viewer.scene.pick(movement.position);
+
+      if (
+        Cesium.defined(pickedFeature) &&
+        pickedFeature instanceof Cesium.Cesium3DTileFeature
+      ) {
+        const propertyIds = pickedFeature.getPropertyIds();
+        console.log(propertyIds);
+        // const propertyNames = pickedFeature.getProperty();
+        const properties: Record<string, any> = {};
+        propertyIds.forEach((id: string) => {
+          properties[id] = pickedFeature.getProperty(id);
+        });
+        selectedProperties.value = properties;
+        // propertyNames.forEach((name: any) => {
+        //   properties[name] = pickedFeature.getProperty(name);
+        // });
+
+        console.log("Properties:", properties);
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  }
+
   function enableClickSelection(viewer: any, Cesium: any) {
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
@@ -240,5 +268,8 @@ export function useCesiumViewer() {
     enableHoverHighlight,
     enableClickSelection,
     enableSingleClickSelection,
+    enableClickGetProperties,
+
+    selectedProperties,
   };
 }

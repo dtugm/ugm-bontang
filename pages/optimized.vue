@@ -120,6 +120,10 @@ onMounted(async () => {
     cViewerStore.cesiumViewer.viewer,
     $Cesium
   );
+  cViewerStore.cesiumViewer.enableClickGetProperties(
+    cViewerStore.cesiumViewer.viewer,
+    $Cesium
+  );
 });
 const cViewerStore = useViewerStore();
 const flyToLocation = ref({
