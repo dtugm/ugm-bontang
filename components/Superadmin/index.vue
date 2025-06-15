@@ -1,4 +1,12 @@
 <template>
+  <AppCardViewerDetail
+    :title="'Detail User'"
+    :value="{
+      name: 'Dhias Naufal',
+      email: 'dhias@example.com',
+      phone: '08123456789',
+    }"
+  />
   <SuperadminVectors />
   <AppTableBasic
     :items="userStore.usersList"
@@ -20,6 +28,14 @@
 const tiles3d = use3dTilesStore();
 tiles3d.getAll3dTiles();
 
+const testData = {
+  ConstructionMethod: "New Building",
+  Height: 5.72881825478971,
+  IsLandmarked: "NO",
+  Latitude: 0.13921132299725508,
+  Longitude: 117.50107428258596,
+  TerrainHeight: 55.969894448031056,
+};
 const tiles3dHeaders = [
   { title: "No", key: "no" },
   { title: "Name", key: "name" },

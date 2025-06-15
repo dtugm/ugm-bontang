@@ -3,8 +3,16 @@
     <ClientOnly>
       <CesiumViewer :fly-to-location="flyToLocation" />
     </ClientOnly>
+    <div class="absolute bottom-1 right-2 flex gap-2 z-10">
+      <AppCardViewerDetail
+        title="Building Detail"
+        :value="cViewerStore.cesiumViewer.selectedProperties"
+      />
+    </div>
     <div class="absolute top-1 left-2 flex gap-2 z-10">
       <div v-if="mapFeature">
+        <v-btn @click="testFilter">TesFilter</v-btn>
+        <v-btn @click="resetFilter">Reset Filter</v-btn>
         <v-card max-width="350">
           <v-card-title class="pr-0 pt-0">
             <div class="flex justify-between">
@@ -75,7 +83,17 @@
                   />
                 </v-list-item>
                 <v-list-item title="Filter">
-                  <AppInputAutocomplete hide-details />
+                  <AppInputAutocomplete
+                    label="Jumlah Lantai"
+                    is-filter
+                    class="flex-1"
+                  />
+                  <AppInputAutocomplete
+                    label="Jumlah Lantai"
+                    is-filter
+                    class="flex-1"
+                  />
+                  <AppInputAutocomplete class="flex-1" />
                 </v-list-item>
               </v-list>
             </div>
@@ -153,5 +171,15 @@ const changeLocation = (item: IUpload3dTilesPayload) => {
     Number(item.center_y),
     500
   );
+};
+
+const testFilter = () => {
+  cViewerStore.cesiumViewer.filterAllTilesets([
+    "BB_15062025-AAAA-01694-GeoAI02-AC525AC",
+    "BB_15062025-AAAA-01003-GeoAI02-E7EACE3",
+  ]);
+};
+const resetFilter = () => {
+  cViewerStore.cesiumViewer.resetAllTilesets();
 };
 </script>

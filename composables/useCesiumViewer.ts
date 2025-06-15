@@ -108,7 +108,41 @@ export function useCesiumViewer() {
       t.instance.show = false;
     });
   };
+  const applyFilter = (tileset: any, idArray: any) => {
+    tileset.tileVisible.addEventListener(function (tile: any) {
+      const content = tile.content;
+      const featuresLength = content.featuresLength;
 
+      for (let i = 0; i < featuresLength; i++) {
+        const feature = content.getFeature(i);
+        const featureId = feature.getProperty("gml:id");
+
+        feature.show = idArray.includes(featureId);
+      }
+    });
+
+    viewer.value.scene.requestRender();
+  };
+  const filterAllTilesets = (idArray: any) => {
+    tilesets.value.forEach((t) => {
+      applyFilter(t.instance, idArray);
+    });
+  };
+  const resetAllTilesets = () => {
+    tilesets.value.forEach((t) => {
+      t.instance.tileVisible.addEventListener(function (tile: any) {
+        const content = tile.content;
+        const featuresLength = content.featuresLength;
+
+        for (let i = 0; i < featuresLength; i++) {
+          const feature = content.getFeature(i);
+          feature.show = true; // Tampilkan semua fitur
+        }
+      });
+    });
+
+    viewer.value.scene.requestRender();
+  };
   const setTerrain = async (Cesium: any) => {
     const terrainProvider = await viewer.value.scene.setTerrain(
       new Cesium.Terrain(Cesium.CesiumTerrainProvider.fromIonAssetId(3338372))
@@ -261,7 +295,8 @@ export function useCesiumViewer() {
     addTileset,
     showAll,
     hideAll,
-
+    filterAllTilesets,
+    resetAllTilesets,
     setTerrain,
 
     //Effek 3D
