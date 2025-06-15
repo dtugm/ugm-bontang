@@ -8,12 +8,10 @@ export const useLandVectors = defineStore("landVectors", () => {
     useTableData<IVectorsItems, IGetVectorsParams>(
       [...landParcelConstant.table_vectors.headers!],
       vectorsApi.get_all_vectors,
-      {
-        category: "land_parcel",
-      }
+      {}
     )
   );
-  const getLandParcel = async (payload: any) => {
+  const getLandParcel = async (payload?: any) => {
     const resp = await vectorsApi.get_all_vectors(payload);
     landParcelItems.value = resp;
   };
@@ -21,12 +19,17 @@ export const useLandVectors = defineStore("landVectors", () => {
     const resp = await vectorsApi.edit_vector(id, payload);
     console.log(resp);
   };
+  const uploadVectors = async (payload: IUploadVectorsPayload) => {
+    const resp = await vectorsApi.upload_vector(payload);
+  };
   return {
     landParcelItems,
     getLandParcel,
     totalLandParcelCounts,
     readVectorsLandParcel,
     updateVectorsStatus,
+
+    uploadVectors,
   };
 });
 

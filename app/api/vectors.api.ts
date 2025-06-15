@@ -1,4 +1,10 @@
-import { apiDeleteData, apiGetData, apiPostData, apiPutData } from "../helper";
+import {
+  apiDeleteData,
+  apiGetData,
+  apiPostData,
+  apiPutData,
+  objectToFormData,
+} from "../helper";
 const mainPath = "/vectors";
 
 export default {
@@ -6,7 +12,10 @@ export default {
     return apiGetData(`${mainPath}?`, payload);
   },
   upload_vector: async (payload?: any) => {
-    return apiPostData(`${mainPath}`, payload);
+    const formData = objectToFormData(payload);
+    return apiPostData(`${mainPath}`, formData, {
+      "Content-Type": "multipart/form-data",
+    });
   },
   edit_vector: async (id: string, payload?: any) => {
     return apiPutData(`${mainPath}/${id}`, payload);

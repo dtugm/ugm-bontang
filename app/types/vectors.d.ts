@@ -16,3 +16,12 @@ declare interface IVectorsItems {
   updatedAt: string;
   url: string;
 }
+
+declare interface IUploadVectorsPayload {
+  name: string | null;
+  // lod: 0,
+  category: string | null;
+  status: boolean;
+  type: string | null;
+  file: any;
+}

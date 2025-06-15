@@ -1,17 +1,5 @@
 <template>
-  <AppTableData :read-data="landParcelStore.readVectorsLandParcel">
-    <template #item.action="{ item }">
-      <div class="flex items-center">
-        <v-switch
-          color="success"
-          inset
-          hide-details
-          v-model="item.isActive"
-          @update:model-value="updateStatusVector(item)"
-        ></v-switch>
-      </div>
-    </template>
-  </AppTableData>
+  <SuperadminVectors />
   <AppTableBasic
     :items="userStore.usersList"
     :headers="usersListHeader"
@@ -50,15 +38,9 @@ const usersListHeader = [
   { title: "Organisasi Name", key: "organizationName" },
   { title: "Role", key: "role" },
 ];
-const landParcelStore = useLandVectors();
+
 const landDataStore = useLandDataStore();
 const userStore = useUsersStore();
 const buildingStore = useBuildingDataStore();
 userStore.getUsersList();
-landParcelStore.getLandParcel({ category: "land_parcel" });
-const updateStatusVector = async (item: IVectorsItems) => {
-  await landParcelStore.updateVectorsStatus(item.id, {
-    ...item,
-  });
-};
 </script>
