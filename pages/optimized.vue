@@ -55,10 +55,10 @@
                     <v-switch
                       color="tertiary"
                       label="Building"
-                      v-model="orthoLayer"
+                      v-model="buildingLayer"
                       inset
                       hide-details
-                      @update:model-value="updateLayerOrtho"
+                      @update:model-value="updateLayerBuilding"
                     />
                   </div>
                 </v-list-item>
@@ -108,12 +108,18 @@ const mapFeature = ref(false);
 onMounted(async () => {
   await tiles3dStore.getAll3dTiles();
   await cViewerStore.cesiumViewer.viewer;
-  // console.log(tiles3dStore.tiles3dItems.length);
   await cViewerStore.cesiumViewer.setTerrain($Cesium);
   for (const item of tiles3dStore.tiles3dItems) {
-    console.log(item);
-    await cViewerStore.cesiumViewer.addTileset(item.url, $Cesium);
+    await cViewerStore.cesiumViewer.addTileset(item.id, item.url, $Cesium);
   }
+  cViewerStore.cesiumViewer.enableHoverHighlight(
+    cViewerStore.cesiumViewer.viewer,
+    $Cesium
+  );
+  cViewerStore.cesiumViewer.enableSingleClickSelection(
+    cViewerStore.cesiumViewer.viewer,
+    $Cesium
+  );
 });
 const cViewerStore = useViewerStore();
 const flyToLocation = ref({
@@ -122,8 +128,19 @@ const flyToLocation = ref({
   height: 5000,
 });
 const orthoLayer: any = ref(false);
+const buildingLayer: any = ref(true);
 const updateLayerOrtho = (val: boolean) => {
   cViewerStore.cesiumViewer.toggleXYZLayer(val);
+};
+const updateLayerBuilding = (val: boolean) => {
+  console.log(val);
+  if (val) {
+    console.log("show");
+    cViewerStore.cesiumViewer.showAll();
+  } else {
+    console.log("hide");
+    cViewerStore.cesiumViewer.hideAll();
+  }
 };
 const changeLocation = (item: IUpload3dTilesPayload) => {
   cViewerStore.cesiumViewer.flyToLocation(

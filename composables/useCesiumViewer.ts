@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 export function useCesiumViewer() {
   let viewer = ref<any>(null);
+  const { $Cesium } = useNuxtApp();
   const layers: Record<string, any> = {};
   let xyzLayer: any = null;
   const createViewer = async (
@@ -84,14 +85,28 @@ export function useCesiumViewer() {
       xyzLayer.show = visible;
     }
   };
-
-  const addTileset = async (url: string, Cesium: any) => {
+  const tilesets = ref<any[]>([]);
+  const addTileset = async (id: string, url: string, Cesium: any) => {
     if (viewer.value) {
       const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
         maximumScreenSpaceError: 64,
       });
       viewer.value.scene.primitives.add(tileset);
+      tilesets.value.push({ id, instance: tileset, show: true });
     }
+  };
+  const showAll = () => {
+    tilesets.value.forEach((t: any) => {
+      t.show = true;
+      t.instance.show = true;
+    });
+  };
+
+  const hideAll = () => {
+    tilesets.value.forEach((t: any) => {
+      t.show = false;
+      t.instance.show = false;
+    });
   };
 
   const setTerrain = async (Cesium: any) => {
@@ -102,6 +117,106 @@ export function useCesiumViewer() {
     await terrainProvider.readyPromise;
   };
 
+  let highlightedFeature: any = null;
+  let originalHoverColor: any = null;
+
+  let selectedFeature: any = null;
+  let originalSelectedColor: any = null;
+
+  const selectedFeatures = ref<any[]>([]);
+
+  function enableHoverHighlight(viewer: any, Cesium: any) {
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    handler.setInputAction((movement: any) => {
+      const pickedFeature = viewer.scene.pick(movement.endPosition);
+
+      if (
+        Cesium.defined(pickedFeature) &&
+        pickedFeature instanceof Cesium.Cesium3DTileFeature
+      ) {
+        if (selectedFeature === pickedFeature) return;
+
+        if (
+          Cesium.defined(highlightedFeature) &&
+          highlightedFeature !== selectedFeature
+        ) {
+          highlightedFeature.color = originalHoverColor;
+        }
+
+        highlightedFeature = pickedFeature;
+        originalHoverColor = Cesium.Color.clone(
+          pickedFeature.color,
+          new Cesium.Color()
+        );
+
+        pickedFeature.color = Cesium.Color.YELLOW.withAlpha(0.8);
+      } else {
+        if (
+          Cesium.defined(highlightedFeature) &&
+          highlightedFeature !== selectedFeature
+        ) {
+          highlightedFeature.color = originalHoverColor;
+          highlightedFeature = null;
+        }
+      }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+  }
+
+  function enableSingleClickSelection(viewer: any, Cesium: any) {
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    handler.setInputAction((movement: any) => {
+      const pickedFeature = viewer.scene.pick(movement.position);
+
+      if (
+        Cesium.defined(pickedFeature) &&
+        pickedFeature instanceof Cesium.Cesium3DTileFeature
+      ) {
+        if (Cesium.defined(highlightedFeature)) {
+          highlightedFeature.color = originalHoverColor;
+          highlightedFeature = null;
+        }
+        if (Cesium.defined(selectedFeature)) {
+          selectedFeature.color = Cesium.Color.WHITE.withAlpha(1.0); // Hardcode warna dasar
+        }
+
+        selectedFeature = pickedFeature;
+        pickedFeature.color = Cesium.Color.RED.withAlpha(0.2);
+        if (Cesium.defined(highlightedFeature)) {
+          highlightedFeature.color = originalHoverColor;
+          highlightedFeature = null;
+        }
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  }
+
+  function enableClickSelection(viewer: any, Cesium: any) {
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    handler.setInputAction((movement: any) => {
+      const pickedFeature = viewer.scene.pick(movement.position);
+
+      if (
+        Cesium.defined(pickedFeature) &&
+        pickedFeature instanceof Cesium.Cesium3DTileFeature
+      ) {
+        if (!selectedFeatures.value.includes(pickedFeature)) {
+          // Tambahkan ke selected list
+          selectedFeatures.value.push(pickedFeature);
+
+          // Ganti warna selected
+          pickedFeature.color = Cesium.Color.RED.withAlpha(0.8);
+        } else {
+          // Jika diklik ulang, hapus dari selected
+          pickedFeature.color = Cesium.Color.WHITE.withAlpha(1.0); // Atau kembalikan ke warna asal
+          selectedFeatures.value = selectedFeatures.value.filter(
+            (f) => f !== pickedFeature
+          );
+        }
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  }
   return {
     viewer,
     createViewer,
@@ -116,7 +231,14 @@ export function useCesiumViewer() {
 
     //3D
     addTileset,
+    showAll,
+    hideAll,
 
     setTerrain,
+
+    //Effek 3D
+    enableHoverHighlight,
+    enableClickSelection,
+    enableSingleClickSelection,
   };
 }
