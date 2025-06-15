@@ -34,8 +34,8 @@ export function useCesiumViewer() {
 
   const flyToLocation = (
     Cesium: any,
-    longitude: number,
-    latitude: number,
+    longitude: number | null,
+    latitude: number | null,
     height: number = 5000
   ) => {
     if (viewer.value) {
