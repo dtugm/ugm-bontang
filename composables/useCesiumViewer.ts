@@ -88,7 +88,7 @@ export function useCesiumViewer() {
   const addTileset = async (url: string, Cesium: any) => {
     if (viewer.value) {
       const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
-        maximumScreenSpaceError: 16,
+        maximumScreenSpaceError: 64,
       });
       viewer.value.scene.primitives.add(tileset);
     }
