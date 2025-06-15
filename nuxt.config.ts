@@ -32,6 +32,7 @@ export default defineNuxtConfig({
       API_BASE_URL: process.env.API_BASE_URL,
       API_BASE_KEY_NEW: process.env.API_BASE_KEY_NEW,
       CESIUM_TOKEN: process.env.CESIUM_TOKEN,
+      CESIUM_TOKEN_FK: process.env.CESIUM_TOKEN_FK,
       CESIUM_BASE_URL: "/cesium",
     },
   },

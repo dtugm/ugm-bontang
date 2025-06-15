@@ -5,10 +5,14 @@ export function useCesiumViewer() {
   let viewer = ref<any>(null);
   const layers: Record<string, any> = {};
   let xyzLayer: any = null;
-  const createViewer = (containerId: string, Cesium: any, options = {}) => {
+  const createViewer = async (
+    containerId: string,
+    Cesium: any,
+    options = {}
+  ) => {
     viewer.value = new Cesium.Viewer(containerId, {
       baseLayerPicker: false,
-      shadows: true,
+      shadows: false,
       navigationInstructionsInitiallyVisible: false,
       timeline: false,
       sceneModePicker: false,
@@ -22,6 +26,7 @@ export function useCesiumViewer() {
       selectionIndicator: false,
       geocoder: false,
       creditContainer: document.createElement("div"),
+      // terrainProvider,
       ...options,
     });
     return viewer.value;
@@ -80,12 +85,23 @@ export function useCesiumViewer() {
     }
   };
 
-  const addTileset = (url: string, Cesium: any) => {
+  const addTileset = async (url: string, Cesium: any) => {
     if (viewer.value) {
-      const tileset = new Cesium.Cesium3DTileset({ url });
+      const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
+        maximumScreenSpaceError: 16,
+      });
       viewer.value.scene.primitives.add(tileset);
     }
   };
+
+  const setTerrain = async (Cesium: any) => {
+    const terrainProvider = await viewer.value.scene.setTerrain(
+      new Cesium.Terrain(Cesium.CesiumTerrainProvider.fromIonAssetId(3338372))
+    );
+    viewer.value.scene.globe.depthTestAgainstTerrain = true;
+    await terrainProvider.readyPromise;
+  };
+
   return {
     viewer,
     createViewer,
@@ -100,5 +116,7 @@ export function useCesiumViewer() {
 
     //3D
     addTileset,
+
+    setTerrain,
   };
 }

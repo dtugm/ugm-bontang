@@ -16,7 +16,7 @@
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@pinia/nuxt": "^0.9.0",
     "axios": "^1.8.1",
-    "cesium": "^1.128.0",
+    "cesium": "^1.130.0",
     "chart.js": "4.4.1",
     "firebase": "^11.2.0",
     "leaflet": "^1.9.4",
