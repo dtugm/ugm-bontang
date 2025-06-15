@@ -15,11 +15,11 @@
         @update:model-value="updateLayerOrtho"
       />
     </div>
-    <div class="absolute top-1 left-2 flex gap-2 z-10">
+    <!-- <div class="absolute top-1 left-2 flex gap-2 z-10">
       <NuxtLink to="/">
         <v-img width="50" src="/logo/logo_1.png"></v-img>
       </NuxtLink>
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts" setup>
