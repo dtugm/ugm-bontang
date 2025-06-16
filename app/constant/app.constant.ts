@@ -170,20 +170,36 @@ export default {
       ],
     },
     {
-      prepend_icon: "mdi-earth",
-      title: "Survey PBB",
-      path: "/survey-monitoring",
-    },
-    {
-      prepend_icon: "mdi-database-edit",
-      title: "Progress",
+      prepend_icon: "mdi-database",
+      title: "Database Survey",
       sub_menu: [
         {
-          prepend_icon: "mdi-receipt-text-edit-outline",
+          prepend_icon: "mdi-land-plots-marker",
           title: "Bidang Tanah",
-          path: "/production-survey-pbb",
+          path: "/data/lot_survey",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Bangunan",
+          path: "/data/building",
         },
       ],
+    },
+    // {
+    //   prepend_icon: "mdi-database-edit",
+    //   title: "Progress",
+    //   sub_menu: [
+    //     {
+    //       prepend_icon: "mdi-receipt-text-edit-outline",
+    //       title: "Bidang Tanah",
+    //       path: "/production-survey-pbb",
+    //     },
+    //   ],
+    // },
+    {
+      prepend_icon: "mdi-earth",
+      title: "2D Map",
+      path: "/survey-monitoring",
     },
     {
       prepend_icon: "mdi-cube",
