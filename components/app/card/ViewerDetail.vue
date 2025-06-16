@@ -4,10 +4,22 @@
     class="pa-2"
     :style="{ backgroundColor: 'rgba(255, 255, 255, 0.85)' }"
   >
-    <v-card-title class="text-tertiary font-bold">
-      <AppTextH5 color="tertiary">
-        {{ title }}
-      </AppTextH5>
+    <v-card-title class="text-tertiary font-bold pr-0 pt-0">
+      <div class="flex justify-between">
+        <AppTextH5 color="tertiary">
+          {{ title }}
+        </AppTextH5>
+        <v-btn
+          color="error"
+          class="rounded-sm ml-1"
+          elevation="0"
+          size="x-small"
+          icon
+          @click="cViewerStore.cesiumViewer.propertiesModal = false"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </div>
     </v-card-title>
 
     <v-expand-transition>
@@ -54,7 +66,7 @@
     </v-expand-transition>
     <v-card-actions>
       <v-btn
-        :text="!expand ? 'Full Report' : 'Hide Report'"
+        :text="!expand ? 'Show Detail' : 'Hide Detail'"
         @click="expand = !expand"
       ></v-btn>
       <v-btn
@@ -66,8 +78,9 @@
 </template>
 
 <script setup>
+const cViewerStore = useViewerStore();
 import { computed } from "vue";
-const expand = ref(false);
+const expand = ref(true);
 const picture = ref(false);
 const props = defineProps({
   title: {

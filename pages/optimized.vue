@@ -3,7 +3,10 @@
     <ClientOnly>
       <CesiumViewer :fly-to-location="flyToLocation" />
     </ClientOnly>
-    <div class="absolute bottom-1 right-2 flex gap-2 z-10">
+    <div
+      v-if="cViewerStore.cesiumViewer.propertiesModal"
+      class="absolute bottom-1 right-2 flex gap-2 z-10"
+    >
       <AppCardViewerDetail
         title="Building Detail"
         :value="cViewerStore.cesiumViewer.selectedProperties"
@@ -11,9 +14,12 @@
     </div>
     <div class="absolute top-1 left-2 flex gap-2 z-10">
       <div v-if="mapFeature">
-        <v-btn @click="testFilter">TesFilter</v-btn>
-        <v-btn @click="resetFilter">Reset Filter</v-btn>
-        <v-card max-width="350">
+        <!-- <v-btn @click="testFilter">TesFilter</v-btn>
+        <v-btn @click="resetFilter">Reset Filter</v-btn> -->
+        <v-card
+          max-width="350"
+          :style="{ backgroundColor: 'rgba(255, 255, 255, 0.85)' }"
+        >
           <v-card-title class="pr-0 pt-0">
             <div class="flex justify-between">
               <NuxtLink to="/">
@@ -94,6 +100,17 @@
                     class="flex-1"
                   />
                   <AppInputAutocomplete class="flex-1" />
+                  <AppInputAutocomplete class="flex-1" />
+                  <AppInputAutocomplete class="flex-1" />
+                  <AppInputAutocomplete class="flex-1" />
+                  <div class="flex gap-2">
+                    <v-btn class="flex-1" color="tertiary" elevation="0"
+                      >Filter</v-btn
+                    >
+                    <v-btn class="flex-1" color="primary" variant="outlined"
+                      >Reset</v-btn
+                    >
+                  </div>
                 </v-list-item>
               </v-list>
             </div>

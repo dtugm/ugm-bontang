@@ -12,7 +12,7 @@ export function useCesiumViewer() {
     options = {}
   ) => {
     viewer.value = new Cesium.Viewer(containerId, {
-      baseLayerPicker: false,
+      // baseLayerPicker: false,
       shadows: false,
       navigationInstructionsInitiallyVisible: false,
       timeline: false,
@@ -196,7 +196,7 @@ export function useCesiumViewer() {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
-
+  const propertiesModal = ref(false);
   function enableSingleClickSelection(viewer: any, Cesium: any) {
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
@@ -214,7 +214,7 @@ export function useCesiumViewer() {
         if (Cesium.defined(selectedFeature)) {
           selectedFeature.color = Cesium.Color.WHITE.withAlpha(1.0); // Hardcode warna dasar
         }
-
+        propertiesModal.value = true;
         selectedFeature = pickedFeature;
         pickedFeature.color = Cesium.Color.RED.withAlpha(0.2);
         if (Cesium.defined(highlightedFeature)) {
@@ -306,5 +306,6 @@ export function useCesiumViewer() {
     enableClickGetProperties,
 
     selectedProperties,
+    propertiesModal,
   };
 }
