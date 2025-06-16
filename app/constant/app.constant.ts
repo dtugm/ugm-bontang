@@ -29,13 +29,13 @@ export default {
     {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
-      path: "/3d-viewer",
+      path: "/optimized",
     },
-    {
-      prepend_icon: "mdi-cube",
-      title: "3d Viewer V2",
-      path: "/viewer",
-    },
+    // {
+    //   prepend_icon: "mdi-cube",
+    //   title: "3d Viewer V2",
+    //   path: "/viewer",
+    // },
   ],
   leader_studio_menus: [
     {
@@ -67,13 +67,13 @@ export default {
     {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
-      path: "/3d-viewer",
+      path: "/optimized",
     },
-    {
-      prepend_icon: "mdi-cube",
-      title: "3d Viewer V2",
-      path: "/viewer",
-    },
+    // {
+    //   prepend_icon: "mdi-cube",
+    //   title: "3d Viewer V2",
+    //   path: "/viewer",
+    // },
   ],
   member_lidar_users: [
     {
@@ -133,7 +133,7 @@ export default {
     {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
-      path: "/3d-viewer",
+      path: "/optimized",
     },
   ],
 
@@ -188,7 +188,7 @@ export default {
     {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
-      path: "/3d-viewer",
+      path: "/optimized",
     },
   ],
   employee_menus: [
@@ -248,12 +248,7 @@ export default {
     {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
-      path: "/3d-viewer",
-    },
-    {
-      prepend_icon: "mdi-cube",
-      title: "3d Viewer V2",
-      path: "/viewer",
+      path: "/optimized",
     },
   ],
 
