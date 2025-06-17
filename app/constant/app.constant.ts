@@ -31,6 +31,22 @@ export default {
       title: "3d Model Viewer",
       path: "/optimized",
     },
+    {
+      prepend_icon: "mdi-database",
+      title: "Database Survey",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-land-plots-marker",
+          title: "Bidang Tanah",
+          path: "/collection/lot_survey",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Bangunan",
+          path: "/collection/building",
+        },
+      ],
+    },
     // {
     //   prepend_icon: "mdi-cube",
     //   title: "3d Viewer V2",

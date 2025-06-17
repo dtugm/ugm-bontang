@@ -28,6 +28,22 @@ export default {
       { title: "Actions", key: "action" },
     ],
   },
+  table_collection: {
+    headers: [
+      { title: "No", key: "no" },
+      //   { title: "UUID", key: "fid" },
+      //   { title: "UUID_BGN", key: "uuid_bgn" },
+      { title: "Province", key: "province" },
+      { title: "City", key: "city" },
+      { title: "Kecamatan", key: "district" },
+      { title: "Kelurahan", key: "village" },
+      { title: "Status", key: "status" },
+
+      { title: "NOP", key: "taxObjectNumber" },
+      { title: "NOP BARU", key: "newTaxObjectNumber" },
+      { title: "Update", key: "buildingUpdate" },
+    ],
+  },
   target: {
     bangunan: {
       boba: 4949,

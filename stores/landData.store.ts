@@ -9,9 +9,16 @@ export const useLandDataStore = defineStore("landData", () => {
       lotSurveyApi.getLotSurveyData
     )
   );
+  const readLotSurveyCollection = reactive(
+    useTableData<ILotSurveyItems, IGetLotSurveyParams>(
+      [...landParcelConstant.table_collection.headers!],
+      lotSurveyApi.getLotSurveyData
+    )
+  );
 
   return {
     readLotSurveyData,
+    readLotSurveyCollection,
   };
 });
 

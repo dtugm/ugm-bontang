@@ -8,6 +8,12 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
       buildingSurveyApi.building_survey_monitorings
     )
   );
+  const readBuldingCollection = reactive(
+    useTableData<ILotSurveyItems, IGetLotSurveyParams>(
+      [...buildingDataConstant.table_collection.headers!],
+      buildingSurveyApi.building_survey_monitorings
+    )
+  );
 
   const uploadBuildingData = async (payload: any) => {
     const resp = await buildingSurveyApi.post_building_survey_monitorings(
@@ -35,6 +41,8 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
     readLotSurveyData,
     uploadBuildingData,
     getBuildingByFilter,
+
+    readBuldingCollection,
   };
 });
 
