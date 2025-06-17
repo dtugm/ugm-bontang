@@ -279,6 +279,61 @@ export function useCesiumViewer() {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   }
+  const kelurahanName = [
+    { nama: "API-API", lng: 117.490042, lat: 0.130865 },
+    { nama: "BELIMBING", lng: 117.458959, lat: 0.153366 },
+    { nama: "BERBAS PANTAI", lng: 117.484344, lat: 0.109969 },
+    { nama: "BEREBAS TENGAH", lng: 117.479219, lat: 0.116115 },
+    { nama: "BONTANG BARU", lng: 117.493761, lat: 0.144252 },
+    { nama: "BONTANG KUALA", lng: 117.508149, lat: 0.133507 },
+    { nama: "BONTANG LESTARI", lng: 117.442044, lat: 0.055355 },
+    { nama: "SATIMPO", lng: 117.461529, lat: 0.10714 },
+    { nama: "KANAAN", lng: 117.445876, lat: 0.123544 },
+    { nama: "LOKTUAN", lng: 117.47457, lat: 0.164665 },
+    { nama: "TANJUNG LAUT", lng: 117.485008, lat: 0.123059 },
+    { nama: "GUNTUNG", lng: 117.487831, lat: 0.188374 },
+    { nama: "GUNUNG ELAI", lng: 117.478848, lat: 0.143068 },
+    { nama: "GUNUNG TELIHAN", lng: 117.452148, lat: 0.136698 },
+    { nama: "TANJUNG LAUT INDAH", lng: 117.495981, lat: 0.117112 },
+  ];
+  const addPin = () => {
+    kelurahanName.forEach((item) => {
+      const posisi = $Cesium.Cartesian3.fromDegrees(item.lng, item.lat, 100); // label agak melayang
+      const posisiTanah = $Cesium.Cartesian3.fromDegrees(item.lng, item.lat, 0); // titik di tanah
+      viewer.value.entities.add({
+        position: posisi,
+        label: {
+          text: item.nama,
+          font: "20px sans-serif",
+          fillColor: $Cesium.Color.BLACK,
+          outlineColor: $Cesium.Color.WHITE,
+          outlineWidth: 5,
+          style: $Cesium.LabelStyle.FILL_AND_OUTLINE,
+          // heightReference: $Cesium.HeightReference.CLAMP_TO_GROUND,
+          verticalOrigin: $Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new $Cesium.Cartesian2(0, -10),
+        },
+      });
+      viewer.value.entities.add({
+        polyline: {
+          positions: [posisi, posisiTanah],
+          width: 2,
+          material: $Cesium.Color.WHITE.withAlpha(1),
+          clampToGround: false,
+        },
+      });
+      viewer.value.entities.add({
+        position: posisi,
+        point: {
+          pixelSize: 10,
+          color: $Cesium.Color.RED,
+          outlineColor: $Cesium.Color.WHITE,
+          outlineWidth: 2,
+          heightReference: $Cesium.HeightReference.NONE,
+        },
+      });
+    });
+  };
   return {
     viewer,
     createViewer,
@@ -307,5 +362,6 @@ export function useCesiumViewer() {
 
     selectedProperties,
     propertiesModal,
+    addPin,
   };
 }

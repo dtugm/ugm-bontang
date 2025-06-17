@@ -171,6 +171,7 @@ onMounted(async () => {
     cViewerStore.cesiumViewer.viewer,
     $Cesium
   );
+  cViewerStore.cesiumViewer.addPin();
 });
 const cViewerStore = useViewerStore();
 const flyToLocation = ref({
