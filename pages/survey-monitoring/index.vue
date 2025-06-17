@@ -12,6 +12,9 @@
         @toggle-picture="getPicture"
       />
     </div>
+    <div class="overlay-legend">
+      <AppCardLegend />
+    </div>
   </div>
 </template>
 
@@ -22,7 +25,7 @@ const showCard = ref(false);
 
 const JENIS_TNH: any = SurveyLapanganConstant.JENIS_TNH;
 const KODE_WWC: any = SurveyLapanganConstant.statusMapAngkaColor;
-const JENIS_BGN = SurveyLapanganConstant.JENIS_BGN;
+const JENIS_BGN: any = SurveyLapanganConstant.JENIS_BGN;
 const surveyDataStore = useSurveyDataStore();
 const selectedFeature = ref({});
 const finalSelectedFeature = computed(() => {
@@ -71,6 +74,7 @@ onMounted(async () => {
 const getApiApiStyle = (feature: any) => {
   const tanah = feature.properties?.JENIS_TNH;
   const kode = feature.properties?.KODE_WWC;
+
   let fillColor = "rgba(139, 146, 152, 1)"; // default
 
   if (tanah && JENIS_TNH[tanah]) {
@@ -88,12 +92,15 @@ const getApiApiStyle = (feature: any) => {
 const getBuildingStyle = (feature: any) => {
   const tanah = feature.properties?.JENIS_TNH;
   const kode = feature.properties?.KODE_WWC;
+  const bgn = feature.properties?.JENIS_BGN;
   let fillColor = "rgba(139, 146, 152, 1)"; // default
 
   if (tanah && JENIS_TNH[tanah]) {
     fillColor = JENIS_TNH[tanah];
   } else if (kode && KODE_WWC[kode]) {
     fillColor = KODE_WWC[kode];
+  } else if (bgn && JENIS_BGN[String(bgn)]) {
+    fillColor = JENIS_BGN[String(bgn)];
   }
   return {
     fillColor: fillColor,
@@ -179,6 +186,17 @@ function isEmptyObject(obj: any) {
   position: absolute;
   bottom: 20px;
   right: 20px;
+  /* background: rgba(255, 255, 255, 0.9); */
+  /* border-radius: 10px; */
+  /* padding: 10px; */
+  text-align: start;
+  /* box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); */
+}
+.overlay-legend {
+  z-index: 999;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
   /* background: rgba(255, 255, 255, 0.9); */
   /* border-radius: 10px; */
   /* padding: 10px; */
