@@ -89,25 +89,36 @@
                   />
                 </v-list-item>
                 <v-list-item title="Filter">
+                  <!-- {{ jumlah_lantai }} -->
                   <AppInputAutocomplete
+                    v-model="jumlah_lantai"
+                    label="Jumlah Lantai"
+                    is-filter
+                    class="flex-1 pt-1"
+                    :items="['1', '2', '3', '4']"
+                  />
+                  <!-- <AppInputAutocomplete
                     label="Jumlah Lantai"
                     is-filter
                     class="flex-1"
-                  />
-                  <AppInputAutocomplete
-                    label="Jumlah Lantai"
-                    is-filter
-                    class="flex-1"
-                  />
+                  /> -->
+                  <!-- <AppInputAutocomplete class="flex-1" />
                   <AppInputAutocomplete class="flex-1" />
                   <AppInputAutocomplete class="flex-1" />
-                  <AppInputAutocomplete class="flex-1" />
-                  <AppInputAutocomplete class="flex-1" />
+                  <AppInputAutocomplete class="flex-1" /> -->
                   <div class="flex gap-2">
-                    <v-btn class="flex-1" color="tertiary" elevation="0"
+                    <v-btn
+                      class="flex-1"
+                      color="tertiary"
+                      elevation="0"
+                      @click="testFilter"
                       >Filter</v-btn
                     >
-                    <v-btn class="flex-1" color="primary" variant="outlined"
+                    <v-btn
+                      class="flex-1"
+                      color="primary"
+                      variant="outlined"
+                      @click="resetFilter"
                       >Reset</v-btn
                     >
                   </div>
@@ -134,6 +145,7 @@
 <script lang="ts" setup>
 const expand = ref(false);
 const test = ref();
+const jumlah_lantai = ref(null);
 definePageMeta({
   layout: "viewer",
 });
@@ -189,12 +201,18 @@ const changeLocation = (item: IUpload3dTilesPayload) => {
     500
   );
 };
-
-const testFilter = () => {
-  cViewerStore.cesiumViewer.filterAllTilesets([
-    "BB_15062025-AAAA-01694-GeoAI02-AC525AC",
-    "BB_15062025-AAAA-01003-GeoAI02-E7EACE3",
-  ]);
+const buildingDataStore = useBuildingDataStore();
+const testFilter = async () => {
+  console.log(jumlah_lantai.value);
+  const ids = await buildingDataStore.getBuildingByFilter({
+    floorCount: jumlah_lantai.value,
+    pageSize: 10000,
+  });
+  cViewerStore.cesiumViewer.filterAllTilesets(ids);
+  // cViewerStore.cesiumViewer.filterAllTilesets([
+  //   "BB_15062025-AAAA-01694-GeoAI02-AC525AC",
+  //   "BB_15062025-AAAA-01003-GeoAI02-E7EACE3",
+  // ]);
 };
 const resetFilter = () => {
   cViewerStore.cesiumViewer.resetAllTilesets();

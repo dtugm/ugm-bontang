@@ -17,6 +17,12 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
     console.log("pay", payload);
   };
 
+  const getBuildingByFilter = async (payload: any) => {
+    const resp = await buildingSurveyApi.building_survey_monitorings(payload);
+    const ids = resp.data.map((item: any) => item.uuid_bgn);
+    return ids;
+  };
+
   // const uploadBuildingData = async (payload: any) => {
   //   const resp = await buildingSurveyApi.post_building_survey_monitorings(
   //     payload
@@ -28,6 +34,7 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
   return {
     readLotSurveyData,
     uploadBuildingData,
+    getBuildingByFilter,
   };
 });
 
