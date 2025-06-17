@@ -106,6 +106,11 @@
                   <AppInputAutocomplete class="flex-1" />
                   <AppInputAutocomplete class="flex-1" />
                   <AppInputAutocomplete class="flex-1" /> -->
+                  <v-switch
+                    v-model="isRealData"
+                    :label="isRealData ? 'Using Real Data' : 'Using Dream'"
+                    color="success"
+                  ></v-switch>
                   <div class="flex gap-2">
                     <v-btn
                       class="flex-1"
@@ -146,6 +151,7 @@
 const expand = ref(false);
 const test = ref();
 const jumlah_lantai = ref(null);
+const isRealData = ref(false);
 definePageMeta({
   layout: "viewer",
 });
@@ -204,12 +210,20 @@ const changeLocation = (item: IUpload3dTilesPayload) => {
 };
 const buildingDataStore = useBuildingDataStore();
 const testFilter = async () => {
-  console.log(jumlah_lantai.value);
-  const ids = await buildingDataStore.getBuildingByFilter({
-    floorCount: jumlah_lantai.value,
-    pageSize: 10000,
-  });
-  cViewerStore.cesiumViewer.filterAllTilesets(ids);
+  console.log("first");
+  if (isRealData.value) {
+    const ids = await buildingDataStore.getBuildingByFilter({
+      floorCount: jumlah_lantai.value,
+      pageSize: 10000,
+    });
+    cViewerStore.cesiumViewer.filterAllTilesets(ids);
+  } else {
+    console.log("else");
+    cViewerStore.cesiumViewer.filterAllTilesetsCustom(
+      "bldg:storeysaboveground",
+      Number(jumlah_lantai.value)
+    );
+  }
   // cViewerStore.cesiumViewer.filterAllTilesets([
   //   "BB_15062025-AAAA-01694-GeoAI02-AC525AC",
   //   "BB_15062025-AAAA-01003-GeoAI02-E7EACE3",

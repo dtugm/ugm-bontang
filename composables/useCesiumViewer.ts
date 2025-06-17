@@ -109,6 +109,22 @@ export function useCesiumViewer() {
       t.instance.show = false;
     });
   };
+  const applyFilterByField = (tileset: any, field: any, value: any) => {
+    console.log(tileset);
+    tileset.tileVisible.addEventListener(function (tile: any) {
+      const content = tile.content;
+      const featuresLength = content.featuresLength;
+
+      for (let i = 0; i < featuresLength; i++) {
+        const feature = content.getFeature(i);
+        const featureId = feature.getProperty(field);
+
+        feature.show = featureId == value;
+      }
+    });
+
+    viewer.value.scene.requestRender();
+  };
   const applyFilter = (tileset: any, idArray: any) => {
     tileset.tileVisible.addEventListener(function (tile: any) {
       const content = tile.content;
@@ -127,6 +143,11 @@ export function useCesiumViewer() {
   const filterAllTilesets = (idArray: any) => {
     tilesets.value.forEach((t) => {
       applyFilter(t.instance, idArray);
+    });
+  };
+  const filterAllTilesetsCustom = (field: any, value: any) => {
+    tilesets.value.forEach((t) => {
+      applyFilterByField(t.instance, field, value);
     });
   };
   const resetAllTilesets = () => {
@@ -374,5 +395,8 @@ export function useCesiumViewer() {
     selectedProperties,
     propertiesModal,
     addPin,
+
+    applyFilterByField,
+    filterAllTilesetsCustom,
   };
 }
