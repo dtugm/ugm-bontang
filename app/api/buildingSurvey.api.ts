@@ -1,4 +1,10 @@
-import { apiDeleteData, apiGetData, apiPostData, apiPutData } from "../helper";
+import {
+  apiDeleteData,
+  apiGetData,
+  apiPostData,
+  apiPutData,
+  objectToFormData,
+} from "../helper";
 const mainPath = "/building-survey-monitorings";
 
 export default {
@@ -9,7 +15,10 @@ export default {
     return apiGetData(`${mainPath}/complete-data/${fid}`);
   },
   post_building_survey_monitorings: async (payload: any) => {
-    return apiPostData(`${mainPath}`, payload, {
+    const formData = new FormData();
+    formData.append("images", payload.images);
+    formData.append("data", JSON.stringify(payload.data));
+    return apiPostData(`${mainPath}`, formData, {
       "Content-Type": "multipart/form-data",
     });
   },

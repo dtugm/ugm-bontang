@@ -1,0 +1,20 @@
+export default {
+  table_data: {
+    headers: [
+      { title: "No", key: "no" },
+      //   { title: "UUID", key: "fid" },
+      //   { title: "UUID_BGN", key: "uuid_bgn" },
+      { title: "Province", key: "province" },
+      { title: "City", key: "city" },
+      { title: "Kecamatan", key: "district" },
+      { title: "Kelurahan", key: "village" },
+      { title: "Alamat", key: "address" },
+      { title: "Status", key: "status" },
+      { title: "Jumlah Lantai", key: "floorCount" },
+      { title: "NOP", key: "taxObjectNumber" },
+      { title: "NOP BARU", key: "newTaxObjectNumber" },
+      { title: "Update", key: "buildingUpdate" },
+      { title: "Actions", key: "action" },
+    ],
+  },
+};

@@ -1,4 +1,5 @@
 import surveyApi from "~/app/api/survey.api";
+import vectorsApi from "~/app/api/vectors.api";
 import { useFormDialog } from "~/composables/useFormDialog";
 
 export const useSurveyDataStore = defineStore("admin/survey", () => {
@@ -30,7 +31,25 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
       appStore.toastError(error.message);
     }
   };
-
+  const dataVectorPersil = ref([]);
+  const getDataVectorPersil = async () => {
+    const resp = await vectorsApi.get_all_vectors({
+      category: "land_parcel",
+      pageSize: Number(30),
+      isActive: true,
+    });
+    dataVectorPersil.value = resp.data;
+  };
+  const dataVectorBangunan = ref([]);
+  const getDataVectorBangunan = async () => {
+    const resp = await vectorsApi.get_all_vectors({
+      category: "building",
+      pageSize: Number(30),
+      isActive: true,
+    });
+    dataVectorBangunan.value = resp.data;
+  };
+  const leafletMap = useLeaflet();
   return {
     getDataPersil,
     data_persil_bontang_baru,
@@ -38,6 +57,13 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
 
     data_persil_api_api,
     data_persil_loktuan,
+
+    leafletMap,
+    getDataVectorPersil,
+    dataVectorPersil,
+
+    getDataVectorBangunan,
+    dataVectorBangunan,
   };
 });
 

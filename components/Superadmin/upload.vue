@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-btn color="primary" @click="uploadBulkDataAsync(500)"> Submit </v-btn>
     <v-file-input
       label="Upload GeoJSON"
       accept=".geojson,application/json"
@@ -13,8 +14,6 @@
       multiple
       @change="handleImagesUpload"
     ></v-file-input>
-
-    <v-btn color="primary" @click="processBulkUpload"> Submit </v-btn>
 
     <v-progress-linear
       v-if="loading"
@@ -34,6 +33,8 @@
 <script>
 import buildingSurveyApi from "../app/api/buildingSurvey.api";
 import surveyApi from "~/app/api/survey.api";
+import kodeConstant from "~/app/constant/kode.constant";
+import { mapStores } from "pinia";
 export default {
   data() {
     return {
@@ -43,6 +44,7 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBuildingDataStore),
     displayProperties() {
       if (!this.geoJsonData) return null;
       if (
@@ -93,10 +95,94 @@ export default {
 
       console.log("Properties array created:", this.propertiesArray);
     },
+    async uploadBulkData() {
+      let count = 0;
+      const data = [];
 
+      for (const feature of this.propertiesArray) {
+        const floorValue = feature.JML_LANTAI;
+        const fileName = (feature?.F_BGN || "").split("/").pop();
+        const matchedImage = this.images.find((img) => img.name === fileName);
+        const payload = {
+          images: matchedImage ?? null,
+          data: {
+            fid: feature.UUID,
+            uuid_bgn: feature.UUID,
+            province: "Kalimantan Timur",
+            city: "Bontang",
+            district: "Bontang Utara",
+            village: "Bontang Baru",
+            // status: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+            buildingUpdate: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+            floorCount:
+              floorValue == null || Number(floorValue) === 0
+                ? null
+                : Number(floorValue),
+            address: feature.ALAMAT_BGN,
+            taxObjectNumber: feature.NOP,
+            newTaxObjectNumber: feature.NOP_BARU,
+          },
+        };
+        data.push(payload);
+        // await this.buildingDataStore.uploadBuildingData(pyld);
+
+        if (matchedImage) {
+          count++;
+        }
+      }
+      console.log(data);
+      console.log(`Proses selesai. Total data yang cocok: ${count}`);
+    },
+
+    async uploadBulkDataAsync(batchSize = 10) {
+      const totalItems = this.propertiesArray.length;
+      console.log(`Total data: ${totalItems}`);
+      for (let i = 0; i < totalItems; i += batchSize) {
+        const batch = this.propertiesArray.slice(i, i + batchSize);
+
+        const uploadPromises = batch.map(async (feature) => {
+          try {
+            const floorValue = feature.JML_LANTAI;
+            const fileName = (feature?.F_BGN || "").split("/").pop();
+            const matchedImage = this.images.find(
+              (img) => img.name === fileName
+            );
+
+            const payload = {
+              images: matchedImage ?? null,
+              data: {
+                fid: feature.UUID,
+                uuid_bgn: feature.UUID,
+                province: "Kalimantan Timur",
+                city: "Bontang",
+                district: "Bontang Utara",
+                village: "Bontang Baru",
+                // status: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+                buildingUpdate: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+                floorCount:
+                  floorValue == null || Number(floorValue) === 0
+                    ? null
+                    : Number(floorValue),
+                address: feature.ALAMAT_BGN,
+                taxObjectNumber: feature.NOP,
+                newTaxObjectNumber: feature.NOP_BARU,
+              },
+            };
+
+            await this.buildingDataStore.uploadBuildingData(payload);
+          } catch (error) {
+            console.error("Gagal upload data:", error);
+          }
+        });
+
+        await Promise.all(uploadPromises);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    },
     async processBulkUpload() {
       console.log(this.propertiesArray);
       console.log(this.images);
+      let count;
       for (const feature of this.propertiesArray) {
         const fileName = (feature?.F_WWC || "").split("/").pop();
         const matchedImage = this.images.find((img) => img.name === fileName);

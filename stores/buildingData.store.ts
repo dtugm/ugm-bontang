@@ -1,18 +1,25 @@
 import buildingSurveyApi from "~/app/api/buildingSurvey.api";
-import lotSurveyApi from "~/app/api/lotSurvey.api";
-import vectorsApi from "~/app/api/vectors.api";
-import landParcelConstant from "~/app/constant/landParcel.constant";
+import buildingDataConstant from "~/app/constant/buildingData.constant";
 
 export const useBuildingDataStore = defineStore("buildingData", () => {
   const readLotSurveyData = reactive(
     useTableData<ILotSurveyItems, IGetLotSurveyParams>(
-      [...landParcelConstant.table_data.headers!],
+      [...buildingDataConstant.table_data.headers!],
       buildingSurveyApi.building_survey_monitorings
     )
   );
 
+  const uploadBuildingData = async (payload: any) => {
+    const resp = await buildingSurveyApi.post_building_survey_monitorings(
+      payload
+    );
+    console.log(resp);
+    console.log("pay", payload);
+  };
+
   return {
     readLotSurveyData,
+    uploadBuildingData,
   };
 });
 
