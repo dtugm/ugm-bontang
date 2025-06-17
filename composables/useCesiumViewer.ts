@@ -1,5 +1,6 @@
 // composables/useCesiumViewer.ts
 import { ref } from "vue";
+import buildingSurveyApi from "~/app/api/buildingSurvey.api";
 
 export function useCesiumViewer() {
   let viewer = ref<any>(null);
@@ -214,9 +215,9 @@ export function useCesiumViewer() {
         if (Cesium.defined(selectedFeature)) {
           selectedFeature.color = Cesium.Color.WHITE.withAlpha(1.0); // Hardcode warna dasar
         }
-        propertiesModal.value = true;
+
         selectedFeature = pickedFeature;
-        pickedFeature.color = Cesium.Color.RED.withAlpha(0.2);
+        pickedFeature.color = Cesium.Color.RED.withAlpha(0.8);
         if (Cesium.defined(highlightedFeature)) {
           highlightedFeature.color = originalHoverColor;
           highlightedFeature = null;
@@ -229,7 +230,7 @@ export function useCesiumViewer() {
   function enableClickGetProperties(viewer: any, Cesium: any) {
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
-    handler.setInputAction((movement: any) => {
+    handler.setInputAction(async (movement: any) => {
       const pickedFeature = viewer.scene.pick(movement.position);
 
       if (
@@ -243,7 +244,17 @@ export function useCesiumViewer() {
         propertyIds.forEach((id: string) => {
           properties[id] = pickedFeature.getProperty(id);
         });
-        selectedProperties.value = properties;
+        try {
+          const resp = await buildingSurveyApi.get_building_by_uuid(
+            properties["gml:id"]
+          );
+          selectedProperties.value = resp;
+          propertiesModal.value = true;
+        } catch (error) {
+          selectedProperties.value = properties;
+          propertiesModal.value = true;
+        }
+
         // propertyNames.forEach((name: any) => {
         //   properties[name] = pickedFeature.getProperty(name);
         // });

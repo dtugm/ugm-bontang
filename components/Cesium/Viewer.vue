@@ -16,7 +16,7 @@ onMounted(async () => {
     cViewerStore.cesiumViewer.createViewer(cesiumViewer.value, $Cesium);
     cViewerStore.cesiumViewer.addBaseLayers($Cesium);
 
-    cViewerStore.cesiumViewer.toggleLayer("osm", false);
+    cViewerStore.cesiumViewer.toggleLayer("osm", true);
     cViewerStore.cesiumViewer.toggleLayer("carto", false);
     // await cViewerStore.cesiumViewer.setTerrain($Cesium, 3462479);
     await cViewerStore.cesiumViewer.addXYZLayer(

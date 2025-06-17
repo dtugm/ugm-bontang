@@ -47,10 +47,15 @@
         <v-card-text class="scroll-container">
           <AppTextH5 color="tertiary">Picture</AppTextH5>
           <v-img
+            v-if="
+              cViewerStore.cesiumViewer.selectedProperties?.imageUrls.length !=
+              0
+            "
             :width="300"
+            :height="300"
             aspect-ratio="16/9"
             cover
-            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+            :src="cViewerStore.cesiumViewer.selectedProperties?.imageUrls[0]"
           >
             <template v-slot:placeholder>
               <div class="d-flex align-center justify-center fill-height">
@@ -61,6 +66,7 @@
               </div>
             </template>
           </v-img>
+          <div v-else>Picture Not Available</div>
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -112,7 +118,7 @@ const computedFields = computed(() => {
 </script>
 <style scoped>
 .scroll-container {
-  max-height: 60vh; /* Atur sesuai kebutuhan */
+  max-height: 40vh; /* Atur sesuai kebutuhan */
   overflow-y: auto;
 }
 </style>
