@@ -27,11 +27,10 @@ export default {
       { title: "Kecamatan", key: "district" },
       { title: "Kelurahan", key: "village" },
       { title: "Alamat", key: "address" },
-      { title: "Status", key: "status" },
       { title: "Jumlah Lantai", key: "floorCount" },
       { title: "NOP", key: "taxObjectNumber" },
       { title: "NOP BARU", key: "newTaxObjectNumber" },
-      { title: "Update", key: "buildingUpdate" },
+      { title: "Status", key: "buildingUpdate" },
     ],
   },
 };

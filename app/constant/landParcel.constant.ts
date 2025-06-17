@@ -36,12 +36,18 @@ export default {
       { title: "Province", key: "province" },
       { title: "City", key: "city" },
       { title: "Kecamatan", key: "district" },
-      { title: "Kelurahan", key: "village" },
+      { title: "Kelurahan", key: "village", minWidth: "150px" },
       { title: "Status", key: "status" },
+      {
+        title: "Alamat Object Pajak",
+        key: "taxObjectAddress",
+        minWidth: "200px",
+      },
 
+      { title: "NIB", key: "nib" },
+      { title: "Total Bangunan", key: "buildingTotal" },
       { title: "NOP", key: "taxObjectNumber" },
       { title: "NOP BARU", key: "newTaxObjectNumber" },
-      { title: "Update", key: "buildingUpdate" },
     ],
   },
   target: {

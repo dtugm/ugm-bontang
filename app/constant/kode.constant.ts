@@ -4,6 +4,11 @@ export default {
     2: "NEW",
     3: "NON_PERMANENT",
   },
+  UPDATE_COLOR: {
+    ACCURATE: "success",
+    NEW: "info",
+    NON_PERMANENT: "error",
+  },
 
   let: {
     fid: "mock-fid-4",
