@@ -7,12 +7,9 @@
       <AppCardLeafletDetail
         v-if="showCard"
         @close="showCard = false"
-        :title="'Detail User'"
-        :value="{
-          name: 'Dhias Naufal',
-          email: 'dhias@example.com',
-          phone: '08123456789',
-        }"
+        :title="'Detail'"
+        :value="selectedFeature"
+        @toggle-picture="getPicture"
       />
     </div>
   </div>
@@ -22,10 +19,18 @@
 import SurveyLapanganConstant from "~/app/constant/SurveyLapangan.constant";
 import L, { Layer, Path } from "leaflet";
 const showCard = ref(false);
+
 const JENIS_TNH: any = SurveyLapanganConstant.JENIS_TNH;
 const KODE_WWC: any = SurveyLapanganConstant.statusMapAngkaColor;
 const JENIS_BGN = SurveyLapanganConstant.JENIS_BGN;
 const surveyDataStore = useSurveyDataStore();
+const selectedFeature = ref({});
+const finalSelectedFeature = computed(() => {
+  // Cek apakah selectedDetail adalah object kosong
+  return isEmptyObject(surveyDataStore.selectedData)
+    ? selectedFeature
+    : surveyDataStore.selectedData;
+});
 const latitude = 0.139267;
 const longitude = 117.494326;
 const zoomLevel = 16;
@@ -100,7 +105,8 @@ const getBuildingStyle = (feature: any) => {
 
 const highlightFeature = (e: L.LeafletMouseEvent) => {
   const layer = e.target;
-
+  // Jangan highlight kalau ini layer yang sedang terpilih
+  if (layer === selectedLayer.value) return;
   layer.setStyle({
     weight: 3,
     color: "#666",
@@ -114,9 +120,12 @@ const highlightFeature = (e: L.LeafletMouseEvent) => {
 
 const resetHighlight = (e: L.LeafletMouseEvent, defaultStyle: any) => {
   const layer = e.target;
+  // Jangan reset kalau ini layer yang sedang terpilih
+  if (layer === selectedLayer.value) return;
   layer.setStyle(defaultStyle);
 };
-
+const selectedLayer = ref<L.Path | null>(null);
+const selectedStyle = ref<any>(null);
 const onEachFeatureHandler = (feature: any, layer: L.Layer) => {
   if (layer instanceof L.Path) {
     const defaultStyle = getApiApiStyle(feature);
@@ -125,16 +134,33 @@ const onEachFeatureHandler = (feature: any, layer: L.Layer) => {
       mouseover: (e) => highlightFeature(e),
       mouseout: (e) => resetHighlight(e, defaultStyle),
       click: (e) => {
-        console.log("Clicked feature:", feature);
-        openDetail();
+        if (selectedLayer.value && selectedLayer.value !== layer) {
+          selectedLayer.value.setStyle(selectedStyle.value);
+        }
+        layer.setStyle({
+          weight: 3,
+          color: "red",
+          fillOpacity: 1,
+        });
+        selectedLayer.value = layer;
+        selectedStyle.value = defaultStyle;
+        selectedFeature.value = feature.properties;
+        console.log("Clicked feature:", feature.properties);
+        openDetail(feature.properties.UUID || feature.properties.UUID_BGN);
       },
     });
   }
 };
-
-const openDetail = () => {
+const getPicture = () => {
+  console.log("first");
+};
+const openDetail = (id: any) => {
+  surveyDataStore.getDataDetail(id);
   showCard.value = true;
 };
+function isEmptyObject(obj: any) {
+  return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+}
 </script>
 
 <style scoped>

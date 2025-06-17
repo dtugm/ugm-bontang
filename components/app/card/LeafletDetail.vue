@@ -47,10 +47,12 @@
         <v-card-text class="scroll-container">
           <AppTextH5 color="tertiary">Picture</AppTextH5>
           <v-img
+            v-if="surveyDataStore.selectedData?.imageUrls.length != 0"
             :width="300"
+            :height="300"
             aspect-ratio="16/9"
             cover
-            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+            :src="surveyDataStore.selectedData?.imageUrls[0]"
           >
             <template v-slot:placeholder>
               <div class="d-flex align-center justify-center fill-height">
@@ -61,6 +63,7 @@
               </div>
             </template>
           </v-img>
+          <div v-else>Picture Not Available</div>
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -71,14 +74,16 @@
       ></v-btn>
       <v-btn
         :text="!picture ? 'Show Picture' : 'Hide Picture'"
-        @click="picture = !picture"
+        @click="togglePicture"
       ></v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
-const cViewerStore = useViewerStore();
+const surveyDataStore = useSurveyDataStore();
+const emit = defineEmits(["close", "toggle-picture"]); // tambahkan event baru
+
 import { computed } from "vue";
 const expand = ref(true);
 const picture = ref(false);
@@ -97,6 +102,10 @@ const props = defineProps({
   },
 });
 
+const togglePicture = () => {
+  picture.value = !picture.value;
+  emit("toggle-picture", picture.value);
+};
 // Logika fallback: Jika fields kosong, generate field dari key object
 const computedFields = computed(() => {
   if (props.fields.length > 0) {
@@ -112,7 +121,7 @@ const computedFields = computed(() => {
 </script>
 <style scoped>
 .scroll-container {
-  max-height: 60vh; /* Atur sesuai kebutuhan */
+  max-height: 40vh; /* Atur sesuai kebutuhan */
   overflow-y: auto;
 }
 </style>

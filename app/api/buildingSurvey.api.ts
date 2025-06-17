@@ -32,4 +32,7 @@ export default {
       "Content-Type": "multipart/form-data",
     });
   },
+  get_building_by_uuid: async (id: string) => {
+    return apiGetData(`${mainPath}/by-fid/${id}`);
+  },
 };

@@ -1,3 +1,4 @@
+import buildingSurveyApi from "~/app/api/buildingSurvey.api";
 import surveyApi from "~/app/api/survey.api";
 import vectorsApi from "~/app/api/vectors.api";
 import { useFormDialog } from "~/composables/useFormDialog";
@@ -49,6 +50,13 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
     });
     dataVectorBangunan.value = resp.data;
   };
+  const selectedData = ref({});
+  const getDataDetail = async (id: string) => {
+    selectedData.value = {};
+    const resp = await buildingSurveyApi.get_building_by_uuid(id);
+    selectedData.value = resp;
+    console.log(resp);
+  };
   const leafletMap = useLeaflet();
   return {
     getDataPersil,
@@ -64,6 +72,9 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
 
     getDataVectorBangunan,
     dataVectorBangunan,
+    getDataDetail,
+
+    selectedData,
   };
 });
 
