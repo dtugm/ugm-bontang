@@ -37,7 +37,7 @@
     <!-- <AppInputText label="LOD" type="number" v-model="uploadForm.lod" /> -->
     <AppInputAutocomplete
       label="Category"
-      :items="['land_parcel', 'building']"
+      :items="['land_parcel', 'building', 'digitization']"
       v-model="uploadForm.category"
     />
     <AppInputAutocomplete

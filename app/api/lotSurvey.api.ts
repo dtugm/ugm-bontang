@@ -18,7 +18,10 @@ export default {
     return apiGetData(`${mainPath}/summary`, payload);
   },
   post_lot_survey_monitorings: async (payload: any) => {
-    return apiPostData(`${mainPath}`, payload, {
+    const formData = new FormData();
+    formData.append("images", payload.images);
+    formData.append("data", JSON.stringify(payload.data));
+    return apiPostData(`${mainPath}`, formData, {
       "Content-Type": "multipart/form-data",
     });
   },

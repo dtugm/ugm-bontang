@@ -34,7 +34,9 @@
 import buildingSurveyApi from "../app/api/buildingSurvey.api";
 import surveyApi from "~/app/api/survey.api";
 import kodeConstant from "~/app/constant/kode.constant";
+import SurveyLapanganConstant from "~/app/constant/SurveyLapangan.constant";
 import { mapStores } from "pinia";
+import lotSurveyApi from "~/app/api/lotSurvey.api";
 export default {
   data() {
     return {
@@ -101,18 +103,17 @@ export default {
 
       for (const feature of this.propertiesArray) {
         const floorValue = feature.JML_LANTAI;
-        const fileName = (feature?.F_BGN || "").split("/").pop();
+        const fileName = (feature?.FOTO_WWC || "").split("/").pop();
         const matchedImage = this.images.find((img) => img.name === fileName);
-        const payload = {
+        const payloadBgn = {
           images: matchedImage ?? null,
           data: {
             fid: feature.UUID,
-            uuid_bgn: feature.UUID,
             province: "Kalimantan Timur",
             city: "Bontang",
             district: "Bontang Utara",
             village: "Bontang Baru",
-            // status: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+            status: kodeConstant.UPDATE[feature.UPDATE] ?? null,
             buildingUpdate: kodeConstant.UPDATE[feature.UPDATE] ?? null,
             floorCount:
               floorValue == null || Number(floorValue) === 0
@@ -123,7 +124,25 @@ export default {
             newTaxObjectNumber: feature.NOP_BARU,
           },
         };
-        data.push(payload);
+        const payloadParcel = {
+          images: matchedImage ?? null,
+          data: {
+            fid: feature.UUID,
+            province: "Kalimantan Timur",
+            city: "Bontang",
+            district: "Bontang Utara",
+            village: "Bontang Baru",
+            taxObjectAddress: feature.ALAMAT_OP,
+            taxPayerName: feature.NAMA_WP,
+            citizenId: feature.NIK,
+            buildingTotal: feature.JML_BGN,
+            rt: feature.RT,
+            rw: feature.RW,
+            taxObjectNumber: feature.NOP,
+            newTaxObjectNumber: feature.NOP_BARU,
+          },
+        };
+        data.push(payloadParcel);
         // await this.buildingDataStore.uploadBuildingData(pyld);
 
         if (matchedImage) {
@@ -143,33 +162,65 @@ export default {
         const uploadPromises = batch.map(async (feature) => {
           try {
             const floorValue = feature.JML_LANTAI;
-            const fileName = (feature?.F_BGN || "").split("/").pop();
+            const fileName = (feature?.FOTO_WWC || "").split("/").pop();
             const matchedImage = this.images.find(
               (img) => img.name === fileName
             );
-
-            const payload = {
+            const payloadParcel = {
               images: matchedImage ?? null,
               data: {
                 fid: feature.UUID,
-                uuid_bgn: feature.UUID,
                 province: "Kalimantan Timur",
                 city: "Bontang",
                 district: "Bontang Utara",
                 village: "Bontang Baru",
-                // status: kodeConstant.UPDATE[feature.UPDATE] ?? null,
-                buildingUpdate: kodeConstant.UPDATE[feature.UPDATE] ?? null,
-                floorCount:
-                  floorValue == null || Number(floorValue) === 0
-                    ? null
-                    : Number(floorValue),
-                address: feature.ALAMAT_BGN,
+                taxObjectAddress: feature.ALAMAT_OP,
+                taxPayerName: feature.NAMA_WP,
+                citizenId: feature.NIK_WP,
+                status:
+                  SurveyLapanganConstant.statusMapAngka[
+                    Number(feature.KODE_WWC)
+                  ] ?? null,
+                buildingTotal: feature.JML_BGN,
+                rt: feature.RT,
+                rw: feature.RW,
+                phoneNumber1: feature.NOHP_WP,
+                phoneNumber2: feature.NOHP_UPDT,
                 taxObjectNumber: feature.NOP,
                 newTaxObjectNumber: feature.NOP_BARU,
+                rigthNumber: feature.NOMOR_HAK,
+                l_bumi: feature.L_BUMI,
+                l_tertul: feature.LUASTERTUL,
+                nib: feature.NIB,
+                landType: feature.JENIS_TNH,
+                twoWheelVehicleTotal: feature.JML_KDR2,
+                fourWheelVehicleTotal: feature.JML_KDR4,
+                ketSrtf: feature.KET_SRTF,
               },
             };
+            // const payload = {
+            //   images: matchedImage ?? null,
+            //   data: {
+            //     fid: feature.UUID,
+            //     uuid_bgn: feature.UUID,
+            //     province: "Kalimantan Timur",
+            //     city: "Bontang",
+            //     district: "Bontang Utara",
+            //     village: "Bontang Baru",
+            //     // status: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+            //     buildingUpdate: kodeConstant.UPDATE[feature.UPDATE] ?? null,
+            //     floorCount:
+            //       floorValue == null || Number(floorValue) === 0
+            //         ? null
+            //         : Number(floorValue),
+            //     address: feature.ALAMAT_BGN,
+            //     taxObjectNumber: feature.NOP,
+            //     newTaxObjectNumber: feature.NOP_BARU,
+            //   },
+            // };
 
-            await this.buildingDataStore.uploadBuildingData(payload);
+            // await this.buildingDataStore.uploadBuildingData(payload);
+            await lotSurveyApi.post_lot_survey_monitorings(payloadParcel);
           } catch (error) {
             console.error("Gagal upload data:", error);
           }

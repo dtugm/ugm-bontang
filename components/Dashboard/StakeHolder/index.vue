@@ -1,14 +1,18 @@
+<script setup lang="ts">
+// import { MonitoringSurveyPbbOptimized } from "#components";
+</script>
+
 <template>
   <v-container fluid class="h-full">
     <DashboardStakeHolderProgressKeseluruhan />
-    <!-- <v-row>
+    <v-row>
       <v-col cols="12" sm="12">
-        <div class="h-[700px] rounded-md">
-          <MonitoringSurveyPbb />
+        <div class="h-[500px] rounded-md">
+          <MonitoringSurveyPbbOptimized />
         </div>
-        <DashboardStakeHolderScurve />
+        <!-- <DashboardStakeHolderScurve /> -->
       </v-col>
-    </v-row> -->
+    </v-row>
     <DashboardStakeHolderProgressPbb />
 
     <!-- <v-row>

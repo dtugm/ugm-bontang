@@ -1,5 +1,13 @@
 <template>
   <v-list>
+    <v-list-item>
+      <v-img
+        :width="200"
+        aspect-ratio="16/9"
+        cover
+        src="/logo/logo_bontang_2.png"
+      ></v-img>
+    </v-list-item>
     <!-- <v-list-item
       prepend-icon="mdi-account"
       :title="`${authStore.user.firstName} ${authStore.user.lastName}`"
