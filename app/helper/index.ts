@@ -46,6 +46,12 @@ export const apiGetData = async (url: string, params = {}, config = {}) => {
     return response.data;
   } catch (error: any) {
     console.error("API Get Error:", error?.response?.data || error.message);
+    const status = error?.response?.status;
+    if (status === 401) {
+      sessionStorage.removeItem("token");
+      window.location.href = "/auth/login";
+    }
+
     throw error;
   }
 };
