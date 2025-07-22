@@ -8,6 +8,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     const resp = await tiles3DApi.get_all_3d_tiles();
     tiles3dItems.value = resp;
     isFetchingData.value = false;
+    return resp;
   };
 
   const upload3dTiles = async (payload: IUpload3dTilesPayload) => {
