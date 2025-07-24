@@ -9,6 +9,10 @@ export default defineNuxtConfig({
           rel: "stylesheet",
           href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap",
         },
+        {
+          rel: "stylesheet",
+          href: "https://unpkg.com/cesium/Build/Cesium/Widgets/widgets.css",
+        },
       ],
     },
   },
@@ -51,6 +55,9 @@ export default defineNuxtConfig({
     plugins: [
       vuetify({ autoImport: true }), // Enabled by default
     ],
+    optimizeDeps: {
+      include: ["vue-cesium"],
+    },
   },
   vuefire: {
     auth: {
