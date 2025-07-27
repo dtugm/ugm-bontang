@@ -1,19 +1,15 @@
 <template>
   <ClientOnly>
-    <vc-viewer ref="refViewer" @ready="onViewerReady">
+    <vc-viewer ref="refViewer" @ready="onViewerReady" :show-credit="false">
       <vc-layer-imagery>
         <vc-imagery-provider-osm />
       </vc-layer-imagery>
-
-      <vc-my-location
-        position="top-left"
-        :offset="[60, 0]"
-        :custom-a-p-i="
-          () => ({ lng: 117.4862540730994, lat: 0.16434345896876157 })
-        "
-      ></vc-my-location>
-      <vc-viewer-camera :position="cameraPosition" />
-
+      <vc-layer-imagery>
+        <!-- <vc-imagery-provider-urltemplate
+          ref="provider"
+          url="https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{reverseY}.png"
+        ></vc-imagery-provider-urltemplate> -->
+      </vc-layer-imagery>
       <vc-primitive-tileset
         ref="primitive"
         url="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Masjid%20Terapung%20Darul%20Irsyad%20Al%20Muhajirin/tileset.json"
@@ -29,42 +25,92 @@
         ref="provider"
         :assetId="3338372"
       ></vc-terrain-provider-cesium>
-      <vc-tileset
-        :url="osmUrl"
-        maximumScreenSpaceError="2"
-        maximumMemoryUsage="512"
-      />
     </vc-viewer>
   </ClientOnly>
 </template>
 
 <script setup lang="ts">
+import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
 const refViewer = ref(null);
 const tiles3dStore = use3dTilesStore();
-const tilesArr = ref([]);
+const tilesArr: any = ref([]);
+const primitive = ref();
+const featureId = ref("");
+let highlightedFeature: any = null;
+let originalHoverColor: any = null;
+let selectedFeature: any = null;
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
+  viewer.camera.setView({
+    destination: Cesium.Cartesian3.fromDegrees(
+      117.49144533245031,
+      0.13273319760632002,
+      150
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-20),
+      roll: 0,
+    },
+  });
   viewer.scene.globe.depthTestAgainstTerrain = true;
+  const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+  handler.setInputAction((movement: any) => {
+    const pickedFeature = viewer.scene.pick(movement.endPosition);
+    if (
+      Cesium.defined(pickedFeature) &&
+      pickedFeature instanceof Cesium.Cesium3DTileFeature
+    ) {
+      if (selectedFeature === pickedFeature) return;
+      if (
+        Cesium.defined(highlightedFeature) &&
+        highlightedFeature !== selectedFeature
+      ) {
+        highlightedFeature.color = originalHoverColor;
+      }
+      highlightedFeature = pickedFeature;
+      originalHoverColor = Cesium.Color.clone(
+        pickedFeature.color,
+        new Cesium.Color()
+      );
+      pickedFeature.color = Cesium.Color.YELLOW;
+    } else {
+      if (
+        Cesium.defined(highlightedFeature) &&
+        highlightedFeature !== selectedFeature
+      ) {
+        highlightedFeature.color = originalHoverColor;
+        highlightedFeature = null;
+      }
+    }
+  }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+  handler.setInputAction((movement: any) => {
+    const pickedFeature = viewer.scene.pick(movement.position);
+    if (
+      Cesium.defined(pickedFeature) &&
+      pickedFeature instanceof Cesium.Cesium3DTileFeature
+    ) {
+      if (Cesium.defined(highlightedFeature)) {
+        highlightedFeature.color = originalHoverColor;
+        highlightedFeature = null;
+      }
+      if (Cesium.defined(selectedFeature)) {
+        selectedFeature.color = Cesium.Color.WHITE.withAlpha(1.0);
+      }
+      selectedFeature = pickedFeature;
+      pickedFeature.color = Cesium.Color.BLUE.withAlpha(0.8);
+      if (Cesium.defined(highlightedFeature)) {
+        highlightedFeature.color = originalHoverColor;
+        highlightedFeature = null;
+      }
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 onMounted(async () => {
   const resp = await tiles3dStore.getAll3dTiles();
   console.log(resp);
   tilesArr.value = resp;
 });
-// Koordinat Jakarta
-const cameraPosition = {
-  lng: 106.8272, // longitude Jakarta
-  lat: -6.1754, // latitude Jakarta
-  height: 1500, // dalam meter
-};
-
-// Gunakan token Cesium Ion (ganti dengan milikmu)
-const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhOTlhZjlmZi0yMDM0LTQwNGEtODQ4NS03ZDRkZTUzYWUxMTIiLCJpZCI6MTkwMjU4LCJpYXQiOjE3MjQ3NzM1NzZ9.Kzanw-wRspiVed64_lT34o2ouploxv6JRu0K16WkpgU";
-const assetId = 96188; // OSM Buildings
-
-// URL 3D Tileset dari Cesium Ion
-const osmUrl = `https://assets.cesium.com/${assetId}/tileset.json?access_token=${accessToken}`;
 </script>
