@@ -1,51 +1,53 @@
 <template>
-  <v-container
-    width="500"
-    class="shadow-md md:shadow-none rounded-md py-12 px-5 lg:px-15"
-  >
-    <div class="pb-5 justify-center flex flex-col items-center mb-5">
-      <AppTextH2 class="text-[25px]" color="secondary"
-        >Welcome to
-        <span class="text-primary">Dashboard Monitoring</span></AppTextH2
-      >
-      <p>Pekerjaan Validasi Data PBB Kota Bontang</p>
-    </div>
-    <v-form id="login-form">
-      <v-text-field
-        v-model="username"
-        label="Email/Username"
-        density="compact"
-        variant="outlined"
-      ></v-text-field>
-      <v-text-field
-        :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
-        v-model="password"
-        label="Password"
-        density="compact"
-        variant="outlined"
-        :type="visible ? 'text' : 'password'"
-        @click:append-inner="visible = !visible"
-      ></v-text-field>
-      <div class="flex flex-col gap-2">
-        <AppButton
-          :loading="isLoading"
-          color="tertiary"
-          @click="do_login"
-          label="Sign In"
-          class="w-full"
-        />
+  <v-card width="500">
+    <v-card-text>
+      <div class="justify-center flex flex-col items-center mb-5">
+        <AppTextH2 class="text-[25px]" color="secondary"
+          >Welcome to
+          <span class="text-primary">Dashboard Monitoring</span></AppTextH2
+        >
+        <p>Pekerjaan Validasi Data PBB Kota Bontang</p>
       </div>
-    </v-form>
-    <diva class="flex mt-5">
-      <v-img
-        height="75"
-        class="bg-white"
-        src="/logo/Logo_Typography_1.png"
-      ></v-img>
-    </diva>
-  </v-container>
+      <v-form id="login-form">
+        <v-text-field
+          v-model="username"
+          label="Email/Username"
+          density="compact"
+          variant="outlined"
+        ></v-text-field>
+        <v-text-field
+          :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
+          v-model="password"
+          label="Password"
+          density="compact"
+          variant="outlined"
+          :type="visible ? 'text' : 'password'"
+          @click:append-inner="visible = !visible"
+        ></v-text-field>
+        <div class="flex flex-col gap-2">
+          <AppButton
+            :loading="isLoading"
+            color="tertiary"
+            @click="do_login"
+            label="Sign In"
+            class="w-full"
+          />
+        </div>
+      </v-form>
+      <div class="flex mt-5">
+        <v-img
+          height="75"
+          class="bg-white"
+          src="/logo/Logo_Typography_1.png"
+        ></v-img>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 <script setup lang="ts">
+definePageMeta({
+  layout: "auth",
+});
 const appStore = useAppStore();
 const authenticationStore = useAuthenticationStore();
 const username = ref("");
@@ -68,11 +70,6 @@ const do_login = async () => {
     appStore.toastError("Login Failed");
   }
 };
-
 const isLoading = ref(false);
-
-definePageMeta({
-  layout: "auth",
-});
 const visible = ref(false);
 </script>

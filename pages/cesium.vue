@@ -4,7 +4,7 @@
       <vc-layer-imagery>
         <vc-imagery-provider-osm />
       </vc-layer-imagery>
-      <!-- <vc-navigation position="top-left"></vc-navigation> -->
+
       <vc-my-location
         position="top-left"
         :offset="[60, 0]"
@@ -13,10 +13,7 @@
         "
       ></vc-my-location>
       <vc-viewer-camera :position="cameraPosition" />
-      <!-- <vc-primitive-tileset
-        ref="primitive"
-        :assetId="96188"
-      ></vc-primitive-tileset> -->
+
       <vc-primitive-tileset
         ref="primitive"
         url="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Masjid%20Terapung%20Darul%20Irsyad%20Al%20Muhajirin/tileset.json"
@@ -42,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 definePageMeta({
   layout: "viewer",
 });
