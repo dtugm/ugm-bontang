@@ -11,23 +11,33 @@ export default {
       { title: "Actions", key: "action" },
     ],
   },
+
   table_data: {
     headers: [
       { title: "No", key: "no" },
-      //   { title: "UUID", key: "fid" },
-      //   { title: "UUID_BGN", key: "uuid_bgn" },
       { title: "Province", key: "province" },
       { title: "City", key: "city" },
       { title: "Kecamatan", key: "district" },
       { title: "Kelurahan", key: "village" },
       { title: "Status", key: "status" },
-
       { title: "NOP", key: "taxObjectNumber" },
       { title: "NOP BARU", key: "newTaxObjectNumber" },
       { title: "Update", key: "buildingUpdate" },
       { title: "Actions", key: "action" },
     ],
   },
+  land_parcel_table: {
+    headers: [
+      { title: "No", key: "no" },
+      { title: "Kelurahan", key: "village" },
+      { title: "Nomor Objek Pajak", key: "taxObjectNumber" },
+      { title: "Nama Wajib Pajak", key: "taxPayerName" },
+      { title: "NIB", key: "nib" },
+      { title: "UUID Persil", key: "fid" },
+      { title: "Actions", key: "action" },
+    ],
+  },
+
   table_collection: {
     headers: [
       { title: "No", key: "no" },
