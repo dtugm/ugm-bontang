@@ -254,6 +254,22 @@ export default {
     },
     {
       prepend_icon: "mdi-monitor-dashboard",
+      title: "Survey Data Store",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-map",
+          title: "Land Parcel",
+          path: "/data/land_parcel",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Building",
+          path: "/data/building",
+        },
+      ],
+    },
+    {
+      prepend_icon: "mdi-monitor-dashboard",
       title: "Groups",
       path: "/groups",
     },
