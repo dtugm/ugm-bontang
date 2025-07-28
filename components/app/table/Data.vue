@@ -40,7 +40,7 @@
     <v-data-table-server
       v-model:items-per-page="readData.tableData.itemsPerPage"
       :items-per-page-options="itemsPerPageOptions"
-      class="pt-1 header-theme"
+      class="header-theme rounded-lg border mt-1"
       multi-sort
       :headers="readData.tableData.headers"
       :items-length="readData.tableData.totalItems"
