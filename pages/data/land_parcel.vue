@@ -13,15 +13,25 @@
         />
       </div>
     </template>
-    <template #item.action>
+    <template #item.action="{ item }">
       <div>
+        <AppButtonIcon @click="previewImage(item)" icon="mdi-eye" />
         <AppButtonIcon icon="mdi-pencil" />
         <AppButtonIcon icon="mdi-delete" />
       </div>
     </template>
   </AppTableData>
+  <AppDialog v-model="dialog">
+    <v-img :src="imageUrlPreview"> </v-img>
+  </AppDialog>
 </template>
 <script lang="ts" setup>
+const imageUrlPreview = ref();
+const dialog = ref(false);
+const previewImage = (item: any) => {
+  dialog.value = true;
+  imageUrlPreview.value = item.imageUrls[0];
+};
 const landParcelStore = useLandParcelStore();
 const addLandParcel = () => {
   navigateTo("/data/add_land_parcel");
