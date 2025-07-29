@@ -1,7 +1,5 @@
 <template>
   <div class="min-h-screen">
-    <!-- {{ userInGroup(authStore.user.groups, "stakeholder") }}
-    {{ authStore.user.groups }} -->
     <Superadmin
       v-if="usersConstant.superadmin_user.includes(authStore.user.email)"
     />
@@ -24,21 +22,4 @@ const isStakeholder = computed(() => {
     (group: any) => group.name.toLowerCase() === "stakeholder"
   );
 });
-// import surveyApi from "~/app/api/survey.api";
-// const testGet = async () => {
-//   const formData = new FormData();
-//   formData.append(
-//     "data",
-//     JSON.stringify({
-//       fid: "mock-fid",
-//       taxObjectAddress: "mock-address",
-//       ownerType: "PUBLIC_FACILITY",
-//       province: "Bontang",
-//       status: "ACCURATE",
-//       taxPayerName: "mock-taxPayerName",
-//       polygonId: "mock-polygon",
-//     })
-//   );
-//   await surveyApi.post_lot_survey_monitorings(formData);
-// };
 </script>

@@ -1,13 +1,4 @@
 <template>
-  <AppCardViewerDetail
-    :title="'Detail User'"
-    :value="{
-      name: 'Dhias Naufal',
-      email: 'dhias@example.com',
-      phone: '08123456789',
-    }"
-  />
-  <SuperadminVectors />
   <AppTableBasic
     :items="userStore.usersList"
     :headers="usersListHeader"

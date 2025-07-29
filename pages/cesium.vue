@@ -56,6 +56,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     },
   });
   viewer.scene.globe.depthTestAgainstTerrain = true;
+
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   handler.setInputAction((movement: any) => {
     const pickedFeature = viewer.scene.pick(movement.endPosition);

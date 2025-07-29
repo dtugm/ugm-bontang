@@ -8,10 +8,9 @@
       <div class="flex gap-1">
         <AppButton
           variant="outlined"
-          label="Add"
-          @click="landParcelStore.createData.openDialog"
+          label="Add Land Parcel"
+          @click="addLandParcel"
         />
-        <AppButton color="tertiary" label="Bulk Add" />
       </div>
     </template>
     <template #item.action>
@@ -21,14 +20,10 @@
       </div>
     </template>
   </AppTableData>
-  <AppDialogForm
-    title="Add Activity"
-    submit-text="Save"
-    :basic-form-dialog="landParcelStore.createData"
-    :basic-form-inputs="landParcelStore.createFormInputs"
-    @submit="landParcelStore.createData.submit"
-  />
 </template>
 <script lang="ts" setup>
 const landParcelStore = useLandParcelStore();
+const addLandParcel = () => {
+  navigateTo("/data/add_land_parcel");
+};
 </script>

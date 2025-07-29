@@ -25,6 +25,14 @@ export default {
       "Content-Type": "multipart/form-data",
     });
   },
+  EditMonitoring: async (payload: any, id: string) => {
+    const formData = new FormData();
+    formData.append("images", payload.images);
+    formData.append("data", JSON.stringify(payload.data));
+    return apiPutData(`${mainPath}/${id}`, formData, {
+      "Content-Type": "multipart/form-data",
+    });
+  },
   put_lot_survey_monitorings: async (payload: any, id: string) => {
     return apiPutData(`${mainPath}/${id}`, payload, {
       "Content-Type": "multipart/form-data",

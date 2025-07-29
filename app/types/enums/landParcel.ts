@@ -25,6 +25,7 @@ export enum TaxPayerCode {
   TAX_PAYER_CHANGED_GOVERNMENT_LAND = "TAX_PAYER_CHANGED_GOVERNMENT_LAND", // Wajib pajak berubah (tanah pemerintah)
   TAX_PAYER_CHANGED_PUBLIC_FACILITY = "TAX_PAYER_CHANGED_PUBLIC_FACILITY", // Wajib pajak berubah (fasilitas umum)
   NO_INFORMATION = "NO_INFORMATION", // Tidak ada kejelasan
+  NEW = "NEW",
 }
 
 // Kode OP
@@ -57,4 +58,11 @@ export enum LandType {
   EMPTY_LAND = "EMPTY_LAND", // Tanah Kosong
   PUBLIC_FACILITY = "PUBLIC_FACILITY", // Fasilitas Umum
   GOVERNMENT_LAND = "GOVERNMENT_LAND", // Tanah Pemerintah
+}
+
+export enum STAWPOP {
+  MENEMPATI = "Menempati di Objek Pajak",
+  MENYEWAKAN = "Menyewakan Objek Pajak",
+  SEBAGAI_PEMILIK = "Sebagai Pemilik (Tidak Menempati)",
+  TIDAK_JELAS = "Tidak Jelas",
 }
