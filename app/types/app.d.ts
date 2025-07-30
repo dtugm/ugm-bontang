@@ -85,3 +85,7 @@ declare interface IFormInput {
 declare type TFormInputs<TPayloadOrParams> = {
   [K in keyof TPayloadOrParams]?: IFormInput;
 };
+
+declare interface IPathId extends Record<string, string> {
+  id: string;
+}
