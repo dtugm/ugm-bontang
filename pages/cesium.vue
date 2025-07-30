@@ -8,7 +8,7 @@
       <div class="absolute top-0 w-full z-10 space-y-2 bg-black text-center">
         Digital Twin Bontang
       </div>
-      <div class="absolute top-4 left-5 z-10 space-y-2 mt-4">
+      <div class="absolute top-4 left-5 z-10 mt-4">
         <AppInputAutocomplete
           label="Location"
           class="w-[300px]"
@@ -20,10 +20,28 @@
             <v-icon color="tertiary">mdi-google-maps</v-icon>
           </template>
         </AppInputAutocomplete>
-        <v-btn @click="filterTileset" color="primary">Filter Bangunan</v-btn>
-        <v-btn @click="showAllTileset" color="primary">Show Bangunan</v-btn>
       </div>
-      <vc-viewer ref="refViewer" @ready="onViewerReady" :show-credit="false">
+
+      <div class="absolute top-4 right-5 z-10 mt-4">
+        <CesiumFeature :tile-refs="tileRefs" />
+      </div>
+
+      <CesiumOverlayFeature />
+
+      <vc-viewer
+        ref="refViewer"
+        @ready="onViewerReady"
+        :show-credit="false"
+        :infoBox="false"
+      >
+        <vc-navigation
+          position="top-right"
+          :offset="[0, 60]"
+          :printOpts="false"
+          :locationOpts="false"
+          :zoom-opts="zoomOptions"
+        >
+        </vc-navigation>
         <vc-layer-imagery>
           <vc-imagery-provider-osm />
         </vc-layer-imagery>
@@ -50,35 +68,58 @@ import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
-const refViewer: any = ref(null);
 const tiles3dStore = use3dTilesStore();
 const tilesArr: any = ref([]);
-const primitive = ref();
-const featureId = ref("");
-const tileRefs = ref<Cesium.Cesium3DTileset[]>([]);
 
+// Viewer Ref
+const refViewer: any = ref(null);
+
+// Tiles Ref
+const tileRefs = ref<Cesium.Cesium3DTileset[]>([]);
 const setTileRefs = (el: any) => {
   if (el?.cesiumObject && !tileRefs.value.includes(el.cesiumObject)) {
     tileRefs.value.push(el.cesiumObject);
   }
 };
-const isLoading = ref(true);
+
+// Navigation Options
+const zoomOptions = {
+  direction: "horizontal",
+  defaultResetView: {
+    position: {
+      lng: 117.49144533245031,
+      lat: 0.13273319760632002,
+      height: 200,
+    },
+    heading: Cesium.Math.toRadians(0),
+    pitch: Cesium.Math.toRadians(-1000),
+    roll: 0,
+  },
+};
+// Loading Coindition
 const terrainReady = ref(false);
 const tilesetsReady = ref(false);
 const viewerRaady = ref(false);
+const isLoading = ref(true);
 
 function checkAllReady() {
   if (terrainReady.value && tilesetsReady.value && viewerRaady.value) {
     isLoading.value = false;
   }
 }
+
 const onTerrainReady = () => {
   terrainReady.value = true;
   checkAllReady();
 };
+
 let highlightedFeature: any = null;
 let originalHoverColor: any = null;
 let selectedFeature: any = null;
+
+const getDetailBangunan = async (gmlid: string) => {
+  await tiles3dStore.getDetailBuilding(gmlid);
+};
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   viewer.camera.setView({
     destination: Cesium.Cartesian3.fromDegrees(
@@ -145,6 +186,8 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
         highlightedFeature.color = originalHoverColor;
         highlightedFeature = null;
       }
+      const gmlId = pickedFeature.getProperty("gml:id");
+      getDetailBangunan(gmlId);
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };

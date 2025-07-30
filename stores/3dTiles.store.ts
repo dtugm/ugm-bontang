@@ -1,3 +1,4 @@
+import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
 import tiles3DApi from "~/app/api/tiles3D.api";
 
 export const use3dTilesStore = defineStore("3dTiles", () => {
@@ -18,11 +19,34 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
   const delete3dTiles = async (id: string) => {
     const resp = await tiles3DApi.delete_3d_tiles(id);
   };
+
+  const popUpBuildingBuilding = ref(false);
+  const buildingAttribute = ref({});
+  const attrLoading = ref(false);
+  const getDetailBuilding = async (uuidBgn: string) => {
+    attrLoading.value = true;
+    popUpBuildingBuilding.value = true;
+    try {
+      const resp =
+        await buildingSurveyMonitoringsApi.get_building_survey_by_uuid({
+          uuidBgn: uuidBgn,
+        });
+      buildingAttribute.value = resp;
+    } catch (error) {
+      buildingAttribute.value = {};
+    }
+    attrLoading.value = false;
+  };
   return {
     getAll3dTiles,
     tiles3dItems,
     upload3dTiles,
     delete3dTiles,
     isFetchingData,
+    getDetailBuilding,
+
+    popUpBuildingBuilding,
+    buildingAttribute,
+    attrLoading,
   };
 });

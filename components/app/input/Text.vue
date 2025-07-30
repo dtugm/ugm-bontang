@@ -14,6 +14,9 @@
       :placeholder="placeholder || `Enter ${label}`"
       @update:model-value="emit('update:modelValue', $event)"
     >
+      <template #prepend-inner>
+        <slot name="prepend-inner" />
+      </template>
     </v-text-field>
   </div>
 </template>
