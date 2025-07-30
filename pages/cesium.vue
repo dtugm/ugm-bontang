@@ -1,31 +1,47 @@
 <template>
   <ClientOnly>
-    <vc-viewer ref="refViewer" @ready="onViewerReady" :show-credit="false">
-      <vc-layer-imagery>
-        <vc-imagery-provider-osm />
-      </vc-layer-imagery>
-      <vc-layer-imagery>
-        <!-- <vc-imagery-provider-urltemplate
+    <div v-if="isLoading" class="overlay-loading flex flex-col">
+      <v-progress-circular indeterminate color="white" size="64" />
+      <p class="text-white">Please wait...</p>
+    </div>
+    <div class="viewer-container relative w-full h-screen">
+      <div class="absolute top-0 w-full z-10 space-y-2 bg-black text-center">
+        Digital Twin Bontang
+      </div>
+      <div class="absolute top-4 left-5 z-10 space-y-2 mt-4">
+        <AppInputAutocomplete
+          label="Location"
+          class="w-[300px]"
+          is-filter
+          elevation="2"
+          append-inner-icon="mdi-magnify"
+        >
+          <template #prepend-inner>
+            <v-icon color="tertiary">mdi-google-maps</v-icon>
+          </template>
+        </AppInputAutocomplete>
+        <v-btn @click="filterTileset" color="primary">Filter Bangunan</v-btn>
+        <v-btn @click="showAllTileset" color="primary">Show Bangunan</v-btn>
+      </div>
+      <vc-viewer ref="refViewer" @ready="onViewerReady" :show-credit="false">
+        <vc-layer-imagery>
+          <vc-imagery-provider-osm />
+        </vc-layer-imagery>
+
+        <vc-primitive-tileset
+          v-for="(item, index) in tilesArr"
+          :key="index"
+          :ref="setTileRefs"
+          :url="item.url"
+          :maximumScreenSpaceError="32"
+        />
+        <vc-terrain-provider-cesium
           ref="provider"
-          url="https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{reverseY}.png"
-        ></vc-imagery-provider-urltemplate> -->
-      </vc-layer-imagery>
-      <vc-primitive-tileset
-        ref="primitive"
-        url="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Masjid%20Terapung%20Darul%20Irsyad%20Al%20Muhajirin/tileset.json"
-      ></vc-primitive-tileset>
-      <vc-primitive-tileset
-        v-for="(item, index) in tilesArr"
-        :key="index"
-        ref="primitive"
-        :url="item.url"
-        maximumScreenSpaceError="32"
-      ></vc-primitive-tileset>
-      <vc-terrain-provider-cesium
-        ref="provider"
-        :assetId="3338372"
-      ></vc-terrain-provider-cesium>
-    </vc-viewer>
+          :assetId="3338372"
+          @ready="onTerrainReady"
+        />
+      </vc-viewer>
+    </div>
   </ClientOnly>
 </template>
 
@@ -34,11 +50,32 @@ import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
-const refViewer = ref(null);
+const refViewer: any = ref(null);
 const tiles3dStore = use3dTilesStore();
 const tilesArr: any = ref([]);
 const primitive = ref();
 const featureId = ref("");
+const tileRefs = ref<Cesium.Cesium3DTileset[]>([]);
+
+const setTileRefs = (el: any) => {
+  if (el?.cesiumObject && !tileRefs.value.includes(el.cesiumObject)) {
+    tileRefs.value.push(el.cesiumObject);
+  }
+};
+const isLoading = ref(true);
+const terrainReady = ref(false);
+const tilesetsReady = ref(false);
+const viewerRaady = ref(false);
+
+function checkAllReady() {
+  if (terrainReady.value && tilesetsReady.value && viewerRaady.value) {
+    isLoading.value = false;
+  }
+}
+const onTerrainReady = () => {
+  terrainReady.value = true;
+  checkAllReady();
+};
 let highlightedFeature: any = null;
 let originalHoverColor: any = null;
 let selectedFeature: any = null;
@@ -47,7 +84,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     destination: Cesium.Cartesian3.fromDegrees(
       117.49144533245031,
       0.13273319760632002,
-      150
+      200
     ),
     orientation: {
       heading: Cesium.Math.toRadians(0),
@@ -58,6 +95,8 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   viewer.scene.globe.depthTestAgainstTerrain = true;
 
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+  viewerRaady.value = true;
+  checkAllReady();
   handler.setInputAction((movement: any) => {
     const pickedFeature = viewer.scene.pick(movement.endPosition);
     if (
@@ -113,5 +152,58 @@ onMounted(async () => {
   const resp = await tiles3dStore.getAll3dTiles();
   console.log(resp);
   tilesArr.value = resp;
+  await nextTick();
+  tilesetsReady.value = true;
+  checkAllReady();
 });
+function filterTileset() {
+  const idsToShow = ["BB_15062025-AAAA-04757-GeoAI02-077C3EF"];
+  console.log(tileRefs.value);
+  tileRefs.value.forEach((tileset) => {
+    tileset.tileVisible.addEventListener(function (tile) {
+      const content = tile.content;
+      const featuresLength = content.featuresLength;
+
+      for (let i = 0; i < featuresLength; i++) {
+        const feature = content.getFeature(i);
+        const featureId = feature.getProperty("gml:id");
+
+        feature.show = idsToShow.includes(featureId);
+      }
+    });
+  });
+}
+
+function showAllTileset() {
+  tileRefs.value.forEach((tileset) => {
+    tileset.tileVisible.addEventListener(function (tile) {
+      const content = tile.content;
+      const featuresLength = content.featuresLength;
+
+      for (let i = 0; i < featuresLength; i++) {
+        const feature = content.getFeature(i);
+        feature.show = true;
+      }
+    });
+  });
+}
 </script>
+<style scoped>
+.overlay-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* agak gelap */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.viewer-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+</style>
