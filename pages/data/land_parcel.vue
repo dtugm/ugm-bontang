@@ -12,7 +12,7 @@
           @click="addLandParcel"
         />
       </div>
-      <v-btn @click="testFunction()">Test</v-btn>
+      <!-- <v-btn @click="testFunction()">Test</v-btn> -->
     </template>
     <template #item.action="{ item }">
       <div>

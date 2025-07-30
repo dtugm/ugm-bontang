@@ -48,6 +48,11 @@
       :items="['road', 'building']"
       v-model="uploadForm.category"
     />
+    <AppInputAutocomplete
+      label="LOD"
+      :items="[1, 2]"
+      v-model="uploadForm.lod"
+    />
     <AppInputText
       label="Center X (Longitude)"
       placeholder="ex: 117.0"
@@ -84,7 +89,7 @@ const tiles3dStore = use3dTilesStore();
 tiles3dStore.getAll3dTiles();
 const uploadForm = ref<IUpload3dTilesPayload>({
   name: null,
-  // lod: 0,
+  lod: 0,
   category: null,
   status: true,
   center_x: null,

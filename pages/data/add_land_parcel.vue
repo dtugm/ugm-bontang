@@ -73,163 +73,162 @@ const op2Map: Record<string, TaxObjectCode_2> = {
   "5": TaxObjectCode_2.CONFLICT,
 };
 const submitBulk = async () => {
-  // const results = await Promise.all(
-  //   items.value.map(async (data) => {
-  //     const dataPayload = {
-  //       polygonId: data.ID,
-  //       fid: data.UUID,
-  //       province: "Kalimantan Timur",
-  //       city: "Bontang",
-  //       district: data.KECAMATAN,
-  //       village: data.KELURAHAN,
-  //       taxObjectAddress: data.ALAMAT_OP,
-  //       taxPayerName: data.NAMA_WP,
-  //       imageUrls: [
-  //         `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_WWC}`,
-  //       ],
-  //       taxObjectNumber: data.NOP,
-  //       citizenId: data.NIK_WP || "NIK_WP kosong",
-  //       taxPayerAddress: data.ALAMAT_WP,
-  //       taxPayerPhone: data.NOMOR_HP1,
-  //       buildingTotal: Number(data.JML_BGN),
-  //       taxPayerCode: wpMap[data.KODE_WP],
-  //       taxObjectCode_1: op1Map[data.KODE_OP1],
-  //       taxObjectCode_2: op2Map[data.KODE_OP2],
-  //       wwcCode: wwcMap[data.KODE_WWC],
-  //       taxStatus: "",
-  //       rt: data.RT,
-  //       rw: "",
-  //       regionCode: data.KODEWILAYA,
-  //       typeOfRight: data.TIPEHAK,
-  //       productType: data.TIPEPRODUK,
-  //       year: Number(data.TAHUN),
-  //       nib: data.NIB,
-  //       area: Number(data.LUASPETA),
-  //       landUsage: data.PENGGUNAAN,
-  //       nibel: data.NIBEL,
-  //       ketSrtf: data.KET_SRTF,
-  //       twoWheelVehicleTotal: Number(data.JML_KDR2),
-  //       fourWheelVehicleTotal: Number(data.JML_KDR4),
-  //       landType: jenisTanahMap[data.JENIS_TNH],
-  //       uuid: data.UUID,
-  //       newUuid: data.UUID_BARU,
-  //       newTaxObjectNumber: data.NOP_BARU,
-  //       phoneNumber1: data.NOMOR_HP1,
-  //       phoneNumber2: data.NOMOR_HP2,
-  //       rightNumber: data.NOMOR_HAK,
-  //       l_bumi: data.L_BUMI,
-  //       l_tertul: data.LUASTERTUL,
-  //       staWpop: staWpopMap[data.STA_WPOP],
-  //       kerjaWp: data.KERJA_WP,
-  //       kerjaWp2: data.KERJA_WP2,
-  //       pemilikSebelumnya: data.PEMILIK_PE,
-  //       pemilikAktual: data.PEMILIK_AK,
-  //       alatUkur: data.ALATUKUR,
-  //       metodeUkur: data.METODUKUR,
-  //       suratUkur: data.Surat_Ukur,
-  //       produk: data.Produk,
-  //     };
-
-  //     try {
-  //       await lotSurveyApi.post_lot_survey_monitorings({
-  //         data: dataPayload,
-  //         images: null,
-  //       });
-  //     } catch (error) {
-  //       await lotSurveyApi
-  //         .get_persil_by_fid(data.UUID)
-  //         .then(async (resp: any) => {
-  //           console.log(resp.id);
-  //           await lotSurveyApi.EditMonitoring(
-  //             {
-  //               data: dataPayload,
-  //               images: null,
-  //             },
-  //             resp.id
-  //           );
-  //         });
-  //     }
-  //   })
-  // );
-  const data = items.value[7];
-  const dataPayload = {
-    polygonId: data.ID,
-    fid: data.UUID,
-    province: "Kalimantan Timur",
-    city: "Bontang",
-    district: data.KECAMATAN,
-    village: data.KELURAHAN,
-    taxObjectAddress: data.ALAMAT_OP,
-    taxPayerName: data.NAMA_WP,
-    imageUrls: [
-      `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_WWC}`,
-    ],
-    taxObjectNumber: data.NOP,
-    citizenId: data.NIK_WP || "NIK_WP kosong",
-    taxPayerAddress: data.ALAMAT_WP,
-    taxPayerPhone: data.NOMOR_HP1,
-    buildingTotal: Number(data.JML_BGN),
-    taxPayerCode: wpMap[data.KODE_WP],
-    taxObjectCode_1: op1Map[data.KODE_OP1],
-    taxObjectCode_2: op2Map[data.KODE_OP2],
-    wwcCode: wwcMap[data.KODE_WWC],
-    taxStatus: "",
-    rt: data.RT,
-    rw: "",
-    regionCode: data.KODEWILAYA,
-    typeOfRight: data.TIPEHAK,
-    productType: data.TIPEPRODUK,
-    year: Number(data.TAHUN),
-    nib: data.NIB,
-    area: Number(data.LUASPETA),
-    landUsage: data.PENGGUNAAN,
-    nibel: data.NIBEL,
-    ketSrtf: data.KET_SRTF,
-    twoWheelVehicleTotal: Number(data.JML_KDR2),
-    fourWheelVehicleTotal: Number(data.JML_KDR4),
-    landType: jenisTanahMap[data.JENIS_TNH],
-    uuid: data.UUID,
-    newUuid: data.UUID_BARU,
-    newTaxObjectNumber: data.NOP_BARU,
-    phoneNumber1: data.NOMOR_HP1,
-    phoneNumber2: data.NOMOR_HP2,
-    rightNumber: data.NOMOR_HAK,
-    l_bumi: data.L_BUMI,
-    l_tertul: data.LUASTERTUL,
-    staWpop: staWpopMap[data.STA_WPOP],
-    kerjaWp: data.KERJA_WP,
-    kerjaWp2: data.KERJA_WP2,
-    pemilikSebelumnya: data.PEMILIK_PE,
-    pemilikAktual: data.PEMILIK_AK,
-    alatUkur: data.ALATUKUR,
-    metodeUkur: data.METODUKUR,
-    suratUkur: data.Surat_Ukur,
-    produk: data.Produk,
-  };
-  try {
-    await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
-      data: dataPayload,
-    });
-  } catch (error) {
-    await lotSurveyMonitoringsApi
-      .get_survey_by_fid({ fid: data.UUID })
-      .then(async (resp: any) => {
-        console.log(resp.id);
-        await lotSurveyMonitoringsApi.delete_lot_survey_monitoring({
-          id: resp.id,
-        });
-        await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
+  const results = await Promise.all(
+    items.value.map(async (data) => {
+      const dataPayload = {
+        polygonId: data.ID,
+        fid: data.UUID,
+        province: "Kalimantan Timur",
+        city: "Bontang",
+        district: data.KECAMATAN,
+        village: data.KELURAHAN,
+        taxObjectAddress: data.ALAMAT_OP,
+        taxPayerName: data.NAMA_WP,
+        imageUrls: [
+          `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_WWC}`,
+        ],
+        taxObjectNumber: data.NOP,
+        citizenId: data.NIK_WP || "NIK_WP kosong",
+        taxPayerAddress: data.ALAMAT_WP,
+        taxPayerPhone: data.NOMOR_HP1,
+        buildingTotal: Number(data.JML_BGN),
+        taxPayerCode: wpMap[data.KODE_WP],
+        taxObjectCode_1: op1Map[data.KODE_OP1],
+        taxObjectCode_2: op2Map[data.KODE_OP2],
+        wwcCode: wwcMap[data.KODE_WWC],
+        taxStatus: "",
+        rt: data.RT,
+        rw: "",
+        regionCode: data.KODEWILAYA,
+        typeOfRight: data.TIPEHAK,
+        productType: data.TIPEPRODUK,
+        year: Number(data.TAHUN),
+        nib: data.NIB,
+        area: Number(data.LUASPETA),
+        landUsage: data.PENGGUNAAN,
+        nibel: data.NIBEL,
+        ketSrtf: data.KET_SRTF,
+        twoWheelVehicleTotal: Number(data.JML_KDR2),
+        fourWheelVehicleTotal: Number(data.JML_KDR4),
+        landType: jenisTanahMap[data.JENIS_TNH],
+        uuid: data.UUID,
+        newUuid: data.UUID_BARU,
+        newTaxObjectNumber: data.NOP_BARU,
+        phoneNumber1: data.NOMOR_HP1,
+        phoneNumber2: data.NOMOR_HP2,
+        rightNumber: data.NOMOR_HAK,
+        l_bumi: data.L_BUMI,
+        l_tertul: data.LUASTERTUL,
+        staWpop: staWpopMap[data.STA_WPOP],
+        kerjaWp: data.KERJA_WP,
+        kerjaWp2: data.KERJA_WP2,
+        pemilikSebelumnya: data.PEMILIK_PE,
+        pemilikAktual: data.PEMILIK_AK,
+        alatUkur: data.ALATUKUR,
+        metodeUkur: data.METODUKUR,
+        suratUkur: data.Surat_Ukur,
+        produk: data.Produk,
+      };
+      try {
+        await lotSurveyApi.post_lot_survey_monitorings({
           data: dataPayload,
+          images: null,
         });
-        // await lotSurveyMonitoringsApi.update_lot_survey_monitoring(
-        //   { id: resp.id },
-        //   {
-        //     data: dataPayload,
-        //     images: null,
-        //   }
-        // );
-      });
-  }
+      } catch (error) {
+        await lotSurveyApi
+          .get_persil_by_fid(data.UUID)
+          .then(async (resp: any) => {
+            console.log(resp.id);
+            await lotSurveyApi.EditMonitoring(
+              {
+                data: dataPayload,
+                images: null,
+              },
+              resp.id
+            );
+          });
+      }
+    })
+  );
+  // const data = items.value[7];
+  // const dataPayload = {
+  //   polygonId: data.ID,
+  //   fid: data.UUID,
+  //   province: "Kalimantan Timur",
+  //   city: "Bontang",
+  //   district: data.KECAMATAN,
+  //   village: data.KELURAHAN,
+  //   taxObjectAddress: data.ALAMAT_OP,
+  //   taxPayerName: data.NAMA_WP,
+  //   imageUrls: [
+  //     `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_WWC}`,
+  //   ],
+  //   taxObjectNumber: data.NOP,
+  //   citizenId: data.NIK_WP || "NIK_WP kosong",
+  //   taxPayerAddress: data.ALAMAT_WP,
+  //   taxPayerPhone: data.NOMOR_HP1,
+  //   buildingTotal: Number(data.JML_BGN),
+  //   taxPayerCode: wpMap[data.KODE_WP],
+  //   taxObjectCode_1: op1Map[data.KODE_OP1],
+  //   taxObjectCode_2: op2Map[data.KODE_OP2],
+  //   wwcCode: wwcMap[data.KODE_WWC],
+  //   taxStatus: "",
+  //   rt: data.RT,
+  //   rw: "",
+  //   regionCode: data.KODEWILAYA,
+  //   typeOfRight: data.TIPEHAK,
+  //   productType: data.TIPEPRODUK,
+  //   year: Number(data.TAHUN),
+  //   nib: data.NIB,
+  //   area: Number(data.LUASPETA),
+  //   landUsage: data.PENGGUNAAN,
+  //   nibel: data.NIBEL,
+  //   ketSrtf: data.KET_SRTF,
+  //   twoWheelVehicleTotal: Number(data.JML_KDR2),
+  //   fourWheelVehicleTotal: Number(data.JML_KDR4),
+  //   landType: jenisTanahMap[data.JENIS_TNH],
+  //   uuid: data.UUID,
+  //   newUuid: data.UUID_BARU,
+  //   newTaxObjectNumber: data.NOP_BARU,
+  //   phoneNumber1: data.NOMOR_HP1,
+  //   phoneNumber2: data.NOMOR_HP2,
+  //   rightNumber: data.NOMOR_HAK,
+  //   l_bumi: data.L_BUMI,
+  //   l_tertul: data.LUASTERTUL,
+  //   staWpop: staWpopMap[data.STA_WPOP],
+  //   kerjaWp: data.KERJA_WP,
+  //   kerjaWp2: data.KERJA_WP2,
+  //   pemilikSebelumnya: data.PEMILIK_PE,
+  //   pemilikAktual: data.PEMILIK_AK,
+  //   alatUkur: data.ALATUKUR,
+  //   metodeUkur: data.METODUKUR,
+  //   suratUkur: data.Surat_Ukur,
+  //   produk: data.Produk,
+  // };
+  // try {
+  //   await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
+  //     data: dataPayload,
+  //   });
+  // } catch (error) {
+  //   await lotSurveyMonitoringsApi
+  //     .get_survey_by_fid({ fid: data.UUID })
+  //     .then(async (resp: any) => {
+  //       console.log(resp.id);
+  //       await lotSurveyMonitoringsApi.delete_lot_survey_monitoring({
+  //         id: resp.id,
+  //       });
+  //       await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
+  //         data: dataPayload,
+  //       });
+  //       // await lotSurveyMonitoringsApi.update_lot_survey_monitoring(
+  //       //   { id: resp.id },
+  //       //   {
+  //       //     data: dataPayload,
+  //       //     images: null,
+  //       //   }
+  //       // );
+  //     });
+  // }
 };
 
 function onFileChange(file: File | File[] | undefined) {

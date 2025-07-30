@@ -94,3 +94,16 @@ export enum BuildingUpdate {
   NEW = "NEW", // Baru
   NON_PERMANENT = "NON_PERMANENT", // Bukan Bangunan Permanen
 }
+
+export enum RoofType {
+  GENTENG = "Genteng",
+  GALVALUM = "Galvalum",
+  ASBES = "Asbes",
+  SENG = "Seng",
+}
+
+export enum ShowBuildingFilter {
+  SHOW_ALL = "Show All",
+  SHOW_ONLY_NEW_BUILDING = "Show Only New Building",
+  SHOW_ONLY_OLD_BUILDING = "Show Only Old Building",
+}

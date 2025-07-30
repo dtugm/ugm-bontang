@@ -27,6 +27,12 @@
           stroke="blue"
           :clamp-to-ground="false"
         ></vc-datasource-geojson>
+
+        <vc-primitive-tileset
+          v-if="tiles3dStore.isBuildingActive"
+          url="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Lok%20Tuan/tileset.json"
+          :maximumScreenSpaceError="32"
+        />
       </vc-viewer>
     </div>
   </ClientOnly>
