@@ -38,7 +38,7 @@ export const apiUploadWithStructuredPayload = async <T = any>(
   url: string,
   payload: {
     data: Record<string, any>;
-    images: File | File[];
+    images?: File | File[];
   },
   config: AxiosRequestConfig = {}
 ) => {
@@ -50,8 +50,8 @@ export const apiUploadWithStructuredPayload = async <T = any>(
     payload.images.forEach((file) => {
       formData.append("images", file);
     });
-  } else {
-    formData.append("images", payload.images);
+  } else if (payload.images instanceof File) {
+    formData.append("images", payload?.images);
   }
 
   const res = await axiosBearer.post<T>(url, formData, config);
