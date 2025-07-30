@@ -12,6 +12,7 @@
           @click="addLandParcel"
         />
       </div>
+      <v-btn @click="testFunction()">Test</v-btn>
     </template>
     <template #item.action="{ item }">
       <div>
@@ -26,6 +27,7 @@
   </AppDialog>
 </template>
 <script lang="ts" setup>
+import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
 const imageUrlPreview = ref();
 const dialog = ref(false);
 const previewImage = (item: any) => {
@@ -35,5 +37,10 @@ const previewImage = (item: any) => {
 const landParcelStore = useLandParcelStore();
 const addLandParcel = () => {
   navigateTo("/data/add_land_parcel");
+};
+const testFunction = async () => {
+  const resp =
+    await buildingSurveyMonitoringsApi.get_building_survey_monitoring();
+  console.log(resp);
 };
 </script>
