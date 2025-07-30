@@ -6,8 +6,8 @@ declare interface IGet3DModelParams {
     | "water_body"
     | "railway"
     | "landmark";
-  status: boolean;
-  lod: number;
+  status?: boolean;
+  lod?: number;
 }
 
 declare interface ICreate3DModelPayload {

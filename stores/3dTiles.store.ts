@@ -1,5 +1,6 @@
 import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
 import tiles3DApi from "~/app/api/tiles3D.api";
+import model3DApi from "~/app/api/view/model3D.api";
 
 export const use3dTilesStore = defineStore("3dTiles", () => {
   const isFetchingData = ref(false);
@@ -37,6 +38,28 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     }
     attrLoading.value = false;
   };
+  const activeBuilding: any = ref([]);
+  const getActiveBuilding = async () => {
+    await model3DApi
+      .get_3d_tiles({
+        category: "building",
+        status: true,
+      })
+      .then((resp) => {
+        activeBuilding.value = resp;
+      });
+  };
+  const activeRoad: any = ref([]);
+  const getActiveRoad = async () => {
+    await model3DApi
+      .get_3d_tiles({
+        category: "road",
+        status: true,
+      })
+      .then((resp) => {
+        activeRoad.value = resp;
+      });
+  };
   return {
     getAll3dTiles,
     tiles3dItems,
@@ -48,5 +71,11 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     popUpBuildingBuilding,
     buildingAttribute,
     attrLoading,
+
+    getActiveBuilding,
+    activeBuilding,
+
+    getActiveRoad,
+    activeRoad,
   };
 });

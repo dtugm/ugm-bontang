@@ -8,145 +8,54 @@
       <div class="absolute top-0 w-full z-10 space-y-2 bg-black text-center">
         Digital Twin Bontang
       </div>
-      <div class="absolute top-4 left-5 z-10 mt-4">
+      <div class="absolute top-4 left-5 z-10 space-y-2 mt-4">
         <AppInputAutocomplete
           label="Location"
-          v-model="location"
           class="w-[300px]"
           is-filter
           elevation="2"
           append-inner-icon="mdi-magnify"
-          :items="[...tiles3dStore.activeBuilding]"
-          item-title="name"
-          @update:model-value="flyToLocation"
-          return-object
         >
           <template #prepend-inner>
             <v-icon color="tertiary">mdi-google-maps</v-icon>
           </template>
         </AppInputAutocomplete>
       </div>
-
-      <div class="absolute top-4 right-5 z-10 mt-4">
-        <CesiumFeature :tile-refs="tileRefs" />
-      </div>
-
-      <CesiumOverlayFeature />
-
-      <vc-viewer
-        @ready="onViewerReady"
-        :show-credit="false"
-        :infoBox="false"
-        :camera="cameraOptions"
-      >
-        <vc-navigation
-          position="top-right"
-          :offset="[0, 60]"
-          :printOpts="false"
-          :locationOpts="false"
-          :zoom-opts="zoomOptions"
-        >
-        </vc-navigation>
+      <vc-viewer ref="refViewer" @ready="onViewerReady" :show-credit="false">
         <vc-layer-imagery>
           <vc-imagery-provider-osm />
         </vc-layer-imagery>
-
-        <!-- Bangunan -->
-        <vc-primitive-tileset
-          v-for="(item, index) in tiles3dStore.activeBuilding"
-          :key="index"
-          :ref="setTileRefs"
-          :url="item.url"
-          :maximumScreenSpaceError="32"
-        />
-
-        <!-- Jalan -->
-        <vc-primitive-tileset
-          v-for="(item, index) in tiles3dStore.activeRoad"
-          :key="index"
-          :url="item.url"
-          :maximumScreenSpaceError="32"
-        />
-
-        <vc-terrain-provider-cesium
-          ref="provider"
-          :assetId="3338372"
-          @ready="onTerrainReady"
-        />
       </vc-viewer>
     </div>
   </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
+const refViewer = ref(null);
 const tiles3dStore = use3dTilesStore();
 const tilesArr: any = ref([]);
-const location = ref();
-// Viewer Ref
-const refViewer = ref<Cesium.Viewer | null>(null);
-
-// Tiles Ref
-const tileRefs = ref<Cesium.Cesium3DTileset[]>([]);
-const setTileRefs = (el: any) => {
-  if (el?.cesiumObject && !tileRefs.value.includes(el.cesiumObject)) {
-    tileRefs.value.push(el.cesiumObject);
-  }
-};
-
-// Navigation Options
-const zoomOptions = ref({
-  direction: "horizontal",
-  defaultResetView: {
-    position: {
-      lng: 117.49144533245031,
-      lat: 0.13273319760632002,
-      height: 200,
-    },
-    heading: Cesium.Math.toRadians(0),
-    pitch: Cesium.Math.toRadians(-1000),
-    roll: 0,
-  },
-});
-
-const cameraOptions = ref({
-  position: {
-    lng: 117.49144533245031,
-    lat: 0.13273319760632002,
-    height: 200,
-  },
-
-  heading: Cesium.Math.toRadians(0),
-  pitch: Cesium.Math.toRadians(-1000),
-  roll: 0,
-});
-// Loading Coindition
+const primitive = ref();
+const featureId = ref("");
+const isLoading = ref(true);
 const terrainReady = ref(false);
 const tilesetsReady = ref(false);
 const viewerRaady = ref(false);
-const isLoading = ref(true);
 
 function checkAllReady() {
   if (terrainReady.value && tilesetsReady.value && viewerRaady.value) {
     isLoading.value = false;
   }
 }
-
 const onTerrainReady = () => {
   terrainReady.value = true;
   checkAllReady();
 };
-
 let highlightedFeature: any = null;
 let originalHoverColor: any = null;
 let selectedFeature: any = null;
-
-const getDetailBangunan = async (gmlid: string) => {
-  await tiles3dStore.getDetailBuilding(gmlid);
-};
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   viewer.camera.setView({
     destination: Cesium.Cartesian3.fromDegrees(
@@ -161,8 +70,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     },
   });
   viewer.scene.globe.depthTestAgainstTerrain = true;
-  console.log("Tredy", viewer);
-  refViewer.value = viewer;
+
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   viewerRaady.value = true;
   checkAllReady();
@@ -214,39 +122,17 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
         highlightedFeature.color = originalHoverColor;
         highlightedFeature = null;
       }
-      const gmlId = pickedFeature.getProperty("gml:id");
-      getDetailBangunan(gmlId);
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 onMounted(async () => {
-  await tiles3dStore.getActiveBuilding();
-  await tiles3dStore.getActiveRoad();
-  // const resp = await tiles3dStore.getAll3dTiles();
-  // tilesArr.value = resp;
-
+  const resp = await tiles3dStore.getAll3dTiles();
+  console.log(resp);
+  tilesArr.value = resp;
   await nextTick();
   tilesetsReady.value = true;
   checkAllReady();
 });
-
-const flyToLocation = (item: any) => {
-  const viewer = refViewer.value;
-
-  const destination = Cesium.Cartesian3.fromDegrees(
-    Number(item.center_x),
-    Number(item.center_y) - 0.002, // offset sedikit ke selatan
-    400 // ketinggian kamera
-  );
-  viewer?.camera.flyTo({
-    destination: destination,
-    orientation: {
-      heading: Cesium.Math.toRadians(0),
-      pitch: Cesium.Math.toRadians(-55),
-      roll: 0,
-    },
-  });
-};
 </script>
 <style scoped>
 .overlay-loading {

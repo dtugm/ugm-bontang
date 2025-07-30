@@ -26,7 +26,7 @@
             title="Preview Image"
             class="rounded-lg"
           >
-            <v-card-text v-if="value.imageUrls[0]">
+            <v-card-text v-if="value?.imageUrls && value.imageUrls.length > 0">
               <v-img
                 :src="value.imageUrls[0]"
                 aspect-ratio="1.5"

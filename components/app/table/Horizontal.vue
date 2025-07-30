@@ -17,7 +17,7 @@
     <tbody v-else-if="isEmptyData">
       <tr>
         <td colspan="2" class="text-center py-4 text-gray-500">
-          Data not available
+          Data not available at the moment
         </td>
       </tr>
     </tbody>
