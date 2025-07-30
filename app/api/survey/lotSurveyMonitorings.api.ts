@@ -12,7 +12,9 @@ export default {
   get_lot_survey_monitoring: async () => {
     return apiGetData(`${mainPath}`);
   },
-  create_lot_survey_monitoring: async (payload: any) => {
+  create_lot_survey_monitoring: async (
+    payload: ICreateLotSurveyMonitoringPayload
+  ) => {
     return apiUploadWithStructuredPayload(`${mainPath}`, payload);
   },
   get_summary_lot_survey_administrative: async (
@@ -24,7 +26,7 @@ export default {
     );
     return apiGetData(customPath);
   },
-  get_survey_by_fid: async (path: IGetSurveyByFid) => {
+  get_survey_by_fid: async (path: IGetLotSurveyByFid) => {
     const customPath = buildPath(`${mainPath}/by-fid/{fid}`, path);
     return apiGetData(customPath);
   },
