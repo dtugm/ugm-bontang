@@ -27,9 +27,10 @@
         </AppInputAutocomplete>
       </div>
 
-      <div class="absolute top-4 right-5 z-10 mt-4">
+      <div class="absolute top-1/3 -translate-y-1/2 right-5 z-10">
         <CesiumFeature :tile-refs="tileRefs" />
       </div>
+      <div class="absolute top-1/2 -translate-y-1/2 right-5 z-10"></div>
 
       <CesiumOverlayFeature />
 
@@ -39,20 +40,30 @@
         :infoBox="false"
         :camera="cameraOptions"
       >
+        <vc-layer-imagery v-if="tiles3dStore.orthoPhoto">
+          <vc-imagery-provider-urltemplate
+            ref="provider"
+            url="https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{reverseY}.png"
+          ></vc-imagery-provider-urltemplate>
+        </vc-layer-imagery>
+        <vc-layer-imagery v-if="tiles3dStore.layer == 'arcgis'">
+          <vc-imagery-provider-arcgis :alpha="1"></vc-imagery-provider-arcgis>
+        </vc-layer-imagery>
+        <vc-layer-imagery v-if="tiles3dStore.layer == 'osm'">
+          <vc-imagery-provider-osm />
+        </vc-layer-imagery>
         <vc-navigation
           position="top-right"
-          :offset="[0, 60]"
+          :offset="[0, 20]"
           :printOpts="false"
           :locationOpts="false"
           :zoom-opts="zoomOptions"
         >
         </vc-navigation>
-        <vc-layer-imagery>
-          <vc-imagery-provider-osm />
-        </vc-layer-imagery>
 
         <!-- Bangunan -->
         <vc-primitive-tileset
+          v-if="tiles3dStore.isBuildingActive"
           v-for="(item, index) in tiles3dStore.activeBuilding"
           :key="index"
           :ref="setTileRefs"
@@ -62,6 +73,7 @@
 
         <!-- Jalan -->
         <vc-primitive-tileset
+          v-if="tiles3dStore.isRoadActive"
           v-for="(item, index) in tiles3dStore.activeRoad"
           :key="index"
           :url="item.url"
@@ -84,7 +96,6 @@ definePageMeta({
   layout: "viewer",
 });
 const tiles3dStore = use3dTilesStore();
-const tilesArr: any = ref([]);
 const location = ref();
 // Viewer Ref
 const refViewer = ref<Cesium.Viewer | null>(null);
@@ -222,9 +233,6 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
 onMounted(async () => {
   await tiles3dStore.getActiveBuilding();
   await tiles3dStore.getActiveRoad();
-  // const resp = await tiles3dStore.getAll3dTiles();
-  // tilesArr.value = resp;
-
   await nextTick();
   tilesetsReady.value = true;
   checkAllReady();

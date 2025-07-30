@@ -60,6 +60,11 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
         activeRoad.value = resp;
       });
   };
+
+  const isBuildingActive = ref(true);
+  const isRoadActive = ref(true);
+  const layer = ref("osm");
+  const orthoPhoto = ref(false);
   return {
     getAll3dTiles,
     tiles3dItems,
@@ -77,5 +82,11 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
 
     getActiveRoad,
     activeRoad,
+
+    isBuildingActive,
+    isRoadActive,
+
+    orthoPhoto,
+    layer,
   };
 });

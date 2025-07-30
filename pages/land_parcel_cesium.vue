@@ -8,23 +8,25 @@
       <div class="absolute top-0 w-full z-10 space-y-2 bg-black text-center">
         Digital Twin Bontang
       </div>
-      <div class="absolute top-4 left-5 z-10 space-y-2 mt-4">
-        <AppInputAutocomplete
-          label="Location"
-          class="w-[300px]"
-          is-filter
-          elevation="2"
-          append-inner-icon="mdi-magnify"
-        >
-          <template #prepend-inner>
-            <v-icon color="tertiary">mdi-google-maps</v-icon>
-          </template>
-        </AppInputAutocomplete>
-      </div>
       <vc-viewer ref="refViewer" @ready="onViewerReady" :show-credit="false">
         <vc-layer-imagery>
           <vc-imagery-provider-osm />
         </vc-layer-imagery>
+
+        <vc-datasource-geojson
+          ref="datasourceRef"
+          data="/new_bontang.geojson"
+          :clampToGround="false"
+          stroke="red"
+          fill="transparent"
+          :strokeWidth="10"
+        ></vc-datasource-geojson>
+        <vc-datasource-geojson
+          ref="datasourceRef"
+          data="/SurveyPbb/peta_kerja_bontang_baru.geojson"
+          stroke="blue"
+          :clamp-to-ground="false"
+        ></vc-datasource-geojson>
       </vc-viewer>
     </div>
   </ClientOnly>
@@ -45,14 +47,10 @@ const tilesetsReady = ref(false);
 const viewerRaady = ref(false);
 
 function checkAllReady() {
-  if (terrainReady.value && tilesetsReady.value && viewerRaady.value) {
+  if (tilesetsReady.value && viewerRaady.value) {
     isLoading.value = false;
   }
 }
-const onTerrainReady = () => {
-  terrainReady.value = true;
-  checkAllReady();
-};
 let highlightedFeature: any = null;
 let originalHoverColor: any = null;
 let selectedFeature: any = null;
