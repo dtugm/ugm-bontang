@@ -185,6 +185,7 @@ export default {
         },
       ],
     },
+
     {
       prepend_icon: "mdi-database",
       title: "Database Survey",
@@ -297,6 +298,23 @@ export default {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
       path: "/optimized",
+    },
+
+    {
+      prepend_icon: "mdi-earth",
+      title: "Cesium Viewer 3D",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-cube",
+          title: "Digital Twin",
+          path: "/cesium",
+        },
+        {
+          prepend_icon: "mdi-map",
+          title: "Land Parcel",
+          path: "/land_parcel_cesium",
+        },
+      ],
     },
   ],
 
