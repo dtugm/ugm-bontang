@@ -23,7 +23,7 @@
     </tbody>
     <tbody v-else>
       <tr
-        v-for="(header, index) in headers"
+        v-for="(header, index) in filteredHeaders"
         :key="index"
         :class="[
           highlightFields.includes(header.key)
@@ -52,14 +52,27 @@ const props = withDefaults(
   }
 );
 
-const isEmptyData = computed(() =>
-  props.headers.every((h) => {
+const filteredHeaders = computed(() =>
+  props.headers.filter((h) => {
     const val = props.values?.[h.key];
-    return (
+    return !(
       val === null ||
       val === undefined ||
       (typeof val === "object" && Object.keys(val).length === 0)
     );
   })
 );
+
+const isEmptyData = computed(() => filteredHeaders.value.length === 0);
+
+// const isEmptyData = computed(() =>
+//   props.headers.every((h) => {
+//     const val = props.values?.[h.key];
+//     return (
+//       val === null ||
+//       val === undefined ||
+//       (typeof val === "object" && Object.keys(val).length === 0)
+//     );
+//   })
+// );
 </script>
