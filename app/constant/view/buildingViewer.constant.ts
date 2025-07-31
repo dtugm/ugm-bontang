@@ -2,7 +2,13 @@ export default {
   detailBuildingHeader: [
     { title: "Kelurahan", key: "village" },
     { title: "Address", key: "address" },
-    { title: "NOP", key: "taxObjectCode_1" },
-    { title: "NOP BARU", key: "taxObjectCode_2" },
+    { title: "NOP", key: "taxObjectNumber" },
+    { title: "NOP BARU", key: "newTaxObjectNumber" },
+    { title: "Tipe Bangunan", key: "buildingType" },
+    { title: "Tipe Konstruksi", key: "buildingConstruction" },
+    { title: "Tipe Lantai", key: "buildingWall" },
+    { title: "Tipe Lantai", key: "buildingFloorType" },
+    { title: "Luas Bangunan", key: "luasBgn" },
+    { title: "Update Bangunan", key: "update" },
   ],
 };

@@ -75,11 +75,92 @@
 </template>
 <script lang="ts" setup>
 import buildingViewerConstant from "~/app/constant/view/buildingViewer.constant";
+import {
+  BuildingConstruction,
+  BuildingFloorType,
+  BuildingType,
+  BuildingUpdate,
+  BuildingWall,
+  RoofType,
+} from "~/app/types/enums/building";
+const BuildingTypeLabel: Record<BuildingType, string> = {
+  RESIDENTIAL: "Perumahan",
+  PRIVATE_OFFICE: "Perkantoran Swasta",
+  FACTORY: "Pabrik",
+  STORE_APOTHECARY_MARKET_RUKO: "Toko/Apotek/Pasar/Ruko",
+  HOSPITAL_CLINIC: "Rumah Sakit/Klinik",
+  SPORTS_RECREATION: "Olahraga/Rekreasi",
+  HOTEL: "Hotel/Wisma",
+  WORKSHOP_WAREHOUSE_FARM: "Bengkel/Gudang/Pertanian",
+  GOVERNMENT_BUILDING: "Gedung Pemerintah",
+  SCHOOL: "Gedung Sekolah",
+  OTHER: "Lain-lain",
+};
+
+const BuildingConstructionLabel: Record<BuildingConstruction, string> = {
+  STEEL: "Baja",
+  CONCRETE: "Beton",
+  BRICK: "Batu Bata",
+  WOOD: "Kayu",
+};
+
+const BuildingWallLabel: Record<BuildingWall, string> = {
+  GLASS_ALUMINUM: "Kaca/Alumunium",
+  CONCRETE: "Beton",
+  CONBLOC_BRICK: "Batu Bata Conbloc",
+  WOOD: "Kayu",
+  CORRUGATED_METAL: "Seng",
+};
+
+const BuildingFloorTypeLabel: Record<BuildingFloorType, string> = {
+  MARBLE: "Marmer",
+  CERAMIC: "Keramik",
+  TERRAZZO: "Teraso",
+  CONCRETE_TILE: "Ubin PC/Papan",
+  CEMENT: "Semen",
+};
+
+const BuildingUpdateLabel: Record<BuildingUpdate, string> = {
+  ACCURATE: "Sudah Tepat",
+  NEW: "Baru",
+  NON_PERMANENT: "Bukan Bangunan Permanen",
+};
+
+const RoofTypeLabel: Record<RoofType, string> = {
+  Genteng: "Genteng",
+  Galvalum: "Galvalum",
+  Asbes: "Asbes",
+  Seng: "Seng",
+};
+const labelMappings = {
+  update: BuildingUpdateLabel,
+  buildingType: BuildingTypeLabel,
+  buildingConstruction: BuildingConstructionLabel,
+  buildingWall: BuildingWallLabel,
+  buildingFloorType: BuildingFloorTypeLabel,
+  roofType: RoofTypeLabel,
+};
+
 const tiles3dStore = use3dTilesStore();
-const value: any = computed(() => {
-  return tiles3dStore.buildingAttribute;
-});
+
 const popUpBuilding: any = computed(() => {
   return tiles3dStore.popUpBuildingBuilding;
+});
+
+function applyMapping(
+  obj: Record<string, any>,
+  mappings: Record<string, Record<string, string>>
+) {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [
+      key,
+      mappings[key]?.[value] ?? value,
+    ])
+  );
+}
+
+const value: any = computed(() => {
+  const data: any = tiles3dStore.buildingAttribute;
+  return applyMapping(data, labelMappings);
 });
 </script>
