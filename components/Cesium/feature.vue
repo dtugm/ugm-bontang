@@ -103,23 +103,66 @@
       </template>
       <v-card class="rounded-lg" width="250">
         <v-card-text>
-          <AppInputAutocomplete label="Filter By" hide-details class="pb-2" />
+          <AppInputAutocomplete
+            label="Filter By"
+            hide-details
+            class="pb-2"
+            v-model="jenisFilter"
+            clearable
+            :items="[
+              { title: 'Jenis Bangunan', value: 'buildingType' },
+              { title: 'Konstruksi', value: 'buildingConstruction' },
+              { title: 'Jenis Atap', value: 'roofType' },
+              { title: 'Jumlah Lantai', value: 'floorCount' },
+              { title: 'Jenis Lantai', value: 'buildingFloorType' },
+            ]"
+          />
           <v-form
             id="filterBangunan"
             ref="formFilterRef"
             @submit.prevent="submitFilter()"
           >
             <AppInputText
+              v-if="jenisFilter == 'floorCount'"
               :rules="[(value:any) => !!value || 'This field is required']"
               type="number"
               label="Jumlah Lantai"
               v-model="floorCount"
+              hide-details
             />
+            <!-- <AppInputAutocomplete
+              v-if="jenisFilter == 'jenis_lantai'"
+              :rules="[(value:any) => !!value || 'This field is required']"
+              label="Jenis Lantai"
+              v-model="buildingFloorType"
+              hide-details
+            />
+            <AppInputAutocomplete
+              v-if="jenisFilter == 'jenis_bgn'"
+              :rules="[(value:any) => !!value || 'This field is required']"
+              label="Jenis Building"
+              v-model="buildingType"
+              hide-details
+            />
+            <AppInputAutocomplete
+              v-if="jenisFilter == 'konstruksi'"
+              :rules="[(value:any) => !!value || 'This field is required']"
+              label="Jenis Konstruksi"
+              v-model="buildingConstruction"
+              hide-details
+            />
+            <AppInputAutocomplete
+              v-if="jenisFilter == 'jenis_atap'"
+              :rules="[(value:any) => !!value || 'This field is required']"
+              label="Jenis Roof"
+              v-model="roofType"
+              hide-details
+            /> -->
           </v-form>
           <v-btn
             block
             color="tertiary"
-            class="text-none"
+            class="text-none mt-2"
             type="submit"
             form="filterBangunan"
             :loading="filterLoading"
@@ -145,6 +188,7 @@
 
 <script setup lang="ts">
 import * as Cesium from "cesium";
+const jenisFilter = ref();
 const tiles3dStore = use3dTilesStore();
 const filterLoading = ref(false);
 const props = defineProps<{
@@ -152,12 +196,24 @@ const props = defineProps<{
 }>();
 const formFilterRef = ref();
 const floorCount = ref();
+const buildingFloorType = ref(null);
+const buildingType = ref(null);
+const buildingConstruction = ref(null);
+const roofType = ref(null);
+const modelMap: any = {
+  buildingType,
+  buildingConstruction,
+  roofType,
+  floorCount,
+  buildingFloorType,
+};
+const selectedValue = computed(() => modelMap[jenisFilter.value]?.value);
 const submitFilter = async () => {
   const { valid } = await formFilterRef.value.validate();
   if (valid) {
     filterLoading.value = true;
     const arr = await tiles3dStore.filterBuilding({
-      floorCount: floorCount.value,
+      [jenisFilter.value]: selectedValue.value,
       pageSize: 10000,
     });
     filterTileset(arr);
