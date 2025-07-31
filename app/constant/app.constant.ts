@@ -26,10 +26,15 @@ export default {
       title: "Survey PBB",
       path: "/survey-monitoring",
     },
+    // {
+    //   prepend_icon: "mdi-cube",
+    //   title: "3d Model Viewer",
+    //   path: "/optimized",
+    // },
     {
       prepend_icon: "mdi-cube",
       title: "3d Model Viewer",
-      path: "/optimized",
+      path: "/cesium",
     },
     {
       prepend_icon: "mdi-database",
