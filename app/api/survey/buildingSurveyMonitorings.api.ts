@@ -9,8 +9,8 @@ import {
 const mainPath = "/building-survey-monitorings";
 
 export default {
-  get_building_survey_monitoring: async () => {
-    return apiGetData(`${mainPath}`);
+  get_building_survey_monitoring: async (payload?: any) => {
+    return apiGetData(`${mainPath}?`, payload);
   },
   create_building_survey_monitoring: async (payload: any) => {
     return apiUploadWithStructuredPayload(`${mainPath}`, payload);

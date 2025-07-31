@@ -5,8 +5,21 @@
       <p class="text-white">Please wait...</p>
     </div>
     <div class="viewer-container relative w-full h-screen">
-      <div class="absolute top-0 w-full z-10 space-y-2 bg-black text-center">
-        Digital Twin Bontang
+      <div class="absolute top-0 w-full z-10 bg-black flex justify-between">
+        <v-btn
+          size="30"
+          variant="flat"
+          class="text-none rounded-0"
+          icon
+          color="black"
+          @click="router.back()"
+        >
+          <v-icon>mdi-keyboard-backspace</v-icon>
+        </v-btn>
+        <div>Digital Twin Bontang</div>
+        <div>
+          <v-img src="/logo/Logo_1.png" width="30" height="30"> </v-img>
+        </div>
       </div>
       <div class="absolute top-4 left-5 z-10 mt-4">
         <AppInputAutocomplete
@@ -97,6 +110,7 @@ definePageMeta({
 });
 const tiles3dStore = use3dTilesStore();
 const location = ref();
+const router = useRouter();
 // Viewer Ref
 const refViewer = ref<Cesium.Viewer | null>(null);
 

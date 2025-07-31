@@ -104,8 +104,35 @@
       <v-card class="rounded-lg" width="250">
         <v-card-text>
           <AppInputAutocomplete label="Filter By" hide-details class="pb-2" />
-          <!-- <AppInputText type="number" label="Jumlah Lantai" /> -->
-          <v-btn block color="tertiary" class="text-none">Filter</v-btn>
+          <v-form
+            id="filterBangunan"
+            ref="formFilterRef"
+            @submit.prevent="submitFilter()"
+          >
+            <AppInputText
+              :rules="[(value:any) => !!value || 'This field is required']"
+              type="number"
+              label="Jumlah Lantai"
+              v-model="floorCount"
+            />
+          </v-form>
+          <v-btn
+            block
+            color="tertiary"
+            class="text-none"
+            type="submit"
+            form="filterBangunan"
+            :loading="filterLoading"
+            >Filter</v-btn
+          >
+          <v-btn
+            block
+            color="tertiary"
+            class="text-none mt-1"
+            variant="outlined"
+            @click="showAllTileset"
+            >Reset Filter</v-btn
+          >
         </v-card-text>
       </v-card>
     </v-menu>
@@ -119,14 +146,26 @@
 <script setup lang="ts">
 import * as Cesium from "cesium";
 const tiles3dStore = use3dTilesStore();
-const layer = ref("osm");
-const orthoPhoto = ref(false);
+const filterLoading = ref(false);
 const props = defineProps<{
   tileRefs: Cesium.Cesium3DTileset[];
 }>();
-
-function filterTileset() {
-  const idsToShow = ["BB_15062025-AAAA-04757-GeoAI02-077C3EF"];
+const formFilterRef = ref();
+const floorCount = ref();
+const submitFilter = async () => {
+  const { valid } = await formFilterRef.value.validate();
+  if (valid) {
+    filterLoading.value = true;
+    const arr = await tiles3dStore.filterBuilding({
+      floorCount: floorCount.value,
+      pageSize: 10000,
+    });
+    filterTileset(arr);
+    filterLoading.value = false;
+  }
+};
+function filterTileset(arr: any[]) {
+  const idsToShow = arr;
 
   props.tileRefs.forEach((tileset) => {
     tileset.tileVisible.addEventListener(function (tile) {

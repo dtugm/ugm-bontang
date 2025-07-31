@@ -65,6 +65,17 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
   const isRoadActive = ref(true);
   const layer = ref("osm");
   const orthoPhoto = ref(false);
+
+  const filteredBuilding = ref([]);
+  const filterBuilding = async (payload?: any) => {
+    const resp =
+      await buildingSurveyMonitoringsApi.get_building_survey_monitoring(
+        payload
+      );
+
+    const uuid_bgn = resp.data.map((item: any) => item.uuid_bgn);
+    return uuid_bgn;
+  };
   return {
     getAll3dTiles,
     tiles3dItems,
@@ -88,5 +99,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
 
     orthoPhoto,
     layer,
+
+    filterBuilding,
   };
 });
