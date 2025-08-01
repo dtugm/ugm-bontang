@@ -26,12 +26,13 @@
             title="Preview Image"
             class="rounded-lg"
           >
-            <v-card-text v-if="value?.imageUrls && value.imageUrls.length > 0">
+            <v-card-text v-if="hasImage">
               <v-img
                 :src="value.imageUrls[0]"
                 aspect-ratio="1.5"
                 cover
                 class="rounded"
+                @error="onImageError"
               >
                 <template v-slot:placeholder>
                   <div class="d-flex align-center justify-center fill-height">
@@ -163,4 +164,22 @@ const value: any = computed(() => {
   const data: any = tiles3dStore.buildingAttribute;
   return applyMapping(data, labelMappings);
 });
+const imageSrc = ref(value.value.imageUrls?.[0] || "");
+const imageFailed = ref(false);
+
+watch(
+  () => value.value.imageUrls?.[0],
+  (newUrl) => {
+    imageSrc.value = newUrl || "";
+    imageFailed.value = false;
+  },
+  { immediate: true }
+);
+const hasImage = computed(() => {
+  return imageSrc.value && !imageFailed.value;
+});
+
+function onImageError() {
+  imageFailed.value = true;
+}
 </script>
