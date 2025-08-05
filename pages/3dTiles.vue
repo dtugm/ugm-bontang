@@ -19,6 +19,13 @@
       <!-- <v-btn icon variant="flat" rounded="sm" density="compact">
         <v-icon color="tertiary">mdi-pencil</v-icon>
       </v-btn> -->
+      <v-switch
+        color="success"
+        inset
+        label="Status"
+        v-model="uploadForm.status"
+        @update:model-value="updateStatus(item)"
+      />
       <v-btn
         icon
         variant="flat"
@@ -83,6 +90,7 @@
   </AppDialogConfirm>
 </template>
 <script lang="ts" setup>
+import tiles3DApi from "~/app/api/tiles3D.api";
 import tiles3dConstant from "~/app/constant/3dTiles.constant";
 const selectedId = ref();
 const tiles3dStore = use3dTilesStore();
@@ -118,5 +126,13 @@ const confirmDelete3dTiles = async () => {
   await tiles3dStore.getAll3dTiles();
   uploadLoading.value = false;
   deleteDialog.value = false;
+};
+const updateStatus = async (item: any) => {
+  console.log("first");
+  await tiles3DApi.edit_3d_tiles(item.id, {
+    ...item,
+    status: true,
+  });
+  console.log(item.id);
 };
 </script>

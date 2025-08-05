@@ -32,7 +32,7 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
       appStore.toastError(error.message);
     }
   };
-  const dataVectorPersil = ref([]);
+  const dataVectorPersil: any = ref([]);
   const getDataVectorPersil = async () => {
     const resp = await vectorsApi.get_all_vectors({
       category: "land_parcel",
