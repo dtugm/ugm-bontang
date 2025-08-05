@@ -37,6 +37,11 @@ export default {
       path: "/cesium",
     },
     {
+      prepend_icon: "mdi-map",
+      title: "Land Parcel",
+      path: "/land_parcel_cesium",
+    },
+    {
       prepend_icon: "mdi-database",
       title: "Database Survey",
       sub_menu: [
