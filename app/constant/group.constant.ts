@@ -4,10 +4,10 @@ export default {
     model: "58e9e247-992d-414c-b733-3e6931bc6219",
   },
   groupTable: [
-    { title: "No", key: "no" },
-    { title: "Group Name", key: "name" },
-    { title: "Description", key: "description" },
-    { title: "Member", key: "member" },
-    { title: "Actions", key: "action" },
+    { title: "No", key: "no", sortable: false },
+    { title: "Group Name", key: "name", sortable: false },
+    { title: "Description", key: "description", sortable: false },
+    { title: "Member", key: "member", sortable: false },
+    { title: "Actions", key: "action", sortable: false },
   ],
 };

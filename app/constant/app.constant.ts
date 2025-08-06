@@ -162,7 +162,6 @@ export default {
       path: "/optimized",
     },
   ],
-
   pj_menus: [
     {
       prepend_icon: "mdi-monitor-dashboard",
@@ -295,24 +294,8 @@ export default {
       path: "/survey-monitoring",
     },
     {
-      prepend_icon: "mdi-receipt-text-edit-outline",
-      title: "Bidang Tanah",
-      path: "/production-survey-pbb",
-    },
-    {
-      prepend_icon: "mdi-receipt-text-edit-outline",
-      title: "Data Survey",
-      path: "/survey-monitoring/data",
-    },
-    {
-      prepend_icon: "mdi-cube",
-      title: "3d Model Viewer",
-      path: "/optimized",
-    },
-
-    {
       prepend_icon: "mdi-earth",
-      title: "Cesium Viewer 3D",
+      title: "Viewer 3D",
       sub_menu: [
         {
           prepend_icon: "mdi-cube",
