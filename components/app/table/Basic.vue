@@ -9,7 +9,7 @@
       <slot name="prepend-table"></slot>
       <slot name="validate-table"></slot>
     </div>
-    <v-data-table class="header-theme mt-2 rounded-lg border" v-bind="$attrs">
+    <v-data-table class="header-theme mt-2" v-bind="$attrs">
       <template #[`item.no`]="{ internalItem }">
         <div>
           {{ internalItem.index + 1 }}
@@ -36,8 +36,8 @@ defineProps({
 </script>
 <style scoped>
 .header-theme:deep() thead {
-  background-color: #eef5ff;
-  color: rgb(var(--v-theme-tertiary));
+  background-color: rgb(var(--v-theme-tertiary));
+  color: #eef5ff;
 }
 .header-theme:deep() .v-data-table-header__content span {
   font-weight: bold;

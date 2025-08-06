@@ -3,7 +3,7 @@
     <slot name="prepend-title"></slot>
     <v-row no-gutters class="items-center gap-4">
       <slot name="prepend"></slot>
-      <AppTextH5 color="tertiary">{{ title }}</AppTextH5>
+      <AppTextH5 color="secondary">{{ title }}</AppTextH5>
       <slot name="action"></slot>
       <v-spacer></v-spacer>
       <v-col v-if="isSearchable" lg="3" class="d-flex gap-2 items-center">
@@ -40,8 +40,7 @@
     <v-data-table-server
       v-model:items-per-page="readData.tableData.itemsPerPage"
       :items-per-page-options="itemsPerPageOptions"
-      class="header-theme rounded-lg border mt-1"
-      multi-sort
+      class="header-theme rounded-sm mt-1"
       :headers="readData.tableData.headers"
       :items-length="readData.tableData.totalItems"
       :items="readData.tableData.serverItems"
@@ -99,9 +98,10 @@ defineProps({
 
 <style scoped>
 .header-theme:deep() .v-data-table__thead {
-  background-color: rgb(var(--v-theme-light-blue));
-  color: rgb(var(--v-theme-tertiary));
+  background-color: rgb(var(--v-theme-tertiary));
+  color: #eef5ff;
 }
+
 .header-theme:deep() .v-data-table__thead span {
   font-weight: bold;
 }
