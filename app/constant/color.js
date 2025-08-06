@@ -12,4 +12,5 @@ export const bontangLight = {
   "primary-2": "#243746",
   grayish: "#FAFCFF",
   "light-blue": "#EEF5FF",
+  "primary-blue": "#017BD1",
 };
