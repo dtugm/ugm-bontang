@@ -1,6 +1,8 @@
 import type { VDataTable } from "vuetify/components";
 import appService from "~/app/service/app.service";
 import { useToast } from "vue-toastification";
+import { useDebounceFn } from "@vueuse/core";
+
 // type ReadonlyHeaders = VDataTable['$props']['headers']
 type TVDataTable = VDataTable["$props"];
 
@@ -64,11 +66,17 @@ export const useTableData = <TItem, IMinimalFilter>(
       tableData.value.loading = false;
     }
   }
-
+  const debounceSearchData = useDebounceFn((val: string) => {
+    console.log(val);
+    console.log(tableProps.value);
+    getData({ ...tableProps.value, itemsPerPage: 10, page: 1, search: val });
+  }, 1000);
   return {
     filterData,
     tableProps,
     tableData,
     getData,
+
+    debounceSearchData,
   };
 };

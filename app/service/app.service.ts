@@ -30,9 +30,9 @@ export default {
     filter.pageSize = props.itemsPerPage;
     // filter.pageSize = props.itemsPerPage * props.page - props.itemsPerPage;
     if (search) {
-      filter.keyword = search;
+      filter.search = search;
     } else {
-      filter.keyword = props.search || null;
+      filter.search = props.search || null;
     }
     if (props.sortBy?.length) {
       filter.ordersBy = props.sortBy.map((e) => e.key);

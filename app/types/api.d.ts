@@ -18,7 +18,7 @@ declare interface ITableProps {
 declare interface IMinimalFilter {
   page: number | null;
   pageSize?: number | null;
-  keyword?: string | null;
+  search?: string | null;
   ordersBy?: Array | null;
   ordersType?: Array | null;
 }
