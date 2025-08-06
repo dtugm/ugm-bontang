@@ -2,7 +2,7 @@
   <v-dialog
     v-bind="$attrs"
     :value="value"
-    width="500"
+    :width="width"
     persistent
     @input="input"
   >
@@ -76,6 +76,10 @@ export default {
     closeText: {
       type: String,
       default: "Not Now",
+    },
+    width: {
+      type: String,
+      default: "500",
     },
   },
   emits: ["input", "confirm", "close"],
