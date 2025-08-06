@@ -42,6 +42,46 @@
 
       <div class="absolute top-1/3 -translate-y-1/2 right-5 z-10">
         <CesiumFeature :tile-refs="tileRefs" />
+        <v-menu :close-on-content-click="false" location="left">
+          <template v-slot:activator="{ props }">
+            <v-btn color="tertiary" v-bind="props" class="text-none mt-1" icon>
+              <v-icon>mdi-home-flood</v-icon>
+            </v-btn>
+          </template>
+
+          <v-card class="rounded-lg" width="300">
+            <v-card-text>
+              <div class="text-subtitle-2 mb-2">
+                Tinggi Banjir ({{ maxHeight }}m)
+              </div>
+              <v-slider
+                v-model="maxHeight"
+                :min="60"
+                :max="90"
+                :step="5"
+                class="mb-2"
+                thumb-label
+                :ticks="tickLabels"
+                show-ticks="always"
+                hide-details
+              ></v-slider>
+
+              <v-btn block color="tertiary" class="mt-5" @click="start">
+                Start
+              </v-btn>
+              <div class="flex justify-between">
+                <v-btn color="primary-blue" class="mt-5" @click="reset">
+                  Reset
+                </v-btn>
+                <v-btn color="success" class="mt-5" @click="pause">
+                  Pause
+                </v-btn>
+                <v-btn color="error" class="mt-5" @click="stop"> Stop </v-btn>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-menu>
+        <!-- <AppInputText v-model="speed" type="number"></AppInputText> -->
       </div>
       <div class="absolute top-1/2 -translate-y-1/2 right-5 z-10"></div>
 
@@ -98,6 +138,15 @@
           :assetId="3338372"
           @ready="onTerrainReady"
         />
+        <vc-analysis-flood
+          @ready="onFloodReady"
+          ref="flood"
+          :min-height="minHeight"
+          :max-height="maxHeight"
+          :speed="speed"
+          :polygon-hierarchy="polygonHierarchy"
+        >
+        </vc-analysis-flood>
       </vc-viewer>
     </div>
   </ClientOnly>
@@ -108,6 +157,49 @@ import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
+const tickLabels = {
+  60: "60",
+  65: "65",
+  70: "70",
+  75: "75",
+  80: "80",
+  85: "85",
+  90: "90",
+};
+const flood: any = ref(null);
+const minHeight = ref(60);
+const maxHeight = ref(70);
+const speed = ref(0.05);
+const pausing = ref(false);
+const starting = ref(false);
+
+const polygonHierarchy = ref([
+  [117.3833, 0.0167],
+  [117.5333, 0.0167],
+  [117.5333, 0.2],
+  [117.3833, 0.2],
+]);
+
+const onFloodReady = (cesiumInstance: any) => {
+  console.log("Flood Ready:", cesiumInstance);
+};
+const start = () => {
+  flood.value?.start();
+  pausing.value = false;
+  starting.value = true;
+};
+const pause = () => {
+  flood.value?.pause();
+  pausing.value = !pausing.value;
+};
+const stop = () => {
+  flood.value?.stop();
+  pausing.value = false;
+  starting.value = false;
+};
+const reset = () => {
+  flood.value?.reload();
+};
 const tiles3dStore = use3dTilesStore();
 const location = ref();
 const router = useRouter();
