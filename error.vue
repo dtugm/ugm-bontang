@@ -1,10 +1,6 @@
 <!-- eslint-disable vue/require-default-prop -->
 <script setup lang="ts">
-import type { NuxtError } from "#app";
-
-defineProps({
-  error: Object as () => NuxtError,
-});
+const error = useError(); // Ambil error dari context
 
 const handleError = () => clearError({ redirect: "/" });
 </script>
