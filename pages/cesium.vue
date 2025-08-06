@@ -21,7 +21,7 @@
           <v-img src="/logo/Logo_1.png" width="30" height="30"> </v-img>
         </div>
       </div>
-      <div class="absolute top-4 left-5 z-10 mt-4">
+      <div class="absolute top-5 left-5 z-10 mt-4">
         <AppInputAutocomplete
           label="Location"
           v-model="location"
@@ -40,7 +40,7 @@
         </AppInputAutocomplete>
       </div>
 
-      <div class="absolute top-1/3 -translate-y-1/2 right-5 z-10">
+      <div class="absolute top-1/3 -translate-y-1/2 left-5 z-10">
         <CesiumFeature :tile-refs="tileRefs" />
         <v-menu :close-on-content-click="false" location="left">
           <template v-slot:activator="{ props }">
