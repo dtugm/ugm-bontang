@@ -1,5 +1,5 @@
 <template>
-  <v-card width="500">
+  <v-card width="500" variant="flat">
     <v-card-text>
       <div class="justify-center flex flex-col items-center mb-5">
         <AppTextH2 class="text-[25px]" color="secondary"

@@ -1,10 +1,30 @@
 import authApi from "~/app/api/auth.api";
+import { groupAccessMap } from "~/app/constant/user/userAccess.constant";
 export const useAuthenticationStore = defineStore("authentication", {
   state: () => ({
     user: JSON.parse(sessionStorage.getItem("user") || "null"),
     token: sessionStorage.getItem("token") || "",
   }),
+  getters: {
+    // isAuthenticated: (state) => !!state.token,
 
+    userGroupNames: (state): string[] => {
+      return (
+        state.user?.groups.map((group: IGroupsItemField) => group.name) || []
+      );
+    },
+
+    userAccessPaths: (state): string[] => {
+      const paths = new Set<string>();
+
+      state.user?.groups.forEach((group: IGroupsItemField) => {
+        const access = groupAccessMap[group.name] || [];
+        access.forEach((path) => paths.add(path));
+      });
+
+      return Array.from(paths);
+    },
+  },
   actions: {
     setUser(userData: any) {
       this.user = userData;
@@ -15,7 +35,7 @@ export const useAuthenticationStore = defineStore("authentication", {
       sessionStorage.setItem("token", token);
     },
 
-    async login(payload: ILoginPayload) {
+    async login(payload: Partial<ILoginPayload>) {
       try {
         const response = await authApi.login(payload);
         if (response && response.token) {
