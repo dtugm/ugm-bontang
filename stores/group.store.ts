@@ -1,6 +1,7 @@
 import groupApi from "~/app/api/group.api";
 import groupConstant from "~/app/constant/group.constant";
 import { defineStore } from "pinia";
+import { apiWrapper } from "~/app/helper/api.helper";
 export const useGroup = defineStore("group", () => {
   const groupsItems = ref([]);
   const getAllGroups = async () => {
@@ -14,6 +15,12 @@ export const useGroup = defineStore("group", () => {
     const resp = await groupApi.add_new_group(payload);
     console.log(resp);
   };
+
+  const addMemberToGroup = async (id: string, payload: any) => {
+    await apiWrapper(() => groupApi.add_member_to_group(id, payload), {
+      successMessage: "Member Berhasil Ditambahkan",
+    });
+  };
   return {
     // All Groups
     getAllGroups,
@@ -21,6 +28,8 @@ export const useGroup = defineStore("group", () => {
     deleteDataGroups,
 
     addNewGroup,
+
+    addMemberToGroup,
   };
 });
 

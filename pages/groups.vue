@@ -1,4 +1,30 @@
 <template>
+  <AppDialog
+    :title="`${stringHelper.titleCase(selectedGroup)} Members`"
+    v-model="memberDialog"
+  >
+    <v-row class="mx-2">
+      <v-col>
+        <AppInputAutocomplete
+          v-model="addMemberForm.userId"
+          :items="userStore.usersList"
+          hide-details
+          item-title="email"
+          item-value="id"
+        />
+      </v-col>
+
+      <v-col cols="auto">
+        <v-btn color="tertiary" @click="addMember">Add Member</v-btn>
+      </v-col>
+    </v-row>
+    <AppTableBasic
+      :title="`User ${stringHelper.titleCase(selectedGroup)}`"
+      :items="selectedMember"
+    >
+      <template #action> </template>
+    </AppTableBasic>
+  </AppDialog>
   <AppTableBasic
     title="Groups Table"
     :items="groupStore.groupsItems"
@@ -14,7 +40,12 @@
         >Add
       </v-btn>
     </template>
-    <template #item.member="{ item }">{{ item.members.length }}</template>
+    <template #item.member="{ item }">
+      {{ item.members.length }}
+      <v-btn icon size="30" variant="flat" @click="openMember(item)">
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </template>
     <template #item.action="{ item }">
       <div class="flex">
         <v-btn
@@ -60,6 +91,25 @@
 </template>
 <script lang="ts" setup>
 import groupConstant from "~/app/constant/group.constant";
+import stringHelper from "~/app/helper/string.helper";
+function formatTeamMembers(data: any[]) {
+  return data.map((item) => ({
+    role: item.role,
+    name: `${item.user.firstName} ${item.user.lastName}`,
+    email: item.user.email,
+    id: item.user.id,
+  }));
+}
+const selectedMember: any = ref([]);
+const memberDialog = ref(false);
+const selectedGroup = ref("");
+const groupId = ref("");
+const openMember = (item: any) => {
+  memberDialog.value = true;
+  selectedGroup.value = item.name;
+  groupId.value = item.id;
+  selectedMember.value = formatTeamMembers(item.members);
+};
 const selectedId = ref();
 const groupStore = useGroup();
 groupStore.getAllGroups();
@@ -83,5 +133,17 @@ const confirmAddItem = async () => {
   await groupStore.addNewGroup(addGroupForm.value);
   addDialog.value = false;
   groupStore.getAllGroups();
+};
+
+const userStore = useUsersStore();
+userStore.getUsersList();
+
+const addMemberForm = ref({
+  userId: null,
+  role: "MEMBER",
+});
+
+const addMember = async () => {
+  await groupStore.addMemberToGroup(groupId.value, addMemberForm.value);
 };
 </script>
