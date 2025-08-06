@@ -28,13 +28,13 @@ export default {
   },
   land_parcel_table: {
     headers: [
-      { title: "No", key: "no" },
-      { title: "Kelurahan", key: "village" },
-      { title: "Nomor Objek Pajak", key: "taxObjectNumber" },
-      { title: "Nama Wajib Pajak", key: "taxPayerName" },
-      { title: "NIB", key: "nib" },
-      { title: "UUID Persil", key: "fid" },
-      { title: "Actions", key: "action" },
+      { title: "No", key: "no", sortable: false },
+      { title: "Kelurahan", key: "village", sortable: false },
+      { title: "Nomor Objek Pajak", key: "taxObjectNumber", sortable: false },
+      { title: "Nama Wajib Pajak", key: "taxPayerName", sortable: false },
+      { title: "NIB", key: "nib", sortable: false },
+      { title: "UUID Persil", key: "fid", sortable: false },
+      // { title: "Actions", key: "action", sortable: false },
     ],
   },
 
