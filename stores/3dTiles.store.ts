@@ -1,6 +1,7 @@
 import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
 import tiles3DApi from "~/app/api/tiles3D.api";
 import model3DApi from "~/app/api/view/model3D.api";
+import { apiWrapper } from "~/app/helper/api.helper";
 
 export const use3dTilesStore = defineStore("3dTiles", () => {
   const isFetchingData = ref(false);
@@ -14,11 +15,24 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
   };
 
   const upload3dTiles = async (payload: IUpload3dTilesPayload) => {
-    const resp = await tiles3DApi.upload_3d_tiles(payload);
+    await apiWrapper(() => tiles3DApi.upload_3d_tiles(payload), {
+      successMessage: "Berhasil mengunggah data!",
+    });
   };
 
   const delete3dTiles = async (id: string) => {
-    const resp = await tiles3DApi.delete_3d_tiles(id);
+    await apiWrapper(() => tiles3DApi.delete_3d_tiles(id), {
+      successMessage: "Berhasil menghapus data!",
+    });
+  };
+  const update3dTiles = async (
+    path: IPathId,
+    payload: ICreate3DModelPayload
+  ) => {
+    await apiWrapper(() => model3DApi.edit_3d_tiles(path, payload), {
+      successMessage: "Berhasil mengubah data!",
+      errorMessage: "Gagal mengubah data.",
+    });
   };
 
   const popUpBuildingBuilding = ref(false);
@@ -83,6 +97,8 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     delete3dTiles,
     isFetchingData,
     getDetailBuilding,
+
+    update3dTiles,
 
     popUpBuildingBuilding,
     buildingAttribute,

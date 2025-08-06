@@ -1,0 +1,242 @@
+<template>
+  <AppTableBasic
+    :loading="tiles3dStore.isFetchingData"
+    :items="tiles3dStore.tiles3dItems"
+    :headers="tiles3dConstant.tiles3dHeaders"
+    title="3D Tiles List"
+  >
+    <template #action>
+      <v-btn
+        variant="outlined"
+        color="success"
+        class="text-none"
+        prepend-icon="mdi-plus"
+        @click="add3dTiles"
+        >Add
+      </v-btn>
+    </template>
+
+    <template #item.category="{ item }">
+      <v-chip
+        :append-icon="categoryIconMap[item.category]"
+        density="comfortable"
+        :color="categoryColorMap[item.category]"
+      >
+        {{ stringHelper.titleCase(item.category) }}
+      </v-chip>
+    </template>
+    <template #item.status="{ item }">
+      <v-chip density="comfortable" :color="item.status ? 'success' : 'error'">
+        {{ item.status ? "Active" : "Not Active" }}
+      </v-chip>
+    </template>
+    <template #item.status_action="{ item }">
+      <v-switch
+        inset
+        color="success"
+        density="compact"
+        :label="item.status"
+        v-model="item.status"
+        hide-details
+        @update:model-value="updateStatus(item)"
+      />
+    </template>
+    <template #item.action="{ item }">
+      <v-btn
+        icon
+        variant="flat"
+        rounded="sm"
+        density="compact"
+        @click="edit3dTiles(item)"
+      >
+        <v-icon color="tertiary">mdi-pencil</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        variant="flat"
+        rounded="sm"
+        density="compact"
+        @click="delete3dTiles(item)"
+      >
+        <v-icon color="primary">mdi-delete</v-icon>
+      </v-btn>
+    </template>
+  </AppTableBasic>
+
+  <AppDialogConfirm
+    title="Add New 3D Tiles"
+    close-text="Cancel"
+    confirm-text="Add"
+    confirm-color="tertiary"
+    :confirm-loading="uploadLoading"
+    v-model="addDialog"
+    @confirm="upload3dTiles"
+    @close="addDialog = false"
+  >
+    <AppInputText label="Name" v-model="uploadForm.name" />
+    <AppInputAutocomplete
+      label="Category"
+      :items="['road', 'building']"
+      v-model="uploadForm.category"
+    />
+    <AppInputAutocomplete
+      label="LOD"
+      :items="[1, 2, 3]"
+      v-model="uploadForm.lod"
+    />
+    <AppInputText
+      label="Center X (Longitude)"
+      placeholder="ex: 117.0"
+      type="number"
+      v-model="uploadForm.center_x"
+    />
+    <AppInputText
+      label="Center Y (Latitude)"
+      placeholder="ex: 0.312"
+      type="number"
+      v-model="uploadForm.center_y"
+    />
+    <v-switch
+      color="success"
+      inset
+      label="Status"
+      v-model="uploadForm.status"
+    />
+    <AppInputFileIBoxV2 v-model="uploadForm.file" />
+  </AppDialogConfirm>
+
+  <AppDialogConfirm
+    :confirm-loading="uploadLoading"
+    v-model="deleteDialog"
+    @close="deleteDialog = false"
+    @confirm="confirmDelete3dTiles"
+  >
+  </AppDialogConfirm>
+
+  <AppDialogConfirm
+    title="Edit 3D Tiles"
+    close-text="Cancel"
+    confirm-text="Update"
+    confirm-color="tertiary"
+    :confirm-loading="uploadLoading"
+    v-model="editDialog"
+    @confirm="confirmEdit3dTiles"
+    @close="editDialog = false"
+  >
+    <AppInputText label="Name" v-model="editForm.name" />
+    <AppInputAutocomplete
+      label="Category"
+      :items="['road', 'building']"
+      v-model="editForm.category"
+    />
+    <AppInputAutocomplete
+      label="LOD"
+      :items="[1, 2, 3]"
+      v-model="editForm.lod"
+    />
+    <AppInputText
+      label="Center X (Longitude)"
+      placeholder="ex: 117.0"
+      type="number"
+      v-model="editForm.center_x"
+    />
+    <AppInputText
+      label="Center Y (Latitude)"
+      placeholder="ex: 0.312"
+      type="number"
+      v-model="editForm.center_y"
+    />
+    <v-switch color="success" inset label="Status" v-model="editForm.status" />
+    <AppInputFileIBoxV2 v-model="editForm.file" />
+  </AppDialogConfirm>
+</template>
+<script lang="ts" setup>
+import tiles3DApi from "~/app/api/tiles3D.api";
+import tiles3dConstant from "~/app/constant/3dTiles.constant";
+import stringHelper from "~/app/helper/string.helper";
+const appStore = useAppStore();
+const selectedId = ref();
+const tiles3dStore = use3dTilesStore();
+tiles3dStore.getAll3dTiles();
+const uploadForm: any = ref<IUpload3dTilesPayload | null>(null);
+const addDialog = ref(false);
+
+const add3dTiles = () => {
+  addDialog.value = true;
+  uploadForm.value = {
+    name: null,
+    lod: 0,
+    category: null,
+    status: true,
+    center_x: null,
+    center_y: null,
+    file: undefined,
+  };
+};
+const deleteDialog = ref(false);
+const uploadLoading = ref(false);
+const upload3dTiles = async () => {
+  uploadLoading.value = true;
+  await tiles3dStore.upload3dTiles({
+    ...uploadForm.value,
+  });
+  await tiles3dStore.getAll3dTiles();
+  addDialog.value = false;
+  uploadLoading.value = false;
+};
+const delete3dTiles = async (item: any) => {
+  deleteDialog.value = true;
+  selectedId.value = item.id;
+};
+const confirmDelete3dTiles = async () => {
+  uploadLoading.value = true;
+  await tiles3dStore.delete3dTiles(selectedId.value);
+  await tiles3dStore.getAll3dTiles();
+  uploadLoading.value = false;
+  deleteDialog.value = false;
+};
+const editDialog = ref(false);
+const editForm: any = ref({});
+const edit3dTiles = async (item: any) => {
+  editDialog.value = true;
+  editForm.value = JSON.parse(JSON.stringify(item));
+  selectedId.value = item.id;
+};
+const confirmEdit3dTiles = async () => {
+  uploadLoading.value = true;
+  await tiles3dStore.update3dTiles({ id: selectedId.value }, editForm.value);
+  await tiles3dStore.getAll3dTiles();
+  uploadLoading.value = false;
+  editDialog.value = false;
+};
+
+const updateStatus = async (item: any) => {
+  console.log(item);
+  await tiles3DApi
+    .edit_3d_tiles(item.id, {
+      ...item,
+    })
+    .then(() => {
+      appStore.toastSuccess(
+        `Model 3D berhasil ${item.status ? "diaktifkan" : "dinonaktifkan"}`
+      );
+    })
+    .catch(() => {
+      appStore.toastError("Gagal Mengupdate Data :(");
+    })
+    .finally(() => {
+      tiles3dStore.getAll3dTiles();
+    });
+};
+
+const categoryIconMap: any = {
+  building: "mdi-home-city",
+  road: "mdi-road-variant",
+  vegetation: "mdi-palm-tree",
+};
+const categoryColorMap: any = {
+  building: "primary-blue",
+  road: "secondary",
+  vegetation: "success",
+};
+</script>
