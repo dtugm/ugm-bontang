@@ -19,7 +19,6 @@ declare interface IVectorsItems {
 
 declare interface IUploadVectorsPayload {
   name: string | null;
-  // lod: 0,
   category: string | null;
   status: boolean;
   type: string | null;

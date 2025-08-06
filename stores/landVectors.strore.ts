@@ -7,8 +7,7 @@ export const useLandVectors = defineStore("landVectors", () => {
   const readVectorsLandParcel = reactive(
     useTableData<IVectorsItems, IGetVectorsParams>(
       [...landParcelConstant.table_vectors.headers!],
-      vectorsApi.get_all_vectors,
-      {}
+      vectorsApi.get_all_vectors
     )
   );
   const getLandParcel = async (payload?: any) => {
