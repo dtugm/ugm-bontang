@@ -14,6 +14,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 function goTo3D() {
-  router.push("/optimized");
+  router.push("/cesium");
 }
 </script>
