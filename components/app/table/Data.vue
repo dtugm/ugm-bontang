@@ -48,6 +48,9 @@
       v-bind="$attrs"
       @update:options="readData.getData"
     >
+      <template v-slot:loading>
+        <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+      </template>
       <template #[`item.no`]="{ index }">
         <AppTableNumber
           :index="index"

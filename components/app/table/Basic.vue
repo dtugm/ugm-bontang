@@ -10,6 +10,9 @@
       <slot name="validate-table"></slot>
     </div>
     <v-data-table class="header-theme mt-2" v-bind="$attrs">
+      <template v-slot:loading>
+        <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+      </template>
       <template #[`item.no`]="{ internalItem }">
         <div>
           {{ internalItem.index + 1 }}
