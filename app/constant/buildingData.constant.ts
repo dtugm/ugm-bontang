@@ -2,8 +2,6 @@ export default {
   table_data: {
     headers: [
       { title: "No", key: "no" },
-      //   { title: "UUID", key: "fid" },
-      //   { title: "UUID_BGN", key: "uuid_bgn" },
       { title: "Province", key: "province", sortable: false },
       { title: "City", key: "city", sortable: false },
       { title: "Kecamatan", key: "district", sortable: false },
