@@ -6,6 +6,7 @@
     <v-row class="mx-2">
       <v-col>
         <AppInputAutocomplete
+          placeholder="Enter Email"
           v-model="addMemberForm.userId"
           :items="userStore.usersList"
           hide-details
@@ -13,9 +14,14 @@
           item-value="id"
         />
       </v-col>
-
       <v-col cols="auto">
-        <v-btn color="tertiary" @click="addMember">Add Member</v-btn>
+        <v-btn
+          color="tertiary"
+          @click="addMember"
+          class="text-none"
+          :loading="addMemberLoading"
+          >Add Member</v-btn
+        >
       </v-col>
     </v-row>
     <AppTableBasic
@@ -27,6 +33,7 @@
   </AppDialog>
   <AppTableBasic
     title="Groups Table"
+    :loading="isLoading"
     :items="groupStore.groupsItems"
     :headers="groupConstant.groupTable"
   >
@@ -48,7 +55,7 @@
     </template>
     <template #item.action="{ item }">
       <div class="flex">
-        <v-btn
+        <!-- <v-btn
           @click="deleteItem(item)"
           icon
           variant="flat"
@@ -56,7 +63,7 @@
           density="compact"
         >
           <v-icon color="tertiary">mdi-pencil</v-icon>
-        </v-btn>
+        </v-btn> -->
         <v-btn
           @click="deleteItem(item)"
           icon
@@ -71,6 +78,7 @@
   </AppTableBasic>
   <AppDialogConfirm
     v-model="deleteDialog"
+    :confirm-loading="groupStore.actBtnLoading"
     @confirm="confirmDeleteItem()"
     @close="deleteDialog = false"
   >
@@ -82,7 +90,8 @@
     confirm-text="Add"
     confirm-color="tertiary"
     v-model="addDialog"
-    @confirm="confirmAddItem()"
+    :confirm-loading="groupStore.actBtnLoading"
+    @confirm="confirmAddGroup()"
     @close="addDialog = false"
   >
     <AppInputText label="Group Name" v-model="addGroupForm.name" />
@@ -92,6 +101,9 @@
 <script lang="ts" setup>
 import groupConstant from "~/app/constant/group.constant";
 import stringHelper from "~/app/helper/string.helper";
+const userStore = useUsersStore();
+const isLoading = ref(false);
+const addMemberLoading = ref(false);
 function formatTeamMembers(data: any[]) {
   return data.map((item) => ({
     role: item.role,
@@ -112,7 +124,6 @@ const openMember = (item: any) => {
 };
 const selectedId = ref();
 const groupStore = useGroup();
-groupStore.getAllGroups();
 const deleteDialog = ref(false);
 const addDialog = ref(false);
 const deleteItem = (item: any) => {
@@ -122,28 +133,35 @@ const deleteItem = (item: any) => {
 const confirmDeleteItem = async () => {
   await groupStore.deleteDataGroups(selectedId.value);
   deleteDialog.value = false;
-  groupStore.getAllGroups();
+  getAllGroups();
 };
-
 const addGroupForm = ref<IUploadGroupsParams>({
   name: null,
   description: null,
 });
-const confirmAddItem = async () => {
+const confirmAddGroup = async () => {
   await groupStore.addNewGroup(addGroupForm.value);
   addDialog.value = false;
-  groupStore.getAllGroups();
+  getAllGroups();
 };
-
-const userStore = useUsersStore();
-userStore.getUsersList();
-
 const addMemberForm = ref({
   userId: null,
   role: "MEMBER",
 });
-
 const addMember = async () => {
+  addMemberLoading.value = true;
   await groupStore.addMemberToGroup(groupId.value, addMemberForm.value);
+  addMemberLoading.value = false;
+  memberDialog.value = false;
+  getAllGroups();
 };
+const getAllGroups = async () => {
+  isLoading.value = true;
+  await groupStore.getAllGroups();
+  isLoading.value = false;
+};
+onMounted(() => {
+  userStore.getUsersList();
+  getAllGroups();
+});
 </script>

@@ -8,17 +8,30 @@ export const useGroup = defineStore("group", () => {
     const resp = await groupApi.get_all_groups();
     groupsItems.value = resp;
   };
+  const actBtnLoading = ref(false);
   const deleteDataGroups = async (id: string) => {
-    const resp = await groupApi.delete_group(id);
+    actBtnLoading.value = true;
+    await apiWrapper(() => groupApi.delete_group(id), {
+      successMessage: "Berhasil Mengahpus Data",
+    }).then(() => {
+      actBtnLoading.value = false;
+    });
   };
   const addNewGroup = async (payload: IUploadGroupsParams) => {
-    const resp = await groupApi.add_new_group(payload);
-    console.log(resp);
+    actBtnLoading.value = true;
+    await apiWrapper(() => groupApi.add_new_group(payload), {
+      successMessage: "Group Berhasil Ditambahkan",
+    }).then(() => {
+      actBtnLoading.value = false;
+    });
   };
 
   const addMemberToGroup = async (id: string, payload: any) => {
+    actBtnLoading.value = true;
     await apiWrapper(() => groupApi.add_member_to_group(id, payload), {
       successMessage: "Member Berhasil Ditambahkan",
+    }).then(() => {
+      actBtnLoading.value = false;
     });
   };
   return {
@@ -26,10 +39,9 @@ export const useGroup = defineStore("group", () => {
     getAllGroups,
     groupsItems,
     deleteDataGroups,
-
     addNewGroup,
-
     addMemberToGroup,
+    actBtnLoading,
   };
 });
 
