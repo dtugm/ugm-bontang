@@ -1,4 +1,6 @@
+import organizationsApi from "~/app/api/auth/organizations.api";
 import usersApi from "~/app/api/users.api";
+import { apiWrapper } from "~/app/helper/api.helper";
 
 export const useUsersStore = defineStore("usersStore", () => {
   const usersList = ref([]);
@@ -6,9 +8,16 @@ export const useUsersStore = defineStore("usersStore", () => {
     const resp = await usersApi.get_all_users();
     usersList.value = resp.users;
   };
+  const addUserToOrganization = async (payload: any) => {
+    await apiWrapper(() => organizationsApi.add_user_to_organization(payload), {
+      successMessage: "Success add user to organization",
+    });
+  };
   return {
     getUsersList,
     usersList,
+
+    addUserToOrganization,
   };
 });
 
