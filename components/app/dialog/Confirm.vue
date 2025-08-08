@@ -7,11 +7,11 @@
     @input="input"
   >
     <v-card class="pa-4">
-      <v-card-title class="text-h5 grey lighten-2">
+      <v-card-title class="text-h5 grey lighten-2 px-2">
         {{ title }}
       </v-card-title>
 
-      <v-card-text class="py-4 px-4">
+      <v-card-text class="px-2">
         <template v-if="$slots.default">
           <slot></slot>
         </template>
@@ -27,7 +27,7 @@
 
       <v-divider></v-divider>
 
-      <v-card-actions>
+      <v-card-actions class="px-2">
         <v-btn
           variant="outlined"
           class="flex-grow-1 text-none"
