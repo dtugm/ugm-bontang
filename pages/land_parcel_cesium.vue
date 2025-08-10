@@ -5,55 +5,22 @@
       <p class="text-white">Please wait...</p>
     </div>
     <div class="viewer-container relative w-full h-screen">
-      <div class="absolute top-0 w-full z-10 bg-black flex justify-between">
-        <v-btn
-          size="30"
-          variant="flat"
-          class="text-none rounded-0"
-          icon
-          color="black"
-          @click="router.back()"
-        >
-          <v-icon>mdi-keyboard-backspace</v-icon>
-        </v-btn>
-        <div>Digital Twin Bontang</div>
-        <div>
-          <v-img src="/logo/Logo_1.png" width="30" height="30"> </v-img>
-        </div>
-      </div>
-      <div class="absolute top-4 left-5 z-10 mt-4">
-        <AppInputAutocomplete
-          label="Location"
-          v-model="location"
-          class="w-[300px]"
-          is-filter
-          elevation="2"
-          append-inner-icon="mdi-magnify"
-          :items="[...tiles3dStore.activeBuilding]"
-          item-title="name"
-          @update:model-value="flyToLocation"
-          return-object
-        >
-          <template #prepend-inner>
-            <v-icon color="tertiary">mdi-google-maps</v-icon>
-          </template>
-        </AppInputAutocomplete>
-      </div>
-      <div class="absolute top-1/2 -translate-y-1/2 right-5 z-10"></div>
-      <CesiumOverlayFeature />
+      <AppHeaderViewerCesium />
       <CesiumLandParcelFeature />
+
+      <CesiumLandParcelFeatures />
+
+      <!-- DETAIL FIELD -->
+      <CesiumOverlayFeature />
+
+      <!-- VIEWER -->
       <vc-viewer
         @ready="onViewerReady"
         :show-credit="false"
         :infoBox="false"
         :camera="cameraOptions"
       >
-        <vc-layer-imagery v-if="tiles3dStore.layer == 'arcgis'">
-          <vc-imagery-provider-arcgis :alpha="1"></vc-imagery-provider-arcgis>
-        </vc-layer-imagery>
-        <vc-layer-imagery v-if="tiles3dStore.layer == 'osm'">
-          <vc-imagery-provider-osm />
-        </vc-layer-imagery>
+        <!-- COMPASS -->
         <vc-navigation
           position="top-right"
           :offset="[0, 20]"
@@ -63,47 +30,38 @@
         >
         </vc-navigation>
 
-        <!-- <vc-datasource-geojson
+        <!-- Bangunan AWS-->
+        <vc-primitive-tileset
+          :show="viewerStore.isBuildingActive"
+          v-for="(item, index) in viewerStore.activeBuilding"
+          :key="index"
+          :ref="setTileRefs"
+          :url="item.url"
+          :maximumScreenSpaceError="32"
+        />
+
+        <!-- DATA PERSIL -->
+        <vc-datasource-geojson
+          v-for="(item, index) in viewerStore.activeLandParcel"
+          :data="item.url"
+          :clamp-to-ground="false"
+          stroke="red"
+          :strokeWidth="10"
+          @click="clickPersil"
+        ></vc-datasource-geojson>
+
+        <!-- Batas Kelurahan -->
+        <vc-datasource-geojson
           ref="datasourceRef"
           data="/new_bontang.geojson"
           :clampToGround="false"
           stroke="red"
           fill="transparent"
           :strokeWidth="10"
-        ></vc-datasource-geojson> -->
-        <!-- <vc-datasource-geojson
-          v-for="(item, index) in surveyDataStore.dataVectorPersil"
-          :data="item.url"
-          :clamp-to-ground="false"
-          stroke="red"
-          :strokeWidth="10"
-          @click="clickPersil"
-        ></vc-datasource-geojson> -->
+        ></vc-datasource-geojson>
 
-        <vc-primitive-tileset
-          v-if="tiles3dStore.isBuildingActive"
-          v-for="(item, index) in [
-            'https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Lok%20Tuan/tileset.json',
-          ]"
-          :ref="setTileRefs"
-          :url="item"
-          :maximumScreenSpaceError="32"
-        />
-        <vc-primitive-tileset
-          v-if="tiles3dStore.isBuildingActive"
-          v-for="(item, index) in [
-            'https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Ramayana%20Texture/tileset.json',
-          ]"
-          :ref="setTileRefs"
-          :url="item"
-          :maximumScreenSpaceError="32"
-        />
-        <vc-layer-imagery>
-          <vc-imagery-provider-urltemplate
-            ref="provider"
-            url="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/orthoBontangFull/{z}/{x}/{reverseY}.png"
-          ></vc-imagery-provider-urltemplate>
-        </vc-layer-imagery>
+        <!-- BASEMAP LAYER -->
+        <CesiumDefaultBasemap />
       </vc-viewer>
     </div>
   </ClientOnly>
@@ -114,10 +72,11 @@ import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
+const viewerStore = useViewerLandParcelStore();
 const surveyDataStore = useSurveyDataStore();
 const tiles3dStore = use3dTilesStore();
 const location = ref();
-const router = useRouter();
+
 // Viewer Ref
 const refViewer = ref<Cesium.Viewer | null>(null);
 
@@ -173,7 +132,6 @@ const getDetailBangunan = async (gmlid: string) => {
 };
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   viewer.scene.globe.depthTestAgainstTerrain = true;
-  console.log("Tredy", viewer);
   refViewer.value = viewer;
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   viewerRaady.value = true;
@@ -233,7 +191,8 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 onMounted(async () => {
-  await surveyDataStore.getDataVectorPersil();
+  await viewerStore.getActiveBuilding();
+  await viewerStore.getActiveLandParcel();
   await nextTick();
   tilesetsReady.value = true;
   checkAllReady();

@@ -5,22 +5,7 @@
       <p class="text-white">Please wait...</p>
     </div>
     <div class="viewer-container relative w-full h-screen">
-      <div class="absolute top-0 w-full z-10 bg-black flex justify-between">
-        <v-btn
-          size="30"
-          variant="flat"
-          class="text-none rounded-0"
-          icon
-          color="black"
-          @click="router.back()"
-        >
-          <v-icon>mdi-keyboard-backspace</v-icon>
-        </v-btn>
-        <div>Digital Twin Bontang</div>
-        <div>
-          <v-img src="/logo/Logo_1.png" width="30" height="30"> </v-img>
-        </div>
-      </div>
+      <AppHeaderViewerCesium />
       <div class="absolute top-5 left-5 z-10 mt-4">
         <AppInputAutocomplete
           label="Location"
@@ -60,26 +45,14 @@
         :infoBox="false"
         :camera="cameraOptions"
       >
-        <vc-layer-imagery v-if="tiles3dStore.orthoPhoto">
-          <vc-imagery-provider-urltemplate
-            ref="provider"
-            url="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/orthoBontangFull/{z}/{x}/{reverseY}.png"
-          ></vc-imagery-provider-urltemplate>
-        </vc-layer-imagery>
-        <vc-layer-imagery v-if="tiles3dStore.layer == 'arcgis'">
-          <vc-imagery-provider-arcgis :alpha="1"></vc-imagery-provider-arcgis>
-        </vc-layer-imagery>
-        <vc-layer-imagery v-if="tiles3dStore.layer == 'osm'">
-          <vc-imagery-provider-osm />
-        </vc-layer-imagery>
+        <!-- COMPASS -->
         <vc-navigation
           position="top-right"
           :offset="[0, 20]"
           :printOpts="false"
           :locationOpts="false"
           :zoom-opts="zoomOptions"
-        >
-        </vc-navigation>
+        />
 
         <!-- Bangunan AWS-->
         <vc-primitive-tileset
@@ -114,11 +87,13 @@
           :assetId="3614335"
           :maximumScreenSpaceError="32"
         />
+
         <vc-terrain-provider-cesium
           ref="provider"
           :assetId="3338372"
           @ready="onTerrainReady"
         />
+
         <vc-analysis-flood
           @ready="onFloodReady"
           ref="flood"
@@ -126,8 +101,10 @@
           :max-height="maxHeight"
           :speed="speed"
           :polygon-hierarchy="polygonHierarchy"
-        >
-        </vc-analysis-flood>
+        />
+
+        <!-- BASEMAP LAYER -->
+        <CesiumDefaultBasemap />
       </vc-viewer>
     </div>
   </ClientOnly>
