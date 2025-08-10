@@ -23,7 +23,7 @@
     </template>
     <template #item.action="{ item }">
       <v-btn icon variant="flat" rounded="sm" density="compact">
-        <v-icon color="tertiary">mdi-pencil</v-icon>
+        <v-icon color="tertiary" @click="editVectors(item)">mdi-pencil</v-icon>
       </v-btn>
       <v-btn icon variant="flat" rounded="sm" density="compact">
         <v-icon color="primary" @click="deleteVector(item)">mdi-delete</v-icon>
@@ -42,25 +42,26 @@
     </template>
   </AppTableData>
 
+  <!-- Add File -->
   <AppDialogConfirm
     title="Add New Vectors"
     close-text="Cancel"
     confirm-text="Add"
     confirm-color="tertiary"
-    :confirm-loading="uploadLoading"
+    :confirm-loading="vectorsStore.isUploading"
     v-model="addDialog"
-    @confirm="upload3dTiles"
+    @confirm="uploadVector"
     @close="addDialog = false"
   >
     <AppInputText label="Name" v-model="uploadForm.name" />
     <AppInputAutocomplete
       label="Category"
-      :items="['land_parcel', 'building', 'digitization']"
+      :items="vectorsConstant.CategoryType"
       v-model="uploadForm.category"
     />
     <AppInputAutocomplete
-      label="Type"
-      :items="['geojson', 'shp']"
+      label="File Type"
+      :items="vectorsConstant.FileType"
       v-model="uploadForm.type"
     />
     <v-switch
@@ -72,84 +73,86 @@
     <AppInputFileIBoxV2 v-model="uploadForm.file" />
   </AppDialogConfirm>
 
+  <!-- Delete File -->
   <AppDialogConfirm
-    :confirm-loading="uploadLoading"
+    :confirm-loading="vectorsStore.isDeletingFile"
     v-model="deleteDialog"
     @close="deleteDialog = false"
     @confirm="confirmDeleteVector"
-  >
-  </AppDialogConfirm>
+  />
 
+  <!-- Edit File -->
   <AppDialogConfirm
     title="Edit Vectors"
     close-text="Cancel"
-    confirm-text="Update"
+    confirm-text="Edit"
     confirm-color="tertiary"
-    :confirm-loading="uploadLoading"
-    v-model="addDialog"
-    @confirm="upload3dTiles"
-    @close="addDialog = false"
+    :confirm-loading="vectorsStore.isUploading"
+    v-model="editDialog"
+    @confirm="confirmEditVector"
+    @close="editDialog = false"
   >
-    <AppInputText label="Name" v-model="uploadForm.name" />
+    <AppInputText label="Name" v-model="editForm.name" />
     <AppInputAutocomplete
       label="Category"
-      :items="['land_parcel', 'building', 'digitization']"
-      v-model="uploadForm.category"
+      :items="vectorsConstant.CategoryType"
+      v-model="editForm.category"
     />
     <AppInputAutocomplete
-      label="Type"
-      :items="['geojson', 'shp']"
-      v-model="uploadForm.type"
+      label="File Type"
+      :items="vectorsConstant.FileType"
+      v-model="editForm.type"
     />
-    <v-switch
-      color="success"
-      inset
-      label="Status"
-      v-model="uploadForm.status"
-    />
-    <AppInputFileIBoxV2 v-model="uploadForm.file" />
+    <v-switch color="success" inset label="Status" v-model="editForm.status" />
+    <AppInputFileIBoxV2 v-model="editForm.file" />
   </AppDialogConfirm>
 </template>
 <script setup lang="ts">
+import vectorsConstant from "~/app/constant/management/vectorsManagement.constant";
 const vectorsStore = useVectorsStore();
-const landParcelStore = useLandVectors();
-// landParcelStore.getLandParcel({});
-const uploadForm = ref<IUploadVectorsPayload>({
-  name: null,
-  // lod: 0,
-  category: null,
-  status: true,
-  type: null,
-  file: undefined,
-});
+const uploadForm = ref<IUploadVectorsPayload>(
+  vectorsConstant.defaultUploadForm
+);
+// ADD METHOD
 const addDialog = ref(false);
-const uploadLoading = ref(false);
-const upload3dTiles = async () => {
-  uploadLoading.value = true;
-  await landParcelStore.uploadVectors({
+const uploadVector = async () => {
+  await vectorsStore.addNewVector({
     ...uploadForm.value,
   });
-  await landParcelStore.getLandParcel({});
+  await vectorsStore.readVectors.getData({ itemsPerPage: 10, page: 1 });
   addDialog.value = false;
-  uploadLoading.value = false;
 };
+
 const updateStatusVector = async (item: IVectorsItems) => {
-  await landParcelStore.updateVectorsStatus(item.id, {
+  await vectorsStore.updateVectorsStatus(item.id, {
     ...item,
   });
 };
+
+// DELETE METHOD
 const deleteDialog = ref(false);
 const selectedId = ref();
 const deleteVector = async (item: any) => {
   deleteDialog.value = true;
   selectedId.value = item.id;
 };
-
 const confirmDeleteVector = async () => {
-  uploadLoading.value = true;
   await vectorsStore.deleteVectore(selectedId.value);
   await vectorsStore.readVectors.getData({ itemsPerPage: 10, page: 1 });
-  uploadLoading.value = false;
   deleteDialog.value = false;
+};
+
+const editDialog = ref(false);
+const editForm: any = ref({});
+const editVectors = async (item: any) => {
+  editDialog.value = true;
+  editForm.value = JSON.parse(JSON.stringify(item));
+  selectedId.value = item.id;
+};
+
+const confirmEditVector = async () => {
+  await vectorsStore.updateVectorsStatus(selectedId.value, editForm.value);
+  await vectorsStore.readVectors.getData({ itemsPerPage: 10, page: 1 });
+  editDialog.value = false;
 };
 </script>

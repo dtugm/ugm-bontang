@@ -12,10 +12,30 @@ export const useVectorsStore = defineStore("vectors", () => {
     )
   );
 
+  const isUploading = ref(false);
+  const addNewVector = async (payload: IUploadVectorsPayload) => {
+    isUploading.value = true;
+    await apiWrapper(() => vectors2D.create_vector(payload), {
+      successMessage: "Berhasil menambah data vector!",
+    });
+    isUploading.value = false;
+  };
+
+  const isDeletingFile = ref(false);
   const deleteVectore = async (id: string) => {
+    isDeletingFile.value = true;
     await apiWrapper(() => vectors2D.delete_vector({ id: id }), {
       successMessage: "Berhasil menghapus data!",
     });
+    isDeletingFile.value = false;
+  };
+
+  const updateVectorsStatus = async (id: string, payload: any) => {
+    isUploading.value = true;
+    await apiWrapper(() => vectors2D.edit_vector({ id: id }, payload), {
+      successMessage: "Berhasil mengubah status vector!",
+    });
+    isUploading.value = false;
   };
 
   return {
@@ -24,5 +44,12 @@ export const useVectorsStore = defineStore("vectors", () => {
 
     deleteVectore,
     isFetchingData,
+
+    addNewVector,
+
+    isUploading,
+    isDeletingFile,
+
+    updateVectorsStatus,
   };
 });
