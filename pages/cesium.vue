@@ -83,7 +83,10 @@
 
         <!-- Bangunan AWS-->
         <vc-primitive-tileset
-          v-if="tiles3dStore.isBuildingActive"
+          :show="
+            tiles3dStore.isBuildingActive &&
+            tiles3dStore.buildingVariant == 'non-textured'
+          "
           v-for="(item, index) in tiles3dStore.activeBuilding"
           :key="index"
           :ref="setTileRefs"
@@ -93,7 +96,7 @@
 
         <!-- Jalan -->
         <vc-primitive-tileset
-          v-if="tiles3dStore.isRoadActive"
+          :show="tiles3dStore.isRoadActive"
           v-for="(item, index) in tiles3dStore.activeRoad"
           :key="index"
           :url="item.url"
@@ -102,12 +105,15 @@
         />
 
         <!-- Bangunan Cesium Asset -->
-        <!-- <vc-primitive-tileset
+        <vc-primitive-tileset
+          :show="
+            tiles3dStore.isBuildingActive &&
+            tiles3dStore.buildingVariant == 'textured'
+          "
           :ref="setTileRefs"
           :assetId="3614335"
           :maximumScreenSpaceError="32"
-        /> -->
-
+        />
         <vc-terrain-provider-cesium
           ref="provider"
           :assetId="3338372"

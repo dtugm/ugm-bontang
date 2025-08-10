@@ -74,23 +74,55 @@
       </template>
       <v-card class="rounded-lg">
         <v-card-text>
-          <p class="text-grey">3D Tiles Object</p>
-          <div class="flex">
-            <v-checkbox v-model="tiles3dStore.isBuildingActive" hide-details>
-              <template #label>
-                <v-icon color="tertiary">mdi-home-city</v-icon>
-              </template>
-            </v-checkbox>
-            <v-checkbox v-model="tiles3dStore.isRoadActive" hide-details>
-              <template #label>
-                <v-icon color="tertiary">mdi-road-variant</v-icon>
-              </template>
-            </v-checkbox>
-            <v-checkbox disabled hide-details>
-              <template #label>
-                <v-icon color="tertiary">mdi-palm-tree</v-icon>
-              </template>
-            </v-checkbox>
+          <p class="text-grey">3D Tiles Variant</p>
+          <div class="flex flex-col">
+            <v-radio-group
+              v-model="tiles3dStore.buildingVariant"
+              hide-details
+              inline
+              class="pb-4"
+            >
+              <v-radio value="non-textured">
+                <template #label>
+                  <v-row align="center" no-gutters>
+                    <v-icon color="tertiary" class="mr-1"
+                      >mdi-city-variant-outline</v-icon
+                    >
+                    <span>UnTextured</span>
+                  </v-row>
+                </template>
+              </v-radio>
+
+              <v-radio value="textured">
+                <template #label>
+                  <v-row align="center" no-gutters>
+                    <v-icon color="tertiary" class="mr-1"
+                      >mdi-city-variant</v-icon
+                    >
+                    <span>Textured</span>
+                  </v-row>
+                </template>
+              </v-radio>
+            </v-radio-group>
+            <hr />
+            <p class="text-grey">3D Object</p>
+            <div class="flex">
+              <v-checkbox v-model="tiles3dStore.isBuildingActive" hide-details>
+                <template #label>
+                  <v-icon color="tertiary">mdi-home-city</v-icon>
+                </template>
+              </v-checkbox>
+              <v-checkbox v-model="tiles3dStore.isRoadActive" hide-details>
+                <template #label>
+                  <v-icon color="tertiary">mdi-road-variant</v-icon>
+                </template>
+              </v-checkbox>
+              <v-checkbox disabled hide-details>
+                <template #label>
+                  <v-icon color="tertiary">mdi-palm-tree</v-icon>
+                </template>
+              </v-checkbox>
+            </div>
           </div>
         </v-card-text>
       </v-card>

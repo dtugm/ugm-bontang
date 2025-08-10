@@ -89,8 +89,10 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
   };
 
   const isBuildingActive = ref(true);
+  const isTexturedBuildingActive = ref(true);
   const isRoadActive = ref(true);
   const layer = ref("osm");
+  const buildingVariant = ref("non-textured");
   const orthoPhoto = ref(false);
 
   const filteredBuilding = ref([]);
@@ -125,10 +127,12 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     activeRoad,
 
     isBuildingActive,
+    isTexturedBuildingActive,
     isRoadActive,
 
     orthoPhoto,
     layer,
+    buildingVariant,
 
     filterBuilding,
   };
