@@ -32,8 +32,6 @@ export default {
   table_collection: {
     headers: [
       { title: "No", key: "no", sortable: false },
-      //   { title: "UUID", key: "fid" },
-      //   { title: "UUID_BGN", key: "uuid_bgn" },
       { title: "Province", key: "province", sortable: false },
       { title: "City", key: "city", sortable: false },
       { title: "Kecamatan", key: "district", sortable: false },
