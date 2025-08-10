@@ -128,7 +128,6 @@ const confirmDelete3dTiles = async () => {
   deleteDialog.value = false;
 };
 const updateStatus = async (item: any) => {
-  console.log("first");
   await tiles3DApi.edit_3d_tiles(item.id, {
     ...item,
     status: true,
