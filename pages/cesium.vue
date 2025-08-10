@@ -96,7 +96,7 @@
         <vc-layer-imagery v-if="tiles3dStore.orthoPhoto">
           <vc-imagery-provider-urltemplate
             ref="provider"
-            url="https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{reverseY}.png"
+            url="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/orthoBontangFull/{z}/{x}/{reverseY}.png"
           ></vc-imagery-provider-urltemplate>
         </vc-layer-imagery>
         <vc-layer-imagery v-if="tiles3dStore.layer == 'arcgis'">
