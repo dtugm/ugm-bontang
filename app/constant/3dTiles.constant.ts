@@ -5,6 +5,8 @@ export default {
     { title: "Category", key: "category", sortable: false },
     { title: "Status", key: "status", sortable: false },
     { title: "LOD", key: "lod", sortable: false },
+    { title: "Surface", key: "texture", sortable: false },
+    { title: "Clamp To", key: "clamp", sortable: false },
     {
       title: "Status Action",
       key: "status_action",

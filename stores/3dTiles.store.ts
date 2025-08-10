@@ -13,13 +13,11 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     isFetchingData.value = false;
     return resp;
   };
-
   const upload3dTiles = async (payload: IUpload3dTilesPayload) => {
     await apiWrapper(() => tiles3DApi.upload_3d_tiles(payload), {
       successMessage: "Berhasil mengunggah data!",
     });
   };
-
   const delete3dTiles = async (id: string) => {
     await apiWrapper(() => tiles3DApi.delete_3d_tiles(id), {
       successMessage: "Berhasil menghapus data!",

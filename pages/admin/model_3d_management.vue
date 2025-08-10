@@ -1,4 +1,5 @@
 <template>
+  <!-- Table View -->
   <AppTableBasic
     :loading="tiles3dStore.isFetchingData"
     :items="tiles3dStore.tiles3dItems"
@@ -28,6 +29,11 @@
     <template #item.status="{ item }">
       <v-chip density="comfortable" :color="item.status ? 'success' : 'error'">
         {{ item.status ? "Active" : "Not Active" }}
+      </v-chip>
+    </template>
+    <template #item.texture="{ item }">
+      <v-chip density="comfortable" color="tertiary">
+        {{ item.texture ? "Textured" : "Basic" }}
       </v-chip>
     </template>
     <template #item.status_action="{ item }">
@@ -64,6 +70,7 @@
   </AppTableBasic>
 
   <AppDialogConfirm
+    width="920"
     title="Add New 3D Tiles"
     close-text="Cancel"
     confirm-text="Add"
@@ -73,35 +80,68 @@
     @confirm="upload3dTiles"
     @close="addDialog = false"
   >
-    <AppInputText label="Name" v-model="uploadForm.name" />
-    <AppInputAutocomplete
-      label="Category"
-      :items="['road', 'building']"
-      v-model="uploadForm.category"
-    />
-    <AppInputAutocomplete
-      label="LOD"
-      :items="[1, 2, 3]"
-      v-model="uploadForm.lod"
-    />
-    <AppInputText
-      label="Center X (Longitude)"
-      placeholder="ex: 117.0"
-      type="number"
-      v-model="uploadForm.center_x"
-    />
-    <AppInputText
-      label="Center Y (Latitude)"
-      placeholder="ex: 0.312"
-      type="number"
-      v-model="uploadForm.center_y"
-    />
-    <v-switch
-      color="success"
-      inset
-      label="Status"
-      v-model="uploadForm.status"
-    />
+    <v-row>
+      <v-col cols="6">
+        <AppInputText label="Name" v-model="uploadForm.name" />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="Category"
+          :items="['road', 'building']"
+          v-model="uploadForm.category"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputText
+          label="Center X (Longitude)"
+          placeholder="ex: 117.0"
+          type="number"
+          v-model="uploadForm.center_x"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputText
+          label="Center Y (Latitude)"
+          placeholder="ex: 0.312"
+          type="number"
+          v-model="uploadForm.center_y"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="LOD"
+          :items="[1, 2, 3]"
+          v-model="uploadForm.lod"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="Terrain"
+          :items="model3d.clamp_options"
+          v-model="uploadForm.clamp"
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-label>Status</v-label>
+        <v-switch
+          color="success"
+          inset
+          :label="uploadForm.status ? `Active` : 'Non Active'"
+          hide-details
+          v-model="uploadForm.status"
+      /></v-col>
+      <v-col cols="3">
+        <v-label>Texture</v-label>
+        <v-switch
+          color="success"
+          inset
+          :label="uploadForm.texture ? `Texture` : 'Non Textured'"
+          hide-details
+          v-model="uploadForm.texture"
+        />
+      </v-col>
+    </v-row>
+
     <AppInputFileIBoxV2 v-model="uploadForm.file" />
   </AppDialogConfirm>
 
@@ -130,6 +170,11 @@
       v-model="editForm.category"
     />
     <AppInputAutocomplete
+      label="Terrain"
+      :items="model3d.clamp_options"
+      v-model="editForm.clamp"
+    />
+    <AppInputAutocomplete
       label="LOD"
       :items="[1, 2, 3]"
       v-model="editForm.lod"
@@ -146,7 +191,21 @@
       type="number"
       v-model="editForm.center_y"
     />
-    <v-switch color="success" inset label="Status" v-model="editForm.status" />
+    <v-label>Status</v-label>
+    <v-switch
+      color="success"
+      inset
+      :label="editForm.status ? `Active` : 'Non Active'"
+      v-model="editForm.status"
+    />
+    <v-label>Texture</v-label>
+    <v-switch
+      color="success"
+      inset
+      :label="editForm.texture ? `Texture` : 'Non Textured'"
+      hide-details
+      v-model="editForm.texture"
+    />
     <AppInputFileIBoxV2 v-model="editForm.file" />
   </AppDialogConfirm>
 </template>
@@ -154,6 +213,7 @@
 import tiles3DApi from "~/app/api/tiles3D.api";
 import tiles3dConstant from "~/app/constant/3dTiles.constant";
 import stringHelper from "~/app/helper/string.helper";
+import model3d from "~/app/constant/management/model3dManagement.constant";
 const appStore = useAppStore();
 const selectedId = ref();
 const tiles3dStore = use3dTilesStore();
@@ -168,6 +228,7 @@ const add3dTiles = () => {
     lod: 0,
     category: null,
     status: true,
+    texture: false,
     center_x: null,
     center_y: null,
     file: undefined,
