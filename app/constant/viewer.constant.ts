@@ -33,4 +33,24 @@ export default {
     "Bontang Lestari",
     "Berbas Pantai",
   ],
+  floodTickLabel: {
+    60: "60",
+    65: "65",
+    70: "70",
+    75: "75",
+    80: "80",
+    85: "85",
+    90: "90",
+  },
+  floodPolygon: [
+    [117.3833, 0.0167],
+    [117.5333, 0.0167],
+    [117.5333, 0.2],
+    [117.3833, 0.2],
+  ],
+  bontangDefaultPosition: {
+    lng: 117.49144533245031,
+    lat: 0.13273319760632002,
+    height: 200,
+  },
 };

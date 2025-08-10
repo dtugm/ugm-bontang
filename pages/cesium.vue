@@ -114,15 +114,15 @@
         >
         </vc-navigation>
 
-        <!-- Bangunan -->
-        <vc-primitive-tileset
+        <!-- Bangunan AWS-->
+        <!-- <vc-primitive-tileset
           v-if="tiles3dStore.isBuildingActive"
           v-for="(item, index) in tiles3dStore.activeBuilding"
           :key="index"
           :ref="setTileRefs"
           :url="item.url"
           :maximumScreenSpaceError="32"
-        />
+        /> -->
 
         <!-- Jalan -->
         <vc-primitive-tileset
@@ -130,9 +130,16 @@
           v-for="(item, index) in tiles3dStore.activeRoad"
           :key="index"
           :url="item.url"
+          :shadows="0"
           :maximumScreenSpaceError="32"
         />
 
+        <!-- Bangunan -->
+        <vc-primitive-tileset
+          :ref="setTileRefs"
+          :assetId="3614335"
+          :maximumScreenSpaceError="32"
+        />
         <vc-terrain-provider-cesium
           ref="provider"
           :assetId="3338372"
@@ -154,34 +161,20 @@
 
 <script setup lang="ts">
 import * as Cesium from "cesium";
+import viewerConstant from "~/app/constant/viewer.constant";
 definePageMeta({
   layout: "viewer",
 });
-const tickLabels = {
-  60: "60",
-  65: "65",
-  70: "70",
-  75: "75",
-  80: "80",
-  85: "85",
-  90: "90",
-};
+const tickLabels = viewerConstant.floodTickLabel;
 const flood: any = ref(null);
 const minHeight = ref(60);
 const maxHeight = ref(70);
 const speed = ref(0.05);
 const pausing = ref(false);
 const starting = ref(false);
-
-const polygonHierarchy = ref([
-  [117.3833, 0.0167],
-  [117.5333, 0.0167],
-  [117.5333, 0.2],
-  [117.3833, 0.2],
-]);
-
+const polygonHierarchy = ref(viewerConstant.floodPolygon);
 const onFloodReady = (cesiumInstance: any) => {
-  console.log("Flood Ready:", cesiumInstance);
+  // console.log("Flood Ready:", cesiumInstance);
 };
 const start = () => {
   flood.value?.start();
@@ -218,24 +211,14 @@ const setTileRefs = (el: any) => {
 const zoomOptions = ref({
   direction: "horizontal",
   defaultResetView: {
-    position: {
-      lng: 117.49144533245031,
-      lat: 0.13273319760632002,
-      height: 200,
-    },
+    position: viewerConstant.bontangDefaultPosition,
     heading: Cesium.Math.toRadians(0),
     pitch: Cesium.Math.toRadians(-1000),
     roll: 0,
   },
 });
-
 const cameraOptions = ref({
-  position: {
-    lng: 117.49144533245031,
-    lat: 0.13273319760632002,
-    height: 200,
-  },
-
+  position: viewerConstant.bontangDefaultPosition,
   heading: Cesium.Math.toRadians(0),
   pitch: Cesium.Math.toRadians(-1000),
   roll: 0,
@@ -267,9 +250,9 @@ const getDetailBangunan = async (gmlid: string) => {
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   viewer.camera.setView({
     destination: Cesium.Cartesian3.fromDegrees(
-      117.49144533245031,
-      0.13273319760632002,
-      200
+      viewerConstant.bontangDefaultPosition.lng,
+      viewerConstant.bontangDefaultPosition.lat,
+      viewerConstant.bontangDefaultPosition.height
     ),
     orientation: {
       heading: Cesium.Math.toRadians(0),
@@ -278,7 +261,6 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     },
   });
   viewer.scene.globe.depthTestAgainstTerrain = true;
-  console.log("Tredy", viewer);
   refViewer.value = viewer;
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   viewerRaady.value = true;
@@ -349,8 +331,8 @@ const flyToLocation = (item: any) => {
 
   const destination = Cesium.Cartesian3.fromDegrees(
     Number(item.center_x),
-    Number(item.center_y) - 0.002, // offset sedikit ke selatan
-    400 // ketinggian kamera
+    Number(item.center_y) - 0.002,
+    400
   );
   viewer?.camera.flyTo({
     destination: destination,
