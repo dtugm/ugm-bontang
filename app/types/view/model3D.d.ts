@@ -8,6 +8,8 @@ declare interface IGet3DModelParams {
     | "landmark";
   status?: boolean;
   lod?: number;
+  clamp?: "DTM_BONTANG" | "MEAN_SEA_LEVEL";
+  texture?: boolean;
 }
 
 declare interface ICreate3DModelPayload {

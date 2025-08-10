@@ -56,11 +56,26 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
       .get_3d_tiles({
         category: "building",
         status: true,
+        clamp: "DTM_BONTANG",
+        texture: false,
       })
       .then((resp) => {
         activeBuilding.value = resp;
       });
   };
+  const getActiveBuildingFlat = async () => {
+    await model3DApi
+      .get_3d_tiles({
+        category: "building",
+        status: true,
+        clamp: "MEAN_SEA_LEVEL",
+        texture: false,
+      })
+      .then((resp) => {
+        activeBuilding.value = resp;
+      });
+  };
+
   const activeRoad: any = ref([]);
   const getActiveRoad = async () => {
     await model3DApi
@@ -95,6 +110,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     delete3dTiles,
     isFetchingData,
     getDetailBuilding,
+    getActiveBuildingFlat,
 
     update3dTiles,
 

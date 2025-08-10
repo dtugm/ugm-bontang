@@ -133,7 +133,6 @@ import viewerConstant from "~/app/constant/viewer.constant";
 definePageMeta({
   layout: "viewer",
 });
-const tickLabels = viewerConstant.floodTickLabel;
 const flood: any = ref(null);
 const minHeight = ref(60);
 const maxHeight = ref(70);
