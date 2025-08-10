@@ -48,12 +48,6 @@
         :infoBox="false"
         :camera="cameraOptions"
       >
-        <vc-layer-imagery v-if="tiles3dStore.orthoPhoto">
-          <vc-imagery-provider-urltemplate
-            ref="provider"
-            url="https://basemap-ortho.s3.ap-southeast-2.amazonaws.com/bontang-ortho-tiles/{z}/{x}/{reverseY}.png"
-          ></vc-imagery-provider-urltemplate>
-        </vc-layer-imagery>
         <vc-layer-imagery v-if="tiles3dStore.layer == 'arcgis'">
           <vc-imagery-provider-arcgis :alpha="1"></vc-imagery-provider-arcgis>
         </vc-layer-imagery>
@@ -69,22 +63,22 @@
         >
         </vc-navigation>
 
-        <vc-datasource-geojson
+        <!-- <vc-datasource-geojson
           ref="datasourceRef"
           data="/new_bontang.geojson"
           :clampToGround="false"
           stroke="red"
           fill="transparent"
           :strokeWidth="10"
-        ></vc-datasource-geojson>
-        <vc-datasource-geojson
+        ></vc-datasource-geojson> -->
+        <!-- <vc-datasource-geojson
           v-for="(item, index) in surveyDataStore.dataVectorPersil"
           :data="item.url"
           :clamp-to-ground="false"
           stroke="red"
           :strokeWidth="10"
           @click="clickPersil"
-        ></vc-datasource-geojson>
+        ></vc-datasource-geojson> -->
 
         <vc-primitive-tileset
           v-if="tiles3dStore.isBuildingActive"
@@ -95,6 +89,21 @@
           :url="item"
           :maximumScreenSpaceError="32"
         />
+        <vc-primitive-tileset
+          v-if="tiles3dStore.isBuildingActive"
+          v-for="(item, index) in [
+            'https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/3dtiles/Ramayana%20Texture/tileset.json',
+          ]"
+          :ref="setTileRefs"
+          :url="item"
+          :maximumScreenSpaceError="32"
+        />
+        <vc-layer-imagery>
+          <vc-imagery-provider-urltemplate
+            ref="provider"
+            url="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/orthoBontangFull/{z}/{x}/{reverseY}.png"
+          ></vc-imagery-provider-urltemplate>
+        </vc-layer-imagery>
       </vc-viewer>
     </div>
   </ClientOnly>
