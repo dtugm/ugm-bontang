@@ -32,7 +32,28 @@ export const groupAccessMap: Record<string, string[]> = {
     "/peta-garis-monitoring",
   ],
 
-  "Supervisor Bontang": ["/"],
-  "Bapenda Bontang": ["/"],
-  "BPN Bontang": ["/"],
+  "Supervisor Bontang": [
+    "/",
+    // File Management
+    "/admin/model_3d_management",
+    "/admin/vector_2d_management",
+    "/data/land_parcel",
+    "/data/building",
+
+    // 3D Viewer
+    "/cesium",
+    "/land_parcel_cesium",
+  ],
+  "Bapenda Bontang": [
+    "/", // 3D Viewer
+    "/cesium",
+    "/land_parcel_cesium",
+  ],
+  "BPN Bontang": [
+    "/",
+
+    // 3D Viewer
+    "/cesium",
+    "/land_parcel_cesium",
+  ],
 };
