@@ -42,46 +42,13 @@
 
       <div class="absolute top-1/3 -translate-y-1/2 left-5 z-10">
         <CesiumFeature :tile-refs="tileRefs" />
-        <v-menu :close-on-content-click="false" location="left">
-          <template v-slot:activator="{ props }">
-            <v-btn color="tertiary" v-bind="props" class="text-none mt-1" icon>
-              <v-icon>mdi-home-flood</v-icon>
-            </v-btn>
-          </template>
-
-          <v-card class="rounded-lg" width="300">
-            <v-card-text>
-              <div class="text-subtitle-2 mb-2">
-                Tinggi Banjir ({{ maxHeight }}m)
-              </div>
-              <v-slider
-                v-model="maxHeight"
-                :min="60"
-                :max="90"
-                :step="5"
-                class="mb-2"
-                thumb-label
-                :ticks="tickLabels"
-                show-ticks="always"
-                hide-details
-              ></v-slider>
-
-              <v-btn block color="tertiary" class="mt-5" @click="start">
-                Start
-              </v-btn>
-              <div class="flex justify-between">
-                <v-btn color="primary-blue" class="mt-5" @click="reset">
-                  Reset
-                </v-btn>
-                <v-btn color="success" class="mt-5" @click="pause">
-                  Pause
-                </v-btn>
-                <v-btn color="error" class="mt-5" @click="stop"> Stop </v-btn>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-        <!-- <AppInputText v-model="speed" type="number"></AppInputText> -->
+        <CesiumSimulation
+          v-model="maxHeight"
+          @start="start"
+          @pause="pause"
+          @reset="reset"
+          @stop="stop"
+        />
       </div>
       <div class="absolute top-1/2 -translate-y-1/2 right-5 z-10"></div>
 
@@ -115,14 +82,14 @@
         </vc-navigation>
 
         <!-- Bangunan AWS-->
-        <!-- <vc-primitive-tileset
+        <vc-primitive-tileset
           v-if="tiles3dStore.isBuildingActive"
           v-for="(item, index) in tiles3dStore.activeBuilding"
           :key="index"
           :ref="setTileRefs"
           :url="item.url"
           :maximumScreenSpaceError="32"
-        /> -->
+        />
 
         <!-- Jalan -->
         <vc-primitive-tileset
@@ -134,12 +101,13 @@
           :maximumScreenSpaceError="32"
         />
 
-        <!-- Bangunan -->
-        <vc-primitive-tileset
+        <!-- Bangunan Cesium Asset -->
+        <!-- <vc-primitive-tileset
           :ref="setTileRefs"
           :assetId="3614335"
           :maximumScreenSpaceError="32"
-        />
+        /> -->
+
         <vc-terrain-provider-cesium
           ref="provider"
           :assetId="3338372"
@@ -240,26 +208,14 @@ const onTerrainReady = () => {
   checkAllReady();
 };
 
-let highlightedFeature: any = null;
-let originalHoverColor: any = null;
-let selectedFeature: any = null;
-
 const getDetailBangunan = async (gmlid: string) => {
   await tiles3dStore.getDetailBuilding(gmlid);
 };
+
+let highlightedFeature: any = null;
+let originalHoverColor: any = null;
+let selectedFeature: any = null;
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
-  viewer.camera.setView({
-    destination: Cesium.Cartesian3.fromDegrees(
-      viewerConstant.bontangDefaultPosition.lng,
-      viewerConstant.bontangDefaultPosition.lat,
-      viewerConstant.bontangDefaultPosition.height
-    ),
-    orientation: {
-      heading: Cesium.Math.toRadians(0),
-      pitch: Cesium.Math.toRadians(-20),
-      roll: 0,
-    },
-  });
   viewer.scene.globe.depthTestAgainstTerrain = true;
   refViewer.value = viewer;
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
@@ -318,6 +274,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
+
 onMounted(async () => {
   await tiles3dStore.getActiveBuilding();
   await tiles3dStore.getActiveRoad();
