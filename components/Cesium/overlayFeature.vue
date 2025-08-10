@@ -64,7 +64,7 @@
           <v-icon size="15">mdi-close</v-icon>
         </v-btn>
       </template>
-      <v-card-text class="overflow-y-auto max-h-[400px]">
+      <v-card-text class="overflow-y-auto max-h-[500px]">
         <AppTableHorizontal
           :headers="buildingViewerConstant.detailBuildingHeader"
           :values="value"
@@ -77,69 +77,18 @@
 <script lang="ts" setup>
 import buildingViewerConstant from "~/app/constant/view/buildingViewer.constant";
 import {
-  BuildingConstruction,
-  BuildingFloorType,
-  BuildingType,
-  BuildingUpdate,
-  BuildingWall,
-  RoofType,
-} from "~/app/types/enums/building";
-const BuildingTypeLabel: Record<BuildingType, string> = {
-  RESIDENTIAL: "Perumahan",
-  PRIVATE_OFFICE: "Perkantoran Swasta",
-  FACTORY: "Pabrik",
-  STORE_APOTHECARY_MARKET_RUKO: "Toko/Apotek/Pasar/Ruko",
-  HOSPITAL_CLINIC: "Rumah Sakit/Klinik",
-  SPORTS_RECREATION: "Olahraga/Rekreasi",
-  HOTEL: "Hotel/Wisma",
-  WORKSHOP_WAREHOUSE_FARM: "Bengkel/Gudang/Pertanian",
-  GOVERNMENT_BUILDING: "Gedung Pemerintah",
-  SCHOOL: "Gedung Sekolah",
-  OTHER: "Lain-lain",
-};
-
-const BuildingConstructionLabel: Record<BuildingConstruction, string> = {
-  STEEL: "Baja",
-  CONCRETE: "Beton",
-  BRICK: "Batu Bata",
-  WOOD: "Kayu",
-};
-
-const BuildingWallLabel: Record<BuildingWall, string> = {
-  GLASS_ALUMINUM: "Kaca/Alumunium",
-  CONCRETE: "Beton",
-  CONBLOC_BRICK: "Batu Bata Conbloc",
-  WOOD: "Kayu",
-  CORRUGATED_METAL: "Seng",
-};
-
-const BuildingFloorTypeLabel: Record<BuildingFloorType, string> = {
-  MARBLE: "Marmer",
-  CERAMIC: "Keramik",
-  TERRAZZO: "Teraso",
-  CONCRETE_TILE: "Ubin PC/Papan",
-  CEMENT: "Semen",
-};
-
-const BuildingUpdateLabel: Record<BuildingUpdate, string> = {
-  ACCURATE: "Sudah Tepat",
-  NEW: "Baru",
-  NON_PERMANENT: "Bukan Bangunan Permanen",
-};
-
-const RoofTypeLabel: Record<RoofType, string> = {
-  Genteng: "Genteng",
-  Galvalum: "Galvalum",
-  Asbes: "Asbes",
-  Seng: "Seng",
-};
+  buildingTypeMap,
+  wallTypeMap,
+  buildingUpdateMap,
+  buildingConstructionMap,
+  floorTypeMap,
+} from "~/app/constant/data/buildingMapping.constant";
 const labelMappings = {
-  update: BuildingUpdateLabel,
-  buildingType: BuildingTypeLabel,
-  buildingConstruction: BuildingConstructionLabel,
-  buildingWall: BuildingWallLabel,
-  buildingFloorType: BuildingFloorTypeLabel,
-  roofType: RoofTypeLabel,
+  update: buildingUpdateMap,
+  buildingType: buildingTypeMap,
+  buildingConstruction: buildingConstructionMap,
+  buildingWall: wallTypeMap,
+  buildingFloorType: floorTypeMap,
 };
 
 const tiles3dStore = use3dTilesStore();
