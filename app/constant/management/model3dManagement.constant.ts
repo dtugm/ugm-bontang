@@ -9,4 +9,18 @@ export default {
       value: "DTM_BONTANG",
     },
   ],
+  categoryType: [
+    {
+      title: "Building",
+      value: "building",
+    },
+    {
+      title: "Road",
+      value: "road",
+    },
+    {
+      title: "Vegetasi",
+      value: "vegetation",
+    },
+  ],
 };

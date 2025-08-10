@@ -87,7 +87,7 @@
       <v-col cols="6">
         <AppInputAutocomplete
           label="Category"
-          :items="['road', 'building']"
+          :items="model3d.categoryType"
           v-model="uploadForm.category"
         />
       </v-col>
@@ -166,7 +166,7 @@
     <AppInputText label="Name" v-model="editForm.name" />
     <AppInputAutocomplete
       label="Category"
-      :items="['road', 'building']"
+      :items="model3d.categoryType"
       v-model="editForm.category"
     />
     <AppInputAutocomplete
