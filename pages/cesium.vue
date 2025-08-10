@@ -84,7 +84,17 @@
             tiles3dStore.buildingVariant == 'textured'
           "
           :ref="setTileRefs"
-          :assetId="3614335"
+          :assetId="3614502"
+          :maximumScreenSpaceError="32"
+        />
+
+        <vc-primitive-tileset
+          :show="
+            tiles3dStore.isBuildingActive &&
+            tiles3dStore.buildingVariant == 'textured'
+          "
+          :ref="setTileRefs"
+          :assetId="3614489"
           :maximumScreenSpaceError="32"
         />
 

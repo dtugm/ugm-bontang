@@ -4,7 +4,7 @@
       v-if="popUpBuilding"
       title="Building Detail"
       class="rounded-lg"
-      max-height="400"
+      max-height="500"
       width="450"
     >
       <template v-slot:append>
@@ -64,7 +64,8 @@
           <v-icon size="15">mdi-close</v-icon>
         </v-btn>
       </template>
-      <v-card-text class="overflow-y-auto max-h-[500px]">
+
+      <v-card-text class="overflow-y-auto max-h-[500px] pb-20">
         <AppTableHorizontal
           :headers="buildingViewerConstant.detailBuildingHeader"
           :values="value"
@@ -99,19 +100,36 @@ const popUpBuilding: any = computed(() => {
 
 function applyMapping(
   obj: Record<string, any>,
-  mappings: Record<string, Record<string, string>>
+  mappings: Record<string, Record<string, string>>,
+  fieldsWithM2: string[] = []
 ) {
   return Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [
-      key,
-      mappings[key]?.[value] ?? value,
-    ])
+    Object.entries(obj).map(([key, value]) => {
+      let newValue = mappings[key]?.[value] ?? value;
+
+      if (
+        fieldsWithM2.includes(key) &&
+        newValue !== null &&
+        newValue !== undefined
+      ) {
+        // Pastikan angka
+        const num = Number(newValue);
+        if (!isNaN(num)) {
+          // Batasi maksimal 5 angka di belakang koma tanpa nol berlebih
+          newValue = `${parseFloat(num.toFixed(5))} m²`;
+        } else {
+          newValue = `${newValue} m²`; // kalau bukan angka, tambahkan m² apa adanya
+        }
+      }
+
+      return [key, newValue];
+    })
   );
 }
 
 const value: any = computed(() => {
   const data: any = tiles3dStore.buildingAttribute;
-  return applyMapping(data, labelMappings);
+  return applyMapping(data, labelMappings, ["luasBgn", "l_tertul"]);
 });
 const imageSrc = ref(value.value.imageUrls?.[0] || "");
 const imageFailed = ref(false);
