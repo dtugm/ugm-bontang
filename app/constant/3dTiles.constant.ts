@@ -7,6 +7,7 @@ export default {
     { title: "LOD", key: "lod", sortable: false },
     { title: "Surface", key: "texture", sortable: false },
     { title: "Clamp To", key: "clamp", sortable: false },
+    { title: "Source", key: "source", sortable: false },
     {
       title: "Status Action",
       key: "status_action",

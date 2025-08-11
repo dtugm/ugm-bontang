@@ -121,6 +121,13 @@
           v-model="uploadForm.clamp"
         />
       </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="Terrain"
+          :items="model3d.sourceOptions"
+          v-model="uploadForm.source"
+        />
+      </v-col>
       <v-col cols="3">
         <v-label>Status</v-label>
         <v-switch
@@ -142,7 +149,15 @@
       </v-col>
     </v-row>
 
-    <AppInputFileIBoxV2 v-model="uploadForm.file" />
+    <AppInputFileIBoxV2
+      v-if="uploadForm.source == 'AWS'"
+      v-model="uploadForm.file"
+    />
+    <AppInputText
+      label="Asset ID"
+      v-if="uploadForm.source == 'CESIUM'"
+      v-model="uploadForm.assetId"
+    />
   </AppDialogConfirm>
 
   <AppDialogConfirm
@@ -154,6 +169,7 @@
   </AppDialogConfirm>
 
   <AppDialogConfirm
+    width="920"
     title="Edit 3D Tiles"
     close-text="Cancel"
     confirm-text="Update"
@@ -163,50 +179,84 @@
     @confirm="confirmEdit3dTiles"
     @close="editDialog = false"
   >
-    <AppInputText label="Name" v-model="editForm.name" />
-    <AppInputAutocomplete
-      label="Category"
-      :items="model3d.categoryType"
-      v-model="editForm.category"
-    />
-    <AppInputAutocomplete
-      label="Terrain"
-      :items="model3d.clamp_options"
-      v-model="editForm.clamp"
-    />
-    <AppInputAutocomplete
-      label="LOD"
-      :items="[1, 2, 3]"
-      v-model="editForm.lod"
+    <v-row>
+      <v-col cols="6">
+        <AppInputText label="Name" v-model="editForm.name" />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="Category"
+          :items="model3d.categoryType"
+          v-model="editForm.category"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputText
+          label="Center X (Longitude)"
+          placeholder="ex: 117.0"
+          type="number"
+          v-model="editForm.center_x"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputText
+          label="Center Y (Latitude)"
+          placeholder="ex: 0.312"
+          type="number"
+          v-model="editForm.center_y"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="LOD"
+          :items="[1, 2, 3]"
+          v-model="editForm.lod"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="Terrain"
+          :items="model3d.clamp_options"
+          v-model="editForm.clamp"
+        />
+      </v-col>
+      <v-col cols="6">
+        <AppInputAutocomplete
+          label="Data Source"
+          :items="model3d.sourceOptions"
+          v-model="editForm.source"
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-label>Status</v-label>
+        <v-switch
+          color="success"
+          inset
+          :label="editForm.status ? `Active` : 'Non Active'"
+          hide-details
+          v-model="editForm.status"
+      /></v-col>
+      <v-col cols="3">
+        <v-label>Texture</v-label>
+        <v-switch
+          color="success"
+          inset
+          :label="editForm.texture ? `Texture` : 'Non Textured'"
+          hide-details
+          v-model="editForm.texture"
+        />
+      </v-col>
+    </v-row>
+
+    <AppInputFileIBoxV2
+      v-if="editForm.source == 'AWS'"
+      v-model="editForm.file"
     />
     <AppInputText
-      label="Center X (Longitude)"
-      placeholder="ex: 117.0"
-      type="number"
-      v-model="editForm.center_x"
+      label="Asset ID"
+      v-if="editForm.source == 'CESIUM'"
+      v-model="editForm.assetId"
     />
-    <AppInputText
-      label="Center Y (Latitude)"
-      placeholder="ex: 0.312"
-      type="number"
-      v-model="editForm.center_y"
-    />
-    <v-label>Status</v-label>
-    <v-switch
-      color="success"
-      inset
-      :label="editForm.status ? `Active` : 'Non Active'"
-      v-model="editForm.status"
-    />
-    <v-label>Texture</v-label>
-    <v-switch
-      color="success"
-      inset
-      :label="editForm.texture ? `Texture` : 'Non Textured'"
-      hide-details
-      v-model="editForm.texture"
-    />
-    <AppInputFileIBoxV2 v-model="editForm.file" />
   </AppDialogConfirm>
 </template>
 <script lang="ts" setup>
@@ -232,15 +282,31 @@ const add3dTiles = () => {
     center_x: null,
     center_y: null,
     file: undefined,
+    source: "AWS",
+    assetId: null,
   };
 };
 const deleteDialog = ref(false);
 const uploadLoading = ref(false);
 const upload3dTiles = async () => {
-  uploadLoading.value = true;
-  await tiles3dStore.upload3dTiles({
-    ...uploadForm.value,
-  });
+  // uploadLoading.value = true;
+  const { assetId, file, source, ...item } = uploadForm.value;
+  console.log(item);
+  if (source == "AWS") {
+    const awsPayload = {
+      ...item,
+      file,
+      source,
+    };
+    await tiles3dStore.upload3dTiles(awsPayload);
+  } else if (source == "CESIUM") {
+    const cesiumPayload = {
+      ...item,
+      assetId,
+      source,
+    };
+    await tiles3dStore.upload3dTiles(cesiumPayload);
+  }
   await tiles3dStore.getAll3dTiles();
   addDialog.value = false;
   uploadLoading.value = false;

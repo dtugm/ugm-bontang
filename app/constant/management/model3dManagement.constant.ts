@@ -23,4 +23,14 @@ export default {
       value: "vegetation",
     },
   ],
+  sourceOptions: [
+    {
+      title: "AWS S3",
+      value: "AWS",
+    },
+    {
+      title: "Cesium",
+      value: "CESIUM",
+    },
+  ],
 };

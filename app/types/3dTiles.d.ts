@@ -12,4 +12,5 @@ declare interface IUpload3dTilesPayload {
   center_x: number | null;
   center_y: number | null;
   file: any;
+  source?: "AWS" | "CESIUM";
 }
