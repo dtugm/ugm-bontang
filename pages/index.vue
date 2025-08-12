@@ -16,8 +16,8 @@
 
 <script setup lang="ts">
 import { userInGroup } from "~/app/helper/auth.helper";
-import usersConstant from "~/app/constant/users.constant";
 const authStore = useAuthenticationStore();
+import usersConstant from "~/app/constant/users.constant";
 
 // const isStakeholder = computed(() => {
 //   return authStore.user.groups.some(

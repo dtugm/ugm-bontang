@@ -11,7 +11,7 @@
         <v-card variant="flat">
           <v-card-text class="pb-1">
             <div class="flex justify-between items-center pb-0">
-              <AppTextH3 color="secondary">
+              <AppTextH3 color="secondary" class="text-none">
                 {{ title }}
               </AppTextH3>
               <v-btn

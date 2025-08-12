@@ -1,4 +1,19 @@
 <template>
+  <!-- Filter -->
+  <v-container>
+    <v-row>
+      <v-col>
+        <AppInputAutocomplete label="Category" is-filter hide-details />
+      </v-col>
+      <v-col>
+        <AppInputAutocomplete label="Data Source" is-filter hide-details />
+      </v-col>
+      <v-col cols="auto">
+        <AppButton color="tertiary" label="Filter" />
+      </v-col>
+    </v-row>
+  </v-container>
+
   <!-- Table View -->
   <AppTableBasic
     :loading="tiles3dStore.isFetchingData"
@@ -289,9 +304,8 @@ const add3dTiles = () => {
 const deleteDialog = ref(false);
 const uploadLoading = ref(false);
 const upload3dTiles = async () => {
-  // uploadLoading.value = true;
+  uploadLoading.value = true;
   const { assetId, file, source, ...item } = uploadForm.value;
-  console.log(item);
   if (source == "AWS") {
     const awsPayload = {
       ...item,
@@ -360,10 +374,12 @@ const categoryIconMap: any = {
   building: "mdi-home-city",
   road: "mdi-road-variant",
   vegetation: "mdi-palm-tree",
+  landmark: "mdi-city",
 };
 const categoryColorMap: any = {
   building: "primary-blue",
   road: "secondary",
   vegetation: "success",
+  landmark: "primary",
 };
 </script>

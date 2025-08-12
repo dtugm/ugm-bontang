@@ -3,6 +3,7 @@ import lotSurveyMonitoringsApi from "~/app/api/survey/lotSurveyMonitorings.api";
 import vectorsApi from "~/app/api/vectors.api";
 import landParcelConstant from "~/app/constant/landParcel.constant";
 import { FormInput } from "~/app/helper";
+import { apiWrapper } from "~/app/helper/api.helper";
 
 export const useLotSurveyMonitoring = defineStore(
   "lotSurveyMonitorings",
@@ -23,11 +24,25 @@ export const useLotSurveyMonitoring = defineStore(
       }
       attrLoading.value = false;
     };
+    const deletePersilLoading = ref(false);
+    const deletePersil = async (id: string) => {
+      deletePersilLoading.value = true;
+      await apiWrapper(
+        () => lotSurveyMonitoringsApi.delete_lot_survey_monitoring({ id: id }),
+        {
+          successMessage: "Berhasil menghapus data!",
+        }
+      );
+      deletePersilLoading.value = false;
+    };
     return {
       getDetailPersil,
       parcelAtribute,
       popUpParcel,
       attrLoading,
+
+      deletePersil,
+      deletePersilLoading,
     };
   }
 );

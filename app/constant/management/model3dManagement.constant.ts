@@ -22,6 +22,10 @@ export default {
       title: "Vegetasi",
       value: "vegetation",
     },
+    {
+      title: "Landmark",
+      value: "landmark",
+    },
   ],
   sourceOptions: [
     {

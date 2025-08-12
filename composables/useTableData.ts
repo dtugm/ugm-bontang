@@ -47,7 +47,6 @@ export const useTableData = <TItem, IMinimalFilter>(
       tableProps.value.itemsPerPage = 10;
       tableProps.value.page = 1;
     }
-
     const params = appService.getParams(
       filterData,
       tableData.value?.search,
@@ -67,8 +66,6 @@ export const useTableData = <TItem, IMinimalFilter>(
     }
   }
   const debounceSearchData = useDebounceFn((val: string) => {
-    console.log(val);
-    console.log(tableProps.value);
     getData({ ...tableProps.value, itemsPerPage: 10, page: 1, search: val });
   }, 1000);
   return {

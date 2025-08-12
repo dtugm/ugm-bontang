@@ -75,6 +75,8 @@
 </template>
 <script lang="ts" setup>
 import landParcelViewerConstant from "~/app/constant/view/landParcelViewer.constant";
+import { userInGroup } from "~/app/helper/auth.helper";
+const authStore = useAuthenticationStore();
 const useLotSurveyMonitoringStore = useLotSurveyMonitoring();
 const value: any = computed(() => {
   const data: any = useLotSurveyMonitoringStore.parcelAtribute;

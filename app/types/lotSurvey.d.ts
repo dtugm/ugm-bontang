@@ -1,5 +1,8 @@
 declare interface IGetLotSurveyParams extends IMinimalFilter {
   category: string;
+  village?: string;
+  staWpop?: string;
+  landType?: string;
 }
 declare interface ILotSurveyItems {
   area: string;

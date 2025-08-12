@@ -35,7 +35,6 @@
           @stop="stop"
         />
       </div>
-      <div class="absolute top-1/2 -translate-y-1/2 right-5 z-10"></div>
 
       <CesiumOverlayFeature />
 
