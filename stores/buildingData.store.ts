@@ -2,8 +2,8 @@ import buildingSurveyApi from "~/app/api/buildingSurvey.api";
 import buildingDataConstant from "~/app/constant/buildingData.constant";
 
 export const useBuildingDataStore = defineStore("buildingData", () => {
-  const readLotSurveyData = reactive(
-    useTableData<ILotSurveyItems, IGetLotSurveyParams>(
+  const readBuildingData = reactive(
+    useTableData<ILotSurveyItems, IGetBuildingSurveyParams>(
       [...buildingDataConstant.table_data.headers!],
       buildingSurveyApi.building_survey_monitorings
     )
@@ -38,7 +38,7 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
   // };
 
   return {
-    readLotSurveyData,
+    readBuildingData,
     uploadBuildingData,
     getBuildingByFilter,
 

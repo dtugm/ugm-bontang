@@ -2,22 +2,20 @@ export default {
   table_data: {
     headers: [
       { title: "No", key: "no" },
-      {
-        title: "UUID Bangunan",
-        key: "fid",
-        sortable: false,
-        minWidth: "370px",
-      },
-      { title: "Kelurahan", key: "village", sortable: false },
+      { title: "NOP", key: "taxObjectNumber", sortable: false },
       { title: "Alamat", key: "address", sortable: false, minWidth: "150px" },
+      { title: "Kelurahan", key: "village", sortable: false },
+      // { title: "Luas Bangunan Lama", key: "luasBgnLama", sortable: false },
+      { title: "Luas Bangunan", key: "luasBgn", sortable: false },
+      { title: "Luas Bangunan baru", key: "luasBgnBaru", sortable: false },
       { title: "Jumlah Lantai", key: "floorCount", sortable: false },
-      { title: "Tipe Lantai", key: "buildingFloorType", sortable: false },
       {
         title: "Tipe Bangunan",
         key: "buildingType",
         sortable: false,
         minWidth: "200px",
       },
+      { title: "Tipe Lantai", key: "buildingFloorType", sortable: false },
       {
         title: "Tipe Dinding",
         key: "buildingWall",
@@ -26,6 +24,12 @@ export default {
       },
       { title: "Tipe Atap", key: "roofType", sortable: false },
       { title: "Status", key: "update", sortable: false, minWidth: "150px" },
+      {
+        title: "UUID Bangunan",
+        key: "fid",
+        sortable: false,
+        minWidth: "370px",
+      },
       // { title: "Actions", key: "action", sortable: false },
     ],
   },

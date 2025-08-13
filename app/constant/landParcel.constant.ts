@@ -36,7 +36,12 @@ export default {
         sortable: false,
         minWidth: "200px",
       },
-      { title: "Jenis Hak", key: "typeOfRight", sortable: false },
+      {
+        title: "Jenis Hak",
+        key: "typeOfRight",
+        sortable: false,
+        minWidth: "150px",
+      },
       { title: "Luas Persil", key: "l_bumi", sortable: false },
       {
         title: "Alamat Objek Pajak",
