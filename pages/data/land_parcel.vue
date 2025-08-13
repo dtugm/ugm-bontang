@@ -1,12 +1,14 @@
 <template>
   <DataLandParcelFilter />
   <AppTableData
+    class="pt-0"
     title="Data Survey Lapangan (Persil Tanah)"
     :read-data="landParcelStore.readLandParcel"
+    placeholder="Search by: NIB, NOP"
   >
-    <template #item.area="{ item }">
+    <template #item.l_bumi="{ item }">
       <v-chip density="comfortable" color="primary-blue">
-        {{ Number(item.area).toFixed(2) }} m<sup>2</sup>
+        {{ Number(item.l_bumi).toFixed(2) }} m<sup>2</sup>
       </v-chip>
     </template>
     <template #item.image="{ item }">
