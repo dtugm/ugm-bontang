@@ -10,6 +10,7 @@ declare interface IGet3DModelParams {
   lod?: number;
   clamp?: "DTM_BONTANG" | "MEAN_SEA_LEVEL";
   texture?: boolean;
+  source?: "CESIUM" | "AWS";
 }
 
 declare interface ICreate3DModelPayload {

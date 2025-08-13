@@ -82,18 +82,9 @@
             tiles3dStore.isBuildingActive &&
             tiles3dStore.buildingVariant == 'textured'
           "
+          v-for="(item, index) in tiles3dStore.activeBuildingCesium"
           :ref="setTileRefs"
-          :assetId="3614502"
-          :maximumScreenSpaceError="32"
-        />
-
-        <vc-primitive-tileset
-          :show="
-            tiles3dStore.isBuildingActive &&
-            tiles3dStore.buildingVariant == 'textured'
-          "
-          :ref="setTileRefs"
-          :assetId="3614489"
+          :assetId="Number(item.assetId)"
           :maximumScreenSpaceError="32"
         />
 
@@ -268,6 +259,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
 
 onMounted(async () => {
   await tiles3dStore.getActiveBuilding();
+  await tiles3dStore.getActiveBuildingCesium();
   await tiles3dStore.getActiveRoad();
   await nextTick();
   tilesetsReady.value = true;

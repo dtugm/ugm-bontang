@@ -63,6 +63,20 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
         activeBuilding.value = resp;
       });
   };
+  const activeBuildingCesium: any = ref([]);
+  const getActiveBuildingCesium = async () => {
+    await model3DApi
+      .get_3d_tiles({
+        category: "building",
+        status: true,
+        clamp: "DTM_BONTANG",
+        texture: true,
+        source: "CESIUM",
+      })
+      .then((resp) => {
+        activeBuildingCesium.value = resp;
+      });
+  };
   const getActiveBuildingFlat = async () => {
     await model3DApi
       .get_3d_tiles({
@@ -135,5 +149,8 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     buildingVariant,
 
     filterBuilding,
+
+    getActiveBuildingCesium,
+    activeBuildingCesium,
   };
 });
