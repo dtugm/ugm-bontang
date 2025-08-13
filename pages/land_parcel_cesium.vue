@@ -196,8 +196,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
 const entities: any = reactive([]);
 const geojson: any = ref(null);
 onMounted(async () => {
-  console.log(route.query);
-  if (route.query) {
+  if (route.query && Object.keys(route.query).length > 0) {
     await useLotSurveyMonitoringStore.getDetailPersil(route.query.uuid);
     viewerStore.isBuildingActive = false;
     cameraOptions.value.position = {

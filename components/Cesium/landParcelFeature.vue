@@ -75,12 +75,43 @@
 </template>
 <script lang="ts" setup>
 import landParcelViewerConstant from "~/app/constant/view/landParcelViewer.constant";
-import { userInGroup } from "~/app/helper/auth.helper";
+import { STAWPOP } from "~/app/types/enums/landParcel";
+function applyMapping(
+  obj: Record<string, any>,
+  mappings: Record<string, Record<string, string>>,
+  fieldsWithM2: string[] = []
+) {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => {
+      let newValue = mappings[key]?.[value] ?? value;
+
+      if (
+        fieldsWithM2.includes(key) &&
+        newValue !== null &&
+        newValue !== undefined
+      ) {
+        // Pastikan angka
+        const num = Number(newValue);
+        if (!isNaN(num)) {
+          // Batasi maksimal 5 angka di belakang koma tanpa nol berlebih
+          newValue = `${parseFloat(num.toFixed(5))} m²`;
+        } else {
+          newValue = `${newValue} m²`; // kalau bukan angka, tambahkan m² apa adanya
+        }
+      }
+
+      return [key, newValue];
+    })
+  );
+}
+const labelMappings = {
+  staWpop: STAWPOP,
+};
 const authStore = useAuthenticationStore();
 const useLotSurveyMonitoringStore = useLotSurveyMonitoring();
 const value: any = computed(() => {
   const data: any = useLotSurveyMonitoringStore.parcelAtribute;
-  return data;
+  return applyMapping(data, labelMappings, ["l_bumi", "l_tertul"]);
 });
 const imageSrc = ref(value.value.imageUrls?.[0] || "");
 const imageFailed = ref(false);

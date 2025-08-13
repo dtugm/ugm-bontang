@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <SuperadminVectors />
+    <!-- <SuperadminVectors /> -->
     <v-row>
       <v-col cols="12" md="6">
         <v-file-input
@@ -10,10 +10,11 @@
           @update:model-value="onFileChange"
           prepend-icon="mdi-file-upload"
         />
-        <AppInputText v-model="rt"></AppInputText>
+        <!-- <AppInputText v-model="rt"></AppInputText> -->
       </v-col>
       <v-col cols="12" md="6">
         <v-btn @click="submitBulk">Submit</v-btn>
+        <v-btn @click="submitTest">Submit</v-btn>
       </v-col>
     </v-row>
     <v-row v-if="items.length">
@@ -89,43 +90,44 @@ const chunkArray = <T>(arr: T[], size: number): T[][] => {
   return result;
 };
 const submitBulk = async () => {
-  const chunkedItems = chunkArray(items.value, 500);
+  const chunkedItems = chunkArray(items.value, 100);
 
   for (const batch of chunkedItems) {
     const results = await Promise.all(
       batch.map(async (data) => {
         const dataPayload = {
           fid: data.UUID,
-          province: "Kalimantan Timur",
-          city: "Bontang",
-          district: "Bontang Utara",
-          village: "Loktuan",
-          floorCount: data.JML_LANTAI ? Number(data.JML_LANTAI) : null,
-          ...(data.FOTO_BGN && {
-            imageUrls: [
-              `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_BGN}`,
-            ],
-          }),
-          address: data.ALAMAT_BGN || null,
           toponimi: data.TOPONIMI || null,
           taxObjectNumber: data.NOP || null,
           newTaxObjectNumber: data.NOP_BARU || null,
+          address: data.ALAMAT_BGN || null,
           buildingType: jenisBgnMap[data.JENIS_BGN] || null,
+          floorCount: data.JML_LANTAI ? Number(data.JML_LANTAI) : null,
+          airConditionerCount: data.JUMLAH_AC ? Number(data.JUMLAH_AC) : null,
           buildingConstruction: konstruksiMap[data.KONSTRUKSI] || null,
           buildingWall: wallMap[data.DINDING] || null,
           buildingFloorType: floorMap[data.JENIS_LT] || null,
+          update: buildlingUpdateMap[data.UPDATE],
+          ...(data.F_BGN && {
+            imageUrls: [
+              `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.F_BGN}`,
+            ],
+          }),
           electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
-          airConditionerCount: data.JUMLAH_AC ? Number(data.JUMLAH_AC) : null,
+          luasBgnLama: data.L_BGN_OLD ? Number(data.L_BGN_OLD) : null,
+          luasBgn: data.LUAS_BGN ? Number(data.LUAS_BGN) : null,
+          luasBgnBaru: data.L_HITUNG ? Number(data.L_HITUNG) : null,
+          rt: data.RT,
+          province: "Kalimantan Timur",
+          city: "Bontang",
+          district: data.KECAMATAN,
+          village: data.KELURAHAN,
           uuid_bgn: data.UUID || null,
           roofType: roofMap[data.JENIS_ATAP] || null,
-          update: buildlingUpdateMap[data.UPDATE],
           dateUpdt: data.DATE_UPDT || null,
           nopBgn: data.NOP_BGN || null,
           longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
           latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
-          luasBgn: data.LUAS_BGN ? Number(data.LUAS_BGN) : null,
-          luasBgnLama: data.L_BGN_OLD ? Number(data.L_BGN_OLD) : null,
-          luasBgnBaru: data.L_HITUNG ? Number(data.L_HITUNG) : null,
         };
 
         try {
@@ -150,39 +152,45 @@ const submitBulk = async () => {
 
     console.log(`Batch ${chunkedItems.indexOf(batch) + 1} processed.`);
   }
-  // const data = items.value[1];
-  // const dataPayload = {
-  //   fid: data.UUID,
-  //   province: "Kalimantan Timur",
-  //   city: "Bontang",
-  //   district: "Bontang Utara",
-  //   village: "Bontang Baru",
-  //   floorCount: data.JML_LANTAI ? Number(data.JML_LANTAI) : null,
-  //   imageUrls: [
-  //     `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_BGN}`,
-  //   ],
-  //   address: data.ALAMAT_BGN || null,
-  //   toponimi: data.TOPONIMI || null,
-  //   taxObjectNumber: data.NOP || null,
-  //   newTaxObjectNumber: data.NOP_BARU || null,
-  //   buildingType: jenisBgnMap[data.JENIS_BGN] || null,
-  //   buildingConstruction: konstruksiMap[data.KONSTRUKSI] || null,
-  //   buildingWall: wallMap[data.DINDING] || null,
-  //   buildingFloorType: floorMap[data.JENIS_LT] || null,
-  //   electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
-  //   airConditionerCount: data.JUMLAH_AC ? Number(data.JUMLAH_AC) : null,
-  //   uuid_bgn: data.UUID || null,
-  //   roofType: roofMap[data.JENIS_ATAP] || null,
-  //   update: buildlingUpdateMap[data.UPDATE],
-  //   dateUpdt: data.DATE_UPDT || null,
-  //   nopBgn: data.NOP_BGN || null,
-  //   longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
-  //   latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
-  //   luasBgn: data.LUAS_BGN ? Number(data.LUAS_BGN) : null,
-  //   luasBgnLama: null,
-  //   luasBgnBaru: null,
-  // };
-
+};
+const submitTest = async () => {
+  const data = items.value[1];
+  console.log(data);
+  const dataPayload = {
+    fid: data.UUID,
+    toponimi: data.TOPONIMI || null,
+    taxObjectNumber: data.NOP || null,
+    newTaxObjectNumber: data.NOP_BARU || null,
+    address: data.ALAMAT_BGN || null,
+    buildingType: jenisBgnMap[data.JENIS_BGN] || null,
+    floorCount: data.JML_LANTAI ? Number(data.JML_LANTAI) : null,
+    airConditionerCount: data.JUMLAH_AC ? Number(data.JUMLAH_AC) : null,
+    buildingConstruction: konstruksiMap[data.KONSTRUKSI] || null,
+    buildingWall: wallMap[data.DINDING] || null,
+    buildingFloorType: floorMap[data.JENIS_LT] || null,
+    update: buildlingUpdateMap[data.UPDATE],
+    ...(data.F_BGN && {
+      imageUrls: [
+        `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.F_BGN}`,
+      ],
+    }),
+    electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
+    luasBgnLama: data.L_BGN_OLD ? Number(data.L_BGN_OLD) : null,
+    luasBgn: data.LUAS_BGN ? Number(data.LUAS_BGN) : null,
+    luasBgnBaru: data.L_HITUNG ? Number(data.L_HITUNG) : null,
+    rt: data.RT,
+    province: "Kalimantan Timur",
+    city: "Bontang",
+    district: data.KECAMATAN,
+    village: data.KELURAHAN,
+    uuid_bgn: data.UUID || null,
+    roofType: roofMap[data.JENIS_ATAP] || null,
+    dateUpdt: data.DATE_UPDT || null,
+    nopBgn: data.NOP_BGN || null,
+    longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
+    latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
+  };
+  console.log(dataPayload);
   // try {
   //   await buildingSurveyMonitoringsApi.create_building_survey_monitoring({
   //     data: dataPayload,
@@ -201,128 +209,6 @@ const submitBulk = async () => {
   //     });
   // }
 };
-// const submitBulk = async () => {
-//   const results = await Promise.all(
-//     items.value.map(async (data) => {
-//       const dataPayload = {
-//         fid: data.UUID_BGN,
-//         province: "Kalimantan Timur",
-//         city: "Bontang",
-//         district: "Bontang Utara",
-//         village: "Loktuan",
-//         floorCount: data.JML_LANTAI ? Number(data.JML_LANTAI) : null,
-//         imageUrls: [
-//           `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_BGN}`,
-//         ],
-//         address: data.ALAMAT_BGN || null,
-//         toponimi: data.TOPONIMI || null,
-//         taxObjectNumber: data.NOP || null,
-//         newTaxObjectNumber: data.NOP_BARU || null,
-//         buildingType: jenisBgnMap[data.JENIS_BGN] || null,
-//         buildingConstruction: konstruksiMap[data.KONSTRUKSI] || null,
-//         buildingWall: wallMap[data.DINDING] || null,
-//         buildingFloorType: floorMap[data.JENIS_LT] || null,
-//         // buildingUpdate: data.UPDATE || null,
-//         electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
-//         airConditionerCount: data.JUMLAH_AC ? Number(data.JUMLAH_AC) : null,
-//         uuid_bgn: data.UUID_BGN || null,
-//         roofType: roofMap[data.JENIS_ATAP] || null,
-//         update: buildlingUpdateMap[data.UPDATE],
-//         dateUpdt: data.DATE_UPDT || null,
-//         nopBgn: data.NOP_BGN || null,
-//         longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
-//         latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
-//         luasBgn: data.LUAS_BGN ? Number(data.LUAS_BGN) : null,
-//         luasBgnLama: data.L_BGN_OLD ? Number(data.L_BGN_OLD) : null,
-//         luasBgnBaru: data.L_HITUNG ? Number(data.L_HITUNG) : null,
-//       };
-
-//       try {
-//         await buildingSurveyMonitoringsApi.create_building_survey_monitoring({
-//           data: dataPayload,
-//         });
-//       } catch (error) {
-//         await buildingSurveyMonitoringsApi
-//           .get_building_survey_by_fid({ fid: data.UUID_BGN })
-//           .then(async (resp: any) => {
-//             console.log(resp.id);
-//             // await buildingSurveyMonitoringsApi.delete_building_survey_monitoring({
-//             //   id: resp.id,
-//             // });
-//             // await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
-//             //   data: dataPayload,
-//             // });
-//             await buildingSurveyMonitoringsApi.update_building_survey_monitoring(
-//               { id: resp.id },
-//               {
-//                 data: dataPayload,
-//                 images: null,
-//               }
-//             );
-//           });
-//       }
-//     })
-//   );
-//   const data = items.value[0];
-//   console.log(buildlingUpdateMap[data.UPDATE]);
-//   const dataPayload = {
-//     fid: data.UUID_BGN,
-//     province: "Kalimantan Timur",
-//     city: "Bontang",
-//     district: "Bontang Utara",
-//     village: "Bontang Baru",
-//     floorCount: data.JML_LANTAI ? Number(data.JML_LANTAI) : null,
-//     imageUrls: [
-//       `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_BGN}`,
-//     ],
-//     address: data.ALAMAT_BGN || null,
-//     rt: rt.value,
-//     toponimi: data.TOPONIMI || null,
-//     taxObjectNumber: data.NOP || null,
-//     newTaxObjectNumber: data.NOP_BARU || null,
-//     buildingType: jenisBgnMap[data.JENIS_BGN] || null,
-//     buildingConstruction: konstruksiMap[data.KONSTRUKSI] || null,
-//     buildingWall: wallMap[data.DINDING] || null,
-//     buildingFloorType: floorMap[data.JENIS_LT] || null,
-//     // buildingUpdate: data.UPDATE || null,
-//     electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
-//     airConditionerCount: data.JUMLAH_AC ? Number(data.JUMLAH_AC) : null,
-//     uuid_bgn: data.UUID_BGN || null,
-//     roofType: roofMap[data.JENIS_ATAP] || null,
-//     update: buildlingUpdateMap[data.UPDATE],
-//     dateUpdt: data.DATE_UPDT || null,
-//     nopBgn: data.NOP_BGN || null,
-//     longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
-//     latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
-//     luasBgn: data.LUAS_BGN ? Number(data.LUAS_BGN) : null,
-//     luasBgnLama: null,
-//     luasBgnBaru: null,
-//   };
-//   try {
-//     await buildingSurveyMonitoringsApi.create_building_survey_monitoring({
-//       data: dataPayload,
-//     });
-//   } catch (error) {
-//     await buildingSurveyMonitoringsApi
-//       .get_building_survey_by_fid({ fid: data.UUID_BGN })
-//       .then(async (resp: any) => {
-//         console.log(resp.id);
-//         // await buildingSurveyMonitoringsApi.delete_building_survey_monitoring({
-//         //   id: resp.id,
-//         // });
-//         // await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
-//         //   data: dataPayload,
-//         // });
-//         await buildingSurveyMonitoringsApi.update_building_survey_monitoring(
-//           { id: resp.id },
-//           {
-//             data: dataPayload,
-//             images: null,
-//           }
-//         );
-//       });
-//   }
-// };
 
 function onFileChange(file: File | File[] | undefined) {
   if (!file) return;
