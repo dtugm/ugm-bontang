@@ -24,13 +24,13 @@ export default {
       },
       { title: "Tipe Atap", key: "roofType", sortable: false },
       { title: "Status", key: "update", sortable: false, minWidth: "150px" },
-      {
-        title: "UUID Bangunan",
-        key: "fid",
-        sortable: false,
-        minWidth: "370px",
-      },
-      // { title: "Actions", key: "action", sortable: false },
+      // {
+      //   title: "UUID Bangunan",
+      //   key: "fid",
+      //   sortable: false,
+      //   minWidth: "370px",
+      // },
+      { title: "Actions", key: "action", sortable: false },
     ],
   },
   table_collection: {

@@ -2,6 +2,7 @@ export default {
   detailBuildingHeader: [
     { title: "Kelurahan", key: "village" },
     { title: "Address", key: "address" },
+    { title: "RT", key: "rt" },
     { title: "NOP", key: "taxObjectNumber" },
     { title: "NOP BARU", key: "newTaxObjectNumber" },
     { title: "Jumlah Lantai", key: "floorCount", sortable: false },

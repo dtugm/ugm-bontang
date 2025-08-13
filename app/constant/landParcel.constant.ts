@@ -49,6 +49,7 @@ export default {
         sortable: false,
         minWidth: "200px",
       },
+      { title: "RT", key: "rt", sortable: false },
       { title: "STAWPOP", key: "staWpop", sortable: false, minWidth: "200px" },
       { title: "Kelurahan", key: "village", sortable: false },
       { title: "Image", key: "image", sortable: false, minWidth: "120px" },
