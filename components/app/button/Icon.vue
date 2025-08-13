@@ -1,10 +1,17 @@
 <template>
   <v-btn icon variant="flat" rounded="sm" density="compact">
-    <v-icon color="tertiary">{{ icon }}</v-icon>
+    <v-icon :color="iconColor">{{ icon }}</v-icon>
   </v-btn>
 </template>
 <script setup lang="ts">
-defineProps({
-  icon: String,
-});
+withDefaults(
+  defineProps<{
+    icon?: string;
+    iconColor?: string;
+  }>(),
+  {
+    icon: "mdi-eye",
+    iconColor: "tertiary",
+  }
+);
 </script>

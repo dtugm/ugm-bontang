@@ -22,8 +22,17 @@
     </template>
     <template #item.action="{ item }">
       <div>
+        <AppButtonIcon
+          icon="mdi-map"
+          icon-color="success"
+          @click="seeLandParcel(item)"
+        />
         <AppButtonIcon icon="mdi-pencil" />
-        <AppButtonIcon icon="mdi-delete" @click="deleteItem(item)" />
+        <AppButtonIcon
+          icon="mdi-delete"
+          icon-color="error"
+          @click="deleteItem(item)"
+        />
       </div>
     </template>
   </AppTableData>
@@ -89,5 +98,17 @@ const confirmDelete = async () => {
   await lotSurveyStore.deletePersil(selectedItem.value.id);
   landParcelStore.readLandParcel.getData({ page: 1, itemsPerPage: 10 });
   deleteDialog.value = false;
+};
+const router = useRouter();
+const seeLandParcel = (item: any) => {
+  const parameter = {
+    lng: item.longitude,
+    lat: item.latitude,
+    uuid: item.uuid,
+  };
+  router.push({
+    path: "/land_parcel_cesium", // ganti dengan path halaman tujuanmu
+    query: parameter,
+  });
 };
 </script>

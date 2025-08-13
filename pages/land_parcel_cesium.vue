@@ -42,11 +42,13 @@
 
         <!-- DATA PERSIL -->
         <vc-datasource-geojson
+          ref="geojson"
           v-for="(item, index) in viewerStore.activeLandParcel"
           :data="item.url"
           :clamp-to-ground="false"
           stroke="red"
           :strokeWidth="10"
+          :entities="entities"
           @click="clickPersil"
         ></vc-datasource-geojson>
 
@@ -72,6 +74,7 @@ import * as Cesium from "cesium";
 definePageMeta({
   layout: "viewer",
 });
+const route: any = useRoute();
 const viewerStore = useViewerLandParcelStore();
 const surveyDataStore = useSurveyDataStore();
 const tiles3dStore = use3dTilesStore();
@@ -190,7 +193,19 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
+const entities: any = reactive([]);
+const geojson: any = ref(null);
 onMounted(async () => {
+  console.log(route.query);
+  if (route.query) {
+    await useLotSurveyMonitoringStore.getDetailPersil(route.query.uuid);
+    viewerStore.isBuildingActive = false;
+    cameraOptions.value.position = {
+      lat: route.query.lat,
+      lng: route.query.lng,
+      height: 70,
+    };
+  }
   await viewerStore.getActiveBuilding();
   await viewerStore.getActiveLandParcel();
   await nextTick();
