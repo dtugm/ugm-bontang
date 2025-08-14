@@ -1,5 +1,5 @@
 <template>
-  <!-- Filter -->
+  <!-- Filter
   <v-container>
     <v-row>
       <v-col>
@@ -12,7 +12,7 @@
         <AppButton color="tertiary" label="Filter" />
       </v-col>
     </v-row>
-  </v-container>
+  </v-container> -->
 
   <!-- Table View -->
   <AppTableBasic
