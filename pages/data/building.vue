@@ -5,7 +5,7 @@
     title="Data Bangunan Boba"
     :read-data="buildingStore.readBuildingData"
   >
-    <template #action>
+    <!-- <template #action>
       <div class="flex gap-1">
         <AppButton
           variant="outlined"
@@ -13,7 +13,7 @@
           @click="addBuildingSurvey"
         />
       </div>
-    </template>
+    </template> -->
     <template #item.luasBgn="{ item }">
       <v-chip v-if="Number(item.luasBgn)" color="primary-blue">
         {{ item.luasBgn }} m<sup>2</sup>

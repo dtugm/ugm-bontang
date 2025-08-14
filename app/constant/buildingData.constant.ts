@@ -3,7 +3,12 @@ export default {
     headers: [
       { title: "No", key: "no" },
       { title: "NOP", key: "taxObjectNumber", sortable: false },
-      { title: "Alamat", key: "address", sortable: false, minWidth: "150px" },
+      {
+        title: "Pemilik",
+        key: "taxPayerName",
+        sortable: false,
+        minWidth: "150px",
+      },
       { title: "Kelurahan", key: "village", sortable: false },
       // { title: "Luas Bangunan Lama", key: "luasBgnLama", sortable: false },
       { title: "Luas Bangunan", key: "luasBgn", sortable: false },
@@ -23,7 +28,9 @@ export default {
         minWidth: "150px",
       },
       { title: "Tipe Atap", key: "roofType", sortable: false },
+
       { title: "Status", key: "update", sortable: false, minWidth: "150px" },
+
       // {
       //   title: "UUID Bangunan",
       //   key: "fid",

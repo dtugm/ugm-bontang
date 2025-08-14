@@ -131,6 +131,7 @@ const submitBulk = async () => {
           longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
           latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
           nopBgb: data.NOP_BGN,
+          taxPayerName: data.NAMA_WP,
         };
 
         try {
@@ -194,6 +195,7 @@ const submitTest = async () => {
     nopBgn: data.NOP_BGN || null,
     longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
     latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
+    taxPayerName: data.NAMA_WP,
   };
   console.log(dataPayload);
   // try {

@@ -57,7 +57,7 @@ const buildingUpdateOptions = Object.entries(buildingUpdateMap).map(
   })
 );
 const kelurahanOption = [
-  { title: "Lok Tuan", value: "Loktuan" },
+  { title: "Lok Tuan", value: "Lok Tuan" },
   { title: "Bontang Baru", value: "Bontang Baru" },
   { title: "Api Api", value: "Api api" },
 ];
