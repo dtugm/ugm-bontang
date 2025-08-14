@@ -108,9 +108,11 @@ const submitBulk = async () => {
           buildingWall: wallMap[data.DINDING] || null,
           buildingFloorType: floorMap[data.JENIS_LT] || null,
           update: buildlingUpdateMap[data.UPDATE],
-          ...(data.F_BGN && {
+          ...((data.F_BGN || data.FOTO_BGN) && {
             imageUrls: [
-              `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.F_BGN}`,
+              `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${
+                data.F_BGN || data.FOTO_BGN
+              }`,
             ],
           }),
           electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
@@ -128,6 +130,7 @@ const submitBulk = async () => {
           nopBgn: data.NOP_BGN || null,
           longBgn: data.LONG_BGN ? parseFloat(data.LONG_BGN) : null,
           latBgn: data.LAT_BGN ? parseFloat(data.LAT_BGN) : null,
+          nopBgb: data.NOP_BGN,
         };
 
         try {
@@ -169,9 +172,11 @@ const submitTest = async () => {
     buildingWall: wallMap[data.DINDING] || null,
     buildingFloorType: floorMap[data.JENIS_LT] || null,
     update: buildlingUpdateMap[data.UPDATE],
-    ...(data.F_BGN && {
+    ...((data.F_BGN || data.FOTO_BGN) && {
       imageUrls: [
-        `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.F_BGN}`,
+        `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${
+          data.F_BGN || data.FOTO_BGN
+        }`,
       ],
     }),
     electricity: data.LISTRIK ? Number(data.LISTRIK) : null,
