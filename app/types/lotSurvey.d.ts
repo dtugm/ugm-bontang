@@ -4,6 +4,7 @@ declare interface IGetLotSurveyParams extends IMinimalFilter {
   staWpop?: string;
   landType?: string;
   rt?: string | number;
+  typeOfRight?: string;
 }
 declare interface ILotSurveyItems {
   alatUkur: string | null;
