@@ -5,15 +5,6 @@
     title="Data Bangunan Boba"
     :read-data="buildingStore.readBuildingData"
   >
-    <!-- <template #action>
-      <div class="flex gap-1">
-        <AppButton
-          variant="outlined"
-          label="Add Building"
-          @click="addBuildingSurvey"
-        />
-      </div>
-    </template> -->
     <template #item.luasBgn="{ item }">
       <v-chip v-if="Number(item.luasBgn)" color="primary-blue">
         {{ item.luasBgn }} m<sup>2</sup>
@@ -144,14 +135,10 @@ import {
 const buildingStore = useBuildingDataStore();
 const selectedItem = ref();
 const detailDialog = ref(false);
-const addBuildingSurvey = () => {
-  navigateTo("/data/add_building");
-};
 const openDetail = (item: IBuildingObjectType) => {
   detailDialog.value = true;
   selectedItem.value = item;
 };
-
 const itemsBpn = {
   buildingConstruction: "Konstruksi Bangunan",
   buildingFloorType: "Jenis Lantai",

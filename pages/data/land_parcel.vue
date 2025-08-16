@@ -71,24 +71,26 @@
   >
   </AppDialogConfirm>
 
-  <AppDialog title="Detail Survey" v-model="detailDialog" width="1920">
+  <AppDialog title="Land Parcel Survey" v-model="detailDialog" width="1920">
     <v-card>
       <v-card-text>
         <v-row>
-          <v-img
-            :src="selectedItem?.imageUrls[0]"
-            class="bg-grey-lighten-3"
-            cover
-          >
-            <template #placeholder>
-              <div class="d-flex align-center justify-center fill-height">
-                <v-progress-circular
-                  indeterminate
-                  color="primary"
-                ></v-progress-circular>
-              </div>
-            </template>
-          </v-img>
+          <v-col>
+            <v-img
+              :src="selectedItem?.imageUrls[0]"
+              class="bg-grey-lighten-3"
+              cover
+            >
+              <template #placeholder>
+                <div class="d-flex align-center justify-center fill-height">
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
+                </div>
+              </template>
+            </v-img>
+          </v-col>
           <v-col cols="6">
             <AppCardDetailInformation
               title="Identitas wajib pajak"
@@ -97,6 +99,7 @@
               :items="landParcelConstant.land_parcel_table.detailBapenda"
             />
           </v-col>
+
           <v-col cols="6">
             <AppCardDetailInformation
               title="Legalitas Tanah"

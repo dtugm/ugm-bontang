@@ -59,7 +59,6 @@ export default {
     ],
     detailBapenda: {
       taxObjectNumber: "Nomor Objek Pajak (NOP)",
-      newTaxObjectNumber: "Nomor Objek Pajak Baru",
       taxPayerName: "Nama Wajib Pajak",
       taxPayerAddress: "Alamat Wajib Pajak",
       taxPayerPhone: "Telepon Wajib Pajak",
