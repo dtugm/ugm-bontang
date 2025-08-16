@@ -20,16 +20,12 @@
           clearable
         />
       </v-col>
-      <v-col>
-        <AppInputAutocomplete
-          v-model="buildingStore.readBuildingData.filterData.buildingType"
-          label="Tipe Bangunan"
-          :items="buildingTypeOptions"
-          is-filter
-          hide-details
-          clearable
-        />
+
+      <v-col cols="auto">
+        <AppButton color="tertiary" label="Filter" @click="filterLandParcel" />
       </v-col>
+    </v-row>
+    <v-row>
       <v-col>
         <AppInputAutocomplete
           v-model="buildingStore.readBuildingData.filterData.update"
@@ -40,12 +36,16 @@
           clearable
         />
       </v-col>
-
-      <v-col cols="auto">
-        <AppButton color="tertiary" label="Filter" @click="filterLandParcel" />
+      <v-col>
+        <AppInputAutocomplete
+          v-model="buildingStore.readBuildingData.filterData.buildingType"
+          label="Tipe Bangunan"
+          :items="buildingTypeOptions"
+          is-filter
+          hide-details
+          clearable
+        />
       </v-col>
-    </v-row>
-    <v-row>
       <v-col>
         <AppInputAutocomplete
           v-model="buildingStore.readBuildingData.filterData.buildingFloorType"

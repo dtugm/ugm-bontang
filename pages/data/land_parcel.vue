@@ -11,7 +11,7 @@
     class="pt-0"
     title="Data Survey Lapangan (Persil Tanah)"
     :read-data="landParcelStore.readLandParcel"
-    placeholder="Search by: NIB, NOP"
+    placeholder="Cari berdasarkan Nama, NOP, NIB"
   >
     <template #item.l_bumi="{ item }">
       <v-chip density="comfortable" color="primary-blue">

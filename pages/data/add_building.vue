@@ -123,7 +123,7 @@ const submitBulk = async () => {
           province: "Kalimantan Timur",
           city: "Bontang",
           district: data.KECAMATAN,
-          village: "Bontang Baru",
+          village: data.KELURAHAN,
           uuid_bgn: data.UUID || null,
           roofType: roofMap[data.JENIS_ATAP] || null,
           dateUpdt: data.DATE_UPDT || null,

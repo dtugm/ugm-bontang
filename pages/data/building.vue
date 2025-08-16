@@ -1,7 +1,7 @@
 <template>
   <DataBuildingFilter />
   <AppTableData
-    placeholder="Search By NOP"
+    placeholder="Cari berdasarkan Nama, NOP, NOP Bangunan"
     title="Data Survey Bangunan"
     :read-data="buildingStore.readBuildingData"
   >
