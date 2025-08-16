@@ -8,6 +8,8 @@
       width="450"
     >
       <template v-slot:append>
+        <AppButtonIcon icon="mdi-pencil" @click="openEdit(rawValue)" />
+
         <v-menu :close-on-content-click="false" location="top" :offset="[0, 0]">
           <template v-slot:activator="{ props }">
             <v-btn
@@ -74,6 +76,130 @@
       </v-card-text>
     </v-card>
   </div>
+  <AppDialogConfirm
+    :confirm-loading="buildingStore.editBuildingLoading"
+    v-model="editDialog"
+    confirm-color="tertiary"
+    confirm-text="Update"
+    @close="editDialog = false"
+    @confirm="confirmEdit"
+    width="1200"
+  >
+    <v-row v-if="selectedItem">
+      <v-col cols="6">
+        <AppInputText label="NOP" v-model="selectedItem.taxObjectNumber" />
+        <AppInputText label="Alamat" v-model="selectedItem.address" />
+        <AppInputText
+          label="Nama Pemilik"
+          v-model="selectedItem.taxPayerName"
+        />
+        <v-row>
+          <v-col>
+            <AppInputText
+              label="Luas Bangunan Lama (m²)"
+              v-model="selectedItem.luasBgnLama"
+              type="number"
+            />
+          </v-col>
+          <v-col>
+            <AppInputText
+              label="Luas Bangunan (m²)"
+              v-model="selectedItem.luasBgn"
+              type="number"
+            />
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="4">
+            <AppInputText label="RT" v-model="selectedItem.rt" type="number" />
+          </v-col>
+          <v-col>
+            <AppInputAutocomplete
+              label="Kelurahan"
+              :items="lotSurveyStore.kelurahanOption"
+              v-model="selectedItem.village"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <AppInputText
+              label="Longitude"
+              placeholder="117.492109"
+              v-model="selectedItem.longBgn"
+              type="number"
+            />
+          </v-col>
+
+          <v-col>
+            <AppInputText
+              label="Latitude"
+              placeholder="0.13754"
+              v-model="selectedItem.latBgn"
+              type="number"
+            />
+          </v-col>
+        </v-row>
+        <AppInputText label="UUID Bangunan" v-model="selectedItem.fid" />
+        <v-row>
+          <v-col cols="6">
+            <AppInputAutocomplete
+              :items="buildingStore.buildingUpdateOptions"
+              label="Status Survey"
+              v-model="selectedItem.update"
+            />
+          </v-col>
+          <v-col>
+            <AppInputAutocomplete
+              :items="buildingStore.buildingTypeOptions"
+              label="Tipe Bangunan"
+              v-model="selectedItem.buildingType"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <AppInputAutocomplete
+              :items="buildingStore.wallTypeOptions"
+              label="Tipe Dinding"
+              v-model="selectedItem.buildingWall"
+            />
+          </v-col>
+          <v-col>
+            <AppInputAutocomplete
+              :items="buildingStore.buildingConstructionOptions"
+              label="Tipe Konstruksi"
+              v-model="selectedItem.buildingConstruction"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <AppInputAutocomplete
+              :items="buildingStore.floorTypeOptions"
+              label="Tipe Lantai"
+              v-model="selectedItem.buildingFloorType"
+            />
+          </v-col>
+          <v-col>
+            <AppInputAutocomplete
+              :items="buildingStore.roofTypeOptions"
+              label="Tipe Roof"
+              v-model="selectedItem.roofType"
+            />
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="6">
+        <AppInputFileIBoxV2
+          file-type="img"
+          v-model="imageForm"
+          :preview_img="selectedItem?.imageUrls[0]"
+        />
+      </v-col>
+    </v-row>
+  </AppDialogConfirm>
 </template>
 <script lang="ts" setup>
 import buildingViewerConstant from "~/app/constant/view/buildingViewer.constant";
@@ -131,6 +257,10 @@ const value: any = computed(() => {
   const data: any = tiles3dStore.buildingAttribute;
   return applyMapping(data, labelMappings, ["luasBgn", "l_tertul"]);
 });
+const rawValue: any = computed(() => {
+  const data: any = tiles3dStore.buildingAttribute;
+  return data;
+});
 const imageSrc = ref(value.value.imageUrls?.[0] || "");
 const imageFailed = ref(false);
 
@@ -149,4 +279,44 @@ const hasImage = computed(() => {
 function onImageError() {
   imageFailed.value = true;
 }
+const buildingStore = useBuildingDataStore();
+const selectedItem: any = ref<IBuildingObjectType>();
+const editDialog = ref(false);
+const openEdit = (item: ILotSurveyItems) => {
+  const cleanedItem = cleanItem(item);
+  editDialog.value = true;
+  selectedItem.value = cleanedItem;
+};
+const imageForm = ref(null);
+const confirmEdit = async () => {
+  if (selectedItem.value) {
+    const { id, fid, createdAt, updatedAt, ...itemPayload } =
+      selectedItem.value;
+    await buildingStore.editBuilding(selectedItem.value.id, {
+      data: {
+        ...itemPayload,
+        fid: fid,
+      },
+      images: imageForm.value,
+    });
+    tiles3dStore.getDetailBuilding(fid);
+  }
+
+  editDialog.value = false;
+  imageForm.value = null;
+};
+
+const cleanItem: any = (obj: any) => {
+  if (Array.isArray(obj)) {
+    return obj.map((val) => cleanItem(val));
+  } else if (obj !== null && typeof obj === "object") {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, val]) => [key, cleanItem(val)])
+    );
+  } else {
+    return obj === "-" ? null : obj;
+  }
+};
+
+const lotSurveyStore = useLotSurveyMonitoring();
 </script>
