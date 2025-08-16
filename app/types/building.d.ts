@@ -8,6 +8,14 @@ declare interface IGetBuildingSurveyParams extends IMinimalFilter {
   rt?: string | number;
 }
 declare type IBuildingObjectType = {
+  roofType: string;
+  village?: string;
+  buildingType?: string;
+  buildingWall?: string;
+  buildingFloorType?: string;
+  buildingConstruction?: string;
+  update: string;
+  address: string;
   area: string;
   buildingFloorTotal: string;
   buildingTotal: string;
@@ -55,4 +63,9 @@ declare type IBuildingObjectType = {
   wwcCode: string;
   wwcPhoto: string;
   year: string;
+  latBgn: string | number;
+  longBgn: string | number;
+  luasBgn: string | number;
+  luasBgnBaru: string | number;
+  luasBgnLama: string | number;
 };

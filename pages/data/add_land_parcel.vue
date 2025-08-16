@@ -157,7 +157,7 @@ const submitBulk = async () => {
   );
 };
 const submitBulkBatch = async () => {
-  const chunkSize = 50; // proses 10 data sekaligus
+  const chunkSize = 100; // proses 10 data sekaligus
   const chunks = [];
 
   for (let i = 0; i < items.value.length; i += chunkSize) {
