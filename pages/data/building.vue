@@ -93,12 +93,12 @@
     <template #item.action="{ item }">
       <div>
         <AppButtonIcon icon="mdi-eye" @click="openDetail(item)" />
-        <!-- <AppButtonIcon
-          v-if="item.longitude != '-' && item.latitude != '-'"
+        <AppButtonIcon
+          v-if="item.longBgn != '-' && item.latBgn != '-'"
           icon="mdi-map"
           icon-color="success"
           @click="seeLandParcel(item)"
-        /> -->
+        />
 
         <AppButtonIcon icon="mdi-pencil" @click="openEdit(item)" />
         <AppButtonIcon
@@ -369,5 +369,23 @@ const confirmEdit = async () => {
   buildingStore.readBuildingData.getData({ page: 1, itemsPerPage: 10 });
   editDialog.value = false;
   imageForm.value = null;
+};
+const router = useRouter();
+const seeLandParcel = (item: any) => {
+  const cleanedItem = cleanItem(item);
+  const parameter: Record<string, any> = {
+    lng: cleanedItem.longBgn,
+    lat: cleanedItem.latBgn,
+    uuid_bgn: cleanedItem.fid,
+  };
+  Object.keys(parameter).forEach((key) => {
+    if (parameter[key] == null) {
+      delete parameter[key];
+    }
+  });
+  router.push({
+    path: "/land_parcel_cesium",
+    query: parameter,
+  });
 };
 </script>

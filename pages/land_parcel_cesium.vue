@@ -196,14 +196,20 @@ const entities: any = reactive([]);
 const geojson: any = ref(null);
 onMounted(async () => {
   if (route.query && Object.keys(route.query).length > 0) {
-    await useLotSurveyMonitoringStore.getDetailPersil(route.query.uuid);
-    viewerStore.isBuildingActive = false;
+    if (route.query.uuid) {
+      await useLotSurveyMonitoringStore.getDetailPersil(route.query.uuid);
+      viewerStore.isBuildingActive = false;
+    } else if (route.query.uuid_bgn) {
+      await getDetailBangunan(route.query.uuid_bgn);
+    }
+
     cameraOptions.value.position = {
-      lat: route.query.lat,
-      lng: route.query.lng,
+      lat: Number(route.query.lat),
+      lng: Number(route.query.lng),
       height: 70,
     };
   }
+
   await viewerStore.getActiveBuilding();
   await viewerStore.getActiveLandParcel();
   await nextTick();
