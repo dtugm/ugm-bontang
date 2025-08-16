@@ -2,7 +2,7 @@
   <DataBuildingFilter />
   <AppTableData
     placeholder="Search By NOP"
-    title="Data Bangunan Boba"
+    title="Data Survey Bangunan"
     :read-data="buildingStore.readBuildingData"
   >
     <template #item.luasBgn="{ item }">
@@ -69,6 +69,20 @@
         {{ wallTypeMap[item.buildingWall] ?? "-" }}
       </v-chip>
     </template>
+    <template
+      #item.buildingConstruction="{
+        item,
+      }: {
+        item: { buildingConstruction: BuildingConstruction },
+      }"
+    >
+      <v-chip
+        density="comfortable"
+        :color="buildingConstructionColorMap[item.buildingConstruction]"
+      >
+        {{ buildingConstructionMap[item.buildingConstruction] ?? "-" }}
+      </v-chip>
+    </template>
     <template #item.action="{ item }">
       <AppButtonIcon icon="mdi-eye" @click="openDetail(item)" />
     </template>
@@ -119,6 +133,7 @@ import {
   BuildingType,
   BuildingWall,
   RoofType,
+  BuildingConstruction,
 } from "~/app/types/enums/building";
 import {
   wallTypeMap,
@@ -131,6 +146,8 @@ import {
   wallTypeColorMap,
   roofTypeColorMap,
   buildingTypeIconMap,
+  buildingConstructionMap,
+  buildingConstructionColorMap,
 } from "~/app/constant/data/buildingMapping.constant";
 const buildingStore = useBuildingDataStore();
 const selectedItem = ref();

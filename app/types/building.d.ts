@@ -2,6 +2,10 @@ declare interface IGetBuildingSurveyParams extends IMinimalFilter {
   village?: string;
   buildingType?: string;
   update?: string;
+  buildingWall?: string;
+  buildingFloorType?: string;
+  buildingConstruction?: string;
+  rt?: string | number;
 }
 declare type IBuildingObjectType = {
   area: string;

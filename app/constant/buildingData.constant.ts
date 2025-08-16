@@ -3,14 +3,15 @@ export default {
     headers: [
       { title: "No", key: "no" },
       { title: "NOP", key: "taxObjectNumber", sortable: false },
+      { title: "RT", key: "rt", sortable: false },
       {
         title: "Pemilik",
         key: "taxPayerName",
         sortable: false,
         minWidth: "150px",
       },
+      { title: "RT", key: "rt", sortable: false },
       { title: "Kelurahan", key: "village", sortable: false },
-      // { title: "Luas Bangunan Lama", key: "luasBgnLama", sortable: false },
       { title: "Luas Bangunan Lama", key: "luasBgnLama", sortable: false },
       { title: "Luas Bangunan Baru", key: "luasBgn", sortable: false },
       { title: "Jumlah Lantai", key: "floorCount", sortable: false },
@@ -28,15 +29,12 @@ export default {
         minWidth: "150px",
       },
       { title: "Tipe Atap", key: "roofType", sortable: false },
-
+      {
+        title: "Tipe Konstruksi",
+        key: "buildingConstruction",
+        sortable: false,
+      },
       { title: "Status", key: "update", sortable: false, minWidth: "150px" },
-
-      // {
-      //   title: "UUID Bangunan",
-      //   key: "fid",
-      //   sortable: false,
-      //   minWidth: "370px",
-      // },
       { title: "Actions", key: "action", sortable: false },
     ],
   },

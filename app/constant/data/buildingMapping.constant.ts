@@ -130,3 +130,13 @@ export const buildingTypeIconMap: Record<BuildingType, string> = {
   [BuildingType.SCHOOL]: "mdi-school", // Sekolah
   [BuildingType.OTHER]: "mdi-help-circle", // Lain-lain
 };
+
+export const buildingConstructionColorMap: Record<
+  BuildingConstruction,
+  string
+> = {
+  [BuildingConstruction.STEEL]: "#607D8B", // abu-abu kebiruan (baja)
+  [BuildingConstruction.CONCRETE]: "#9E9E9E", // abu-abu beton
+  [BuildingConstruction.BRICK]: "#D84315", // merah bata
+  [BuildingConstruction.WOOD]: "#8D6E63", // cokelat kayu
+};
