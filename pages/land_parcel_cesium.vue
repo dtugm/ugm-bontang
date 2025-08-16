@@ -8,7 +8,7 @@
       <AppHeaderViewerCesium />
       <CesiumLandParcelFeature />
 
-      <CesiumLandParcelFeatures />
+      <CesiumLandParcelFeatures :tile-refs="tileRefs" />
 
       <!-- DETAIL FIELD -->
       <CesiumOverlayFeature />
