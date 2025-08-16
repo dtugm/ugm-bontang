@@ -201,6 +201,7 @@ onMounted(async () => {
       viewerStore.isBuildingActive = false;
     } else if (route.query.uuid_bgn) {
       await getDetailBangunan(route.query.uuid_bgn);
+      viewerStore.isBuildingActive = true;
     }
 
     cameraOptions.value.position = {
