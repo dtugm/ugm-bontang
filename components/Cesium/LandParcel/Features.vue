@@ -3,7 +3,6 @@
     <div class="flex flex-col gap-2">
       <CesiumLandParcelBaseMapFeature />
       <CesiumLandParcelObjectFeature />
-
       <v-menu :close-on-content-click="false" location="left">
         <template v-slot:activator="{ props }">
           <v-btn color="tertiary" v-bind="props" class="text-none" icon>
@@ -92,6 +91,7 @@
           </v-card-text>
         </v-card>
       </v-menu>
+      <CesiumLandParcelTable />
     </div>
   </div>
 </template>

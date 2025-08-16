@@ -223,14 +223,14 @@ const flyToLocation = (item: any) => {
 
   const destination = Cesium.Cartesian3.fromDegrees(
     Number(item.center_x),
-    Number(item.center_y) - 0.002, // offset sedikit ke selatan
-    400 // ketinggian kamera
+    Number(item.center_y),
+    150 // ketinggian kamera
   );
   viewer?.camera.flyTo({
     destination: destination,
     orientation: {
       heading: Cesium.Math.toRadians(0),
-      pitch: Cesium.Math.toRadians(-55),
+      pitch: Cesium.Math.toRadians(-90),
       roll: 0,
     },
   });
@@ -241,6 +241,8 @@ const clickPersil = async (e: any) => {
   const item = e.pickedFeature.id.properties.getValue();
   await useLotSurveyMonitoringStore.getDetailPersil(item.UUID);
 };
+
+provide("flyToLocation", flyToLocation);
 </script>
 <style scoped>
 .overlay-loading {
