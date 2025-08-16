@@ -115,22 +115,46 @@
         <v-row>
           <v-col cols="6">
             <AppCardDetailInformation
-              title="Building Attribute"
+              title="Identias Bangunan"
               :is-stacked="false"
               :value="selectedItem"
-              :items="buildingDataConstant.detail_item.itemsBapenda"
+              :items="buildingDataConstant.detail_item.identitas"
             />
           </v-col>
           <v-col cols="6">
             <AppCardDetailInformation
-              title="Building Attribute"
+              title="Wajib Pajak"
               :is-stacked="false"
               :value="selectedItem"
-              :items="buildingDataConstant.detail_item.itemsBpn"
+              :items="buildingDataConstant.detail_item.wajibPajak"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Lokasi"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="buildingDataConstant.detail_item.lokasi"
             />
           </v-col>
 
-          <v-col cols="12">
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Bangunan"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="buildingDataConstant.detail_item.bangunan"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Metadata"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="buildingDataConstant.detail_item.metadata"
+            />
+          </v-col>
+          <v-col cols="6">
             <AppCardContainerBorder
               title="Gambar Survey"
               v-if="selectedItem?.imageUrls[0]"
@@ -147,6 +171,13 @@
                       indeterminate
                       color="primary"
                     ></v-progress-circular>
+                  </div>
+                </template>
+                <template #error>
+                  <div
+                    class="d-flex align-center justify-center fill-height grey lighten-2"
+                  >
+                    <span>Gambar tidak tersedia</span>
                   </div>
                 </template>
               </v-img>
@@ -318,7 +349,7 @@ import {
 import buildingDataConstant from "~/app/constant/buildingData.constant";
 const buildingStore = useBuildingDataStore();
 const lotSurveyStore = useLotSurveyMonitoring();
-const selectedItem = ref<IBuildingObjectType>();
+const selectedItem: any = ref<IBuildingObjectType>();
 const detailDialog = ref(false);
 const deleteDialog = ref(false);
 const editDialog = ref(false);
@@ -388,4 +419,13 @@ const seeLandParcel = (item: any) => {
     query: parameter,
   });
 };
+// const imageSrc = ref(selectedItem?.value.imageUrls[0] || "");
+// const imageFailed = ref(false);
+// const hasImage = computed(() => {
+//   return imageSrc.value && !imageFailed.value;
+// });
+
+// function onImageError() {
+//   imageFailed.value = true;
+// }
 </script>
