@@ -161,7 +161,6 @@
             />
           </v-col>
         </v-row>
-        <AppInputText label="UUID Persil" v-model="selectedItem.uuid" />
         <AppInputText label="UUID Persil" v-model="selectedItem.fid" />
       </v-col>
       <v-col cols="6">

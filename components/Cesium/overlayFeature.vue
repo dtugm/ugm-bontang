@@ -4,7 +4,7 @@
       v-if="popUpBuilding"
       title="Building Detail"
       class="rounded-lg"
-      max-height="500"
+      max-height="900"
       width="450"
     >
       <template v-slot:append>

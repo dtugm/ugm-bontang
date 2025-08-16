@@ -10,5 +10,7 @@ export default {
     { title: "Luas Tertulis", key: "l_tertul" },
     { title: "Pemakaian", key: "landUsage" },
     { title: "Jenis tanah", key: "landType" },
+    { title: "Longitude", key: "longitude" },
+    { title: "Latitude", key: "latitude" },
   ],
 };

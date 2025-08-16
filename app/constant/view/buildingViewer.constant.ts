@@ -15,5 +15,7 @@ export default {
     { title: "Luas Bangunan", key: "luasBgn" },
     { title: "Update Bangunan", key: "update" },
     { title: "Status", key: "buildingUpdate" },
+    { title: "Longitude", key: "longBgn" },
+    { title: "Latitude", key: "latBgn" },
   ],
 };
