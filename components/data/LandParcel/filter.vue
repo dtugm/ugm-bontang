@@ -31,6 +31,15 @@
           clearable
         />
       </v-col>
+      <v-col>
+        <AppInputText
+          v-model="landParcelStore.readLandParcel.filterData.rt"
+          label="RT"
+          type="number"
+          is-filter
+          clearable
+        />
+      </v-col>
       <v-col cols="auto">
         <AppButton color="tertiary" label="Filter" @click="filterLandParcel" />
       </v-col>

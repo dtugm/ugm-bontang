@@ -115,7 +115,6 @@ const cameraOptions = ref({
 });
 
 // Loading Coindition
-const terrainReady = ref(false);
 const tilesetsReady = ref(false);
 const viewerRaady = ref(false);
 const isLoading = ref(true);

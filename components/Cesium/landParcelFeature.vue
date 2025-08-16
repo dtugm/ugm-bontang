@@ -25,6 +25,7 @@
             title="Preview Image"
             class="rounded-lg"
           >
+            {{ value.imageUrls }}
             <v-card-text v-if="hasImage">
               <v-img
                 :src="value.imageUrls[0]"

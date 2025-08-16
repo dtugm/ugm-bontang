@@ -23,20 +23,22 @@
     <template #item.action="{ item }">
       <div>
         <AppButtonIcon
+          icon="mdi-eye"
+          icon-color="secondary"
+          @click="openDetail(item)"
+        />
+        <AppButtonIcon
+          v-if="item.longitude != '-' && item.latitude != '-'"
           icon="mdi-map"
           icon-color="success"
           @click="seeLandParcel(item)"
         />
-        <AppButtonIcon icon="mdi-pencil" />
+
+        <AppButtonIcon icon="mdi-pencil" @click="openEdit(item)" />
         <AppButtonIcon
           icon="mdi-delete"
           icon-color="error"
           @click="deleteItem(item)"
-        />
-        <AppButtonIcon
-          icon="mdi-eye"
-          icon-color="secondary"
-          @click="openDetail(item)"
         />
       </div>
     </template>
@@ -71,26 +73,99 @@
   >
   </AppDialogConfirm>
 
+  <AppDialogConfirm
+    :confirm-loading="lotSurveyStore.editPersilLoading"
+    v-model="editDialog"
+    confirm-color="tertiary"
+    confirm-text="Update"
+    @close="editDialog = false"
+    @confirm="confirmEdit"
+    width="900"
+  >
+    <v-row v-if="selectedItem">
+      <v-col cols="6">
+        <!-- <AppInputText label="NOP" v-model="selectedItem.taxObjectNumber" /> -->
+        <AppInputText label="NIB" v-model="selectedItem.nib" />
+        <AppInputText label="NOP" v-model="selectedItem.taxObjectNumber" />
+        <AppInputText label="Alamat" v-model="selectedItem.taxObjectAddress" />
+        <AppInputText label="Jenis Hak" v-model="selectedItem.typeOfRight" />
+        <AppInputText
+          label="Nama Pemilik"
+          v-model="selectedItem.taxPayerName"
+        />
+        <v-row>
+          <v-col>
+            <AppInputText
+              label="Luas Bumi (m²)"
+              v-model="selectedItem.l_bumi"
+              type="number"
+            />
+          </v-col>
+          <v-col>
+            <AppInputText
+              label="Luas Tertulis (m²)"
+              v-model="selectedItem.l_tertul"
+              type="number"
+            />
+          </v-col>
+        </v-row>
+        <AppInputAutocomplete
+          label="Jenis Tanah"
+          :items="lotSurveyStore.landTypeOptions"
+          v-model="selectedItem.landType"
+        />
+        <AppInputAutocomplete
+          label="STAWPOP"
+          :items="lotSurveyStore.staWpopOptions"
+          v-model="selectedItem.staWpop"
+        />
+        <v-row>
+          <v-col cols="4">
+            <AppInputText label="RT" v-model="selectedItem.rt" type="number" />
+          </v-col>
+          <v-col>
+            <AppInputAutocomplete
+              label="Kelurahan"
+              :items="lotSurveyStore.kelurahanOption"
+              v-model="selectedItem.village"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <AppInputText
+              label="Longitude"
+              placeholder="117.492109"
+              v-model="selectedItem.longitude"
+              type="number"
+            />
+          </v-col>
+          <v-col>
+            <AppInputText
+              label="Latitude"
+              placeholder="0.13754"
+              v-model="selectedItem.latitude"
+              type="number"
+            />
+          </v-col>
+        </v-row>
+        <AppInputText label="UUID Persil" v-model="selectedItem.uuid" />
+        <AppInputText label="UUID Persil" v-model="selectedItem.fid" />
+      </v-col>
+      <v-col cols="6">
+        <AppInputFileIBoxV2
+          file-type="img"
+          v-model="imageForm"
+          :preview_img="selectedItem?.imageUrls[0]"
+        />
+      </v-col>
+    </v-row>
+  </AppDialogConfirm>
+
   <AppDialog title="Land Parcel Survey" v-model="detailDialog" width="1920">
     <v-card>
       <v-card-text>
         <v-row>
-          <v-col>
-            <v-img
-              :src="selectedItem?.imageUrls[0]"
-              class="bg-grey-lighten-3"
-              cover
-            >
-              <template #placeholder>
-                <div class="d-flex align-center justify-center fill-height">
-                  <v-progress-circular
-                    indeterminate
-                    color="primary"
-                  ></v-progress-circular>
-                </div>
-              </template>
-            </v-img>
-          </v-col>
           <v-col cols="6">
             <AppCardDetailInformation
               title="Identitas wajib pajak"
@@ -99,7 +174,6 @@
               :items="landParcelConstant.land_parcel_table.detailBapenda"
             />
           </v-col>
-
           <v-col cols="6">
             <AppCardDetailInformation
               title="Legalitas Tanah"
@@ -108,7 +182,28 @@
               :items="landParcelConstant.land_parcel_table.detailBpn"
             />
           </v-col>
-          <v-col> </v-col>
+          <v-col cols="12">
+            <AppCardContainerBorder
+              title="Gambar Survey"
+              v-if="selectedItem?.imageUrls[0]"
+            >
+              <v-img
+                aspect-ratio="16/9"
+                :src="selectedItem?.imageUrls[0]"
+                height="500"
+                contain
+              >
+                <template #placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
+            </AppCardContainerBorder>
+          </v-col>
         </v-row>
       </v-card-text>
     </v-card>
@@ -120,9 +215,10 @@ import landParcelConstant from "~/app/constant/landParcel.constant";
 const landParcelStore = useLandParcelStore();
 const lotSurveyStore = useLotSurveyMonitoring();
 const imageUrlPreview = ref();
-const selectedItem = ref();
+const selectedItem = ref<ILotSurveyItems>();
 const dialog = ref(false);
 const detailDialog = ref(false);
+const editDialog = ref(false);
 const previewImage = (item: any) => {
   dialog.value = true;
   selectedItem.value = item;
@@ -134,24 +230,64 @@ const deleteItem = (item: any) => {
   selectedItem.value = item;
 };
 const confirmDelete = async () => {
-  await lotSurveyStore.deletePersil(selectedItem.value.id);
+  if (selectedItem.value) {
+    await lotSurveyStore.deletePersil(selectedItem.value.id);
+  }
   landParcelStore.readLandParcel.getData({ page: 1, itemsPerPage: 10 });
   deleteDialog.value = false;
 };
 const router = useRouter();
 const seeLandParcel = (item: any) => {
-  const parameter = {
-    lng: item.longitude,
-    lat: item.latitude,
-    uuid: item.uuid,
+  const cleanedItem = cleanItem(item);
+  const parameter: Record<string, any> = {
+    lng: cleanedItem.longitude,
+    lat: cleanedItem.latitude,
+    uuid: cleanedItem.uuid,
   };
+  Object.keys(parameter).forEach((key) => {
+    if (parameter[key] == null) {
+      delete parameter[key];
+    }
+  });
   router.push({
     path: "/land_parcel_cesium",
     query: parameter,
   });
 };
-const openDetail = (item: IBuildingObjectType) => {
+const openDetail = (item: ILotSurveyItems) => {
   detailDialog.value = true;
   selectedItem.value = item;
+};
+const openEdit = (item: ILotSurveyItems) => {
+  const cleanedItem = cleanItem(item);
+  editDialog.value = true;
+  selectedItem.value = cleanedItem;
+};
+const imageForm = ref(null);
+const confirmEdit = async () => {
+  if (selectedItem.value) {
+    const { id, createdAt, updatedAt, ...itemPayload } = selectedItem.value;
+    await lotSurveyStore.editPersil(selectedItem.value.id, {
+      data: {
+        ...itemPayload,
+      },
+      images: imageForm.value,
+    });
+  }
+  landParcelStore.readLandParcel.getData({ page: 1, itemsPerPage: 10 });
+  editDialog.value = false;
+  imageForm.value = null;
+};
+
+const cleanItem: any = (obj: any) => {
+  if (Array.isArray(obj)) {
+    return obj.map((val) => cleanItem(val));
+  } else if (obj !== null && typeof obj === "object") {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, val]) => [key, cleanItem(val)])
+    );
+  } else {
+    return obj === "-" ? null : obj;
+  }
 };
 </script>

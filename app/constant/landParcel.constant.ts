@@ -53,7 +53,7 @@ export default {
       { title: "STAWPOP", key: "staWpop", sortable: false, minWidth: "200px" },
       { title: "Kelurahan", key: "village", sortable: false },
       { title: "Image", key: "image", sortable: false, minWidth: "120px" },
-      // { title: "Nomor Objek Pajak", key: "taxObjectNumber", sortable: false },
+      { title: "Nomor Objek Pajak", key: "taxObjectNumber", sortable: false },
       // { title: "UUID Persil", key: "fid", sortable: false },
       { title: "Actions", key: "action", sortable: false, minWidth: "150px" },
     ],

@@ -7,7 +7,7 @@
       v-bind="$attrs"
       :id="label || undefined"
       :model-value="modelValue"
-      :class="[label && !vertical ? 'mt-2' : undefined]"
+      :class="[label && !isFilter ? 'mt-2' : undefined]"
       variant="outlined"
       bg-color="white"
       :density="density || 'compact'"
