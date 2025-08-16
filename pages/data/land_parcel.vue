@@ -178,15 +178,63 @@
               title="Identitas wajib pajak"
               :is-stacked="false"
               :value="selectedItem"
-              :items="landParcelConstant.land_parcel_table.detailBapenda"
+              :items="landParcelConstant.land_parcel_table.identitasWp"
             />
           </v-col>
           <v-col cols="6">
             <AppCardDetailInformation
-              title="Legalitas Tanah"
+              title="Pajak"
               :is-stacked="false"
               :value="selectedItem"
-              :items="landParcelConstant.land_parcel_table.detailBpn"
+              :items="landParcelConstant.land_parcel_table.pajak"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Identitas wajib pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.kepemilikan"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.pekerjaan"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Identitas wajib pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.kendaraan"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.identitasBidang"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Identitas wajib pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.luas"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.penggunaan"
             />
           </v-col>
           <v-col cols="12">
@@ -206,6 +254,13 @@
                       indeterminate
                       color="primary"
                     ></v-progress-circular>
+                  </div>
+                </template>
+                <template #error>
+                  <div
+                    class="d-flex align-center justify-center fill-height grey lighten-2"
+                  >
+                    <span>Gambar tidak tersedia</span>
                   </div>
                 </template>
               </v-img>

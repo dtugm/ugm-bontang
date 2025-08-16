@@ -86,7 +86,52 @@ export default {
       metodeUkur: "Metode Pengukuran",
       alatUkur: "Alat Pengukuran",
       suratUkur: "Nomor Surat Ukur",
-      imageUrls: "Image",
+      imageUrls: "Path Gambar",
+    },
+
+    identitasWp: {
+      taxPayerName: "Nama Wajib Pajak",
+      taxPayerAddress: "Alamat Wajib Pajak",
+      taxPayerPhone: "Telepon Wajib Pajak",
+      taxPayerCode: "Kode Wajib Pajak",
+    },
+    pajak: {
+      taxObjectNumber: "Nomor Objek Pajak (NOP)",
+      taxStatus: "Status Pajak",
+      status: "Status Survey",
+      staWpop: "Status Pemanfaatan Objek Pajak",
+    },
+    kepemilikan: {
+      pemilikAktual: "Pemilik Saat Ini",
+      pemilikSebelumnya: "Pemilik Sebelumnya",
+    },
+    pekerjaan: {
+      kerjaWp: "Pekerjaan Wajib Pajak",
+      kerjaWp2: "Pekerjaan Wajib Pajak 2",
+    },
+    kendaraan: {
+      vehicleTotal: "Jumlah Kendaraan",
+      twoWheelVehicleTotal: "Motor (Unit)",
+      fourWheelVehicleTotal: "Mobil (Unit)",
+    },
+    identitasBidang: {
+      nib: "Nomor Induk Bidang",
+      nibel: "Nomor Identifikasi Bidang Elektronik",
+      typeOfRight: "Jenis Hak",
+      rightNumber: "Nomor Hak",
+    },
+    luas: {
+      l_bumi: "Luas Tanah (m²)",
+      l_tertul: "Luas Tertulis (m²)",
+    },
+    penggunaan: {
+      landType: "Jenis Tanah/Bangunan",
+      landUsage: "Penggunaan Tanah",
+    },
+    pengukuran: {
+      metodeUkur: "Metode Pengukuran",
+      alatUkur: "Alat Pengukuran",
+      suratUkur: "Nomor Surat Ukur",
     },
   },
 
