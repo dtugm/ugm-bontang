@@ -5,6 +5,11 @@
     title="Data Survey Bangunan"
     :read-data="buildingStore.readBuildingData"
   >
+    <template #action>
+      <v-btn color="success" :loading="isDownloading" @click="downloadExcel"
+        >Download Dokumen</v-btn
+      >
+    </template>
     <template #item.luasBgnLama="{ item }">
       <v-chip v-if="Number(item.luasBgnLama)" color="primary-blue">
         {{ item.luasBgnLama }} m<sup>2</sup>
@@ -347,6 +352,7 @@ import {
   buildingConstructionColorMap,
 } from "~/app/constant/data/buildingMapping.constant";
 import buildingDataConstant from "~/app/constant/buildingData.constant";
+const dataStore = useDataStore();
 const buildingStore = useBuildingDataStore();
 const lotSurveyStore = useLotSurveyMonitoring();
 const selectedItem: any = ref<IBuildingObjectType>();
@@ -418,6 +424,14 @@ const seeLandParcel = (item: any) => {
     path: "/land_parcel_cesium",
     query: parameter,
   });
+};
+const isDownloading = ref(false);
+const downloadExcel = async () => {
+  isDownloading.value = true;
+  await dataStore.exportBuildingSurveyExcel(
+    buildingStore.readBuildingData.filterData
+  );
+  isDownloading.value = false;
 };
 // const imageSrc = ref(selectedItem?.value.imageUrls[0] || "");
 // const imageFailed = ref(false);
