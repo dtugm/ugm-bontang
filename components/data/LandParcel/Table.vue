@@ -1,10 +1,4 @@
 <template>
-  <v-col>
-    <v-chip color="primary" label>
-      Total Land Parcel:
-      {{ landParcelStore.readLandParcel.tableData.totalItems }}
-    </v-chip>
-  </v-col>
   <DataLandParcelFilter class="pb-0" />
 
   <AppTableData

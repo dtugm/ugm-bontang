@@ -6,28 +6,26 @@
       >
     </template>
     <v-card class="rounded-lg">
-      <v-card>
-        <!-- Tabs -->
-        <v-tabs v-model="tab" align-tabs="center" color="primary">
-          <v-tab value="land">Land Parcel</v-tab>
-          <v-tab value="building">Building</v-tab>
-        </v-tabs>
+      <!-- Tabs -->
+      <v-tabs v-model="tab" align-tabs="center" color="primary">
+        <v-tab value="land">Land Parcel</v-tab>
+        <v-tab value="building">Building</v-tab>
+      </v-tabs>
 
-        <!-- Window -->
-        <v-window v-model="tab">
-          <v-window-item value="land">
-            <v-card-text>
-              <DataLandParcelTable />
-            </v-card-text>
-          </v-window-item>
+      <!-- Window -->
+      <v-window v-model="tab">
+        <v-window-item value="land">
+          <v-card-text>
+            <DataLandParcelTable />
+          </v-card-text>
+        </v-window-item>
 
-          <v-window-item value="building">
-            <v-card-text>
-              <DataBuildingTable />
-            </v-card-text>
-          </v-window-item>
-        </v-window>
-      </v-card>
+        <v-window-item value="building">
+          <v-card-text>
+            <DataBuildingTable />
+          </v-card-text>
+        </v-window-item>
+      </v-window>
     </v-card>
   </v-menu>
 </template>
