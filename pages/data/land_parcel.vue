@@ -13,6 +13,11 @@
     :read-data="landParcelStore.readLandParcel"
     placeholder="Cari berdasarkan Nama, NOP, NIB"
   >
+    <template #action>
+      <v-btn color="success" :loading="isDownloading" @click="downloadExcel"
+        >Download Dokumen</v-btn
+      >
+    </template>
     <template #item.l_bumi="{ item }">
       <v-chip density="comfortable" color="primary-blue">
         {{ Number(item.l_bumi).toFixed(2) }} m<sup>2</sup>
@@ -351,5 +356,14 @@ const cleanItem: any = (obj: any) => {
   } else {
     return obj === "-" ? null : obj;
   }
+};
+const dataStore = useDataStore();
+const isDownloading = ref(false);
+const downloadExcel = async () => {
+  isDownloading.value = true;
+  await dataStore.exportLandSurveyExcel(
+    landParcelStore.readLandParcel.filterData
+  );
+  isDownloading.value = false;
 };
 </script>
