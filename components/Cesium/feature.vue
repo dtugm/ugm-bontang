@@ -162,24 +162,27 @@
               v-model="floorCount"
               hide-details
             />
-            <!-- <AppInputAutocomplete
-              v-if="jenisFilter == 'jenis_lantai'"
+            <AppInputAutocomplete
+              v-if="jenisFilter == 'buildingFloorType'"
               :rules="[(value:any) => !!value || 'This field is required']"
+              :items="buildingStore.floorTypeOptions"
               label="Jenis Lantai"
               v-model="buildingFloorType"
               hide-details
             />
             <AppInputAutocomplete
-              v-if="jenisFilter == 'jenis_bgn'"
+              v-if="jenisFilter == 'buildingType'"
               :rules="[(value:any) => !!value || 'This field is required']"
-              label="Jenis Building"
+              label="Jenis Bangunan"
+              :items="buildingStore.buildingTypeOptions"
               v-model="buildingType"
               hide-details
             />
             <AppInputAutocomplete
-              v-if="jenisFilter == 'konstruksi'"
+              v-if="jenisFilter == 'buildingConstruction'"
               :rules="[(value:any) => !!value || 'This field is required']"
               label="Jenis Konstruksi"
+              :items="buildingStore.buildingConstructionOptions"
               v-model="buildingConstruction"
               hide-details
             />
@@ -187,9 +190,10 @@
               v-if="jenisFilter == 'jenis_atap'"
               :rules="[(value:any) => !!value || 'This field is required']"
               label="Jenis Roof"
+              :items="buildingStore.roofTypeOptions"
               v-model="roofType"
               hide-details
-            /> -->
+            />
           </v-form>
           <v-btn
             block
@@ -220,6 +224,7 @@
 
 <script setup lang="ts">
 import * as Cesium from "cesium";
+const buildingStore = useBuildingDataStore();
 const jenisFilter = ref();
 const tiles3dStore = use3dTilesStore();
 const filterLoading = ref(false);
@@ -246,7 +251,7 @@ const submitFilter = async () => {
     filterLoading.value = true;
     const arr = await tiles3dStore.filterBuilding({
       [jenisFilter.value]: selectedValue.value,
-      pageSize: 10000,
+      pageSize: 20000,
     });
     filterTileset(arr);
     filterLoading.value = false;
