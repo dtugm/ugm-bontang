@@ -6,6 +6,7 @@ declare interface IGetBuildingSurveyParams extends IMinimalFilter {
   buildingFloorType?: string;
   buildingConstruction?: string;
   rt?: string | number;
+  showBuilding?: string | number;
 }
 declare type IBuildingObjectType = {
   roofType: string;

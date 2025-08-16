@@ -1,4 +1,10 @@
 <template>
+  <v-col>
+    <v-chip color="primary" label>
+      Total Building:
+      {{ buildingStore.readBuildingData.tableData.totalItems }}
+    </v-chip>
+  </v-col>
   <v-container>
     <v-row>
       <v-col>
@@ -20,7 +26,16 @@
           clearable
         />
       </v-col>
-
+      <v-col>
+        <AppInputAutocomplete
+          v-model="buildingStore.readBuildingData.filterData.showBuilding"
+          label="Kebaruan Bangunan"
+          :items="updateByLuasBangunan"
+          is-filter
+          hide-details
+          clearable
+        />
+      </v-col>
       <v-col cols="auto">
         <AppButton color="tertiary" label="Filter" @click="filterLandParcel" />
       </v-col>
@@ -39,7 +54,7 @@
       <v-col>
         <AppInputAutocomplete
           v-model="buildingStore.readBuildingData.filterData.buildingType"
-          label="Tipe Bangunan"
+          label="Jenis Bangunan"
           :items="buildingTypeOptions"
           is-filter
           hide-details
@@ -116,6 +131,12 @@ const wallTypeOptions = Object.entries(wallTypeMap).map(([value, title]) => ({
   value,
   title,
 }));
+
+const updateByLuasBangunan = [
+  { title: "Semua Bangunan", value: "Show All" },
+  { title: "Bangunan Baru", value: "Show Only New Building" },
+  { title: "Bangunan Lama", value: " Show Only Old Building" },
+];
 const kelurahanOption = [
   { title: "Lok Tuan", value: "Lok Tuan" },
   { title: "Bontang Baru", value: "Bontang Baru" },
