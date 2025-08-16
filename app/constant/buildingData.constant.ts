@@ -11,8 +11,8 @@ export default {
       },
       { title: "Kelurahan", key: "village", sortable: false },
       // { title: "Luas Bangunan Lama", key: "luasBgnLama", sortable: false },
-      { title: "Luas Bangunan", key: "luasBgn", sortable: false },
-      { title: "Luas Bangunan baru", key: "luasBgnBaru", sortable: false },
+      { title: "Luas Bangunan Lama", key: "luasBgnLama", sortable: false },
+      { title: "Luas Bangunan Baru", key: "luasBgn", sortable: false },
       { title: "Jumlah Lantai", key: "floorCount", sortable: false },
       {
         title: "Tipe Bangunan",

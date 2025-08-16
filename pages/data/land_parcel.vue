@@ -33,6 +33,11 @@
           icon-color="error"
           @click="deleteItem(item)"
         />
+        <AppButtonIcon
+          icon="mdi-eye"
+          icon-color="secondary"
+          @click="openDetail(item)"
+        />
       </div>
     </template>
   </AppTableData>
@@ -65,30 +70,61 @@
     @confirm="confirmDelete"
   >
   </AppDialogConfirm>
+
+  <AppDialog title="Detail Survey" v-model="detailDialog" width="1920">
+    <v-card>
+      <v-card-text>
+        <v-row>
+          <v-img
+            :src="selectedItem?.imageUrls[0]"
+            class="bg-grey-lighten-3"
+            cover
+          >
+            <template #placeholder>
+              <div class="d-flex align-center justify-center fill-height">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+              </div>
+            </template>
+          </v-img>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Identitas wajib pajak"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.detailBapenda"
+            />
+          </v-col>
+          <v-col cols="6">
+            <AppCardDetailInformation
+              title="Legalitas Tanah"
+              :is-stacked="false"
+              :value="selectedItem"
+              :items="landParcelConstant.land_parcel_table.detailBpn"
+            />
+          </v-col>
+          <v-col> </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </AppDialog>
 </template>
 <script lang="ts" setup>
-import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
+import landParcelConstant from "~/app/constant/landParcel.constant";
+
 const landParcelStore = useLandParcelStore();
 const lotSurveyStore = useLotSurveyMonitoring();
 const imageUrlPreview = ref();
 const selectedItem = ref();
 const dialog = ref(false);
+const detailDialog = ref(false);
 const previewImage = (item: any) => {
   dialog.value = true;
   selectedItem.value = item;
   imageUrlPreview.value = item.imageUrls[0];
 };
-
-const addLandParcel = () => {
-  navigateTo("/data/add_land_parcel");
-};
-const testFunction = async () => {
-  const resp =
-    await buildingSurveyMonitoringsApi.get_building_survey_monitoring();
-  console.log(resp);
-};
-
-const deleteLoading = ref(false);
 const deleteDialog = ref(false);
 const deleteItem = (item: any) => {
   deleteDialog.value = true;
@@ -107,8 +143,12 @@ const seeLandParcel = (item: any) => {
     uuid: item.uuid,
   };
   router.push({
-    path: "/land_parcel_cesium", // ganti dengan path halaman tujuanmu
+    path: "/land_parcel_cesium",
     query: parameter,
   });
+};
+const openDetail = (item: IBuildingObjectType) => {
+  detailDialog.value = true;
+  selectedItem.value = item;
 };
 </script>

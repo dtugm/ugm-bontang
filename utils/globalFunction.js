@@ -1,3 +1,12 @@
+export const handleEmptyOrNull = (value) => {
+  return value === null || value === undefined || value === "" ? "-" : value;
+};
+export const handleEmptyOrNullNumber = (value) => {
+  return value === null || value === undefined || value === "" || isNaN(value)
+    ? 0
+    : value;
+};
+
 export const jamIndoNow = () => {
   const jamIndo = {
     hour: "2-digit",

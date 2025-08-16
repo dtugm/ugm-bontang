@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import Papa from "papaparse";
 import lotSurveyApi from "~/app/api/lotSurvey.api";
-import lotSurveyMonitoringsApi from "~/app/api/survey/lotSurveyMonitorings.api";
 import {
   LandType,
   STAWPOP,
@@ -190,7 +189,7 @@ const submitBulkBatch = async () => {
           phoneNumber2: data.NOMOR_HP2,
           taxObjectAddress: data.ALAMAT_OP,
           rt: data.RT,
-          village: data.KELURAHAN,
+          village: "Bontang Baru",
           district: data.KECAMATAN,
           province: "Kalimantan Timur",
           city: "Bontang",
@@ -207,9 +206,11 @@ const submitBulkBatch = async () => {
           taxPayerCode: wpMap[data.KODE_WP],
           taxObjectCode_1: op1Map[data.KODE_OP1],
           taxObjectCode_2: op2Map[data.KODE_OP2],
-          ...(data.FOTO_WWC && {
+          ...((data.FOTO_WWC || data.F_WWC) && {
             imageUrls: [
-              `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_WWC}`,
+              `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${
+                data.FOTO_WWC || data.F_WWC
+              }`,
             ],
           }),
           year: Number(data.TAHUN),
@@ -254,11 +255,7 @@ const submitBulkBatch = async () => {
 
 const testBulk = async () => {
   const data = items.value[7];
-  const resp: any = await lotSurveyApi.getLotSurveyData({ search: data.NOP });
-
-  if (resp.data.lenght >= 1) {
-    console.log(resp.data[0].id);
-  }
+  // const resp: any = await lotSurveyApi.getLotSurveyData({ search: data.NOP });
   const dataPayload = {
     fid: data.UUID,
     polygonId: data.ID,
@@ -281,7 +278,7 @@ const testBulk = async () => {
     phoneNumber2: data.NOMOR_HP2,
     taxObjectAddress: data.ALAMAT_OP,
     rt: data.RT,
-    village: data.KELURAHAN,
+    village: "Bontang Baru",
     district: data.KECAMATAN,
     province: "Kalimantan Timur",
     city: "Bontang",
@@ -298,9 +295,11 @@ const testBulk = async () => {
     taxPayerCode: wpMap[data.KODE_WP],
     taxObjectCode_1: op1Map[data.KODE_OP1],
     taxObjectCode_2: op2Map[data.KODE_OP2],
-    ...(data.FOTO_WWC && {
+    ...((data.FOTO_WWC || data.F_WWC) && {
       imageUrls: [
-        `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${data.FOTO_WWC}`,
+        `https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${
+          data.FOTO_WWC || data.F_WWC
+        }`,
       ],
     }),
     year: Number(data.TAHUN),
@@ -317,23 +316,23 @@ const testBulk = async () => {
     uuid: data.UUID,
     newUuid: data.UUID_BARU,
   };
-
-  try {
-    await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
-      data: dataPayload,
-    });
-  } catch (error) {
-    await lotSurveyApi.get_persil_by_fid(data.UUID).then(async (resp: any) => {
-      console.log(resp.id);
-      await lotSurveyApi.EditMonitoring(
-        {
-          data: dataPayload,
-          images: null,
-        },
-        resp.id
-      );
-    });
-  }
+  console.log(dataPayload);
+  // try {
+  //   await lotSurveyMonitoringsApi.create_lot_survey_monitoring({
+  //     data: dataPayload,
+  //   });
+  // } catch (error) {
+  //   await lotSurveyApi.get_persil_by_fid(data.UUID).then(async (resp: any) => {
+  //     console.log(resp.id);
+  //     await lotSurveyApi.EditMonitoring(
+  //       {
+  //         data: dataPayload,
+  //         images: null,
+  //       },
+  //       resp.id
+  //     );
+  //   });
+  // }
 };
 function onFileChange(file: File | File[] | undefined) {
   if (!file) return;
