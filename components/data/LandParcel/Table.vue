@@ -1,10 +1,4 @@
 <template>
-  <v-col>
-    <v-chip color="primary" label>
-      Total Land Parcel:
-      {{ landParcelStore.readLandParcel.tableData.totalItems }}
-    </v-chip>
-  </v-col>
   <DataLandParcelFilter class="pb-0" />
 
   <AppTableData
@@ -43,7 +37,7 @@
           v-if="item.longitude != '-' && item.latitude != '-'"
           icon="mdi-map"
           icon-color="success"
-          @click="seeLandParcel(item)"
+          @click="flyToBuilding(item)"
         />
 
         <AppButtonIcon icon="mdi-pencil" @click="openEdit(item)" />
@@ -364,5 +358,16 @@ const downloadExcel = async () => {
     landParcelStore.readLandParcel.filterData
   );
   isDownloading.value = false;
+};
+const viewerStore = useViewerLandParcelStore();
+const flyToLocation = inject("flyToLocation") as (item: any) => void;
+const closeMenu = inject("closeMenu") as () => void;
+const flyToBuilding = (item: any) => {
+  viewerStore.isBuildingActive = false;
+  flyToLocation?.({
+    center_x: Number(item.longitude),
+    center_y: Number(item.latitude),
+  });
+  closeMenu?.();
 };
 </script>

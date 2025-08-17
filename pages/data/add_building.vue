@@ -13,7 +13,7 @@
         <!-- <AppInputText v-model="rt"></AppInputText> -->
       </v-col>
       <v-col cols="12" md="6">
-        <v-btn @click="submitBulk">Submit</v-btn>
+        <v-btn @click="submitBulk">Submit Chunk</v-btn>
         <v-btn @click="submitTest">Submit</v-btn>
       </v-col>
     </v-row>
@@ -197,23 +197,23 @@ const submitTest = async () => {
     taxPayerName: data.NAMA_WP,
   };
   console.log(dataPayload);
-  // try {
-  //   await buildingSurveyMonitoringsApi.create_building_survey_monitoring({
-  //     data: dataPayload,
-  //   });
-  // } catch (error) {
-  //   await buildingSurveyMonitoringsApi
-  //     .get_building_survey_by_fid({ fid: data.UUID })
-  //     .then(async (resp: any) => {
-  //       await buildingSurveyMonitoringsApi.update_building_survey_monitoring(
-  //         { id: resp.id },
-  //         {
-  //           data: dataPayload,
-  //           images: null,
-  //         }
-  //       );
-  //     });
-  // }
+  try {
+    await buildingSurveyMonitoringsApi.create_building_survey_monitoring({
+      data: dataPayload,
+    });
+  } catch (error) {
+    await buildingSurveyMonitoringsApi
+      .get_building_survey_by_fid({ fid: data.UUID })
+      .then(async (resp: any) => {
+        await buildingSurveyMonitoringsApi.update_building_survey_monitoring(
+          { id: resp.id },
+          {
+            data: dataPayload,
+            images: null,
+          }
+        );
+      });
+  }
 };
 
 function onFileChange(file: File | File[] | undefined) {

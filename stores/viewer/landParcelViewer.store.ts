@@ -1,3 +1,4 @@
+import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
 import vectorsApi from "~/app/api/vectors.api";
 import model3DApi from "~/app/api/view/model3D.api";
 
@@ -28,6 +29,16 @@ export const useViewerLandParcelStore = defineStore("viewerLandParcel", () => {
       isActive: true,
     });
     activeLandParcel.value = resp.data;
+  };
+
+  const filterBuilding = async (payload?: any) => {
+    const resp =
+      await buildingSurveyMonitoringsApi.get_building_survey_monitoring(
+        payload
+      );
+
+    const uuid_bgn = resp.data.map((item: any) => item.uuid_bgn);
+    return uuid_bgn;
   };
   return {
     isBuildingActive,

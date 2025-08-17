@@ -102,7 +102,7 @@
           v-if="item.longBgn != '-' && item.latBgn != '-'"
           icon="mdi-map"
           icon-color="success"
-          @click="seeLandParcel(item)"
+          @click="flyToBuilding(item)"
         />
 
         <AppButtonIcon icon="mdi-pencil" @click="openEdit(item)" />
@@ -432,6 +432,17 @@ const downloadExcel = async () => {
     buildingStore.readBuildingData.filterData
   );
   isDownloading.value = false;
+};
+const viewerStore = useViewerLandParcelStore();
+const flyToLocation = inject("flyToLocation") as (item: any) => void;
+const closeMenu = inject("closeMenu") as () => void;
+const flyToBuilding = (item: any) => {
+  viewerStore.isBuildingActive = true;
+  flyToLocation?.({
+    center_x: Number(item.longBgn),
+    center_y: Number(item.latBgn),
+  });
+  closeMenu?.();
 };
 // const imageSrc = ref(selectedItem?.value.imageUrls[0] || "");
 // const imageFailed = ref(false);

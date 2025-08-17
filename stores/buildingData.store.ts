@@ -1,5 +1,17 @@
 import buildingSurveyApi from "~/app/api/buildingSurvey.api";
+import buildingSurveyMonitoringsApi from "~/app/api/survey/buildingSurveyMonitorings.api";
 import buildingDataConstant from "~/app/constant/buildingData.constant";
+import {
+  buildingConstructionMap,
+  buildingTypeMap,
+  buildingUpdateMap,
+  floorTypeMap,
+  taxObjectCode1Map,
+  taxObjectCode2Map,
+  wallTypeMap,
+} from "~/app/constant/data/buildingMapping.constant";
+import { apiWrapper } from "~/app/helper/api.helper";
+import { RoofType } from "~/app/types/enums/building";
 
 export const useBuildingDataStore = defineStore("buildingData", () => {
   const readBuildingData = reactive(
@@ -28,6 +40,68 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
     const ids = resp.data.map((item: any) => item.uuid_bgn);
     return ids;
   };
+  const deleteBuildingLoading = ref(false);
+  const deleteBuildingData = async (id: string) => {
+    deleteBuildingLoading.value = true;
+    await apiWrapper(
+      () =>
+        buildingSurveyMonitoringsApi.delete_building_survey_monitoring({
+          id: id,
+        }),
+      {
+        successMessage: "Berhasil menghapus data!",
+      }
+    );
+    deleteBuildingLoading.value = false;
+  };
+  const editBuildingLoading = ref(false);
+  const editBuilding = async (
+    id: string,
+    payload: { data: Partial<IBuildingObjectType>; images: any }
+  ) => {
+    editBuildingLoading.value = true;
+    console.log(payload);
+    await apiWrapper(
+      () =>
+        buildingSurveyMonitoringsApi.update_building_survey_monitoring(
+          { id: id },
+          payload
+        ),
+      {
+        successMessage: "Berhasil Mengupdate data!",
+      }
+    );
+    editBuildingLoading.value = false;
+  };
+  const wallTypeOptions = Object.entries(wallTypeMap).map(([value, title]) => ({
+    value,
+    title,
+  }));
+  const buildingTypeOptions = Object.entries(buildingTypeMap).map(
+    ([value, title]) => ({
+      value,
+      title,
+    })
+  );
+  const floorTypeOptions = Object.entries(floorTypeMap).map(
+    ([value, title]) => ({
+      value,
+      title,
+    })
+  );
+  const buildingConstructionOptions = Object.entries(
+    buildingConstructionMap
+  ).map(([value, title]) => ({
+    value,
+    title,
+  }));
+  const buildingUpdateOptions = Object.entries(buildingUpdateMap).map(
+    ([value, title]) => ({
+      value,
+      title,
+    })
+  );
+  const roofTypeOptions = Object.values(RoofType);
 
   // const uploadBuildingData = async (payload: any) => {
   //   const resp = await buildingSurveyApi.post_building_survey_monitorings(
@@ -43,6 +117,20 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
     getBuildingByFilter,
 
     readBuldingCollection,
+
+    deleteBuildingData,
+    deleteBuildingLoading,
+
+    editBuilding,
+    editBuildingLoading,
+
+    wallTypeOptions,
+    buildingTypeOptions,
+    floorTypeOptions,
+    buildingConstructionOptions,
+    buildingUpdateOptions,
+
+    roofTypeOptions,
   };
 });
 

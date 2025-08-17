@@ -2,6 +2,7 @@ export default {
   detailBuildingHeader: [
     { title: "Kelurahan", key: "village" },
     { title: "Address", key: "address" },
+    { title: "Pemilik", key: "taxPayerName" },
     { title: "RT", key: "rt" },
     { title: "NOP", key: "taxObjectNumber" },
     { title: "NOP BARU", key: "newTaxObjectNumber" },
@@ -14,5 +15,7 @@ export default {
     { title: "Luas Bangunan", key: "luasBgn" },
     { title: "Update Bangunan", key: "update" },
     { title: "Status", key: "buildingUpdate" },
+    { title: "Longitude", key: "longBgn" },
+    { title: "Latitude", key: "latBgn" },
   ],
 };

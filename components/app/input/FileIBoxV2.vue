@@ -1,6 +1,7 @@
 <template>
   <label v-if="label" :for="label">{{ label }}</label>
   <v-card
+    v-if="!(file || preview_img)"
     class="pa-10 border border-dashed"
     variant="flat"
     :class="{ 'drag-over': isDragOver }"
@@ -30,10 +31,10 @@
   </v-card>
   <div class="flex items-center mt-2">
     <v-icon>mdi-paperclip</v-icon>
-    <p v-if="!file">No File Added</p>
+    <!-- <p v-if="!file">No File Added</p> -->
     <v-chip v-if="file" color="primary" text-color="white" outlined>
       {{ file.name }} - {{ formatFileSize(file.size) }}
-      <v-btn class="pa-0" icon="mdi-delete" variant="plain" />
+      <!-- <v-btn class="pa-0" icon="mdi-delete" variant="plain" /> -->
     </v-chip>
   </div>
   <!-- Image Preview Section -->
@@ -43,6 +44,34 @@
       alt="Preview"
       class="max-w-full h-auto rounded"
     />
+    <v-card
+      class="pa-10 border border-dashed mt-1"
+      variant="flat"
+      :class="{ 'drag-over': isDragOver }"
+      @dragover.prevent="handleDragOver"
+      @dragleave.prevent="handleDragLeave"
+      @drop.prevent="handleDrop"
+    >
+      <v-card-title class="text-center">
+        <v-icon size="50">mdi-file-import</v-icon>
+        <p color="text">
+          Replace your file here
+          <span
+            class="text-secondary underline hover:cursor-pointer"
+            @click="openFileManager"
+          >
+            browse
+          </span>
+        </p>
+      </v-card-title>
+      <input
+        :id="label || undefined"
+        ref="photoRef"
+        type="file"
+        style="display: none"
+        @input="changePhoto"
+      />
+    </v-card>
   </div>
 </template>
 <script lang="ts" setup>

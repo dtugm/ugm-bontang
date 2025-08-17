@@ -12,6 +12,16 @@
         />
       </v-col>
       <v-col>
+        <AppInputText
+          v-model="landParcelStore.readLandParcel.filterData.rt"
+          placeholder="RT"
+          label="RT"
+          type="number"
+          is-filter
+          clearable
+        />
+      </v-col>
+      <v-col>
         <AppInputAutocomplete
           v-model="landParcelStore.readLandParcel.filterData.staWpop"
           label="Status Wajib Pajak"
@@ -31,6 +41,17 @@
           clearable
         />
       </v-col>
+      <v-col>
+        <AppInputAutocomplete
+          v-model="landParcelStore.readLandParcel.filterData.typeOfRight"
+          label="Jenis Hak"
+          :items="tipeHakOptions"
+          is-filter
+          hide-details
+          clearable
+        />
+      </v-col>
+
       <v-col cols="auto">
         <AppButton color="tertiary" label="Filter" @click="filterLandParcel" />
       </v-col>
@@ -57,7 +78,11 @@ const kelurahanOption = [
   { title: "Bontang Baru", value: "Bontang Baru" },
   { title: "Api Api", value: "Api api" },
 ];
-
+const tipeHakOptions = [
+  { title: "Hak Milik", value: "Hak Milik" },
+  { title: "Hak Guna Bangunan", value: "Hak Guna Bangunan" },
+  { title: "Kosong", value: "Kosong" },
+];
 const filterLandParcel = async () => {
   landParcelStore.readLandParcel.getData({
     itemsPerPage: 10,
