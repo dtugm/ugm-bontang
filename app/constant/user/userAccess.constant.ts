@@ -46,9 +46,6 @@ export const groupAccessMap: Record<string, string[]> = {
     // 3D Viewer
     "/cesium",
     "/land_parcel_cesium",
-    // Data Survey
-    "/data/land_parcel",
-    "/data/building",
   ],
   "Bapenda Bontang": [
     "/", // 3D Viewer
