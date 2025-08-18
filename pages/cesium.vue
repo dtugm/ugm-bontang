@@ -43,6 +43,7 @@
         :show-credit="false"
         :infoBox="false"
         :camera="cameraOptions"
+        :clock="clock"
       >
         <!-- COMPASS -->
         <vc-navigation
@@ -115,6 +116,18 @@ import * as Cesium from "cesium";
 import viewerConstant from "~/app/constant/viewer.constant";
 definePageMeta({
   layout: "viewer",
+});
+const timeline = ref(true);
+const todayNoon = Cesium.JulianDate.fromDate(
+  new Date(new Date().setHours(12, 0, 0, 0))
+);
+
+const clock = ref({
+  startTime: todayNoon,
+  currentTime: todayNoon,
+  stopTime: todayNoon,
+  clockRange: Cesium.ClockRange.CLAMPED, // berhenti di waktu itu saja
+  clockStep: Cesium.ClockStep.TICK_DEPENDENT,
 });
 const flood: any = ref(null);
 const minHeight = ref(60);
@@ -199,6 +212,7 @@ let originalHoverColor: any = null;
 let selectedFeature: any = null;
 const onViewerReady = ({ Cesium, viewer, vm }: any) => {
   viewer.scene.globe.depthTestAgainstTerrain = true;
+  viewer.clock.currentTime = todayNoon;
   refViewer.value = viewer;
   const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   viewerRaady.value = true;

@@ -105,6 +105,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
   const isBuildingActive = ref(true);
   const isTexturedBuildingActive = ref(true);
   const isRoadActive = ref(true);
+  const shadows = ref(true);
   const layer = ref("osm");
   const buildingVariant = ref("non-textured");
   const orthoPhoto = ref(false);
@@ -152,5 +153,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
 
     getActiveBuildingCesium,
     activeBuildingCesium,
+
+    shadows,
   };
 });
