@@ -102,7 +102,11 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
     })
   );
   const roofTypeOptions = Object.values(RoofType);
-
+  const updateByLuasBangunan = [
+    { title: "Semua Bangunan", value: "Show All" },
+    { title: "Bangunan Baru", value: "Show Only New Building" },
+    { title: "Bangunan Lama", value: " Show Only Old Building" },
+  ];
   // const uploadBuildingData = async (payload: any) => {
   //   const resp = await buildingSurveyApi.post_building_survey_monitorings(
   //     payload
@@ -129,7 +133,7 @@ export const useBuildingDataStore = defineStore("buildingData", () => {
     floorTypeOptions,
     buildingConstructionOptions,
     buildingUpdateOptions,
-
+    updateByLuasBangunan,
     roofTypeOptions,
   };
 });

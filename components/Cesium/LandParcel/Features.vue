@@ -23,6 +23,7 @@
                 { title: 'Jenis Atap', value: 'roofType' },
                 { title: 'Jumlah Lantai', value: 'floorCount' },
                 { title: 'Jenis Lantai', value: 'buildingFloorType' },
+                { title: 'Kebaruan Bangunan', value: 'showBuilding' },
               ]"
             />
             <v-form
@@ -63,11 +64,19 @@
                 hide-details
               />
               <AppInputAutocomplete
-                v-if="jenisFilter == 'jenis_atap'"
+                v-if="jenisFilter == 'roofType'"
                 :rules="[(value:any) => !!value || 'This field is required']"
                 label="Jenis Roof"
                 :items="buildingStore.roofTypeOptions"
                 v-model="roofType"
+                hide-details
+              />
+              <AppInputAutocomplete
+                v-if="jenisFilter == 'showBuilding'"
+                :rules="[(value:any) => !!value || 'This field is required']"
+                :items="buildingStore.updateByLuasBangunan"
+                label="Kebaruan Bangunan"
+                v-model="showBuilding"
                 hide-details
               />
             </v-form>
@@ -105,6 +114,7 @@ const buildingFloorType = ref(null);
 const buildingType = ref(null);
 const buildingConstruction = ref(null);
 const roofType = ref(null);
+const showBuilding = ref(null);
 const viewerStore = use3dTilesStore();
 import * as Cesium from "cesium";
 const props = defineProps<{
@@ -116,6 +126,7 @@ const modelMap: any = {
   roofType,
   floorCount,
   buildingFloorType,
+  showBuilding,
 };
 const selectedValue = computed(() => modelMap[jenisFilter.value]?.value);
 const submitFilter = async () => {

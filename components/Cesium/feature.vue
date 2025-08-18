@@ -147,6 +147,7 @@
               { title: 'Jenis Atap', value: 'roofType' },
               { title: 'Jumlah Lantai', value: 'floorCount' },
               { title: 'Jenis Lantai', value: 'buildingFloorType' },
+              { title: 'Kebaruan Bangunan', value: 'showBuilding' },
             ]"
           />
           <v-form
@@ -187,11 +188,19 @@
               hide-details
             />
             <AppInputAutocomplete
-              v-if="jenisFilter == 'jenis_atap'"
+              v-if="jenisFilter == 'roofType'"
               :rules="[(value:any) => !!value || 'This field is required']"
               label="Jenis Roof"
               :items="buildingStore.roofTypeOptions"
               v-model="roofType"
+              hide-details
+            />
+            <AppInputAutocomplete
+              v-if="jenisFilter == 'showBuilding'"
+              :rules="[(value:any) => !!value || 'This field is required']"
+              :items="buildingStore.updateByLuasBangunan"
+              label="Kebaruan Bangunan"
+              v-model="showBuilding"
               hide-details
             />
           </v-form>
@@ -209,7 +218,7 @@
             color="tertiary"
             class="text-none mt-1"
             variant="outlined"
-            @click="showAllTileset"
+            @click="resetTileset"
             >Reset Filter</v-btn
           >
         </v-card-text>
@@ -237,6 +246,7 @@ const buildingFloorType = ref(null);
 const buildingType = ref(null);
 const buildingConstruction = ref(null);
 const roofType = ref(null);
+const showBuilding = ref(null);
 const modelMap: any = {
   buildingType,
   buildingConstruction,
@@ -253,7 +263,7 @@ const submitFilter = async () => {
       [jenisFilter.value]: selectedValue.value,
       pageSize: 20000,
     });
-    filterTileset(arr);
+    filterTilesetColor(arr);
     filterLoading.value = false;
   }
 };
@@ -284,6 +294,47 @@ function showAllTileset() {
       for (let i = 0; i < featuresLength; i++) {
         const feature = content.getFeature(i);
         feature.show = true;
+      }
+    });
+  });
+}
+
+function filterTilesetColor(arr: any[]) {
+  const idsToShow = arr;
+
+  props.tileRefs.forEach((tileset) => {
+    tileset.tileVisible.addEventListener(function (tile) {
+      const content = tile.content;
+      const featuresLength = content.featuresLength;
+
+      for (let i = 0; i < featuresLength; i++) {
+        const feature = content.getFeature(i);
+        const featureId = feature.getProperty("gml:id");
+
+        if (idsToShow.includes(featureId)) {
+          // 🔹 Kasih warna hijau kalau ID ada di array
+          feature.color = Cesium.Color.GREEN;
+        } else {
+          // 🔹 Default (misalnya putih/transparan)
+          feature.color = Cesium.Color.WHITE;
+        }
+      }
+    });
+  });
+}
+function resetTileset() {
+  props.tileRefs.forEach((tileset) => {
+    tileset.tileVisible.addEventListener(function (tile) {
+      const content = tile.content;
+      const featuresLength = content.featuresLength;
+
+      for (let i = 0; i < featuresLength; i++) {
+        const feature = content.getFeature(i);
+
+        // 🔹 Balikin ke warna default
+        feature.color = Cesium.Color.WHITE;
+        // atau kalau default-nya bawaan tileset, bisa pakai:
+        // feature.color = Cesium.Color.fromAlpha(Cesium.Color.WHITE, 1.0);
       }
     });
   });
