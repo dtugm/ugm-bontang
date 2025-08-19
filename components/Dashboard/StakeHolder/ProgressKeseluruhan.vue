@@ -6,7 +6,7 @@
     <v-col cols="12" lg="3">
       <AppCardSimpleProgress
         title="Pembuatan Peta Garis"
-        :total="444"
+        :total="514"
         :from="514"
         unit="Grid"
         icon="mdi-map"
