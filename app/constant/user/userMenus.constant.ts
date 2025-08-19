@@ -53,7 +53,7 @@ export default {
     // Monitoring Studio
     {
       prepend_icon: "mdi-monitor-multiple",
-      title: "Studio",
+      title: "Studio Progress",
       sub_menu: [
         {
           prepend_icon: "mdi-map",

@@ -1,3 +1,4 @@
 <template>
-  <MonitoringPetaGaris />
+  <!-- <MonitoringPetaGaris /> -->
+  <MonitoringPetaGarisFull />
 </template>
