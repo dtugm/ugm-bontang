@@ -48,7 +48,7 @@
             </v-radio>
           </v-radio-group>
           <hr />
-          <p class="text-grey pt-3">OrthoPhoto Lidar</p>
+          <p class="text-grey pt-3">Orthophoto</p>
           <v-checkbox v-model="tiles3dStore.orthoPhoto" hide-details>
             <template #label>
               <v-row align="center" no-gutters>
@@ -59,7 +59,22 @@
                   class="mr-2 full-opacity"
                   cover
                 />
-                <span>OrthoPhoto</span>
+                <span>Orthophoto</span>
+              </v-row>
+            </template>
+          </v-checkbox>
+          <p class="text-grey pt-3">Peta Garis</p>
+          <v-checkbox v-model="tiles3dStore.petaGaris" hide-details>
+            <template #label>
+              <v-row align="center" no-gutters>
+                <v-img
+                  src="/logo/petaGaris.png"
+                  width="34"
+                  height="34"
+                  class="mr-2 full-opacity"
+                  cover
+                />
+                <span>Peta Garis</span>
               </v-row>
             </template>
           </v-checkbox>

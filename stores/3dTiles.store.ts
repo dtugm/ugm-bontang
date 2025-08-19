@@ -109,6 +109,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
   const layer = ref("osm");
   const buildingVariant = ref("non-textured");
   const orthoPhoto = ref(false);
+  const petaGaris = ref(false);
 
   const filteredBuilding = ref([]);
   const filterBuilding = async (payload?: any) => {
@@ -146,6 +147,7 @@ export const use3dTilesStore = defineStore("3dTiles", () => {
     isRoadActive,
 
     orthoPhoto,
+    petaGaris,
     layer,
     buildingVariant,
 
