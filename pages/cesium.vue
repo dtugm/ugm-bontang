@@ -44,6 +44,9 @@
         :infoBox="false"
         :camera="cameraOptions"
         :clock="clock"
+        scene3DOnly
+        terrainShadows
+        requestRenderMode
       >
         <!-- COMPASS -->
         <vc-navigation
@@ -64,7 +67,7 @@
           :key="index"
           :ref="setTileRefs"
           :url="item.url"
-          :maximumScreenSpaceError="32"
+          :maximumScreenSpaceError="maxScreenSpaceError"
         />
 
         <!-- Jalan -->
@@ -74,11 +77,12 @@
           :key="index"
           :url="item.url"
           :shadows="0"
-          :maximumScreenSpaceError="32"
+          :maximumScreenSpaceError="maxScreenSpaceError"
         />
 
         <!-- Bangunan Cesium Asset -->
         <vc-primitive-tileset
+          preloadWhenHidden
           :show="
             tiles3dStore.isBuildingActive &&
             tiles3dStore.buildingVariant == 'textured'
@@ -86,7 +90,7 @@
           v-for="(item, index) in tiles3dStore.activeBuildingCesium"
           :ref="setTileRefs"
           :assetId="Number(item.assetId)"
-          :maximumScreenSpaceError="32"
+          :maximumScreenSpaceError="maxScreenSpaceError"
         />
 
         <vc-terrain-provider-cesium
@@ -118,6 +122,7 @@ definePageMeta({
   layout: "viewer",
 });
 const timeline = ref(true);
+const maxScreenSpaceError = ref(128);
 const todayNoon = Cesium.JulianDate.fromDate(
   new Date(new Date().setHours(12, 0, 0, 0))
 );
