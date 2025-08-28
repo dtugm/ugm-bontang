@@ -165,20 +165,20 @@ export default {
     },
     bidang: {
       boba: 3121,
-      apiapi: 5219,
-      loktuan: 4959,
+      apiapi: 5021,
+      loktuan: 4963,
     },
   },
   actual: {
     bangunan: {
       boba: 4949,
       apiapi: 5626,
-      loktuan: 3128,
+      loktuan: 5055,
     },
     bidang: {
-      boba: 3246,
-      apiapi: 5290,
-      loktuan: 4952,
+      boba: 3222,
+      apiapi: 5294,
+      loktuan: 5171,
     },
   },
 };
