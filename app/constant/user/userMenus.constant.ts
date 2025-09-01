@@ -6,6 +6,11 @@ export default {
       title: "Dashboard",
       path: "/",
     },
+    {
+      prepend_icon: "mdi-map",
+      title: "2D Land parcel",
+      path: "/survey-monitoring",
+    },
     // User Management
     {
       prepend_icon: "mdi-table-account",

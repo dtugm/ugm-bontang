@@ -1,19 +1,20 @@
 <template>
-  <div class="relative w-full h-screen">
+  <div class="relative w-full h-[93vh]">
     <div class="map-container">
       <div id="map" class="map"></div>
     </div>
     <div class="overlay-component">
-      <AppCardLeafletDetail
+      <CesiumLandParcelFeature />
+      <!-- <AppCardLeafletDetail
         v-if="showCard"
         @close="showCard = false"
         :title="'Detail'"
         :value="selectedFeature"
         @toggle-picture="getPicture"
-      />
+      /> -->
     </div>
     <div class="overlay-legend">
-      <AppCardLegend />
+      <!-- <AppCardLegend /> -->
     </div>
   </div>
 </template>
@@ -59,14 +60,14 @@ onMounted(async () => {
       });
     });
   });
-  surveyDataStore.getDataVectorBangunan().then(() => {
-    surveyDataStore.dataVectorBangunan.map((item: any) => {
-      surveyDataStore.leafletMap.loadGeoJsonFromUrl(item.name, item.url, {
-        style: getBuildingStyle,
-        onEachFeature: onEachFeatureHandler,
-      });
-    });
-  });
+  // surveyDataStore.getDataVectorBangunan().then(() => {
+  //   surveyDataStore.dataVectorBangunan.map((item: any) => {
+  //     surveyDataStore.leafletMap.loadGeoJsonFromUrl(item.name, item.url, {
+  //       style: getBuildingStyle,
+  //       onEachFeature: onEachFeatureHandler,
+  //     });
+  //   });
+  // });
 });
 // onUnmounted(() => {
 //   surveyDataStore.leafletMap.destroyMap();
@@ -127,7 +128,6 @@ const highlightFeature = (e: L.LeafletMouseEvent) => {
 
 const resetHighlight = (e: L.LeafletMouseEvent, defaultStyle: any) => {
   const layer = e.target;
-  // Jangan reset kalau ini layer yang sedang terpilih
   if (layer === selectedLayer.value) return;
   layer.setStyle(defaultStyle);
 };
@@ -139,30 +139,49 @@ const onEachFeatureHandler = (feature: any, layer: L.Layer) => {
 
     layer.on({
       mouseover: (e) => highlightFeature(e),
-      mouseout: (e) => resetHighlight(e, defaultStyle),
+      mouseout: (e) => {
+        // Jangan reset kalau ini adalah layer yang dipilih
+        if (selectedLayer.value !== layer) {
+          resetHighlight(e, defaultStyle);
+        }
+      },
       click: (e) => {
+        // Reset layer sebelumnya (balikin ke style default)
         if (selectedLayer.value && selectedLayer.value !== layer) {
           selectedLayer.value.setStyle(selectedStyle.value);
         }
+
+        // Set style merah untuk layer terpilih
         layer.setStyle({
           weight: 3,
           color: "red",
           fillOpacity: 1,
         });
+
+        // Update state
         selectedLayer.value = layer;
         selectedStyle.value = defaultStyle;
         selectedFeature.value = feature.properties;
+
         console.log("Clicked feature:", feature.properties);
         openDetail(feature.properties.UUID || feature.properties.UUID_BGN);
       },
     });
   }
 };
+
 const getPicture = () => {
   console.log("first");
 };
-const openDetail = (id: any) => {
-  surveyDataStore.getDataDetail(id);
+// const clickPersil = async (e: any) => {
+//   tiles3dStore.popUpBuildingBuilding = false;
+//   const item = e.pickedFeature.id.properties.getValue();
+//   await useLotSurveyMonitoringStore.getDetailPersil(item.UUID);
+// };
+const useLotSurveyMonitoringStore = useLotSurveyMonitoring();
+const openDetail = async (id: any) => {
+  await useLotSurveyMonitoringStore.getDetailPersil(id);
+  // surveyDataStore.getDataDetail(id);
   showCard.value = true;
 };
 function isEmptyObject(obj: any) {
@@ -174,7 +193,7 @@ function isEmptyObject(obj: any) {
 .map-container {
   position: relative;
   width: 100%;
-  height: 100vh; /* Buat peta memenuhi layar */
+  height: 100%; /* Buat peta memenuhi layar */
 }
 
 .map {
