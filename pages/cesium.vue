@@ -107,7 +107,6 @@
           :speed="speed"
           :polygon-hierarchy="polygonHierarchy"
         />
-
         <!-- BASEMAP LAYER -->
         <CesiumDefaultBasemap />
       </vc-viewer>
@@ -121,8 +120,32 @@ import viewerConstant from "~/app/constant/viewer.constant";
 definePageMeta({
   layout: "viewer",
 });
+
+// Koordinat area banjir
+const bontangArea = Cesium.Rectangle.fromDegrees(
+  117.45, // barat
+  0.1, // selatan
+  117.55, // timur
+  0.16 // utara
+);
+
+// Tinggi awal air
+const waterHeight = ref(50); // mulai 5 m
+
+// Material air
+const waterMaterial = {
+  type: "Water",
+  uniforms: {
+    baseWaterColor: Cesium.Color.fromCssColorString("rgba(0,100,255,0.6)"),
+    blendColor: Cesium.Color.WHITE,
+    waveFrequency: 10.0,
+    animationSpeed: 0.02,
+    amplitude: 1.0,
+    specularIntensity: 0.8,
+  },
+};
 const timeline = ref(true);
-const maxScreenSpaceError = ref(128);
+const maxScreenSpaceError = ref(32);
 const todayNoon = Cesium.JulianDate.fromDate(
   new Date(new Date().setHours(12, 0, 0, 0))
 );
@@ -275,13 +298,21 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
-
+let interval: any;
 onMounted(async () => {
   await tiles3dStore.getActiveBuilding();
   await tiles3dStore.getActiveBuildingCesium();
   await tiles3dStore.getActiveRoad();
   await nextTick();
   tilesetsReady.value = true;
+  interval = setInterval(() => {
+    console.log(waterHeight.value);
+    waterHeight.value += 1; // naik 1 m setiap 1 detik
+    if (waterHeight.value > 80) {
+      // batasi agar tidak kebablasan
+      waterHeight.value = 5;
+    }
+  }, 1000);
   checkAllReady();
 });
 

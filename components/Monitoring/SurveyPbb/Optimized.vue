@@ -68,15 +68,10 @@ onMounted(async () => {
     });
   });
 });
-// onUnmounted(() => {
-//   surveyDataStore.leafletMap.destroyMap();
-// });
 const getApiApiStyle = (feature: any) => {
   const tanah = feature.properties?.JENIS_TNH;
   const kode = feature.properties?.KODE_WWC;
-
-  let fillColor = "rgba(139, 146, 152, 1)"; // default
-
+  let fillColor = "rgba(139, 146, 152, 1)";
   if (tanah && JENIS_TNH[tanah]) {
     fillColor = JENIS_TNH[tanah];
   } else if (kode && KODE_WWC[kode]) {
@@ -93,7 +88,7 @@ const getBuildingStyle = (feature: any) => {
   const tanah = feature.properties?.JENIS_TNH;
   const kode = feature.properties?.KODE_WWC;
   const bgn = feature.properties?.JENIS_BGN;
-  let fillColor = "rgba(139, 146, 152, 1)"; // default
+  let fillColor = "rgba(139, 146, 152, 1)";
 
   if (tanah && JENIS_TNH[tanah]) {
     fillColor = JENIS_TNH[tanah];
@@ -112,7 +107,6 @@ const getBuildingStyle = (feature: any) => {
 
 const highlightFeature = (e: L.LeafletMouseEvent) => {
   const layer = e.target;
-  // Jangan highlight kalau ini layer yang sedang terpilih
   if (layer === selectedLayer.value) return;
   layer.setStyle({
     weight: 3,

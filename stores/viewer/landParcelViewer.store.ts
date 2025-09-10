@@ -28,7 +28,9 @@ export const useViewerLandParcelStore = defineStore("viewerLandParcel", () => {
       pageSize: Number(30),
       isActive: true,
     });
+
     activeLandParcel.value = resp.data;
+    return resp.data;
   };
 
   const filterBuilding = async (payload?: any) => {
