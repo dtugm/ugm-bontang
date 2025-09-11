@@ -136,7 +136,7 @@
               </div>
             </v-expansion-panel-text>
           </v-expansion-panel>
-          <!-- Panel 2: Surat Keterangan PBG -->
+          <!-- Panel 3: Evaluasi RDTR -->
           <v-expansion-panel
             value="rdtrInfo"
             class="mb-2 rounded-lg shadow-sm"
@@ -190,6 +190,42 @@
               </div>
             </v-expansion-panel-text>
           </v-expansion-panel>
+
+          <!-- Panel 4: Filter -->
+          <v-expansion-panel
+            value="filters"
+            class="mb-2 rounded-lg shadow-sm"
+            elevation="1"
+          >
+            <v-expansion-panel-title
+              class="bg-gradient-to-r from-cyan-500 to-teal-300"
+            >
+              <v-list-item class="px-0">
+                <template v-slot:prepend>
+                  <v-icon color="green">mdi-file-document-outline</v-icon>
+                </template>
+                <v-list-item-title class="font-weight-bold text-2xl">
+                  Filters
+                </v-list-item-title>
+              </v-list-item>
+            </v-expansion-panel-title>
+
+            <v-expansion-panel-text>
+              <div>
+                <AppInputSelect
+                  class-label="text-info font-semibold"
+                  label="Filter by Nama Obj"
+                  placeholder="Pilih Nama Obj"
+                  v-model="selectedNameObj"
+                  :items="nameObjs"
+                  chips
+                  hide-details
+                  clearable
+                  >
+                </AppInputSelect>
+              </div>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
         </v-expansion-panels>
 
         <!-- Action Buttons -->
@@ -230,6 +266,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import rdtrConstant from "~/app/constant/rdtr.constant";
 import rdtrApi from "~/app/api/rdtr.api";
+import { AppInputSelect } from "#components";
 const rdtrGeojsonPath = "/RDTR2023_AR.geojson";
 const bidangGeoJsonPath = "/PBG_BONTANGBARU.geojson";
 const expandedPanels = ref([]);
@@ -237,6 +274,8 @@ const selectedFeature = ref(null);
 const showPbfLayer = ref(true);
 const showGeoJsonLayer = ref(true);
 const evaluationRdtrLoading = ref(false);
+const nameObjs = ref([]);
+const selectedNameObj = ref(null);
 let map = null;
 let selectedFeatureId = null;
 const initMap = () => {
@@ -427,10 +466,31 @@ const getCoordinatesSample = () => {
   return "N/A";
 };
 
+const initData = async () => {
+  await rdtrApi.get_name_objs().then((resp) => {
+    nameObjs.value = resp;
+  });
+}
+
+watch(selectedNameObj, (value) => {
+  if (!value) {
+    map.setPaintProperty("boba-fill", "fill-color", "#FFD600")
+  } else {
+    map.setPaintProperty("boba-fill", "fill-color", [
+      "match",
+      ["get", "NAMOBJ"], // NAMAOBJ should be change to namaObj when using pbf
+      value.length > 0 ? value : [""],
+      "#00F00C", // di pilih
+      "#FFD600", // default
+    ])
+  }
+});
+
 // Lifecycle hooks
 onMounted(() => {
   nextTick(() => {
     initMap();
+    initData();
   });
 });
 
