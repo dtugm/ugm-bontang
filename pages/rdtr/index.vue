@@ -22,11 +22,12 @@
             elevation="1"
           >
             <v-expansion-panel-title
+              color="tertiary"
               class="bg-gradient-to-r from-blue-50 to-indigo-50"
             >
               <v-list-item class="px-0">
                 <template v-slot:prepend>
-                  <v-icon color="red">mdi-map-marker-outline</v-icon>
+                  <v-icon color="white">mdi-map-marker-outline</v-icon>
                 </template>
                 <v-list-item-title class="font-weight-bold text-2xl">
                   Informasi Bidang Tanah
@@ -82,11 +83,12 @@
             elevation="1"
           >
             <v-expansion-panel-title
+              color="warning"
               class="bg-gradient-to-r from-green-50 to-emerald-50"
             >
               <v-list-item class="px-0">
                 <template v-slot:prepend>
-                  <v-icon color="tertiary">mdi-file-document-outline</v-icon>
+                  <v-icon color="white">mdi-file-document-outline</v-icon>
                 </template>
                 <v-list-item-title class="font-weight-bold text-2xl">
                   Surat Keterangan PBG (Dummy)
@@ -145,7 +147,7 @@
             >
               <v-list-item class="px-0">
                 <template v-slot:prepend>
-                  <v-icon color="tertiary">mdi-file-document-outline</v-icon>
+                  <v-icon color="green">mdi-file-document-outline</v-icon>
                 </template>
                 <v-list-item-title class="font-weight-bold text-2xl">
                   Evaluasi RDTR
@@ -155,7 +157,11 @@
 
             <v-expansion-panel-text>
               <!-- No Selection State -->
-              <div v-if="!selectedFeature" class="text-center py-8">
+
+              <div
+                v-if="!evaluationData && !evaluationRdtrLoading"
+                class="text-center py-8"
+              >
                 <div
                   class="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"
                 >
@@ -170,9 +176,16 @@
                   </p>
                 </div>
               </div>
+              <div v-if="evaluationRdtrLoading" class="text-center py-8">
+                <div
+                  class="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"
+                >
+                  <v-progress-circular indeterminate=""></v-progress-circular>
+                </div>
+              </div>
 
               <!-- PBG Data -->
-              <div v-if="selectedFeature">
+              <div v-if="evaluationData && !evaluationRdtrLoading">
                 <AppRdtr :data="evaluationData"></AppRdtr>
               </div>
             </v-expansion-panel-text>
@@ -185,9 +198,8 @@
             @click="resetSelection"
             color="warning"
             variant="outlined"
-            size="small"
             block
-            class="rounded-lg"
+            class="rounded-md"
             :disabled="!selectedFeature"
           >
             <v-icon left size="16">mdi-refresh</v-icon>
@@ -217,12 +229,14 @@ import { ref, onMounted, onUnmounted } from "vue";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import rdtrConstant from "~/app/constant/rdtr.constant";
+import rdtrApi from "~/app/api/rdtr.api";
 const rdtrGeojsonPath = "/RDTR2023_AR.geojson";
 const bidangGeoJsonPath = "/PBG_BONTANGBARU.geojson";
 const expandedPanels = ref([]);
 const selectedFeature = ref(null);
 const showPbfLayer = ref(true);
 const showGeoJsonLayer = ref(true);
+const evaluationRdtrLoading = ref(false);
 let map = null;
 let selectedFeatureId = null;
 const initMap = () => {
@@ -333,7 +347,7 @@ const setupClickHandlers = () => {
 };
 
 // Handle feature click
-const handleFeatureClick = (e, sourceType) => {
+const handleFeatureClick = async (e, sourceType) => {
   if (e.features.length > 0) {
     const feature = e.features[0];
     console.log(feature);
@@ -349,6 +363,7 @@ const handleFeatureClick = (e, sourceType) => {
     };
 
     selectedFeatureId = feature.properties.UUID;
+
     console.log(selectedFeatureId);
     // Update map styling for selected feature
     const layerId = sourceType === "geojson" ? "bontang_baru" : "pbf-data";
@@ -369,6 +384,11 @@ const handleFeatureClick = (e, sourceType) => {
       filter: ["==", "UUID", selectedFeatureId],
     });
     zoomToSelected();
+    evaluationRdtrLoading.value = true;
+    await rdtrApi.get_intersect(selectedFeatureId).then((resp) => {
+      evaluationData.value = resp;
+    });
+    evaluationRdtrLoading.value = false;
   }
 };
 
@@ -449,44 +469,7 @@ const zoomToSelected = () => {
     });
   }
 };
-const evaluationData = {
-  itbx: "I",
-  rdtr: [
-    {
-      namaObj: "Badan Jalan",
-      luasintersect: 3.971805629336359,
-      intersectgeometry: {
-        type: "Polygon",
-        coordinates: [
-          [
-            [117.493327106, 0.141604191],
-            [117.49343076, 0.141562329],
-            [117.493325346, 0.141598676],
-            [117.493327106, 0.141604191],
-          ],
-        ],
-      },
-    },
-    {
-      namaObj: "Perumahan Kepadatan Sedang",
-      luasintersect: 188.33339919909486,
-      intersectgeometry: {
-        type: "Polygon",
-        coordinates: [
-          [
-            [117.49340664, 0.141442376],
-            [117.493289822, 0.141487311],
-            [117.493325346, 0.141598676],
-            [117.49343076, 0.141562329],
-            [117.49344977, 0.141554652],
-            [117.493427096, 0.141495436],
-            [117.49340664, 0.141442376],
-          ],
-        ],
-      },
-    },
-  ],
-};
+const evaluationData = ref(null);
 </script>
 
 <style>
