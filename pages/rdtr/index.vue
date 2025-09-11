@@ -21,10 +21,7 @@
             class="mb-2 rounded-lg shadow-sm"
             elevation="1"
           >
-            <v-expansion-panel-title
-              color="tertiary"
-              class="bg-gradient-to-r from-blue-50 to-indigo-50"
-            >
+            <v-expansion-panel-title color="tertiary">
               <v-list-item class="px-0">
                 <template v-slot:prepend>
                   <v-icon color="white">mdi-map-marker-outline</v-icon>
@@ -82,10 +79,7 @@
             class="mb-2 rounded-lg shadow-sm"
             elevation="1"
           >
-            <v-expansion-panel-title
-              color="warning"
-              class="bg-gradient-to-r from-green-50 to-emerald-50"
-            >
+            <v-expansion-panel-title color="warning">
               <v-list-item class="px-0">
                 <template v-slot:prepend>
                   <v-icon color="white">mdi-file-document-outline</v-icon>
@@ -142,9 +136,7 @@
             class="mb-2 rounded-lg shadow-sm"
             elevation="1"
           >
-            <v-expansion-panel-title
-              class="bg-gradient-to-r from-green-50 to-emerald-50"
-            >
+            <v-expansion-panel-title>
               <v-list-item class="px-0">
                 <template v-slot:prepend>
                   <v-icon color="green">mdi-file-document-outline</v-icon>
