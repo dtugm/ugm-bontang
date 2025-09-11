@@ -1,33 +1,22 @@
 <script setup lang="ts">
+const tab = ref();
 // import { MonitoringSurveyPbbOptimized } from "#components";
 </script>
 
 <template>
   <v-container fluid class="h-full">
-    <DashboardStakeHolderProgressKeseluruhan />
-    <v-row>
-      <v-col cols="12" sm="12">
-        <div class="h-[500px] rounded-md">
-          <MonitoringSurveyPbbOptimized />
-        </div>
-        <!-- <DashboardStakeHolderScurve /> -->
-      </v-col>
-    </v-row>
-    <DashboardStakeHolderProgressPbb />
-
-    <!-- <v-row>
-      <v-col cols="12" sm="12">
-        <v-card variant="flat">
-          <v-container class="h-full">
-            <MonitoringSurveyPbbLogbook />
-          </v-container>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" sm="12">
-        <DashboardStakeHolderScurve />
-      </v-col>
-    </v-row> -->
+    <v-tabs v-model="tab" bg-color="" align-tabs="center">
+      <v-tab value="one">Progress Statistik</v-tab>
+      <v-tab value="two">Web GIS</v-tab>
+    </v-tabs>
+    <v-window v-model="tab">
+      <v-window-item value="one">
+        <DashboardStakeHolderProgressKeseluruhan />
+        <DashboardStakeHolderProgressPbb />
+      </v-window-item>
+      <v-window-item value="two">
+        <Peta />
+      </v-window-item>
+    </v-window>
   </v-container>
 </template>

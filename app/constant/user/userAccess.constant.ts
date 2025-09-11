@@ -23,6 +23,8 @@ export const groupAccessMap: Record<string, string[]> = {
     // File Management
     "/admin/model_3d_management",
     "/admin/vector_2d_management",
+
+    "/rdtr",
   ],
   stakeholder: [
     "/",
@@ -34,6 +36,8 @@ export const groupAccessMap: Record<string, string[]> = {
     // Data Survey
     "/data/land_parcel",
     "/data/building",
+
+    "/rdtr",
   ],
 
   "Supervisor Bontang": [

@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   modules: [
+    "nuxt-maplibre",
     "nuxt-vuefire",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/leaflet",
