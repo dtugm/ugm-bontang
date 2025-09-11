@@ -11,6 +11,11 @@ export default {
       title: "2D Land parcel",
       path: "/survey-monitoring",
     },
+    {
+      prepend_icon: "mdi-land-plots",
+      title: "Simulasi RDTR",
+      path: "/rdtr",
+    },
     // User Management
     {
       prepend_icon: "mdi-table-account",

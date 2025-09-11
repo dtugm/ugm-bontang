@@ -56,7 +56,7 @@
       <h3 class="text-xl font-semibold text-gray-900 mb-4">
         Intersection Bidang dengan RDTR
       </h3>
-      <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-4">
         <div
           v-for="(item, index) in data.rdtr"
           :key="index"
