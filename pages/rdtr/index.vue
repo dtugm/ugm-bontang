@@ -2,120 +2,211 @@
   <v-container fluid class="pa-0" style="height: 93vh">
     <v-row no-gutters style="height: 100%">
       <!-- Map Container -->
-      <v-col cols="9" style="height: 100%">
+      <v-col cols="8" style="height: 100%">
         <div id="map" style="height: 100%; width: 100%"></div>
       </v-col>
 
       <!-- Sidebar untuk Feature Info -->
-      <v-col cols="3" style="height: 100%; overflow-y: auto">
-        <!-- Layer Control -->
-        <v-card class="ma-2 mt-0" elevation="2">
-          <v-card-title class="text-h6">
-            <v-icon left>mdi-layers</v-icon>
-            Kontrol Layer
-          </v-card-title>
-          <v-card-text>
-            <v-switch
-              v-model="showPbfLayer"
-              @change="togglePbfLayer"
-              label="Layer PBF"
-              color="blue"
-              density="compact"
-            ></v-switch>
-
-            <v-switch
-              v-model="showGeoJsonLayer"
-              @change="toggleGeoJsonLayer"
-              label="Layer GeoJSON"
-              color="green"
-              density="compact"
-            ></v-switch>
-          </v-card-text>
-        </v-card>
-        <v-card class="ma-2" elevation="2">
-          <v-card-title class="text-h6">
-            <v-icon left>mdi-information</v-icon>
-            Informasi Persil
-          </v-card-title>
-
-          <v-card-text v-if="!selectedFeature">
-            <v-alert type="info" variant="outlined">
-              Klik pada persil di peta untuk melihat informasi
-            </v-alert>
-          </v-card-text>
-
-          <v-card-text v-if="selectedFeature">
-            <v-chip
-              :color="selectedFeature.source === 'pbf' ? 'blue' : 'green'"
-              class="mb-3"
-              size="small"
+      <v-col cols="4" style="height: 100%; overflow-y: auto" class="pa-2">
+        <!-- Expansion Panels Container -->
+        <v-expansion-panels
+          v-model="expandedPanels"
+          multiple
+          variant="accordion"
+          class="mb-4"
+        >
+          <!-- Panel 1: Informasi Bidang Tanah -->
+          <v-expansion-panel
+            value="landInfo"
+            class="mb-2 rounded-lg shadow-sm"
+            elevation="1"
+          >
+            <v-expansion-panel-title
+              class="bg-gradient-to-r from-blue-50 to-indigo-50"
             >
-              {{
-                selectedFeature.source === "pbf" ? "Data PBF" : "Data GeoJSON"
-              }}
-            </v-chip>
-
-            <v-list density="compact">
-              <v-list-item
-                v-for="(value, key) in selectedFeature.properties"
-                :key="key"
-                class="px-0"
-              >
-                <template v-slot:prepend>
-                  <v-icon size="small">mdi-tag</v-icon>
-                </template>
-                <v-list-item-title class="text-caption font-weight-bold">
-                  {{ key }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ value }}
-                </v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-
-            <!-- Geometry Info -->
-            <v-divider class="my-3"></v-divider>
-            <v-list-subheader class="px-0">Informasi Geometri</v-list-subheader>
-            <v-list density="compact">
               <v-list-item class="px-0">
                 <template v-slot:prepend>
-                  <v-icon size="small">mdi-vector-polygon</v-icon>
+                  <v-icon color="red">mdi-map-marker-outline</v-icon>
                 </template>
-                <v-list-item-title class="text-caption font-weight-bold">
-                  Tipe Geometri
+                <v-list-item-title class="font-weight-bold text-2xl">
+                  Informasi Bidang Tanah
                 </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ selectedFeature.geometry.type }}
-                </v-list-item-subtitle>
               </v-list-item>
+            </v-expansion-panel-title>
 
+            <v-expansion-panel-text>
+              <!-- No Selection State -->
+              <div v-if="!selectedFeature" class="text-center py-8">
+                <div
+                  class="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"
+                >
+                  <v-icon size="48" color="gray-400" class="mb-3"
+                    >mdi-map-search</v-icon
+                  >
+                  <p class="text-sm text-gray-600 mb-2">
+                    Belum ada persil yang dipilih
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    Klik pada persil di peta untuk melihat informasi
+                  </p>
+                </div>
+              </div>
+
+              <!-- Selected Feature Data -->
+              <div v-if="selectedFeature">
+                <v-list density="compact">
+                  <v-list-item
+                    v-for="item in rdtrConstant.showedParcelAttribute"
+                    :key="item.key"
+                    class="px-0"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
+                    </template>
+                    <v-list-item-title class="font-weight-bold text-2xl">
+                      {{ item.label }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle class="text-xl">
+                      {{ selectedFeature.properties[item.key] }}
+                    </v-list-item-subtitle>
+                  </v-list-item>
+                </v-list>
+              </div>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+
+          <!-- Panel 2: Surat Keterangan PBG -->
+          <v-expansion-panel
+            value="pbgInfo"
+            class="mb-2 rounded-lg shadow-sm"
+            elevation="1"
+          >
+            <v-expansion-panel-title
+              class="bg-gradient-to-r from-green-50 to-emerald-50"
+            >
               <v-list-item class="px-0">
                 <template v-slot:prepend>
-                  <v-icon size="small">mdi-map-marker</v-icon>
+                  <v-icon color="tertiary">mdi-file-document-outline</v-icon>
                 </template>
-                <v-list-item-title class="text-caption font-weight-bold">
-                  Koordinat (Sample)
+                <v-list-item-title class="font-weight-bold text-2xl">
+                  Surat Keterangan PBG (Dummy)
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-caption">
-                  {{ getCoordinatesSample() }}
-                </v-list-item-subtitle>
               </v-list-item>
-            </v-list>
+            </v-expansion-panel-title>
 
-            <!-- Reset Button -->
-            <v-btn
-              @click="resetSelection"
-              color="warning"
-              variant="outlined"
-              size="small"
-              class="mt-3"
-              block
+            <v-expansion-panel-text>
+              <!-- No Selection State -->
+              <div v-if="!selectedFeature" class="text-center py-8">
+                <div
+                  class="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"
+                >
+                  <v-icon size="48" color="gray-400" class="mb-3"
+                    >mdi-file-search-outline</v-icon
+                  >
+                  <p class="text-sm text-gray-600 mb-2">
+                    Data PBG tidak tersedia
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    Pilih persil terlebih dahulu
+                  </p>
+                </div>
+              </div>
+
+              <!-- PBG Data -->
+              <div v-if="selectedFeature" class="space-y-3">
+                <v-list density="compact">
+                  <v-list-item
+                    v-for="item in rdtrConstant.pbgAttribute"
+                    :key="item.key"
+                    class="px-0"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
+                    </template>
+                    <v-list-item-title class="font-weight-bold text-2xl">
+                      {{ item.label }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle class="text-xl">
+                      {{ selectedFeature.properties[item.key] }}
+                    </v-list-item-subtitle>
+                  </v-list-item>
+                </v-list>
+              </div>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <!-- Panel 2: Surat Keterangan PBG -->
+          <v-expansion-panel
+            value="rdtrInfo"
+            class="mb-2 rounded-lg shadow-sm"
+            elevation="1"
+          >
+            <v-expansion-panel-title
+              class="bg-gradient-to-r from-green-50 to-emerald-50"
             >
-              <v-icon left>mdi-refresh</v-icon>
-              Reset Pilihan
-            </v-btn>
-          </v-card-text>
-        </v-card>
+              <v-list-item class="px-0">
+                <template v-slot:prepend>
+                  <v-icon color="tertiary">mdi-file-document-outline</v-icon>
+                </template>
+                <v-list-item-title class="font-weight-bold text-2xl">
+                  Evaluasi RDTR
+                </v-list-item-title>
+              </v-list-item>
+            </v-expansion-panel-title>
+
+            <v-expansion-panel-text>
+              <!-- No Selection State -->
+              <div v-if="!selectedFeature" class="text-center py-8">
+                <div
+                  class="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"
+                >
+                  <v-icon size="48" color="gray-400" class="mb-3"
+                    >mdi-file-search-outline</v-icon
+                  >
+                  <p class="text-sm text-gray-600 mb-2">
+                    Data PBG tidak tersedia
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    Pilih persil terlebih dahulu
+                  </p>
+                </div>
+              </div>
+
+              <!-- PBG Data -->
+              <div v-if="selectedFeature">
+                <AppRdtr :data="evaluationData"></AppRdtr>
+              </div>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2">
+          <v-btn
+            @click="resetSelection"
+            color="warning"
+            variant="outlined"
+            size="small"
+            block
+            class="rounded-lg"
+            :disabled="!selectedFeature"
+          >
+            <v-icon left size="16">mdi-refresh</v-icon>
+            Reset Pilihan
+          </v-btn>
+
+          <!-- Additional Action Button (Optional) -->
+          <!-- <v-btn
+            v-if="selectedFeature"
+            color="primary"
+            variant="flat"
+            size="small"
+            block
+            class="rounded-lg"
+          >
+            <v-icon left size="16">mdi-download</v-icon>
+            Unduh Informasi
+          </v-btn> -->
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -128,7 +219,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import rdtrConstant from "~/app/constant/rdtr.constant";
 const rdtrGeojsonPath = "/RDTR2023_AR.geojson";
 const bidangGeoJsonPath = "/PBG_BONTANGBARU.geojson";
-
+const expandedPanels = ref([]);
 const selectedFeature = ref(null);
 const showPbfLayer = ref(true);
 const showGeoJsonLayer = ref(true);
@@ -239,18 +330,6 @@ const setupClickHandlers = () => {
   map.on("mouseleave", "boba-fill", () => {
     map.getCanvas().style.cursor = "";
   });
-
-  //   // Click handler for PBF layers
-  //   map.on("click", "pbf-fill", (e) => {
-  //     handleFeatureClick(e, "pbf");
-  //   });
-  //   map.on("mouseenter", "pbf-fill", () => {
-  //     map.getCanvas().style.cursor = "pointer";
-  //   });
-
-  //   map.on("mouseleave", "pbf-fill", () => {
-  //     map.getCanvas().style.cursor = "";
-  //   });
 };
 
 // Handle feature click
@@ -369,6 +448,44 @@ const zoomToSelected = () => {
       essential: true,
     });
   }
+};
+const evaluationData = {
+  itbx: "I",
+  rdtr: [
+    {
+      namaObj: "Badan Jalan",
+      luasintersect: 3.971805629336359,
+      intersectgeometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [117.493327106, 0.141604191],
+            [117.49343076, 0.141562329],
+            [117.493325346, 0.141598676],
+            [117.493327106, 0.141604191],
+          ],
+        ],
+      },
+    },
+    {
+      namaObj: "Perumahan Kepadatan Sedang",
+      luasintersect: 188.33339919909486,
+      intersectgeometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [117.49340664, 0.141442376],
+            [117.493289822, 0.141487311],
+            [117.493325346, 0.141598676],
+            [117.49343076, 0.141562329],
+            [117.49344977, 0.141554652],
+            [117.493427096, 0.141495436],
+            [117.49340664, 0.141442376],
+          ],
+        ],
+      },
+    },
+  ],
 };
 </script>
 

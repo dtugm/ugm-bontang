@@ -37,4 +37,106 @@ export default {
     "Taman Nasional": "#2E7D32",
     "Taman RT": "#9CCC65",
   },
+
+  showedParcelAttribute: [
+    {
+      key: "KODEWILAYA",
+      label: "Kode Wilayah",
+      icon: "mdi-map-marker",
+      iconColor: "blue",
+    },
+    {
+      key: "NOMOR_HAK",
+      label: "Nomor Hak",
+      icon: "mdi-file-document-outline",
+      iconColor: "indigo",
+    },
+    {
+      key: "TIPEHAK",
+      label: "Tipe Hak",
+      icon: "mdi-file-certificate-outline",
+      iconColor: "deep-purple",
+    },
+    {
+      key: "NIB",
+      label: "NIB",
+      icon: "mdi-numeric",
+      iconColor: "teal",
+    },
+    {
+      key: "NAMA_WP",
+      label: "Nama Wajib Pajak",
+      icon: "mdi-account",
+      iconColor: "green",
+    },
+    {
+      key: "ALAMAT_WP",
+      label: "Alamat Wajib Pajak",
+      icon: "mdi-home-map-marker",
+      iconColor: "orange",
+    },
+    {
+      key: "ALAMAT_OP",
+      label: "Alamat Objek Pajak",
+      icon: "mdi-office-building-marker",
+      iconColor: "amber",
+    },
+    {
+      key: "KECAMATAN",
+      label: "Kecamatan",
+      icon: "mdi-map-search",
+      iconColor: "cyan",
+    },
+    {
+      key: "KELURAHAN",
+      label: "Kelurahan",
+      icon: "mdi-home-city",
+      iconColor: "blue",
+    },
+    {
+      key: "RT",
+      label: "RT",
+      icon: "mdi-numeric",
+      iconColor: "pink",
+    },
+    {
+      key: "LUASTERTUL",
+      label: "Luas Tertulis",
+      icon: "mdi-ruler-square",
+      iconColor: "brown",
+    },
+    {
+      key: "L_BUMI",
+      label: "Luas Bumi",
+      icon: "mdi-earth",
+      iconColor: "red",
+    },
+  ],
+
+  pbgAttribute: [
+    {
+      key: "SK_PBG",
+      label: "Surat Keputusan PBG",
+      icon: "mdi-file-certificate-outline",
+      iconColor: "deep-purple",
+    },
+    {
+      key: "NAMOBJ",
+      label: "Nama Objek",
+      icon: "mdi-home-city",
+      iconColor: "teal",
+    },
+    {
+      key: "PGN_LHN",
+      label: "Penggunaan Lahan",
+      icon: "mdi-map-outline",
+      iconColor: "green",
+    },
+    {
+      key: "PENGGUNAAN",
+      label: "Penggunaan Bangunan",
+      icon: "mdi-domain",
+      iconColor: "orange",
+    },
+  ],
 };
