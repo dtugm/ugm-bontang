@@ -2,12 +2,46 @@
   <v-container fluid class="pa-0" style="height: 93vh">
     <v-row no-gutters style="height: 100%">
       <!-- Map Container -->
-      <v-col cols="8" style="height: 100%">
-        <div id="map" style="height: 100%; width: 100%"></div>
+      <v-col cols="9" style="height: 100%">
+        <div style="position: relative; height: 100%; width: 100%">
+          <!-- Component yang akan berada di atas map -->
+          <div
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              z-index: 1000;
+              background: rgba(255, 255, 255, 0.3); /* putih transparan */
+              padding: 10px;
+              border-radius: 12px; /* lebih membulat biar efek kaca enak */
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* shadow halus */
+              backdrop-filter: blur(10px); /* efek kaca */
+              -webkit-backdrop-filter: blur(10px); /* untuk Safari */
+              border: 1px solid rgba(255, 255, 255, 0.2); /* garis tipis biar kayak kaca */
+            "
+          >
+            <!-- Isi component Anda di sini -->
+            <div class="flex gap-4">
+              <AppInputSelect
+                label="Filter by Nama Object RDTR"
+                placeholder="Pilih Nama Obj"
+                v-model="selectedNameObj"
+                :items="nameObjs"
+                chips
+                hide-details
+                clearable
+              >
+              </AppInputSelect>
+            </div>
+          </div>
+
+          <!-- Map container -->
+          <div id="map" style="height: 100%; width: 100%"></div>
+        </div>
       </v-col>
 
       <!-- Sidebar untuk Feature Info -->
-      <v-col cols="4" style="height: 100%; overflow-y: auto" class="pa-2">
+      <v-col cols="3" style="height: 100%; overflow-y: auto" class="pa-2">
         <!-- Expansion Panels Container -->
         <v-expansion-panels
           v-model="expandedPanels"
@@ -161,7 +195,7 @@
                     >mdi-file-search-outline</v-icon
                   >
                   <p class="text-sm text-gray-600 mb-2">
-                    Data PBG tidak tersedia
+                    Data Evaluasi RDTR tidak tersedia
                   </p>
                   <p class="text-xs text-gray-500">
                     Pilih persil terlebih dahulu
@@ -179,42 +213,6 @@
               <!-- PBG Data -->
               <div v-if="evaluationData && !evaluationRdtrLoading">
                 <AppRdtr :data="evaluationData"></AppRdtr>
-              </div>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-
-          <!-- Panel 4: Filter -->
-          <v-expansion-panel
-            value="filters"
-            class="mb-2 rounded-lg shadow-sm"
-            elevation="1"
-          >
-            <v-expansion-panel-title
-              class="bg-gradient-to-r from-cyan-500 to-teal-300"
-            >
-              <v-list-item class="px-0">
-                <template v-slot:prepend>
-                  <v-icon color="green">mdi-file-document-outline</v-icon>
-                </template>
-                <v-list-item-title class="font-weight-bold text-2xl">
-                  Filters
-                </v-list-item-title>
-              </v-list-item>
-            </v-expansion-panel-title>
-
-            <v-expansion-panel-text>
-              <div>
-                <AppInputSelect
-                  class-label="text-info font-semibold"
-                  label="Filter by Nama Obj"
-                  placeholder="Pilih Nama Obj"
-                  v-model="selectedNameObj"
-                  :items="nameObjs"
-                  chips
-                  hide-details
-                  clearable
-                  >
-                </AppInputSelect>
               </div>
             </v-expansion-panel-text>
           </v-expansion-panel>
@@ -462,11 +460,11 @@ const initData = async () => {
   await rdtrApi.get_name_objs().then((resp) => {
     nameObjs.value = resp;
   });
-}
+};
 
 watch(selectedNameObj, (value) => {
   if (!value) {
-    map.setPaintProperty("boba-fill", "fill-color", "#FFD600")
+    map.setPaintProperty("boba-fill", "fill-color", "#FFD600");
   } else {
     map.setPaintProperty("boba-fill", "fill-color", [
       "match",
@@ -474,7 +472,7 @@ watch(selectedNameObj, (value) => {
       value.length > 0 ? value : [""],
       "#00F00C", // di pilih
       "#FFD600", // default
-    ])
+    ]);
   }
 });
 

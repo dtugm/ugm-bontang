@@ -5,8 +5,9 @@
       class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200"
     >
       <div class="flex items-center gap-3">
-        <h2 class="text-2xl font-semibold text-gray-900">
-          Hasil Evaluasi RDTR: {{ data.itbx }}
+        <h2 class="text-xl font-semibold text-gray-900">
+          Hasil Evaluasi RDTR:
+          <!-- {{ data.itbx }} -->
         </h2>
         <v-icon :color="getStatusClass(data.itbx)" size="small">
           {{ getStatusIcon(data.itbx) }}
@@ -14,7 +15,7 @@
       </div>
 
       <span
-        class="py-1 rounded-full text-sm font-medium"
+        class="rounded-md text-sm font-medium"
         :class="getStatusClass(data.itbx)"
       >
         {{ getStatusText(data.itbx) }}
@@ -53,7 +54,7 @@
 
     <!-- Objects Grid -->
     <div class="mb-4">
-      <h3 class="text-xl font-semibold text-gray-900 mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">
         Intersection Bidang dengan RDTR
       </h3>
       <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-4">
@@ -212,3 +213,11 @@ const closeModal = () => {
   selectedObject.value = null;
 };
 </script>
+<style scope>
+.info-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+</style>
