@@ -5,8 +5,8 @@
       class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200"
     >
       <div class="flex items-center gap-3">
-        <h2 class="text-xl font-semibold text-gray-900">
-          Hasil Evaluasi RDTR:
+        <h2 class="text-md font-semibold text-gray-900">
+          Evaluasi Terhadap RDTR:
           <!-- {{ data.itbx }} -->
         </h2>
         <v-icon :color="getStatusClass(data.itbx)" size="small">

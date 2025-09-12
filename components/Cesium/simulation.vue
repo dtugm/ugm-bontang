@@ -13,16 +13,13 @@
 
     <v-card class="rounded-lg" width="300">
       <v-card-text>
-        <div class="text-subtitle-2 mb-2">
-          Tinggi Banjir ({{ modelValue }}m)
-        </div>
+        <div class="text-subtitle-2 mb-2">Tinggi Banjir (Sungai UPPT PKT)</div>
         <v-slider
           :model-value="modelValue"
           :min="60"
-          :max="90"
-          :step="5"
+          :max="75"
+          :step="4"
           class="mb-2"
-          thumb-label
           :ticks="viewerConstant.floodTickLabel"
           show-ticks="always"
           hide-details

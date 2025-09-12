@@ -164,10 +164,12 @@ const speed = ref(0.05);
 const pausing = ref(false);
 const starting = ref(false);
 const polygonHierarchy = ref(viewerConstant.floodPolygon);
+const terrainProvider = ref(null);
 const onFloodReady = (cesiumInstance: any) => {
   // console.log("Flood Ready:", cesiumInstance);
 };
 const start = () => {
+  flyToLocation({ center_x: " 117.46500", center_y: "0.13500" });
   flood.value?.start();
   pausing.value = false;
   starting.value = true;
@@ -298,21 +300,21 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
-let interval: any;
+// let interval: any;
 onMounted(async () => {
   await tiles3dStore.getActiveBuilding();
   await tiles3dStore.getActiveBuildingCesium();
   await tiles3dStore.getActiveRoad();
   await nextTick();
   tilesetsReady.value = true;
-  interval = setInterval(() => {
-    console.log(waterHeight.value);
-    waterHeight.value += 1; // naik 1 m setiap 1 detik
-    if (waterHeight.value > 80) {
-      // batasi agar tidak kebablasan
-      waterHeight.value = 5;
-    }
-  }, 1000);
+  // interval = setInterval(() => {
+  //   console.log(waterHeight.value);
+  //   waterHeight.value += 1; // naik 1 m setiap 1 detik
+  //   if (waterHeight.value > 80) {
+  //     // batasi agar tidak kebablasan
+  //     waterHeight.value = 5;
+  //   }
+  // }, 1000);
   checkAllReady();
 });
 

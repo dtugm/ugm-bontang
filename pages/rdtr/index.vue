@@ -60,7 +60,7 @@
                 <template v-slot:prepend>
                   <v-icon color="white">mdi-map-marker-outline</v-icon>
                 </template>
-                <v-list-item-title class="font-weight-bold text-2xl">
+                <v-list-item-title class="text-2xl">
                   Informasi Bidang Tanah
                 </v-list-item-title>
               </v-list-item>
@@ -118,7 +118,7 @@
                 <template v-slot:prepend>
                   <v-icon color="white">mdi-file-document-outline</v-icon>
                 </template>
-                <v-list-item-title class="font-weight-bold text-2xl">
+                <v-list-item-title class="text-2xl">
                   Surat Keterangan PBG (Dummy)
                 </v-list-item-title>
               </v-list-item>
@@ -175,8 +175,8 @@
                 <template v-slot:prepend>
                   <v-icon color="green">mdi-file-document-outline</v-icon>
                 </template>
-                <v-list-item-title class="font-weight-bold text-2xl">
-                  Evaluasi RDTR
+                <v-list-item-title class="text-lg">
+                  Evaluasi Bidang
                 </v-list-item-title>
               </v-list-item>
             </v-expansion-panel-title>
