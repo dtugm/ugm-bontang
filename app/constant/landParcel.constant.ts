@@ -161,7 +161,7 @@ export default {
     bangunan: {
       boba: 4949,
       apiapi: 5496,
-      loktuan: 5192,
+      loktuan: 5055,
     },
     bidang: {
       boba: 3121,
