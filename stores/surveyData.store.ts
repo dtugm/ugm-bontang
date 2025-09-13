@@ -1,4 +1,5 @@
 import buildingSurveyApi from "~/app/api/buildingSurvey.api";
+import parcelApi from "~/app/api/parcel.api";
 import surveyApi from "~/app/api/survey.api";
 import vectorsApi from "~/app/api/vectors.api";
 import { useFormDialog } from "~/composables/useFormDialog";
@@ -58,6 +59,11 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
     console.log(resp);
   };
   const leafletMap = useLeaflet();
+  const parcelBoundary = ref<{ minx?: any, miny?: any, maxx?: any, maxy?: any }>({})
+  const getParcelBoundary = async (params: IGetParcelsBboxParams) => {
+    const resp = await parcelApi.get_bbox(params);
+    parcelBoundary.value = resp;
+  };
   return {
     getDataPersil,
     data_persil_bontang_baru,
@@ -75,6 +81,9 @@ export const useSurveyDataStore = defineStore("admin/survey", () => {
     getDataDetail,
 
     selectedData,
+
+    getParcelBoundary,
+    parcelBoundary,
   };
 });
 
