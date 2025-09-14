@@ -1,0 +1,289 @@
+{
+  "analysis_overview": {
+    "total_buildings": 989,
+    "analysis_date": "2025-09-14 23:27:14",
+    "currency": "Indonesian Rupiah (IDR)",
+    "system_lifetime_years": 25,
+    "discount_rate_percent": 8.0,
+    "inflation_rate_percent": 3.5000000000000004
+  },
+  "tariff_information": {
+    "R1_900": {
+      "rate_per_kwh": 1433,
+      "description": "R-1 900 VA non-subsidized (including 6% PPJ)",
+      "category": "Residential Low Power Non-Subsidized"
+    },
+    "R1_1300": {
+      "rate_per_kwh": 1531,
+      "description": "R-1 1,300/2,200 VA",
+      "category": "Residential Medium Power"
+    },
+    "R2": {
+      "rate_per_kwh": 1804,
+      "description": "Higher power category (excluding VAT)",
+      "category": "Residential High Power"
+    }
+  },
+  "suitability_breakdown": {
+    "Suitable": {
+      "building_count": 771,
+      "total_moderate_capacity_kw": 3311.76,
+      "total_maximum_capacity_kw": 4047.6499999999996,
+      "average_moderate_energy_kwh_year": 1326.1673151750972,
+      "average_maximum_energy_kwh_year": 1620.870298313878,
+      "tariff_savings": {
+        "R1_900": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 1435902532.0,
+            "average_annual_savings_rp": 1862389.795071336,
+            "total_lifetime_savings_rp": 21629359010.0,
+            "average_payback_years": 35.77003891050584,
+            "average_roi_percent": 2.798858625162127
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 1754991048.0,
+            "average_annual_savings_rp": 2276252.980544747,
+            "total_lifetime_savings_rp": 26435869135.0,
+            "average_payback_years": 35.7704280155642,
+            "average_roi_percent": 2.799130998702983
+          }
+        },
+        "R1_1300": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 1534101032.0,
+            "average_annual_savings_rp": 1989754.9053177692,
+            "total_lifetime_savings_rp": 23108547548.0,
+            "average_payback_years": 33.472243839169906,
+            "average_roi_percent": 2.9894682230868996
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 1875011383.0,
+            "average_annual_savings_rp": 2431921.3787289234,
+            "total_lifetime_savings_rp": 28243765448.0,
+            "average_payback_years": 33.470168612191955,
+            "average_roi_percent": 2.9893385214007773
+          }
+        },
+        "R2": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 2006495943.0,
+            "average_annual_savings_rp": 2602459.0700389105,
+            "total_lifetime_savings_rp": 30224350179.0,
+            "average_payback_years": 25.595590142671853,
+            "average_roi_percent": 3.910194552529183
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 2452382635.0,
+            "average_annual_savings_rp": 3180781.6277561607,
+            "total_lifetime_savings_rp": 36940852816.0,
+            "average_payback_years": 25.596368352788584,
+            "average_roi_percent": 3.9106485084306093
+          }
+        }
+      }
+    },
+    "Marginal": {
+      "building_count": 212,
+      "total_moderate_capacity_kw": 193.3,
+      "total_maximum_capacity_kw": 236.13,
+      "average_moderate_energy_kwh_year": 275.87264150943395,
+      "average_maximum_energy_kwh_year": 337.14150943396226,
+      "tariff_savings": {
+        "R1_900": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 82132831.0,
+            "average_annual_savings_rp": 387419.0141509434,
+            "total_lifetime_savings_rp": 1237187373.0,
+            "average_payback_years": 36.54198113207547,
+            "average_roi_percent": 2.7463207547169812
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 100373795.0,
+            "average_annual_savings_rp": 473461.2971698113,
+            "total_lifetime_savings_rp": 1511955584.0,
+            "average_payback_years": 36.47735849056604,
+            "average_roi_percent": 2.750943396226415
+          }
+        },
+        "R1_1300": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 87749724.0,
+            "average_annual_savings_rp": 413913.7924528302,
+            "total_lifetime_savings_rp": 1321796039.0,
+            "average_payback_years": 34.197641509433964,
+            "average_roi_percent": 2.9335849056603767
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 107238159.0,
+            "average_annual_savings_rp": 505840.37264150946,
+            "total_lifetime_savings_rp": 1615355211.0,
+            "average_payback_years": 34.14150943396226,
+            "average_roi_percent": 2.9384905660377356
+          }
+        },
+        "R2": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 114770446.0,
+            "average_annual_savings_rp": 541370.0283018867,
+            "total_lifetime_savings_rp": 1728815984.0,
+            "average_payback_years": 26.14622641509434,
+            "average_roi_percent": 3.837830188679246
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 140259959.0,
+            "average_annual_savings_rp": 661603.5801886793,
+            "total_lifetime_savings_rp": 2112770738.0,
+            "average_payback_years": 26.10330188679245,
+            "average_roi_percent": 3.844150943396226
+          }
+        }
+      }
+    },
+    "Prime": {
+      "building_count": 5,
+      "total_moderate_capacity_kw": 102.34,
+      "total_maximum_capacity_kw": 125.1,
+      "average_moderate_energy_kwh_year": 6267.4,
+      "average_maximum_energy_kwh_year": 7660.0,
+      "tariff_savings": {
+        "R1_900": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 44007802.0,
+            "average_annual_savings_rp": 8801560.4,
+            "total_lifetime_savings_rp": 662900529.0,
+            "average_payback_years": 35.8,
+            "average_roi_percent": 2.7960000000000003
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 53786222.0,
+            "average_annual_savings_rp": 10757244.4,
+            "total_lifetime_savings_rp": 810195315.0,
+            "average_payback_years": 35.8,
+            "average_roi_percent": 2.7960000000000003
+          }
+        },
+        "R1_1300": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 47017407.0,
+            "average_annual_savings_rp": 9403481.4,
+            "total_lifetime_savings_rp": 708234963.0,
+            "average_payback_years": 33.5,
+            "average_roi_percent": 2.9859999999999998
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 57464554.0,
+            "average_annual_savings_rp": 11492910.8,
+            "total_lifetime_savings_rp": 865602952.0,
+            "average_payback_years": 33.5,
+            "average_roi_percent": 2.9859999999999998
+          }
+        },
+        "R2": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 61495454.0,
+            "average_annual_savings_rp": 12299090.8,
+            "total_lifetime_savings_rp": 926321392.0,
+            "average_payback_years": 25.619999999999997,
+            "average_roi_percent": 3.906
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 75159583.0,
+            "average_annual_savings_rp": 15031916.6,
+            "total_lifetime_savings_rp": 1132147598.0,
+            "average_payback_years": 25.619999999999997,
+            "average_roi_percent": 3.906
+          }
+        }
+      }
+    },
+    "Not Recommended": {
+      "building_count": 1,
+      "total_moderate_capacity_kw": 0.37,
+      "total_maximum_capacity_kw": 0.46,
+      "average_moderate_energy_kwh_year": 37.0,
+      "average_maximum_energy_kwh_year": 45.0,
+      "tariff_savings": {
+        "R1_900": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 51961.0,
+            "average_annual_savings_rp": 51961.0,
+            "total_lifetime_savings_rp": 782702.0,
+            "average_payback_years": 110.4,
+            "average_roi_percent": 0.91
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 63195.0,
+            "average_annual_savings_rp": 63195.0,
+            "total_lifetime_savings_rp": 951922.0,
+            "average_payback_years": 112.8,
+            "average_roi_percent": 0.89
+          }
+        },
+        "R1_1300": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 55514.0,
+            "average_annual_savings_rp": 55514.0,
+            "total_lifetime_savings_rp": 836221.0,
+            "average_payback_years": 103.3,
+            "average_roi_percent": 0.97
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 67517.0,
+            "average_annual_savings_rp": 67517.0,
+            "total_lifetime_savings_rp": 1017025.0,
+            "average_payback_years": 105.6,
+            "average_roi_percent": 0.95
+          }
+        },
+        "R2": {
+          "moderate_scenario": {
+            "total_annual_savings_rp": 72608.0,
+            "average_annual_savings_rp": 72608.0,
+            "total_lifetime_savings_rp": 1093719.0,
+            "average_payback_years": 79.0,
+            "average_roi_percent": 1.27
+          },
+          "maximum_scenario": {
+            "total_annual_savings_rp": 88307.0,
+            "average_annual_savings_rp": 88307.0,
+            "total_lifetime_savings_rp": 1330193.0,
+            "average_payback_years": 80.7,
+            "average_roi_percent": 1.24
+          }
+        }
+      }
+    }
+  },
+  "cost_savings_summary": {
+    "R1_900": {
+      "total_moderate_annual_savings_rp": 1562095126.0,
+      "total_maximum_annual_savings_rp": 1909214260.0,
+      "total_moderate_lifetime_savings_rp": 23530229614.0,
+      "total_maximum_lifetime_savings_rp": 28758971956.0,
+      "total_moderate_annual_savings_billion_rp": 1.562095126,
+      "total_maximum_annual_savings_billion_rp": 1.90921426,
+      "total_moderate_lifetime_savings_billion_rp": 23.530229614,
+      "total_maximum_lifetime_savings_billion_rp": 28.758971956
+    },
+    "R1_1300": {
+      "total_moderate_annual_savings_rp": 1668923677.0,
+      "total_maximum_annual_savings_rp": 2039781613.0,
+      "total_moderate_lifetime_savings_rp": 25139414771.0,
+      "total_maximum_lifetime_savings_rp": 30725740636.0,
+      "total_moderate_annual_savings_billion_rp": 1.668923677,
+      "total_maximum_annual_savings_billion_rp": 2.039781613,
+      "total_moderate_lifetime_savings_billion_rp": 25.139414771,
+      "total_maximum_lifetime_savings_billion_rp": 30.725740636
+    },
+    "R2": {
+      "total_moderate_annual_savings_rp": 2182834451.0,
+      "total_maximum_annual_savings_rp": 2667890484.0,
+      "total_moderate_lifetime_savings_rp": 32880581274.0,
+      "total_maximum_lifetime_savings_rp": 40187101345.0,
+      "total_moderate_annual_savings_billion_rp": 2.182834451,
+      "total_maximum_annual_savings_billion_rp": 2.667890484,
+      "total_moderate_lifetime_savings_billion_rp": 32.880581274,
+      "total_maximum_lifetime_savings_billion_rp": 40.187101345
+    }
+  }
+}
