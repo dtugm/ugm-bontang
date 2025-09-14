@@ -1,6 +1,7 @@
 <template>
   <AppViewerRelative>
-    <div class="absolute top-1 left-5 z-10 mt-4">
+    <AppHeaderViewerCesium title="Solar Panel Potential" />
+    <div class="absolute top-10 left-5 z-10 mt-4">
       <SolarLegend class="mb-1" />
     </div>
 
