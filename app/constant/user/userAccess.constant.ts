@@ -23,7 +23,7 @@ export const groupAccessMap: Record<string, string[]> = {
     // File Management
     "/admin/model_3d_management",
     "/admin/vector_2d_management",
-
+    "/solar-panels",
     "/rdtr",
   ],
   stakeholder: [
@@ -36,7 +36,7 @@ export const groupAccessMap: Record<string, string[]> = {
     // Data Survey
     "/data/land_parcel",
     "/data/building",
-
+    "/solar-panels",
     "/rdtr",
   ],
 
@@ -48,7 +48,7 @@ export const groupAccessMap: Record<string, string[]> = {
     "/data/land_parcel",
     "/data/building",
     "/survey-monitoring",
-
+    "/solar-panels",
     // 3D Viewer
     "/cesium",
     "/land_parcel_cesium",

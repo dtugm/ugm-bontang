@@ -16,6 +16,11 @@ export default {
       title: "Simulasi RDTR",
       path: "/rdtr",
     },
+    {
+      prepend_icon: "mdi-solar-panel",
+      title: "Solar Panels Potential",
+      path: "/solar-panels",
+    },
     // User Management
     {
       prepend_icon: "mdi-table-account",
