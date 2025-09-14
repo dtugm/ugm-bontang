@@ -13,17 +13,17 @@
     ></v-col>
     <v-col cols="12" lg="4">
       <AppCardGabunganProgress :items="Loktuan" color="success">
-        <!-- <template #overlay>
-          <v-overlay
-            v-model="overlay"
-            absolute
-            class="align-center justify-center"
-            contained
-          >
-            Start Survey in May 2025
-          </v-overlay>
-        </template> -->
       </AppCardGabunganProgress>
+      <!-- <template #overlay>
+        <v-overlay
+          v-model="overlay"
+          absolute
+          class="align-center justify-center"
+          contained
+        >
+          Start Survey in May 2025
+        </v-overlay>
+      </template> -->
     </v-col>
   </v-row>
 </template>
