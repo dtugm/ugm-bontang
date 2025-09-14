@@ -9,8 +9,21 @@
     <v-card-title
       class="bg-gradient-to-r from-blue-600 to-purple-600 text-white"
     >
-      <v-icon left class="mr-2">mdi-solar-panel</v-icon>
-      Solar Analysis Report
+      <div class="flex items-center justify-between w-full">
+        <div>
+          <v-icon left class="mr-2">mdi-solar-panel</v-icon>
+          Solar Analysis Report
+        </div>
+        <v-btn
+          @click="$emit('close')"
+          icon
+          variant="text"
+          color="white"
+          size="small"
+        >
+          <v-icon>mdi-refresh-circle</v-icon>
+        </v-btn>
+      </div>
     </v-card-title>
 
     <!-- Content -->
@@ -89,7 +102,7 @@
       <!-- Empty State -->
       <div
         v-if="Object.keys(displayedData).length === 0"
-        class="p-8 text-center"
+        class="p-4 text-center"
       >
         <v-icon size="64" color="grey-lighten-2" class="mb-4"
           >mdi-database-search</v-icon
@@ -98,7 +111,7 @@
       </div>
     </v-card-text>
 
-    <!-- Footer with Summary -->
+    <!-- Footer with Summary
     <v-card-actions class="bg-gray-50 px-4 py-3" v-if="showSummary">
       <div class="w-full">
         <div
@@ -124,7 +137,7 @@
           >
         </div>
       </div>
-    </v-card-actions>
+    </v-card-actions> -->
   </v-card>
 </template>
 
@@ -322,7 +335,7 @@ const getChipColor = (key, value) => {
     return "error";
   }
 
-  return "primary";
+  return "info";
 };
 
 const getSuitabilityColor = (suitabilityClass) => {

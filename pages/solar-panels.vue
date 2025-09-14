@@ -10,7 +10,7 @@
       </AppButtonMenu>
     </div>
     <div class="absolute bottom-0 right-0 z-10 mt-4">
-      <SolarDetail :data="solarData" :keys="detailKeys" />
+      <SolarDetail :data="solarData" :keys="detailKeys" @close="clearDetail" />
       <div v-if="showSummary" @click.self="closeSummary">
         <SolarSummary :data="summarySolar" @close="closeSummary" />
       </div>
@@ -18,7 +18,7 @@
     <vc-viewer
       ref="viewerRef"
       :show-credit="false"
-      :infoBox="true"
+      :infoBox="false"
       :shadows="false"
       @ready="onViewerReady"
     >
@@ -144,22 +144,22 @@ const simulate = () => {
   clock.clockStep = Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER;
   clock.multiplier = 3600;
   clock.shouldAnimate = true;
-  const removeListener = viewerRef.value.clock.onTick.addEventListener(() => {
-    if (Cesium.JulianDate.greaterThanOrEquals(clock.currentTime, stop)) {
-      clock.shouldAnimate = false;
-      clock.startTime = Cesium.JulianDate.fromDate(new Date());
-      clock.stopTime = Cesium.JulianDate.addDays(
-        clock.startTime,
-        1,
-        new Cesium.JulianDate()
-      );
-      clock.currentTime = Cesium.JulianDate.clone(clock.startTime);
-      clock.clockStep = Cesium.ClockStep.SYSTEM_CLOCK;
-      clock.multiplier = 1;
-      clock.shouldAnimate = true;
-      removeListener();
-    }
-  });
+  //   const removeListener = viewerRef.value.clock.onTick.addEventListener(() => {
+  //     if (Cesium.JulianDate.greaterThanOrEquals(clock.currentTime, stop)) {
+  //       clock.shouldAnimate = false;
+  //       clock.startTime = Cesium.JulianDate.fromDate(new Date());
+  //       clock.stopTime = Cesium.JulianDate.addDays(
+  //         clock.startTime,
+  //         1,
+  //         new Cesium.JulianDate()
+  //       );
+  //       clock.currentTime = Cesium.JulianDate.clone(clock.startTime);
+  //       clock.clockStep = Cesium.ClockStep.SYSTEM_CLOCK;
+  //       clock.multiplier = 1;
+  //       clock.shouldAnimate = true;
+  //       removeListener();
+  //     }
+  //   });
 };
 function filterTilesetColor(arr: any[], color: any) {
   const idsToShow = arr;
@@ -259,8 +259,12 @@ const onAnalyzeFinish = async () => {
   const suitable = await filterGeojson("/solar/merged2.geojson", "Suitable");
 
   filterTilesetColor(marginal, Cesium.Color.YELLOW);
-  filterTilesetColor(prime, Cesium.Color.GREEN);
+  filterTilesetColor(prime, Cesium.Color.AQUA);
   filterTilesetColor(suitable, Cesium.Color.GREENYELLOW);
   showSummary.value = true;
+};
+
+const clearDetail = () => {
+  solarData.value = {};
 };
 </script>

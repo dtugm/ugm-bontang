@@ -197,16 +197,16 @@
 
           <!-- Prime Buildings -->
           <div
-            class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg p-4 border border-yellow-200"
+            class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200"
           >
             <div class="flex items-center mb-2">
-              <v-icon color="orange" class="mr-2">mdi-star</v-icon>
-              <h4 class="font-semibold text-yellow-800">Prime Locations</h4>
+              <v-icon color="blue" class="mr-2">mdi-star</v-icon>
+              <h4 class="font-semibold text-blue-800">Prime Locations</h4>
             </div>
-            <div class="text-2xl font-bold text-yellow-700 mb-1">
+            <div class="text-2xl font-bold text-blue-700 mb-1">
               {{ data.suitability_breakdown.Prime.building_count }}
             </div>
-            <p class="text-sm text-yellow-600">
+            <p class="text-sm text-blue-600">
               Buildings with optimal solar potential
               <br />
               <span class="font-medium"
@@ -297,20 +297,20 @@ const formatBillionRupiah = (amount) => {
 
 const getSuitabilityColor = (category) => {
   const colors = {
-    Prime: "#FFD700",
-    Suitable: "#4CAF50",
-    Marginal: "#FF9800",
-    "Not Recommended": "#F44336",
+    Prime: "#2196F3",
+    Suitable: "#66BB6A",
+    Marginal: "#FFD54F",
+    "Not Recommended": "#E53935",
   };
   return colors[category] || "#9E9E9E";
 };
 
 const getSuitabilityClass = (category) => {
   const classes = {
-    Prime: "border-yellow-200 bg-yellow-50",
-    Suitable: "border-green-200 bg-green-50",
-    Marginal: "border-orange-200 bg-orange-50",
-    "Not Recommended": "border-red-200 bg-red-50",
+    Prime: "border-blue-200 bg-blue-50",
+    Suitable: "border-green-300 bg-green-50", // mendekati #66BB6A
+    Marginal: "border-yellow-200 bg-yellow-50", // mendekati #FFD54F
+    "Not Recommended": "border-red-200 bg-red-50", // mendekati #E53935
   };
   return classes[category] || "border-gray-200 bg-gray-50";
 };

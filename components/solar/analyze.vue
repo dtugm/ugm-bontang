@@ -127,14 +127,23 @@
             mdi-check-circle
           </v-icon>
           <p class="text-green-600 font-semibold">Analysis Complete!</p>
-          <v-btn
+          <!-- <v-btn
             @click="resetAnalysis"
             color="primary"
             variant="outlined"
-            class="mt-2"
+            class="mt-2 text-none"
             size="small"
           >
             Run New Analysis
+          </v-btn> -->
+          <v-btn
+            @click="resetAnalysis"
+            color="tertiary"
+            variant="outlined"
+            class="mt-2 text-none"
+            size="small"
+          >
+            Open Summary
           </v-btn>
         </div>
       </div>

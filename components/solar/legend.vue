@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 const legendItems = [
-  { label: "Solar Cost Saving Prime", color: "#2E7D32" }, // hijau
+  { label: "Solar Cost Saving Prime", color: "#2196F3" }, // biru
   { label: "Solar Cost Saving Suitable", color: "#66BB6A" }, // hijau muda
   { label: "Solar Cost Saving Marginal", color: "#FFD54F" }, // kuning
   { label: "Solar Cost Saving Not Recommended", color: "#E53935" }, // merah
