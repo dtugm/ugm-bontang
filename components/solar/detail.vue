@@ -1,11 +1,16 @@
 <template>
-  <v-card class="mx-auto" max-width="800" elevation="4">
+  <v-card
+    class="mx-auto overflow-y-auto"
+    max-width="400"
+    elevation="4"
+    max-height="100vh"
+  >
     <!-- Header Card -->
     <v-card-title
       class="bg-gradient-to-r from-blue-600 to-purple-600 text-white"
     >
       <v-icon left class="mr-2">mdi-solar-panel</v-icon>
-      Solar Analysis Report - RT {{ data.RT }}
+      Solar Analysis Report
     </v-card-title>
 
     <!-- Content -->
@@ -23,31 +28,59 @@
         />
       </div>
 
-      <!-- Data Grid -->
+      <!-- Data Grid with Categories -->
       <div class="max-h-screen overflow-y-auto">
-        <div class="grid grid-cols-1 md:grid-cols-1 gap-1">
+        <div
+          v-for="(category, categoryName) in groupedData"
+          :key="categoryName"
+        >
+          <!-- Category Header -->
           <div
-            v-for="(value, key) in displayedData"
-            :key="key"
-            class="flex justify-between items-center p-3 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+            class="category-header bg-gray-100 px-4 py-3 border-b-2 border-gray-200"
           >
-            <!-- Label -->
-            <div class="flex-1 pr-4">
-              <span class="text-sm font-medium text-gray-700">
-                {{ formatLabel(key) }}
-              </span>
-            </div>
-
-            <!-- Value -->
-            <div class="flex-1 text-right">
+            <div class="flex items-center">
+              <v-icon :color="getCategoryColor(categoryName)" class="mr-2">
+                {{ getCategoryIcon(categoryName) }}
+              </v-icon>
+              <h3 class="text-lg font-semibold text-gray-800 capitalize">
+                {{ getCategoryTitle(categoryName) }}
+              </h3>
               <v-chip
-                :color="getChipColor(key, value)"
+                :color="getCategoryColor(categoryName)"
                 variant="tonal"
                 size="small"
-                class="font-mono"
+                class="ml-2"
               >
-                {{ formatValue(key, value) }}
+                {{ Object.keys(category).length }} items
               </v-chip>
+            </div>
+          </div>
+
+          <!-- Category Items -->
+          <div class="category-items">
+            <div
+              v-for="(value, key) in category"
+              :key="key"
+              class="flex justify-between items-center p-3 border-b border-gray-100 hover:bg-gray-50 transition-colors pl-8"
+            >
+              <!-- Label -->
+              <div class="flex-1 pr-4">
+                <span class="text-sm font-medium text-gray-700">
+                  {{ formatLabel(key) }}
+                </span>
+              </div>
+
+              <!-- Value -->
+              <div class="flex-1 text-right">
+                <v-chip
+                  :color="getChipColor(key, value)"
+                  variant="tonal"
+                  size="small"
+                  class="font-mono"
+                >
+                  {{ formatValue(key, value) }}
+                </v-chip>
+              </div>
             </div>
           </div>
         </div>
@@ -127,6 +160,21 @@ const props = defineProps({
 // Reactive data
 const searchQuery = ref("");
 
+// Category mapping
+const categoryMapping = {
+  suitability: ["suitability_class", "suitability_score"],
+  safety: ["safety_level", "safety_description"],
+  potential: [
+    "installed_capacity_maximum_kw",
+    "energy_potential_maximum_kwh_year",
+  ],
+  saving: [
+    "R1_1300_maximum_net_annual_savings_rp",
+    "R1_900_maximum_net_annual_savings_rp",
+    "R2_maximum_net_annual_savings_rp",
+  ],
+};
+
 // String helper untuk title case
 const stringHelper = {
   titleCase: (str) => {
@@ -142,12 +190,10 @@ const stringHelper = {
 
 // Computed properties
 const filteredByKeys = computed(() => {
-  // Jika keys tidak didefinisikan, tampilkan semua data
   if (!props.keys || props.keys.length === 0) {
     return props.data;
   }
 
-  // Filter data berdasarkan keys yang ditentukan
   const filtered = {};
   props.keys.forEach((key) => {
     if (key in props.data) {
@@ -161,10 +207,8 @@ const filteredByKeys = computed(() => {
 const displayedData = computed(() => {
   const baseData = filteredByKeys.value;
 
-  // Jika tidak ada search query, return data yang sudah difilter berdasarkan keys
   if (!searchQuery.value) return baseData;
 
-  // Filter berdasarkan search query
   const query = searchQuery.value.toLowerCase();
   const filtered = {};
 
@@ -180,6 +224,45 @@ const displayedData = computed(() => {
   return filtered;
 });
 
+// Group data by categories
+const groupedData = computed(() => {
+  const data = displayedData.value;
+  const grouped = {};
+
+  // Initialize categories
+  Object.keys(categoryMapping).forEach((category) => {
+    grouped[category] = {};
+  });
+  grouped["more_information"] = {};
+
+  // Categorize data
+  Object.entries(data).forEach(([key, value]) => {
+    let categorized = false;
+
+    for (const [category, keys] of Object.entries(categoryMapping)) {
+      if (keys.includes(key)) {
+        grouped[category][key] = value;
+        categorized = true;
+        break;
+      }
+    }
+
+    // If not in any specific category, put in "more_information"
+    if (!categorized) {
+      grouped["more_information"][key] = value;
+    }
+  });
+
+  // Remove empty categories
+  Object.keys(grouped).forEach((category) => {
+    if (Object.keys(grouped[category]).length === 0) {
+      delete grouped[category];
+    }
+  });
+
+  return grouped;
+});
+
 // Methods
 const formatLabel = (key) => {
   return stringHelper.titleCase(key);
@@ -188,13 +271,10 @@ const formatLabel = (key) => {
 const formatValue = (key, value) => {
   if (value === null || value === undefined) return "N/A";
 
-  // Format berdasarkan tipe data dan key
   if (typeof value === "number") {
-    // Percentage values
     if (key.includes("percent") || key.includes("fraction")) {
       return `${value.toFixed(2)}%`;
     }
-    // Currency values (Rupiah)
     if (key.includes("rp") || key.includes("savings") || key.includes("cost")) {
       return new Intl.NumberFormat("id-ID", {
         style: "currency",
@@ -202,27 +282,21 @@ const formatValue = (key, value) => {
         minimumFractionDigits: 0,
       }).format(value);
     }
-    // Area values
     if (key.includes("area") || key.includes("m2")) {
       return `${value.toFixed(2)} m²`;
     }
-    // Energy values
     if (key.includes("kwh") || key.includes("energy")) {
       return `${value.toFixed(2)} kWh`;
     }
-    // Power values
     if (key.includes("kw") && !key.includes("kwh")) {
       return `${value.toFixed(2)} kW`;
     }
-    // Years
     if (key.includes("years")) {
       return `${value.toFixed(1)} years`;
     }
-    // Angles
     if (key.includes("angle")) {
       return `${value.toFixed(2)}°`;
     }
-    // Default number formatting
     return value.toFixed(2);
   }
 
@@ -230,7 +304,6 @@ const formatValue = (key, value) => {
 };
 
 const getChipColor = (key, value) => {
-  // Color coding berdasarkan jenis data
   if (key.includes("percent") || key.includes("fraction")) {
     if (value >= 80) return "success";
     if (value >= 60) return "warning";
@@ -268,9 +341,54 @@ const getSuitabilityColor = (suitabilityClass) => {
       return "grey";
   }
 };
+
+// New methods for categories
+const getCategoryTitle = (categoryName) => {
+  const titles = {
+    suitability: "Suitability Analysis",
+    safety: "Safety Assessment",
+    potential: "Energy Potential",
+    saving: "Financial Savings",
+    more_information: "More Information",
+  };
+  return titles[categoryName] || stringHelper.titleCase(categoryName);
+};
+
+const getCategoryColor = (categoryName) => {
+  const colors = {
+    suitability: "success",
+    safety: "warning",
+    potential: "info",
+    saving: "green",
+    more_information: "grey",
+  };
+  return colors[categoryName] || "primary";
+};
+
+const getCategoryIcon = (categoryName) => {
+  const icons = {
+    suitability: "mdi-check-circle",
+    safety: "mdi-shield-check",
+    potential: "mdi-lightning-bolt",
+    saving: "mdi-currency-usd",
+    more_information: "mdi-information",
+  };
+  return icons[categoryName] || "mdi-folder";
+};
 </script>
 
 <style scoped>
+.category-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.category-items {
+  background: white;
+}
+
 /* Custom scrollbar */
 .overflow-y-auto::-webkit-scrollbar {
   width: 6px;

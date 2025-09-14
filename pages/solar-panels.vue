@@ -10,7 +10,7 @@
       </AppButtonMenu>
     </div>
     <div class="absolute bottom-0 right-0 z-10 mt-4">
-      <SolarDetail :data="solarData" :keys="technicalKeys" />
+      <SolarDetail :data="solarData" :keys="detailKeys" />
       <div v-if="showSummary" @click.self="closeSummary">
         <SolarSummary :data="summarySolar" @close="closeSummary" />
       </div>
@@ -241,15 +241,16 @@ async function filterGeojson(
 }
 
 const solarData = ref({});
-const technicalKeys = [
-  "solar_access_percent",
-  "roof_area_total_m2",
-  "roof_area_usable_m2",
-  "solar_irradiance_kwh_m2_year",
-  "energy_potential_moderate_kwh_year",
-  "installed_capacity_moderate_kw",
-  "suitability_score",
+const detailKeys = [
   "suitability_class",
+  "suitability_score",
+  "safety_level",
+  //   "safety_description",
+  "installed_capacity_maximum_kw",
+  "energy_potential_maximum_kwh_year",
+  "R1_1300_maximum_net_annual_savings_rp",
+  "R1_900_maximum_net_annual_savings_rp",
+  "R2_maximum_net_annual_savings_rp",
 ];
 
 const onAnalyzeFinish = async () => {
