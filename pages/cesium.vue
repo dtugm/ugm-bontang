@@ -276,6 +276,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
       }
     }
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+  
   handler.setInputAction((movement: any) => {
     const pickedFeature = viewer.scene.pick(movement.position);
     if (
@@ -300,6 +301,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
+
 // let interval: any;
 onMounted(async () => {
   await tiles3dStore.getActiveBuilding();
