@@ -45,7 +45,7 @@
         <v-img
           height="75"
           class="bg-white"
-          src="/logo/Logo_Typography_1.png"
+          src="/logo/Logo_Typography_1.webp"
         ></v-img>
       </div>
     </v-card-text>
@@ -55,7 +55,6 @@
 definePageMeta({
   layout: "auth",
 });
-
 const valid = ref(false);
 const login: any = ref(null);
 
@@ -68,11 +67,6 @@ const onSubmit = async () => {
   const { valid: formValid } = await login.value.validate();
   if (!formValid) return;
   await do_login();
-  // isLoading.value = true;
-  // setTimeout(() => {
-  //   isLoading.value = false;
-  //   console.log("Login success!");
-  // }, 800);
 };
 const appStore = useAppStore();
 const authenticationStore = useAuthenticationStore();

@@ -4,19 +4,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Bontang - Pemodelan 3D dan Validasi Data PBB",
-      link: [
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://unpkg.com/cesium/Build/Cesium/Widgets/widgets.css",
-        },
-      ],
     },
   },
-  css: ["cesium/Build/Cesium/Widgets/widgets.css"],
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   ssr: false,

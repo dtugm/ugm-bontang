@@ -2,7 +2,7 @@
   <v-app>
     <v-row
       :class="[
-        mobile ? `bg-[url('/illustration/peta_bontang_bg.png')]` : '',
+        mobile ? `bg-[url('/illustration/peta_bontang_bg.webp')]` : '',
         `h-full bg-cover`,
       ]"
     >
@@ -12,7 +12,7 @@
         md="6"
         class="d-flex align-center justify-center pa-0 position-relative"
         :class="[
-          !mobile ? `bg-[url('/illustration/peta_bontang_bg.png')]` : '',
+          !mobile ? `bg-[url('/illustration/peta_bontang_bg.webp')]` : '',
           `h-full bg-cover`,
         ]"
       >
@@ -37,8 +37,7 @@
 <script setup>
 import { useDisplay } from "vuetify";
 const { mobile } = useDisplay();
-const backgroundImage = "/illustration/peta_bontang_bg.png";
-const logoImage = "/logo/kota_bontang_putih.png";
+const logoImage = "/logo/kota_bontang_putih.webp";
 </script>
 
 <style scoped>
