@@ -1,4 +1,5 @@
 import authApi from "~/app/api/auth.api";
+import organizationApi from "~/app/api/organization.api";
 import { groupAccessMap } from "~/app/constant/user/userAccess.constant";
 export const useAuthenticationStore = defineStore("authentication", {
   state: () => ({
@@ -38,11 +39,20 @@ export const useAuthenticationStore = defineStore("authentication", {
     async login(payload: Partial<ILoginPayload>) {
       try {
         const response = await authApi.login(payload);
+
         if (response && response.token) {
           this.token = response.token;
           this.setToken(response.token);
           this.setUser(response.user);
         }
+        const patchResponse = await organizationApi.patch_user_to_bontang(
+          "7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3"
+        );
+        if (patchResponse && patchResponse.accessToken) {
+          this.token = patchResponse.accessToken;
+          this.setToken(patchResponse.accessToken);
+        }
+
         setTimeout(() => {
           navigateTo("/");
         }, 2000);
