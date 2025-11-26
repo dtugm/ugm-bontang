@@ -17,6 +17,9 @@
       <v-btn color="success" :loading="isDownloading" @click="downloadExcel"
         >Download Dokumen</v-btn
       >
+      <v-btn color="success" :loading="isDownloading" @click="addNewData"
+        >Add Data</v-btn
+      >
     </template>
     <template #item.l_bumi="{ item }">
       <v-chip density="comfortable" color="primary-blue">
@@ -277,7 +280,6 @@
 </template>
 <script lang="ts" setup>
 import landParcelConstant from "~/app/constant/landParcel.constant";
-
 const landParcelStore = useLandParcelStore();
 const lotSurveyStore = useLotSurveyMonitoring();
 const imageUrlPreview = ref();
@@ -364,5 +366,9 @@ const downloadExcel = async () => {
     landParcelStore.readLandParcel.filterData
   );
   isDownloading.value = false;
+};
+const addDialog = ref(false);
+const addNewData = () => {
+  addDialog.value = true;
 };
 </script>
