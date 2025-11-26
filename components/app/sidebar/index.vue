@@ -1,75 +1,82 @@
 <template>
-  <v-list class="bg-gradient-to-r from-primary/5 to-tertiary/5">
-    <v-list-item class="py-3">
-      <template #prepend>
-        <div class="relative">
-          <v-img
-            src="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/assets/Logo_3.png"
-            width="45"
-            height="45"
-            class="rounded-lg shadow-md"
-            cover
-          />
-          <div
-            class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"
-          ></div>
-        </div>
-      </template>
-      <v-list-item-title>
-        <div class="pl-2">
-          <AppTextH3
-            class="text-[25px] font-bold bg-gradient-to-r from-tertiary to-primary bg-clip-text text-transparent mt-1"
-          >
-            Bontang
-          </AppTextH3>
-          <p class="text-[10px] text-gray-600 -mt-1">
-            Validasi Data PBB Kota Bontang
-          </p>
-        </div>
-      </v-list-item-title>
-    </v-list-item>
-  </v-list>
-
   <v-list mandatory density="compact" nav @update:selected="changePage">
     <template v-for="(menu, index) in filteredMenus" :key="index">
-      <v-list-group v-if="menu.sub_menu">
+      <!-- Menu dengan Sub Menu -->
+      <v-list-group v-if="menu.sub_menu" :value="menu.title">
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
             :prepend-icon="menu.prepend_icon"
-            :title="menu.title"
+            :title="rail ? '' : menu.title"
+            class="mb-1"
           >
+            <template v-slot:prepend>
+              <v-icon :color="isMenuActive(menu) ? 'tertiary' : 'grey'">
+                {{ menu.prepend_icon }}
+              </v-icon>
+            </template>
+
+            <!-- Tooltip untuk Rail Mode -->
+            <v-tooltip v-if="rail" activator="parent" location="end">
+              {{ menu.title }}
+            </v-tooltip>
           </v-list-item>
         </template>
+
+        <!-- Sub Menu Items -->
         <v-list-item
-          v-for="(subMenu, index) in menu.sub_menu"
-          :key="subMenu.path"
+          v-for="(subMenu, subIndex) in menu.sub_menu"
+          :key="subIndex"
           :active="subMenu.path === selectedTab"
-          :prepend-icon="subMenu.prepend_icon"
-          :title="subMenu.title"
+          :title="rail ? '' : subMenu.title"
           :value="subMenu.path"
-          class="rounded-left"
+          class="rounded-l-xl ml-2 mb-1"
           active-color="tertiary"
         >
           <template v-slot:prepend>
-            <v-avatar>
-              <v-icon color="tertiary">{{ subMenu.prepend_icon }}</v-icon>
-            </v-avatar>
+            <v-icon
+              :color="subMenu.path === selectedTab ? 'tertiary' : 'grey'"
+              size="20"
+            >
+              {{ subMenu.prepend_icon }}
+            </v-icon>
           </template>
+
+          <v-tooltip v-if="rail" activator="parent" location="end">
+            {{ subMenu.title }}
+          </v-tooltip>
         </v-list-item>
       </v-list-group>
+
+      <!-- Menu Tanpa Sub Menu -->
       <v-list-item
-        class="rounded-left"
         v-else
         :ripple="false"
         :prepend-icon="menu.prepend_icon"
-        :title="menu.title"
+        :title="rail ? '' : menu.title"
         :value="menu.path"
         :active="
           route.path === menu.path || route.path.startsWith(menu.path + '/')
         "
         active-color="tertiary"
-      ></v-list-item>
+        class="rounded-l-xl mb-1"
+      >
+        <template v-slot:prepend>
+          <v-icon
+            :color="
+              route.path === menu.path || route.path.startsWith(menu.path + '/')
+                ? 'tertiary'
+                : 'grey'
+            "
+          >
+            {{ menu.prepend_icon }}
+          </v-icon>
+        </template>
+
+        <v-tooltip v-if="rail" activator="parent" location="end">
+          {{ menu.title }}
+        </v-tooltip>
+      </v-list-item>
     </template>
   </v-list>
 </template>
@@ -77,6 +84,18 @@
 import { filterMenuByAccess } from "~/app/helper/auth.helper";
 import userMenusConstant from "~/app/constant/user/userMenus.constant";
 const authStore = useAuthenticationStore();
+const props = defineProps({
+  rail: {
+    type: Boolean,
+    default: false,
+  },
+});
+const isMenuActive = (menu: any) => {
+  if (menu.sub_menu) {
+    return menu.sub_menu.some((sub: any) => sub.path === selectedTab.value);
+  }
+  return false;
+};
 const filteredMenus = computed(() =>
   filterMenuByAccess(userMenusConstant.All_Menus, authStore.userAccessPaths)
 );
