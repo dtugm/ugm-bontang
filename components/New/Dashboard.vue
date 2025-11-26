@@ -2,20 +2,53 @@
 import maplibregl from "maplibre-gl";
 import { onMounted } from "vue";
 import landParcelConstant from "~/app/constant/landParcel.constant";
-const surveyStore = useSurveyStore();
 onMounted(() => {
-  // Inisialisasi peta
   const map = new maplibregl.Map({
-    container: "map", // id dari element div
-    style: "https://demotiles.maplibre.org/style.json", // style peta
-    center: [106.8456, -6.2088], // longitude, latitude (Jakarta sebagai contoh)
-    zoom: 12, // level zoom
+    container: "map",
+    style: {
+      version: 8,
+      sources: {
+        "arcgis-imagery": {
+          type: "raster",
+          tiles: [
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          ],
+          tileSize: 256,
+          attribution: "© Esri",
+        },
+        "custom-raster": {
+          type: "raster",
+          tiles: [
+            "https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/orthoBontangFull/{z}/{x}/{y}.png",
+          ],
+          tileSize: 256,
+          scheme: "tms",
+          attribution: "© Your Attribution",
+          crossOrigin: null,
+        },
+      },
+      layers: [
+        {
+          id: "arcgis-imagery-layer",
+          type: "raster",
+          source: "arcgis-imagery",
+          minzoom: 0,
+          maxzoom: 22,
+        },
+
+        {
+          id: "custom-raster-layer",
+          type: "raster",
+          source: "custom-raster",
+          minzoom: 0,
+          maxzoom: 22,
+        },
+      ],
+    },
+    center: [117.494326, 0.139267],
+    zoom: 13,
   });
-
-  // Tambahkan kontrol navigasi (zoom in/out)
   map.addControl(new maplibregl.NavigationControl(), "top-right");
-
-  // Tambahkan marker sebagai contoh
   new maplibregl.Marker()
     .setLngLat([106.8456, -6.2088])
     .setPopup(new maplibregl.Popup().setHTML("<h3>Jakarta</h3>"))
