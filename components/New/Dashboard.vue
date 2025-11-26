@@ -9,7 +9,131 @@ const showCustomRaster = ref(true);
 const showBuildings = ref(true);
 const showPersil = ref(true);
 
+// Loading state
+const isLoadingPersil = ref(true);
+const loadingMessage = ref("Loading map data...");
+
 let map = null;
+// Mapping atribut yang ingin ditampilkan untuk Persil
+const persilAttributeMapping = {
+  // key: label yang akan ditampilkan
+  NIB: "NIB",
+  NAMA_WP: "Nama Wajib Pajak",
+  TIPEHAK: "Tipe Hak",
+  LUAS: "Luas (m²)",
+  ALAMAT_OP: "Alamat",
+  KECAMATAN: "Kecamatan",
+  KELURAHAN: "Kelurahan",
+  RT: "RT",
+  RW: "RW",
+  // Tambahkan atribut lain yang ingin ditampilkan
+};
+
+// Mapping atribut yang ingin ditampilkan untuk Building
+const buildingAttributeMapping = {
+  NOP: "NOP",
+  NAMA_WP: "Nama Wajib Pajak",
+  LUAS: "Luas Bangunan (m²)",
+  ALAMAT_BGN: "Alamat",
+  KECAMATAN: "Kecamatan",
+  KELURAHAN: "Kelurahan",
+  FOTO_BGN: "Foto Bangunan",
+  // Tambahkan atribut lain yang ingin ditampilkan
+};
+
+// Function untuk format popup content
+const formatPopupContent = (properties, attributeMapping, title) => {
+  // Field yang berisi URL gambar (sesuaikan dengan nama field di GeoJSON)
+  const imageFields = ["FOTO", "GAMBAR", "IMAGE_URL", "FOTO_BGN"]; // Tambahkan nama field lain jika perlu
+
+  const filteredEntries = Object.entries(properties)
+    .filter(([key]) => attributeMapping[key]) // Filter hanya atribut yang ada di mapping
+    .map(([key, value]) => {
+      const label = attributeMapping[key];
+      const displayValue = value || "-"; // Tampilkan '-' jika value kosong
+
+      // Cek apakah field ini adalah field gambar
+      if (imageFields.includes(key) && value && value.trim() !== "") {
+        return `
+          <div style="margin-bottom: 12px;">
+            <strong style="color: #555; display: block; margin-bottom: 6px;">${label}:</strong>
+            <div style="position: relative; width: 100%;">
+              <div class="image-loader" style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 150px;
+                background: #f5f5f5;
+                border-radius: 8px;
+              ">
+                <span style="color: #999;">Loading image...</span>
+              </div>
+              <img 
+                src="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${value}" 
+                alt="${label}"
+                style="
+                  display: none;
+                  max-width: 100%; 
+                  max-height: 300px;
+                  width: 100%;
+                  object-fit: cover;
+                  border-radius: 8px; 
+                  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                  cursor: pointer;
+                  transition: transform 0.2s;
+                "
+                onload="
+                  this.style.display='block'; 
+                  this.previousElementSibling.style.display='none';
+                "
+                onerror="
+                  this.style.display='none'; 
+                  this.previousElementSibling.innerHTML='<span style=\\'color: #e74c3c;\\'>❌ Failed to load image</span>';
+                "
+                onmouseover="this.style.transform='scale(1.02)'"
+                onmouseout="this.style.transform='scale(1)'"
+                onclick="window.open('${value}', '_blank')"
+                title="Click to view full size"
+              />
+            </div>
+            <a 
+              href="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${value}" 
+              target="_blank" 
+              style="
+                display: inline-block;
+                margin-top: 6px;
+                font-size: 11px;
+                color: #4CAF50;
+                text-decoration: none;
+              "
+            >
+              🔗 Open in new tab
+            </a>
+          </div>
+        `;
+      }
+
+      // Untuk field non-gambar
+      return `
+        <div style="margin-bottom: 8px;">
+          <strong style="color: #555;">${label}:</strong> 
+          <span style="color: #333;">${displayValue}</span>
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <div style="font-family: Arial, sans-serif; min-width: 250px; max-width: 350px;">
+      <h3 style="margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid #4CAF50; color: #2c3e50; font-size: 16px;">
+        ${title}
+      </h3>
+      <div style="font-size: 13px; max-height: 500px; overflow-y: auto;">
+        ${filteredEntries || '<p style="color: #999;">No data available</p>'}
+      </div>
+    </div>
+  `;
+};
 
 onMounted(() => {
   map = new maplibregl.Map({
@@ -56,16 +180,9 @@ onMounted(() => {
     zoom: 13,
   });
 
-  map.addControl(new maplibregl.NavigationControl(), "top-right");
-
-  new maplibregl.Marker()
-    .setLngLat([106.8456, -6.2088])
-    .setPopup(new maplibregl.Popup().setHTML("<h3>Jakarta</h3>"))
-    .addTo(map);
-
-  // Tambahkan vector layers setelah map loaded
   map.on("load", () => {
-    // Add Building Outline Source & Layer dari AWS S3
+    loadingMessage.value = "Loading buildings data...";
+
     map.addSource("buildings", {
       type: "geojson",
       data: "/vectors/WGS_Bangunan_Bontang.geojson",
@@ -76,7 +193,7 @@ onMounted(() => {
       type: "line",
       source: "buildings",
       paint: {
-        "line-color": "#FF5722",
+        "line-color": "#FF9800",
         "line-width": 2,
         "line-opacity": 0.8,
       },
@@ -88,7 +205,7 @@ onMounted(() => {
         type: "fill",
         source: "buildings",
         paint: {
-          "fill-color": "#FF5722",
+          "fill-color": "#FF9800",
           "fill-opacity": 0.3,
         },
       },
@@ -96,6 +213,8 @@ onMounted(() => {
     );
 
     // Add Persil Source & Layer dari AWS S3
+    loadingMessage.value = "Loading persil data...";
+
     map.addSource("persil", {
       type: "geojson",
       data: "https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/vectors/WGS_Persil_Bontang.geojson",
@@ -106,7 +225,7 @@ onMounted(() => {
       type: "line",
       source: "persil",
       paint: {
-        "line-color": "#4CAF50",
+        "line-color": "#F3EED9",
         "line-width": 1.5,
         "line-opacity": 0.8,
         "line-dasharray": [2, 2],
@@ -119,7 +238,7 @@ onMounted(() => {
         type: "fill",
         source: "persil",
         paint: {
-          "fill-color": "#4CAF50",
+          "fill-color": "#F3EED9",
           "fill-opacity": 0.2,
         },
       },
@@ -127,58 +246,59 @@ onMounted(() => {
     );
 
     // Tambahkan interaksi hover untuk building
-    map.on("mouseenter", "building-outline", () => {
+    map.on("mouseenter", "building-fill", () => {
       map.getCanvas().style.cursor = "pointer";
     });
 
-    map.on("mouseleave", "building-outline", () => {
+    map.on("mouseleave", "building-fill", () => {
       map.getCanvas().style.cursor = "";
     });
 
     // Tambahkan interaksi hover untuk persil
-    map.on("mouseenter", "persil-outline", () => {
+    map.on("mouseenter", "persil-fill", () => {
       map.getCanvas().style.cursor = "pointer";
     });
 
-    map.on("mouseleave", "persil-outline", () => {
+    map.on("mouseleave", "persil-fill", () => {
       map.getCanvas().style.cursor = "";
     });
 
     // Tambahkan popup saat klik building
-    map.on("click", "building-outline", (e) => {
+    map.on("click", "building-fill", (e) => {
       const properties = e.features[0].properties;
-      new maplibregl.Popup()
+      const htmlContent = formatPopupContent(
+        properties,
+        buildingAttributeMapping,
+        "Building Info"
+      );
+      new maplibregl.Popup({
+        anchor: "left",
+      })
         .setLngLat(e.lngLat)
-        .setHTML(
-          `
-          <h3>Building Info</h3>
-          <p>${Object.entries(properties)
-            .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-            .join("<br>")}</p>
-        `
-        )
+        .setHTML(htmlContent)
         .addTo(map);
     });
 
-    // Tambahkan popup saat klik persil
-    map.on("click", "persil-outline", (e) => {
+    map.on("click", "persil-fill", (e) => {
       const properties = e.features[0].properties;
-      new maplibregl.Popup()
+      const htmlContent = formatPopupContent(
+        properties,
+        persilAttributeMapping,
+        "Persil Info"
+      );
+      new maplibregl.Popup({
+        anchor: "right",
+      })
         .setLngLat(e.lngLat)
-        .setHTML(
-          `
-          <h3>Persil Info</h3>
-          <p>${Object.entries(properties)
-            .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-            .join("<br>")}</p>
-        `
-        )
+        .setHTML(htmlContent)
         .addTo(map);
     });
 
     // Error handling untuk loading GeoJSON
     map.on("error", (e) => {
       console.error("Map error:", e.error);
+      isLoadingPersil.value = false;
+      loadingMessage.value = "Error loading data";
     });
 
     map.on("sourcedata", (e) => {
@@ -187,6 +307,10 @@ onMounted(() => {
       }
       if (e.sourceId === "persil" && e.isSourceLoaded) {
         console.log("Persil GeoJSON loaded successfully");
+        // Hide loading overlay setelah persil selesai dimuat
+        setTimeout(() => {
+          isLoadingPersil.value = false;
+        }, 500); // Delay sedikit untuk transisi yang smooth
       }
     });
   });
@@ -272,6 +396,29 @@ const ApiApi = computed(() => [
             style="height: 600px; width: 100%"
             class="rounded"
           ></div>
+
+          <!-- Loading Overlay -->
+          <v-overlay
+            :model-value="isLoadingPersil"
+            contained
+            class="align-center justify-center"
+            style="position: absolute; border-radius: 4px"
+          >
+            <div class="text-center">
+              <v-progress-circular
+                indeterminate
+                color="white"
+                size="64"
+                width="6"
+              ></v-progress-circular>
+              <div class="mt-4 text-h6 font-weight-medium text-white">
+                {{ loadingMessage }}
+              </div>
+              <div class="mt-2 text-caption text-grey">
+                Please wait while we load the map data
+              </div>
+            </div>
+          </v-overlay>
 
           <!-- Layer Control Panel -->
           <v-card
