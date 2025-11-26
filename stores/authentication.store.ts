@@ -5,6 +5,7 @@ export const useAuthenticationStore = defineStore("authentication", {
   state: () => ({
     user: JSON.parse(sessionStorage.getItem("user") || "null"),
     token: sessionStorage.getItem("token") || "",
+    groups: JSON.parse(sessionStorage.getItem("groups") || "null"),
   }),
   getters: {
     // isAuthenticated: (state) => !!state.token,
@@ -35,6 +36,10 @@ export const useAuthenticationStore = defineStore("authentication", {
       this.token = token;
       sessionStorage.setItem("token", token);
     },
+    setGroup(groups: string) {
+      this.groups = groups;
+      sessionStorage.setItem("groups", groups);
+    },
     async registerAccount(payload: Partial<ILoginPayload>) {
       try {
         const response = await authApi.register(payload);
@@ -60,6 +65,7 @@ export const useAuthenticationStore = defineStore("authentication", {
           this.token = response.token;
           this.setToken(response.token);
           this.setUser(response.user);
+          this.setGroup(response.user.groups);
         }
         const patchResponse = await organizationApi.patch_user_to_bontang(
           "7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3"
