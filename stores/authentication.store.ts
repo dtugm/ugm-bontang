@@ -38,7 +38,7 @@ export const useAuthenticationStore = defineStore("authentication", {
     },
     setGroup(groups: string) {
       this.groups = groups;
-      sessionStorage.setItem("groups", groups);
+      sessionStorage.setItem("groups", JSON.stringify(groups));
     },
     async registerAccount(payload: Partial<ILoginPayload>) {
       try {
