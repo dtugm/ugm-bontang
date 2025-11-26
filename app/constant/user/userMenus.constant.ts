@@ -41,7 +41,23 @@ export default {
     // Data Management
     {
       prepend_icon: "mdi-database-cog",
-      title: "Manajemen Data",
+      title: "Data Tabular",
+      sub_menu: [
+        {
+          prepend_icon: "mdi-map",
+          title: "Persil Tanah",
+          path: "/data/land_parcel",
+        },
+        {
+          prepend_icon: "mdi-office-building",
+          title: "Bangunan",
+          path: "/data/building",
+        },
+      ],
+    },
+    {
+      prepend_icon: "mdi-database-cog",
+      title: "Data Spasial",
       sub_menu: [
         {
           prepend_icon: "mdi-cube",
@@ -52,16 +68,6 @@ export default {
           prepend_icon: "mdi-vector-polyline",
           title: "Data Vector",
           path: "/admin/vector_2d_management",
-        },
-        {
-          prepend_icon: "mdi-map",
-          title: "Persil Tanah",
-          path: "/data/land_parcel",
-        },
-        {
-          prepend_icon: "mdi-office-building",
-          title: "Bangunan",
-          path: "/data/building",
         },
       ],
     },

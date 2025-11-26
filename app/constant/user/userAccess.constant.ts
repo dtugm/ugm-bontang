@@ -1,4 +1,16 @@
 export const groupAccessMap: Record<string, string[]> = {
+  "Pelatihan Bontang 2025": [
+    "/", // 3D Viewer
+    "/cesium",
+    "/land_parcel_cesium",
+
+    "/data/land_parcel",
+    "/data/building",
+
+    // File Management
+    "/admin/model_3d_management",
+    // "/admin/vector_2d_management",
+  ],
   SuperAdmin: [
     "/",
     // User

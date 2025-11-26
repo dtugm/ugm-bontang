@@ -277,7 +277,6 @@
 </template>
 <script lang="ts" setup>
 import landParcelConstant from "~/app/constant/landParcel.constant";
-
 const landParcelStore = useLandParcelStore();
 const lotSurveyStore = useLotSurveyMonitoring();
 const imageUrlPreview = ref();
@@ -364,5 +363,9 @@ const downloadExcel = async () => {
     landParcelStore.readLandParcel.filterData
   );
   isDownloading.value = false;
+};
+const addDialog = ref(false);
+const addNewData = () => {
+  addDialog.value = true;
 };
 </script>

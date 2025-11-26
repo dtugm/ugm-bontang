@@ -80,7 +80,7 @@ export const apiDeleteData = async (url: string, headers = {}) => {
 };
 
 // Helper untuk PATCH request
-export const apiPatchData = async (url: any, data: any, config = {}) => {
+export const apiPatchData = async (url: any, data?: any, config = {}) => {
   try {
     const response = await apiBase.patch(url, data, config);
     return response.data;

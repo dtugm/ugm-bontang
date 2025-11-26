@@ -8,27 +8,34 @@
         >
         <p>Pekerjaan Validasi Data PBB Kota Bontang</p>
       </div>
-      <v-form id="login-form">
-        <v-text-field
-          v-model="username"
-          label="Email/Username"
-          density="compact"
-          variant="outlined"
-        ></v-text-field>
-        <v-text-field
-          :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
-          v-model="password"
-          label="Password"
-          density="compact"
-          variant="outlined"
-          :type="visible ? 'text' : 'password'"
-          @click:append-inner="visible = !visible"
-        ></v-text-field>
-        <div class="flex flex-col gap-2">
+      <v-form
+        ref="login"
+        v-model="valid"
+        @submit.prevent="onSubmit"
+        id="login-form"
+      >
+        <div class="flex flex-col gap-3 py-3">
+          <v-text-field
+            v-model="username"
+            label="Email/Username"
+            density="compact"
+            variant="outlined"
+            :rules="[rules.required]"
+          ></v-text-field>
+          <v-text-field
+            v-model="password"
+            label="Password"
+            density="compact"
+            variant="outlined"
+            :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="visible ? 'text' : 'password'"
+            @click:append-inner="visible = !visible"
+            :rules="[rules.required]"
+          ></v-text-field>
           <AppButton
             :loading="isLoading"
+            type="submit"
             color="tertiary"
-            @click="do_login"
             label="Sign In"
             class="w-full"
           />
@@ -38,7 +45,7 @@
         <v-img
           height="75"
           class="bg-white"
-          src="/logo/Logo_Typography_1.png"
+          src="/logo/Logo_Typography_1.webp"
         ></v-img>
       </div>
     </v-card-text>
@@ -48,6 +55,19 @@
 definePageMeta({
   layout: "auth",
 });
+const valid = ref(false);
+const login: any = ref(null);
+
+const rules = {
+  required: (v: any) => !!v || "Wajib diisi",
+};
+
+const onSubmit = async () => {
+  if (!login.value) return;
+  const { valid: formValid } = await login.value.validate();
+  if (!formValid) return;
+  await do_login();
+};
 const appStore = useAppStore();
 const authenticationStore = useAuthenticationStore();
 const username = ref("");
