@@ -35,6 +35,22 @@ export const useAuthenticationStore = defineStore("authentication", {
       this.token = token;
       sessionStorage.setItem("token", token);
     },
+    async registerAccount(payload: Partial<ILoginPayload>) {
+      try {
+        const response = await authApi.register(payload);
+        await organizationApi.add_user_to_organization({
+          email: payload.email,
+          role: "Member",
+        });
+        setTimeout(() => {
+          navigateTo("/auth/login");
+        }, 2000);
+        return response;
+      } catch (error) {
+        console.error("Login failed:", error);
+        throw error;
+      }
+    },
 
     async login(payload: Partial<ILoginPayload>) {
       try {
