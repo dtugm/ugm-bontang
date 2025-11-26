@@ -18,45 +18,10 @@
       </v-navigation-drawer>
     </div>
 
-    <v-app-bar flat color="white" class="shadow-sm">
-      <v-app-bar-nav-icon @click="drawer = !drawer" />
+    <v-app-bar flat class="shadow-sm bg-transparent">
+      <!-- <v-app-bar-nav-icon @click="drawer = !drawer" /> -->
       <v-toolbar-title> {{ stringHelper.titleCase(pathName) }}</v-toolbar-title>
       <v-spacer />
-      <!-- Nama pengguna -->
-      <v-menu :close-on-content-click="false" location="bottom">
-        <template v-slot:activator="{ props }">
-          <v-btn color="tertiary" v-bind="props" icon size="small">
-            <v-icon size="20">mdi-bell</v-icon>
-          </v-btn>
-        </template>
-        <v-card min-width="300">
-          <v-list>
-            <v-list-item
-              subtitle="You Have 3 Notification"
-              title="Notification"
-            >
-            </v-list-item>
-            <v-divider></v-divider>
-
-            <v-list-item
-              v-for="item in 3"
-              :key="item"
-              :value="item"
-              active-class="text-primary-blue"
-              class="py-3"
-            >
-              <v-list-item-title>{ item.title }</v-list-item-title>
-              <v-list-item-subtitle class="mb-1 text-high-emphasis opacity-100"
-                >{ item.headline }</v-list-item-subtitle
-              >
-
-              <v-list-item-subtitle class="text-high-emphasis"
-                >{ item.subtitle }</v-list-item-subtitle
-              >
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-menu>
       <v-menu :close-on-content-click="false" location="bottom left">
         <template v-slot:activator="{ props }">
           <v-btn color="tertiary" v-bind="props" icon size="small">
@@ -93,7 +58,6 @@
 
 <script lang="ts" setup>
 import stringHelper from "~/app/helper/string.helper";
-
 const authStore = useAuthenticationStore();
 const route = useRoute();
 const drawer = ref(true);

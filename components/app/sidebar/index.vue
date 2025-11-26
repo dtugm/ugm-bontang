@@ -1,21 +1,35 @@
 <template>
-  <v-list>
-    <v-list-item>
+  <v-list class="bg-gradient-to-r from-primary/5 to-tertiary/5">
+    <v-list-item class="py-3">
       <template #prepend>
-        <v-img
-          src="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/assets/Logo_3.png"
-          width="40"
-          height="40"
-          class="rounded-0"
-          cover
-        />
+        <div class="relative">
+          <v-img
+            src="https://digital-twin-ugm.s3.ap-southeast-1.amazonaws.com/assets/Logo_3.png"
+            width="45"
+            height="45"
+            class="rounded-lg shadow-md"
+            cover
+          />
+          <div
+            class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"
+          ></div>
+        </div>
       </template>
-
       <v-list-item-title>
-        <AppTextH3 class="px-4" color="tertiary">Bontang</AppTextH3>
+        <div class="pl-2">
+          <AppTextH3
+            class="text-[25px] font-bold bg-gradient-to-r from-tertiary to-primary bg-clip-text text-transparent mt-1"
+          >
+            Bontang
+          </AppTextH3>
+          <p class="text-[10px] text-gray-600 -mt-1">
+            Validasi Data PBB Kota Bontang
+          </p>
+        </div>
       </v-list-item-title>
     </v-list-item>
   </v-list>
+
   <v-list mandatory density="compact" nav @update:selected="changePage">
     <template v-for="(menu, index) in filteredMenus" :key="index">
       <v-list-group v-if="menu.sub_menu">

@@ -9,7 +9,6 @@ export default defineNuxtRouteMiddleware((to) => {
     "/auth/register",
     "/forgot-password",
     "/reset-password",
-    "/", // kalau mau halaman utama juga bebas
   ];
 
   // Jika sudah ada token, cegah masuk ke login page
