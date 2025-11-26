@@ -81,39 +81,45 @@
       </v-navigation-drawer>
     </div>
 
-    <v-app-bar flat class="shadow-sm bg-transparent">
-      <!-- <v-app-bar-nav-icon @click="drawer = !drawer" /> -->
-      <v-toolbar-title> {{ stringHelper.titleCase(pathName) }}</v-toolbar-title>
-      <v-spacer />
-      <v-menu :close-on-content-click="false" location="bottom left">
-        <template v-slot:activator="{ props }">
-          <v-btn color="tertiary" v-bind="props" icon size="small">
-            <v-icon size="32">mdi-account-circle</v-icon>
-          </v-btn>
-        </template>
-        <v-card min-width="200">
-          <v-list>
-            <v-list-item
-              :subtitle="authStore.user.email"
-              :title="authStore.user.username"
-            >
-              <template v-slot:prepend>
-                <v-avatar color="grey-lighten-1">
-                  <v-icon color="white">mdi-account</v-icon>
-                </v-avatar>
-              </template>
-            </v-list-item>
-            <v-divider></v-divider>
-
-            <v-card-text>
-              <AppButtonSignOut :is-button="true" />
-            </v-card-text>
-          </v-list>
-        </v-card>
-      </v-menu>
-    </v-app-bar>
-
+    <!-- Main Content Area -->
     <v-main class="bg-grayish">
+      <!-- Header Bar (Non-sticky) -->
+      <div class="bg-transparent px-4 pt-3">
+        <div class="flex items-center">
+          <div class="text-3xl text-tertiary font-semibold">
+            {{ stringHelper.titleCase(pathName) }}
+          </div>
+          <div class="flex-1"></div>
+          <v-menu :close-on-content-click="false" location="bottom left">
+            <template v-slot:activator="{ props }">
+              <v-btn color="tertiary" v-bind="props" icon size="x-small">
+                <v-icon size="20">mdi-account-circle</v-icon>
+              </v-btn>
+            </template>
+            <v-card min-width="200">
+              <v-list>
+                <v-list-item
+                  :subtitle="authStore.user.email"
+                  :title="authStore.user.username"
+                >
+                  <template v-slot:prepend>
+                    <v-avatar color="grey-lighten-1">
+                      <v-icon color="white">mdi-account</v-icon>
+                    </v-avatar>
+                  </template>
+                </v-list-item>
+                <v-divider></v-divider>
+
+                <v-card-text>
+                  <AppButtonSignOut :is-button="true" />
+                </v-card-text>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </div>
+      </div>
+
+      <!-- Page Content -->
       <slot />
     </v-main>
   </v-layout>

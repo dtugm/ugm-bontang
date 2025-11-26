@@ -18,7 +18,9 @@
       </div>
       <div c>
         <div class="d-flex align-start pt-2 px-2">
-          <v-icon class="pr-3" size="40">{{ item?.icon }}</v-icon>
+          <v-icon v-if="item.icon" class="pr-3" size="40">{{
+            item?.icon
+          }}</v-icon>
           <p class="text-h4">{{ item?.total }}</p>
           <p class="pl-1">{{ item?.unit }}</p>
         </div>
