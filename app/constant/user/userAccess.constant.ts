@@ -6,6 +6,10 @@ export const groupAccessMap: Record<string, string[]> = {
 
     "/data/land_parcel",
     "/data/building",
+
+    // File Management
+    "/admin/model_3d_management",
+    // "/admin/vector_2d_management",
   ],
   SuperAdmin: [
     "/",

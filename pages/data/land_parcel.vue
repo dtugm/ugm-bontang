@@ -17,9 +17,6 @@
       <v-btn color="success" :loading="isDownloading" @click="downloadExcel"
         >Download Dokumen</v-btn
       >
-      <v-btn color="success" :loading="isDownloading" @click="addNewData"
-        >Add Data</v-btn
-      >
     </template>
     <template #item.l_bumi="{ item }">
       <v-chip density="comfortable" color="primary-blue">
