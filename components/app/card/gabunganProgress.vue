@@ -12,30 +12,44 @@
       </v-overlay>
     </slot>
 
-    <div v-for="(item, index) in items" :key="index" class="pb-3">
-      <div>
-        {{ item?.title }}
-      </div>
-      <div c>
-        <div class="d-flex align-start pt-2 px-2">
-          <v-icon v-if="item.icon" class="pr-3" size="40">{{
-            item?.icon
-          }}</v-icon>
-          <p class="text-h4">{{ item?.total }}</p>
-          <p class="pl-1">{{ item?.unit }}</p>
+    <!-- Tambahkan flex dan height 100% di container utama -->
+    <div class="flex flex-col h-full">
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+        class="pb-3 text-[16px] flex-1 flex flex-col"
+      >
+        <div>
+          {{ item?.title }}
         </div>
-        <div class="flex justify-end text-sm pb-1">Target: {{ item.from }}</div>
-      </div>
 
-      <div class="pb-1">
-        <v-progress-linear
-          :model-value="getPercent(item.total, item.from)"
-          height="25"
-        >
-          <template #default="{ value }">
-            <strong :class="`text-${color}`"> {{ value.toFixed(2) }}% </strong>
-          </template>
-        </v-progress-linear>
+        <!-- Tambahkan flex-1 agar konten ini mengisi ruang yang tersisa -->
+        <div class="flex-1 flex flex-col">
+          <div class="d-flex align-start pt-2 px-2">
+            <v-icon v-if="item.icon" class="pr-3" size="40">{{
+              item?.icon
+            }}</v-icon>
+            <p class="text-h5">{{ item?.total }}</p>
+            <p class="pl-1 text-[10px]">{{ item?.unit }}</p>
+          </div>
+
+          <div class="flex justify-end text-[12px] pb-1">
+            Target: {{ item.from }}
+          </div>
+        </div>
+
+        <div class="pb-1">
+          <v-progress-linear
+            :model-value="getPercent(item.total, item.from)"
+            height="25"
+          >
+            <template #default="{ value }">
+              <strong :class="`text-${color}`">
+                {{ value.toFixed(2) }}%
+              </strong>
+            </template>
+          </v-progress-linear>
+        </div>
       </div>
     </div>
   </v-card>

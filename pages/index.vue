@@ -1,17 +1,19 @@
 <template>
-  <div class="min-h-screen">
+  <div>
     <!-- <Superadmin v-if="userInGroup(authStore.user.groups, 'SuperAdmin')" /> -->
-    <DashboardStakeHolder
-      v-if="
-        userInGroup(authStore.user.groups, 'stakeholder') &&
-        !userInGroup(authStore.user.groups, 'SuperAdmin')
-      "
-    />
+    <!-- <DashboardStakeHolder /> -->
     <DashboardStudio
       v-if="userInGroup(authStore.user.groups, 'Supervisor Bontang')"
     />
     <DashboardStudio v-if="userInGroup(authStore.user.groups, 'SuperAdmin')" />
-    <NewDashboard />
+    <NewDashboard
+      v-if="
+        (userInGroup(authStore.user.groups, 'stakeholder') &&
+          !userInGroup(authStore.user.groups, 'SuperAdmin')) ||
+        (userInGroup(authStore.user.groups, 'Pelatihan Bontang 2025') &&
+          !userInGroup(authStore.user.groups, 'SuperAdmin'))
+      "
+    />
   </div>
 </template>
 
