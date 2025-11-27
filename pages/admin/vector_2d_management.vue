@@ -14,6 +14,7 @@
         >Add
       </v-btn>
     </template>
+
     <template #item.isActive="{ item }">
       <v-chip
         density="comfortable"
@@ -21,6 +22,21 @@
         >{{ item.isActive ? "Active" : "Non Active" }}</v-chip
       >
     </template>
+    <template #item.filename="{ item }">
+      <div class="flex items-center gap-2">
+        <span>{{ item.filename }}</span>
+        <v-btn
+          size="x-small"
+          color="tertiary"
+          variant="plain"
+          @click="downloadFile(item.url, item.filename)"
+          title="Download file"
+        >
+          <v-icon size="18">mdi-file-download</v-icon>
+        </v-btn>
+      </div>
+    </template>
+
     <template #item.action="{ item }">
       <v-btn icon variant="flat" rounded="sm" density="compact">
         <v-icon color="tertiary" @click="editVectors(item)">mdi-pencil</v-icon>
@@ -180,4 +196,20 @@ const confirmEditVector = async () => {
   await vectorsStore.readVectors.getData({ itemsPerPage: 10, page: 1 });
   editDialog.value = false;
 };
+function downloadFile(url: string, filename: string) {
+  fetch(url)
+    .then((resp) => resp.blob()) // ambil file sebagai blob
+    .then((blob) => {
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename; // nama file sesuai item.filename
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(link.href); // bersihkan memori
+    })
+    .catch((err) => {
+      console.error("Download failed", err);
+    });
+}
 </script>
