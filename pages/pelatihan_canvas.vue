@@ -10,7 +10,53 @@
       </div>
     </div>
 
+    <!-- Filter Button -->
+    <div class="absolute top-4 left-4 z-50 flex gap-2">
+      <select
+        v-model="selectedStatus"
+        class="bg-white px-3 py-2 rounded shadow text-sm"
+      >
+        <option value="">-- Filter Kodefikasi Status Objek Pajak --</option>
+        <option value="ALL">Klasifikasi Berdasarkan Status Objek Pajak</option>
+
+        <option v-for="(label, key) in staWpopMap" :key="key" :value="key">
+          {{ label }}
+        </option>
+      </select>
+
+      <button
+        @click="applyFilter"
+        class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded shadow text-sm"
+      >
+        Apply
+      </button>
+    </div>
+
+    <!-- Legend -->
+    <div
+      v-if="showLegend"
+      class="absolute bottom-4 left-4 bg-white p-3 rounded shadow z-50 text-sm border border-gray-300"
+    >
+      <h4 class="font-semibold mb-2">Legend: Status Objek Pajak</h4>
+      <div
+        v-for="(label, key) in staWpopMap"
+        :key="key"
+        class="flex items-center gap-2 mb-1"
+      >
+        <div
+          :style="{
+            width: '16px',
+            height: '16px',
+            background: statusColor(key),
+            border: '1px solid #555',
+          }"
+        />
+        <span>{{ label }}</span>
+      </div>
+    </div>
+
     <!-- Map Container -->
+
     <div ref="mapContainer" class="w-full h-full" />
   </div>
 </template>
@@ -33,6 +79,8 @@ import {
 definePageMeta({
   layout: "map",
 });
+const otherColor = "#9B59B6"; // ungu untuk non-matching
+
 const mapContainer = ref<HTMLDivElement | null>(null);
 const vectorsList = ref([]);
 const isLoading = ref(true);
@@ -86,6 +134,7 @@ onMounted(async () => {
     center: [117.47791610794383, 0.16905022727779018],
     zoom: 16,
   });
+  mapRef = map;
 
   map.addControl(new maplibregl.NavigationControl(), "top-right");
 
@@ -294,6 +343,80 @@ const buildingAttributeMapping = {
   KELURAHAN: "Kelurahan",
   FOTO_BGN: "Foto Bangunan",
   // Tambahkan atribut lain yang ingin ditampilkan
+};
+
+const selectedStatus = ref(""); // status yang dipilih
+const showLegend = ref(false); // legend tampil setelah filter
+let mapRef: any = null; // simpan instance map
+
+// Warna per status (silakan sesuaikan)
+const statusColor = (key: string) => {
+  return (
+    {
+      "1": "#4CAF50",
+      "2": "#FF9800",
+      "3": "#F44336",
+    }[key] || "#999"
+  );
+};
+
+// Apply Filter
+const applyFilter = () => {
+  if (!mapRef) return;
+
+  for (const v of vectorsList.value as any) {
+    const layerId = `${v.id}-fill`;
+
+    if (!mapRef.getLayer(layerId)) continue;
+
+    // 🟢 1. RESET (tidak pilih apa-apa)
+    if (!selectedStatus.value) {
+      mapRef.setFilter(layerId, null);
+      mapRef.setPaintProperty(
+        layerId,
+        "fill-color",
+        v.category === "building" ? "#FF5733" : "yellow"
+      );
+      continue;
+    }
+
+    // 🟢 2. ALL → follow legend color
+    if (selectedStatus.value === "ALL") {
+      mapRef.setFilter(layerId, null);
+
+      mapRef.setPaintProperty(layerId, "fill-color", [
+        "case",
+        ["==", ["get", "STA_WPOP"], "1"],
+        statusColor("1"),
+        ["==", ["get", "STA_WPOP"], "2"],
+        statusColor("2"),
+        ["==", ["get", "STA_WPOP"], "3"],
+        statusColor("3"),
+        "#CCCCCC", // fallback
+      ]);
+
+      continue;
+    }
+
+    // 🟢 3. FILTER 1 value (misal "1", "2", "3")
+    mapRef.setFilter(layerId, [
+      "==",
+      ["get", "STA_WPOP"],
+      selectedStatus.value,
+    ]);
+
+    mapRef.setPaintProperty(layerId, "fill-color", [
+      "case",
+      // match → sesuai legend
+      ["==", ["get", "STA_WPOP"], selectedStatus.value],
+      statusColor(selectedStatus.value),
+
+      // lainnya → ungu
+      otherColor,
+    ]);
+  }
+
+  showLegend.value = true;
 };
 </script>
 
