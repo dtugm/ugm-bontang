@@ -4,7 +4,7 @@ import { onMounted, ref } from "vue";
 import landParcelConstant from "~/app/constant/landParcel.constant";
 
 // State untuk toggle layers
-const layerPanelExpanded = ref(true);
+const layerPanelExpanded = ref(false);
 const showCustomRaster = ref(true);
 const showBuildings = ref(true);
 const showPersil = ref(true);
@@ -26,6 +26,7 @@ const persilAttributeMapping = {
   KELURAHAN: "Kelurahan",
   RT: "RT",
   RW: "RW",
+  FOTO_WWC: "Foto Kegiatan",
   // Tambahkan atribut lain yang ingin ditampilkan
 };
 
@@ -44,7 +45,7 @@ const buildingAttributeMapping = {
 // Function untuk format popup content
 const formatPopupContent = (properties, attributeMapping, title) => {
   // Field yang berisi URL gambar (sesuaikan dengan nama field di GeoJSON)
-  const imageFields = ["FOTO", "GAMBAR", "IMAGE_URL", "FOTO_BGN"]; // Tambahkan nama field lain jika perlu
+  const imageFields = ["FOTO", "GAMBAR", "FOTO_WWC", "FOTO_BGN"]; // Tambahkan nama field lain jika perlu
 
   const filteredEntries = Object.entries(properties)
     .filter(([key]) => attributeMapping[key]) // Filter hanya atribut yang ada di mapping
