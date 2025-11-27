@@ -8,6 +8,11 @@ export default {
     },
     {
       prepend_icon: "mdi-map",
+      title: "Canvas Map",
+      path: "/pelatihan_canvas",
+    },
+    {
+      prepend_icon: "mdi-map",
       title: "2D Land parcel",
       path: "/survey-monitoring",
     },
