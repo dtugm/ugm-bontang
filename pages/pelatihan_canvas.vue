@@ -94,7 +94,7 @@ onMounted(async () => {
       type: "fill",
       source: v.id,
       paint: {
-        "fill-color": v.category === "building" ? "#FF5733" : "#1D8348",
+        "fill-color": v.category === "building" ? "#FF5733" : "yellow",
         "fill-opacity": 0.4,
       },
     });
@@ -105,7 +105,7 @@ onMounted(async () => {
       type: "line",
       source: v.id,
       paint: {
-        "line-color": v.category === "building" ? "#C0392B" : "#145A32",
+        "line-color": v.category === "building" ? "#C0392B" : "yellow",
         "line-width": 1,
       },
     });
