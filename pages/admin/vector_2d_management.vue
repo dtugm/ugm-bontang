@@ -113,12 +113,37 @@ const vectorsStore = useVectorsStore();
 const uploadForm = ref<IUploadVectorsPayload>(
   vectorsConstant.defaultUploadForm
 );
+const extractProperties = async (item: any) => {
+  const file = item;
+  if (!file) return;
+
+  // Baca isi file sebagai text
+  const text = await file.text();
+
+  // Parse JSON
+  const geojson = JSON.parse(text);
+
+  // Pastikan GeoJSON valid & punya fitur
+  if (!geojson.features || !Array.isArray(geojson.features)) {
+    console.error("Invalid GeoJSON");
+    return;
+  }
+
+  // Ambil semua properties tiap fitur
+  const allProperties = geojson.features.map((f: any) => f.properties);
+
+  // console.log("All Properties:", allProperties);
+  return allProperties;
+};
 // ADD METHOD
 const addDialog = ref(false);
+const lotSurveyUploader = useLotSurveyUploader();
 const uploadVector = async () => {
   await vectorsStore.addNewVector({
     ...uploadForm.value,
   });
+  const properties: any = await extractProperties(uploadForm.value.file);
+  await lotSurveyUploader.submitBulk(properties);
   await vectorsStore.readVectors.getData({ itemsPerPage: 10, page: 1 });
   addDialog.value = false;
 };

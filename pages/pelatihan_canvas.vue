@@ -71,8 +71,8 @@ onMounted(async () => {
         },
       ],
     },
-    center: [117.494326, 0.139267],
-    zoom: 13,
+    center: [117.47791610794383, 0.16905022727779018],
+    zoom: 16,
   });
 
   map.addControl(new maplibregl.NavigationControl(), "top-right");

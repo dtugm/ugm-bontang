@@ -4,6 +4,7 @@ export default {
       { title: "No", key: "no", sortable: false },
       { title: "Name", key: "name", sortable: false },
       { title: "Type", key: "type", sortable: false },
+
       { title: "Category", key: "category", sortable: false },
       {
         title: "File Name",
