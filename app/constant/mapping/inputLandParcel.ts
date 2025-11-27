@@ -5,6 +5,7 @@ import {
   TaxObjectCode_2,
   WWCCode,
   TaxPayerCode,
+  LabelLandType,
 } from "~/app/types/enums/landParcel";
 
 export const staWpopMap: Record<string, STAWPOP> = {
@@ -20,6 +21,13 @@ export const jenisTanahMap: Record<string, LandType> = {
   "3": LandType.EMPTY_LAND,
   "4": LandType.PUBLIC_FACILITY,
   "5": LandType.GOVERNMENT_LAND,
+};
+export const labelJenisTanahMap: Record<string, LabelLandType> = {
+  "1": LabelLandType.LAND_AND_BUILDING,
+  "2": LabelLandType.READY_TO_BUILD_PLOT,
+  "3": LabelLandType.EMPTY_LAND,
+  "4": LabelLandType.PUBLIC_FACILITY,
+  "5": LabelLandType.GOVERNMENT_LAND,
 };
 
 export const wwcMap: Record<string, WWCCode> = {

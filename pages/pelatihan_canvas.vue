@@ -20,7 +20,19 @@ import { onMounted, ref } from "vue";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import vectorsApi from "~/app/api/vectors.api";
+import {
+  staWpopMap,
+  jenisTanahMap,
+  wwcMap,
+  wpMap,
+  op1Map,
+  op2Map,
+  labelJenisTanahMap,
+} from "~/app/constant/mapping/inputLandParcel";
 
+definePageMeta({
+  layout: "map",
+});
 const mapContainer = ref<HTMLDivElement | null>(null);
 const vectorsList = ref([]);
 const isLoading = ref(true);
@@ -145,22 +157,6 @@ onMounted(async () => {
           .setHTML(htmlContent)
           .addTo(map);
       }
-      // const feature = e.features?.[0];
-
-      // if (!feature) return;
-
-      // const coords = e.lngLat;
-
-      // const props = feature.properties
-      //   ? Object.entries(feature.properties)
-      //       .map(([key, val]) => `<b>${key}</b>: ${val}`)
-      //       .join("<br>")
-      //   : "No properties";
-
-      // new maplibregl.Popup()
-      //   .setLngLat(coords)
-      //   .setHTML(`<div style="font-size:14px">${props}</div>`)
-      //   .addTo(map);
     });
 
     // Change cursor to pointer if hover
@@ -176,22 +172,35 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
+const mappingRegistry: any = {
+  STA_WPOP: staWpopMap,
+  JENIS_TNH: labelJenisTanahMap,
+  WWC: wwcMap,
+  WP: wpMap,
+  OP1: op1Map,
+  OP2: op2Map,
+};
 const formatPopupContent = (
   properties: any,
   attributeMapping: any,
   title: any
 ) => {
-  // Field yang berisi URL gambar (sesuaikan dengan nama field di GeoJSON)
-  const imageFields = ["FOTO", "F_BGN", "FOTO_WWC", "FOTO_BGN"]; // Tambahkan nama field lain jika perlu
+  const imageFields = ["FOTO", "F_BGN", "FOTO_WWC", "FOTO_BGN"];
 
   const filteredEntries = Object.entries(properties)
-    .filter(([key]) => attributeMapping[key]) // Filter hanya atribut yang ada di mapping
+    .filter(([key]) => attributeMapping[key])
     .map(([key, value]: any) => {
       const label = attributeMapping[key];
-      const displayValue = value || "-"; // Tampilkan '-' jika value kosong
 
-      // Cek apakah field ini adalah field gambar
-      if (imageFields.includes(key) && value && value.trim() !== "") {
+      // 🟢 1. Cek apakah key punya mapping value
+      let displayValue = value || "-";
+
+      if (mappingRegistry[key] && value in mappingRegistry[key]) {
+        displayValue = mappingRegistry[key][value];
+      }
+
+      // 🟢 2. Jika field gambar
+      if (imageFields.includes(key) && value?.trim()) {
         return `
           <div style="margin-bottom: 12px;">
             <strong style="color: #555; display: block; margin-bottom: 6px;">${label}:</strong>
@@ -220,30 +229,15 @@ const formatPopupContent = (
                   cursor: pointer;
                   transition: transform 0.2s;
                 "
-                onload="
-                  this.style.display='block';
-                  this.previousElementSibling.style.display='none';
-                "
-                onerror="
-                  this.style.display='none';
-                  this.previousElementSibling.innerHTML='<span style=\\'color: #e74c3c;\\'>❌ Failed to load image</span>';
-                "
-                onmouseover="this.style.transform='scale(1.02)'"
-                onmouseout="this.style.transform='scale(1)'"
+                onload="this.style.display='block'; this.previousElementSibling.style.display='none';"
+                onerror="this.style.display='none'; this.previousElementSibling.innerHTML='<span style=\\'color: #e74c3c;\\'>❌ Failed to load image</span>';"
                 onclick="window.open('${value}', '_blank')"
-                title="Click to view full size"
               />
             </div>
             <a
               href="https://dt-ugm-api.s3.ap-southeast-2.amazonaws.com/7e1c700f-d8bf-4cfd-8bfd-862bac01f9f3/photo-collection-survey-monitoring/${value}"
               target="_blank"
-              style="
-                display: inline-block;
-                margin-top: 6px;
-                font-size: 11px;
-                color: #4CAF50;
-                text-decoration: none;
-              "
+              style="display: inline-block; margin-top: 6px; font-size: 11px; color: #4CAF50; text-decoration: none;"
             >
               🔗 Open in new tab
             </a>
@@ -251,7 +245,7 @@ const formatPopupContent = (
         `;
       }
 
-      // Untuk field non-gambar
+      // 🟢 3. Field non-gambar
       return `
         <div style="margin-bottom: 8px;">
           <strong style="color: #555;">${label}:</strong>
@@ -285,6 +279,8 @@ const persilAttributeMapping = {
   RT: "RT",
   RW: "RW",
   FOTO_WWC: "Foto Kegiatan",
+  STA_WPOP: "Satus Objek Pajak",
+  JENIS_TNH: "Jenis Tanah",
   // Tambahkan atribut lain yang ingin ditampilkan
 };
 

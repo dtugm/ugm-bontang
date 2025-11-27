@@ -60,6 +60,14 @@ export enum LandType {
   GOVERNMENT_LAND = "GOVERNMENT_LAND", // Tanah Pemerintah
 }
 
+export enum LabelLandType {
+  LAND_AND_BUILDING = "Tanah & Bangunan", // Tanah & Bangunan
+  READY_TO_BUILD_PLOT = "Kavling Siap Bangun", // Kavling Siap Bangun
+  EMPTY_LAND = " Tanah Kosong", // Tanah Kosong
+  PUBLIC_FACILITY = "Fasilitas Umum", // Fasilitas Umum
+  GOVERNMENT_LAND = "Tanah Pemerintah", // Tanah Pemerintah
+}
+
 export enum STAWPOP {
   MENEMPATI = "Menempati di Objek Pajak",
   MENYEWAKAN = "Menyewakan Objek Pajak",
