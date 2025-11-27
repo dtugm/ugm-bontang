@@ -41,11 +41,20 @@
           />
         </div>
       </v-form>
-      <div class="flex mt-5">
+      <div class="text-center mt-3">
+        <span class="text-sm">
+          Don't have an account?
+          <NuxtLink to="/auth/register" class="text-primary font-semibold">
+            Register
+          </NuxtLink>
+        </span>
+      </div>
+
+      <div class="flex flex-1 mt-5">
         <v-img
           height="75"
           class="bg-white"
-          src="/logo/Logo_Typography_1.webp"
+          src="/logo/Logo_Typography_1.png"
         ></v-img>
       </div>
     </v-card-text>

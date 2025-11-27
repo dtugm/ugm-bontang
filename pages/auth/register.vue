@@ -14,45 +14,60 @@
         @submit.prevent="onSubmit"
         id="registration-form"
       >
-        <div class="flex flex-col gap-3 py-3 text-start">
-          <v-text-field
-            v-model="formData.firstName"
-            label="First Name"
-            density="compact"
-            variant="outlined"
-            :rules="[rules.required]"
-          ></v-text-field>
-          <v-text-field
-            v-model="formData.lastName"
-            label="Last Name"
-            density="compact"
-            variant="outlined"
-            :rules="[rules.required]"
-          ></v-text-field>
-          <v-text-field
-            v-model="formData.username"
-            label="Username"
-            density="compact"
-            variant="outlined"
-            :rules="[rules.required]"
-          ></v-text-field>
-          <v-text-field
-            v-model="formData.email"
-            label="Email"
-            density="compact"
-            variant="outlined"
-            :rules="[rules.required]"
-          ></v-text-field>
-          <v-text-field
-            v-model="formData.password"
-            label="Password"
-            density="compact"
-            variant="outlined"
-            :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
-            :type="visible ? 'text' : 'password'"
-            @click:append-inner="visible = !visible"
-            :rules="[rules.required]"
-          ></v-text-field>
+        <div class="flex flex-col py-3 text-start">
+          <div>
+            <label>First Name</label>
+            <v-text-field
+              v-model="formData.firstName"
+              placeholder="First Name"
+              density="compact"
+              variant="outlined"
+              :rules="[rules.required]"
+            ></v-text-field>
+          </div>
+          <div>
+            <label>Last Name</label>
+            <v-text-field
+              v-model="formData.lastName"
+              placeholder="Last Name"
+              density="compact"
+              variant="outlined"
+              :rules="[rules.required]"
+            ></v-text-field>
+          </div>
+          <div>
+            <label>Username</label>
+            <v-text-field
+              v-model="formData.username"
+              placeholder="Username"
+              density="compact"
+              variant="outlined"
+              :rules="[rules.required]"
+            ></v-text-field>
+          </div>
+          <div>
+            <label>Email</label>
+            <v-text-field
+              v-model="formData.email"
+              placeholder="Email"
+              density="compact"
+              variant="outlined"
+              :rules="[rules.required]"
+            ></v-text-field>
+          </div>
+          <div>
+            <label>Password</label>
+            <v-text-field
+              v-model="formData.password"
+              placeholder="Password"
+              density="compact"
+              variant="outlined"
+              :append-inner-icon="!visible ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="visible ? 'text' : 'password'"
+              @click:append-inner="visible = !visible"
+              :rules="[rules.required]"
+            ></v-text-field>
+          </div>
           <AppButton
             :loading="isLoading"
             type="submit"
@@ -62,6 +77,14 @@
           />
         </div>
       </v-form>
+      <div class="text-center mt-3">
+        <span class="text-sm">
+          Already have an account?
+          <NuxtLink to="/auth/login" class="text-primary font-semibold">
+            Login
+          </NuxtLink>
+        </span>
+      </div>
       <div class="flex mt-5">
         <v-img
           height="75"

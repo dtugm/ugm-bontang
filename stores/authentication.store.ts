@@ -45,7 +45,7 @@ export const useAuthenticationStore = defineStore("authentication", {
         const response = await authApi.register(payload);
         await organizationApi.add_user_to_organization({
           email: payload.email,
-          role: "Member",
+          role: "Admin",
         });
         setTimeout(() => {
           navigateTo("/auth/login");
