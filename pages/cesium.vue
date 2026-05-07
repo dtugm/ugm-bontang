@@ -95,7 +95,7 @@
 
         <vc-terrain-provider-cesium
           ref="provider"
-          :assetId="3338372"
+          :assetId="4731128"
           @ready="onTerrainReady"
         />
 
@@ -126,7 +126,7 @@ const bontangArea = Cesium.Rectangle.fromDegrees(
   117.45, // barat
   0.1, // selatan
   117.55, // timur
-  0.16 // utara
+  0.16, // utara
 );
 
 // Tinggi awal air
@@ -147,7 +147,7 @@ const waterMaterial = {
 const timeline = ref(true);
 const maxScreenSpaceError = ref(32);
 const todayNoon = Cesium.JulianDate.fromDate(
-  new Date(new Date().setHours(12, 0, 0, 0))
+  new Date(new Date().setHours(12, 0, 0, 0)),
 );
 
 const clock = ref({
@@ -217,7 +217,7 @@ const cameraOptions = ref({
   roll: 0,
 });
 // Loading Coindition
-const terrainReady = ref(false);
+const terrainReady = ref(true);
 const tilesetsReady = ref(false);
 const viewerRaady = ref(false);
 const isLoading = ref(true);
@@ -263,7 +263,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
       highlightedFeature = pickedFeature;
       originalHoverColor = Cesium.Color.clone(
         pickedFeature.color,
-        new Cesium.Color()
+        new Cesium.Color(),
       );
       pickedFeature.color = Cesium.Color.YELLOW;
     } else {
@@ -276,7 +276,7 @@ const onViewerReady = ({ Cesium, viewer, vm }: any) => {
       }
     }
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-  
+
   handler.setInputAction((movement: any) => {
     const pickedFeature = viewer.scene.pick(movement.position);
     if (
@@ -309,14 +309,7 @@ onMounted(async () => {
   await tiles3dStore.getActiveRoad();
   await nextTick();
   tilesetsReady.value = true;
-  // interval = setInterval(() => {
-  //   console.log(waterHeight.value);
-  //   waterHeight.value += 1; // naik 1 m setiap 1 detik
-  //   if (waterHeight.value > 80) {
-  //     // batasi agar tidak kebablasan
-  //     waterHeight.value = 5;
-  //   }
-  // }, 1000);
+
   checkAllReady();
 });
 
@@ -326,7 +319,7 @@ const flyToLocation = (item: any) => {
   const destination = Cesium.Cartesian3.fromDegrees(
     Number(item.center_x),
     Number(item.center_y) - 0.002,
-    400
+    400,
   );
   viewer?.camera.flyTo({
     destination: destination,
