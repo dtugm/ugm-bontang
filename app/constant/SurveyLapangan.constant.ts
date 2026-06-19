@@ -93,4 +93,29 @@ export default {
     10: "#8bc34a", // Gedung Sekolah - Hijau muda
     11: "#9e9e9e", // Lain-lain - Abu-abu
   },
+  kecamatans: ["Bontang Utara", "Bontang Barat","Bontang Selatan"],
+  kelurahans: [
+    "Api api", "Bontang Baru", "Lok Tuan","Bontang Kuala","Guntung", "Gunung Elai",
+    "Belimbing", "Gunung Telihan", "Kanaan",
+    "Tanjung Laut", "Tanjung Laut Indah", "Berbas Pantai", "Berbas Tengah", "Bontang Lestari", "Satimpo",
+  ],
+  tipeHaks: ["Hak Milik", "Hak Guna Bangunan", "Hak Pakai", "Hak Wakaf", "Kosong"],
+  searchOptions: [
+    { text: "Nama WP", value: "NAMA_WP" },
+    { text: "Pemakaian", value: "PENGGUNAAN" },
+    { text: "RT", value: "RT" },
+    { text: "Alamat OP", value: "ALAMAT_OP" },
+    { text: "Jumlah Bangunan", value: "JML_BGN" },
+    { text: "STA WPOP", value: "STA_WPOP" },
+    { text: "NIB", value: "NIB" },
+  ],
+  columnName: {
+    "NAMA_WP": "namaWP",
+    "PENGGUNAAN": "penggunaan",
+    "RT": "rt",
+    "ALAMAT_OP": "alamatOP",
+    "JML_BGN": "jmlBgn",
+    "STA_WPOP": "staWPOP",
+    "NIB": "nib",
+  }
 };
